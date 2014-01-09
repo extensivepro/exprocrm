@@ -2,14 +2,22 @@
 
 ### Running the app during development
 
-You can pick one of these options:
+我们开发利用到[Node.js](http://nodejs.org)以及[gulp](https://github.com/gulpjs/gulp), [LiveReload](http://livereload.com/).
 
-* serve this repository with your webserver
-* install node.js and run `scripts/web-server.js`
+#### 在根目录下执行下面命令    
 
-Then navigate your browser to `http://localhost:<port>/app/index.html` to see the app running in
-your browser.
+	$ [sudo] npm install -g gulp    
+	$ npm install  
+	$ gulp  
 
+#### 安装[LiveReload](http://livereload.com/)的[Chrome插件](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei)  
+* 点击[这里](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei)安装
+* 在浏览其中打开下面网址`http://localhost:8000/app/index.html`
+* 在Chrome右上角面板中点击启用LiveReload，将圈中小点变深黑。
+
+#### 开发方式
+* TextMate中编辑代码并保存
+* 切换至Chrome，页面应该自动刷新成最新代码
 
 ### Running the app in production
 
@@ -60,12 +68,7 @@ info.
 
 ### Continuous Integration
 
-CloudBees have provided a CI/deployment setup:
-
-<a href="https://grandcentral.cloudbees.com/?CB_clickstart=https://raw.github.com/CloudBees-community/angular-js-clickstart/master/clickstart.json"><img src="https://d3ko533tu1ozfq.cloudfront.net/clickstart/deployInstantly.png"/></a>
-
-If you run this, you will get a cloned version of this repo to start working on in a private git repo, 
-along with a CI service (in Jenkins) hosted that will run unit and end to end tests in both Firefox and Chrome.
+Jenkins在内网中做CI。
 
 ### Receiving updates from upstream
 
@@ -122,6 +125,12 @@ fetch the changes and merge them into your project with git.
         filtersSpec.js          --> specs for filters
         servicesSpec.js         --> specs for services
 
-## Contact
+## 工具链
 
-For more information on AngularJS please check out http://angularjs.org/
+### 编辑工具
+我们推荐使用[TextMate](https://github.com/textmate/textmate)
+#### 插件
+[`Angular.js tmbundle`](https://github.com/angular-ui/AngularJs.tmbundle) - 可以帮助你快速的编辑Angular.js脚本
+[`jasmine-tmbundle`](https://github.com/pivotalexperimental/jasmine-tmbundle) - 快速的编写测试脚本
+#### 安装方式
+git clone以后open tmbundle，`TextMate`将会自动安装。
