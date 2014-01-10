@@ -1,17 +1,12 @@
 function MainController($scope, Users){
   if(!$scope.me) $scope.me = {displayName:'未登录'}; 
-	$scope.views = [ 
-      //       {name:"会员管理", icon:"icon-user", path:"views/member/index.html", submenus:[
-      //     {name:"储值账单", icon:"icon-list", path:"views/member/balanceIndex.html"}
-      //   ,  {name:"会员充值", icon:"icon-money", path:"views/member/recharge.html"}
-      //   ,  {name:"积分清单", icon:"icon-list-alt", path:"views/member/pointLogIndex.html"}
-      //   ,  {name:"积分累积", icon:"icon-plus", path:"views/member/accumulate.html"}
-      // ]}
-      // {name:"门店管理", icon:"icon-folder-close-alt", path:"views/shop/index.html", submenus: [
-      //     {name:"门店员工", icon:"icon-hdd", path:"views/employe/index.html"}
-      // ]},
-			{name:"用户管理", icon:"icon-user-md", path:"views/user/profile.html"}
-	];
+	$scope.views = [
+    {name:"系统用户", icon:"icon-user-md", path:"views/user/profile.html"},
+    {name:"商户管理", icon:"icon-user-md", path:"views/merchant/index.html"},
+    {name:"商店管理", icon:"icon-user-md", path:"views/shop/index.html"},
+    {name:"员工管理", icon:"icon-user-md", path:"views/employee/index.html"},
+    {name:"商品管理", icon:"icon-user-md", path:"views/item/index.html"}
+  ];
 	$scope.currentView = $scope.views[0];
 	
 	$scope.selectView = function(view) {

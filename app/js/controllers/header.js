@@ -22,13 +22,17 @@ function HeaderController($scope, $location, Users, $modal, $log) {
     });
   };
   
-	$scope.signout = function() {
-		Users.logout();
-		$location.path('/home');
-	};
+      // $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+
+  $scope.signout = function() {
+    Users.logout();
+    $location.path('/home');
+  };
 }
 
-function SettingPasswordController($scope, Users, $modalInstance, me) {
+function SettingPasswordController($scope, $rootScope, Users, $modalInstance, me) {
   $scope.me = me;
 	$scope.newPassword = "";
 	$scope.passwordConfirmation = "";

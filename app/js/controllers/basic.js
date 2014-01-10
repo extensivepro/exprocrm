@@ -1,8 +1,9 @@
-function BasicController($scope, Pagination, $timeout){
+function BasicController($scope, $rootScope, Pagination, $timeout){
 	$scope.activeView = "views/basicList.html"
 	$scope.resource = undefined
 	$scope.searchFields = []
 	$scope.editView = undefined
+
   $scope.searchOptions = {
     text: '',
     tooltip: '',
@@ -15,8 +16,10 @@ function BasicController($scope, Pagination, $timeout){
 		$scope.activeView = "views/basicEdit.html"
 	}
 
-	$scope.showCreate = function() {
-		$scope.showEdit({createdAt: Date()})
+	$scope.showCreateBasic = function(entity) {
+    $scope.entity = entity || $scope.entity;
+    console.log("*****"+JSON.stringify($scope.entity));
+    $scope.activeView = "views/basicCreate.html"
 	}
 
 	$scope.showList = function(){
@@ -26,6 +29,7 @@ function BasicController($scope, Pagination, $timeout){
 	
 	$scope.showProfile = function(entity) {
 		$scope.entity = entity || $scope.entity;
+    console.log("&&&&"+JSON.stringify($scope.entity));
 		$scope.activeView = "views/basicProfile.html"
 	}
 	
@@ -84,7 +88,9 @@ function BasicController($scope, Pagination, $timeout){
 	}
 	
 	$scope.create = function(entity) {
-		var newOne = new $scope.resource(entity)
+	    entity["owner"] = $scope.me;
+		var newOne = new $scope.resource(entity);
+    	console.log("#####"+JSON.stringify(newOne));
 		newOne.$save(function(user) {
 			console.log("success",user)
 			$scope.showList()
@@ -94,9 +100,17 @@ function BasicController($scope, Pagination, $timeout){
 	}
 	
 	$scope.update = function(entity) {
-		console.log('update=', entity)
+
 		var resource = new $scope.resource(entity)
-		resource.$update(function(err) {
+    delete resource.owner;
+    delete resource.shopIDs;
+
+    console.log(resource);
+
+    delete resource.owner;
+    delete resource.shopIDs;
+
+    resource.$update(function(err) {
 			console.log('update success', err)
 			$scope.showList()
 		}, function(err) {

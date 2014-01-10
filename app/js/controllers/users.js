@@ -31,10 +31,12 @@ function UsersController($scope, Users, Pagination, $timeout, $injector){
 	$scope.cancelEdit = function() {
 		$scope.showProfile();
 	}
-  
+
   $scope.init = function () {
     $scope.$watch('me', function(scope, newValue, oldValue) {
       $scope.showProfile($scope.me);
     });
   }
+
+  widthFunctions();
 }
