@@ -11,7 +11,7 @@ function BasicController($scope, Pagination, $timeout){
 
 	// route
 	$scope.showEdit = function(entity) {
-		$scope.entity = entity
+		$scope.entity = entity || $scope.entity;
 		$scope.activeView = "views/basicEdit.html"
 	}
 
@@ -25,7 +25,7 @@ function BasicController($scope, Pagination, $timeout){
 	}
 	
 	$scope.showProfile = function(entity) {
-		$scope.entity = entity
+		$scope.entity = entity || $scope.entity;
 		$scope.activeView = "views/basicProfile.html"
 	}
 	

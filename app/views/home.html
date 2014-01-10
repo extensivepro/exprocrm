@@ -24,11 +24,7 @@
 						<button type="submit" class="btn btn-primary span12" ng-click="Login()">登录</button>
 					</fieldset>	
 				</form>
-				<div class="alert alert-block alert-danger fade in" style="display: none">
-		      <button type="button" class="close" onclick="$('.alert').hide()">×</button>
-		      <h4 class="alert-heading">警告！</h4>
-		      <p class="ng-binding">{{errorLoginDetail}}</p>
-		    </div>
+        <alert type="alert.type" ng-hide="!alert">{{alert.msg}}</alert>
 				<hr>
 				<p class="text-center"> 泛盈科技 @2013</p>
 				<!-- <h3>Forgot Password?</h3>
