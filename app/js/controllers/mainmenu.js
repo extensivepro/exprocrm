@@ -9,7 +9,12 @@ function MainMenuController($scope){
       // {name:"门店管理", icon:"icon-folder-close-alt", path:"views/shop/index.html", submenus: [
       //     {name:"门店员工", icon:"icon-hdd", path:"views/employe/index.html"}
       // ]},
-			{name:"系统用户", icon:"icon-user-md", path:"views/user/index.html"}
+			{name:"系统用户", icon:"icon-user-md", path:"views/user/index.html"},
+			{name:"会员管理", icon:"icon-user-md", path:"views/members/index.html"},
+			{name:"库存管理", icon:"icon-user-md", path:"views/skus/index.html"},
+			{name:"销售管理", icon:"icon-user-md", path:"views/bills/index.html"},
+			{name:"退货管理", icon:"icon-user-md", path:"views/returns/index.html"},
+			{name:"储值管理", icon:"icon-user-md", path:"views/accounts/index.html"}
 	];
 	$scope.currentView = $scope.views[0];
 	
