@@ -5,10 +5,10 @@ function UsersController($scope, Users, Pagination, $timeout, $injector){
 	$scope.editView = "views/user/edit.html"
 
 	// profile 
-	$scope.profileShortcuts = $scope.profileShortcuts.concat([
-			{class: "span9"}
-		,	{class: "box quick-button-small span1", icon: "icon-certificate", text: "重置密码", op:"resetPassword(entity)"}
-	])
+	$scope.profileShortcuts = [
+			{class: "box quick-button-small span1", icon: "icon-edit", text: "编辑", op:"showEdit"}
+	]
+  
 	$scope.profileAvatar = "img/avatar.jpg"
 	$scope.profileFields = [
 			{name: "username", title: "用户名", readonly:true, creatable:true}
@@ -27,16 +27,14 @@ function UsersController($scope, Users, Pagination, $timeout, $injector){
 				}
 		}, hide:true}	
 	]
-	
-	// route
-	$scope.showCreate = function() {
-		$scope.showEdit({password: '123456'})
+
+	$scope.cancelEdit = function() {
+		$scope.showProfile();
 	}
-	
-	// bussiness
-	$scope.resetPassword = function(entity) {
-		entity.password = "654321"
-		$scope.update(entity)
-	}
-	
+  
+  $scope.init = function () {
+    $scope.$watch('me', function(scope, newValue, oldValue) {
+      $scope.showProfile($scope.me);
+    });
+  }
 }
