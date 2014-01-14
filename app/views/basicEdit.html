@@ -1,7 +1,7 @@
 <div class="box-header">
 	<h2><i class="icon-user-md"></i><span class="break"></span>
-		<span ng-show='!entity._id'>新增{{currentView.name}}</span>
-		<span ng-show='!!entity._id'>编辑{{currentView.name}}</span>
+		<span ng-show='!entity.id'>新增{{currentView.name}}</span>
+		<span ng-show='!!entity.id'>编辑{{currentView.name}}</span>
 	</h2>
 	<div class="box-icon">
 		<a ng-click="cancelEdit()" class="btn-close"><i class="icon-remove"></i></a>
@@ -23,8 +23,8 @@
 			</div>
 			<div ng-include="editView" />
 			<div class="form-actions">
-				<button ng-disabled="editForm.$error.required" ng-click="create(entity)" class="btn btn-primary btn-large" ng-if="!entity._id">创建</button>
-				<button ng-disabled="editForm.$error.required" ng-click="update(entity)" class="btn btn-primary btn-large" ng-if="!!entity._id">保存</button>
+				<button ng-disabled="editForm.$error.required" ng-click="create(entity)" class="btn btn-primary btn-large" ng-if="!entity.id">创建</button>
+				<button ng-disabled="editForm.$error.required" ng-click="update(entity)" class="btn btn-primary btn-large" ng-if="!!entity.id">保存</button>
 				<button ng-click="cancelEdit()" class="btn btn-large">取消</button>
 			</div>
 		</fieldset>
