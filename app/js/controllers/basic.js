@@ -16,6 +16,10 @@ function BasicController($scope, $rootScope, Pagination, $timeout){
 		$scope.activeView = "views/basicEdit.html"
 	}
 
+  $scope.showCreate = function() {
+    $scope.showEdit({createdAt: Date()})
+  }
+
 	$scope.showCreateBasic = function(entity) {
     $scope.entity = entity || $scope.entity;
     console.log("*****"+JSON.stringify($scope.entity));
@@ -88,9 +92,7 @@ function BasicController($scope, $rootScope, Pagination, $timeout){
 	}
 	
 	$scope.create = function(entity) {
-	    entity["owner"] = $scope.me;
 		var newOne = new $scope.resource(entity);
-    	console.log("#####"+JSON.stringify(newOne));
 		newOne.$save(function(user) {
 			console.log("success",user)
 			$scope.showList()

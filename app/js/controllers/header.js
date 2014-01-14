@@ -21,10 +21,6 @@ function HeaderController($scope, $location, Users, $modal, $log) {
       // $log.info('Modal dismissed at: ' + new Date());
     });
   };
-  
-      // $log.info('Modal dismissed at: ' + new Date());
-    });
-  };
 
   $scope.signout = function() {
     Users.logout();

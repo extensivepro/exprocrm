@@ -42,9 +42,20 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
   // route
   $scope.showCreate = function() {
     var d = new Date();
-    $scope.showCreateBasic({createdAt: Math.round(d.getTime()/1000)})
+    $scope.showEdit({createdAt: Math.round(d.getTime()/1000)})
   }
 
+  $scope.create = function(entity) {
+    entity["owner"] = $scope.me;
+    var newOne = new $scope.resource(entity);
+    console.log("#####"+JSON.stringify(newOne));
+    newOne.$save(function(user) {
+      console.log("success",user)
+      $scope.showList()
+    },function(err){
+      console.log('error:', err)
+    })
+  }
   // bussiness
   $scope.resetPassword = function(entity) {
     entity.password = "654321"
