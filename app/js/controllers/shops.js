@@ -7,9 +7,9 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
 	
 	// profile 
 	$scope.profileFields = [
-    {name: "code", title: "店面编码"}
-		,	{name: "name", title: "店名"}
-    , {name: "merchantID", title: "业主ID"}
+    {name: "code", title: "店面编码", required: true}
+		,	{name: "name", title: "店名", required: true}
+    , {name: "merchantID", title: "业主ID", unlist:true, hide: true}
     ,	{name: "status", title: "状态", value:function(entity){
       entity.fieldClass = entity.fieldClass || {}
       if(entity.status === 'open') {
@@ -21,17 +21,34 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
       } else {
         return "状态错误"
       }
-    }, hide:true}
+    }, hide:true, createHide: true}
 		, {name: "address", title: "地址"}
 		, {name: "telephone", title: "电话"}
-		,	{name: "createdAt", title: "注册日期", readonly:true}
-		,	{name: "closedAt", title: "关闭日期", unlist:true, readonly:true}	
-	]
-	
-	// bussiness
-	$scope.setStatus = function(status) {
-		$scope.entity.status = status
-		$scope.update(true)
-	}
+		,	{name: "createdAt", title: "注册日期", readonly:true, createHide: true}
+		,	{name: "closedAt", title: "关闭日期", unlist:true, readonly:true, createHide: true}
+    ,	{name: "updateAt", title: "更新日期", unlist:true, readonly:true, createHide: true}
+  ]
+
+  // route
+  $scope.showCreate = function() {
+    var d = new Date();
+    $scope.showEdit({createdAt: Math.round(d.getTime()/1000)})
+  }
+
+  $scope.create = function(entity) {
+    var newOne = new $scope.resource(entity);
+    console.log("#####"+JSON.stringify(newOne));
+    newOne.$save(function(user) {
+      console.log("success",user)
+      $scope.showList()
+    },function(err){
+      console.log('error:', err)
+    })
+  }
+  // bussiness
+  $scope.resetPassword = function(entity) {
+    entity.password = "654321"
+    $scope.update(entity)
+  }
   widthFunctions();
 }

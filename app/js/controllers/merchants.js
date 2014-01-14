@@ -11,7 +11,8 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
   ])
   $scope.profileAvatar = "img/avatar.jpg"
   $scope.profileFields = [
-    {name: "owner", title: "商户业主", value:function(entity) {
+    {name: "id", title: "商户ID", unlist: true, hide:true, createHide: true}
+    , {name: "owner", title: "商户业主", value:function(entity) {
       entity.fieldClass = entity.fieldClass || {}
       return entity.owner.displayName
     }, hide: true, createHide: true}
