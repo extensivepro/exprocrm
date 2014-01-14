@@ -8,15 +8,16 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
 	$scope.profileAvatar = "img/avatar.jpg"
 
   $scope.profileFields = [
-    {name: "userID", title: "用户ID", unlist: true, readonly:true, creatable:true, hide:true},
-    {name: "shopID", title: "编号", unlist: true, readonly:true, creatable:true, hide:true},
-    {name: "name", title: "姓名"},
+    {name: "userID", title: "用户ID", required: true, unlist: true, readonly:true, creatable:true, hide:true},
+    {name: "shopID", title: "店面ID", required: true, unlist: true, readonly:true, creatable:true, hide:true},
+    {name: "name", title: "姓名", required: true},
     {name: "status", title: "状态", value:function(entity){
+      entity.fieldClass = entity.fieldClass || {}
       if(entity.status === 'active') {
-        this.class = "label label-success"
+        entity.fieldClass.status = "label label-success"
         return "正常"
-      } else if(entity.status === 'removed') {
-        this.class = "label label-warning"
+      } else if(entity.status === 'leave') {
+        entity.fieldClass.status = "label label-warning"
         return "离职"
       } else {
         return entity.status
@@ -27,18 +28,22 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
       if(entity.role === 'shopManager') return '店长'
       if(entity.role === 'owner') return '业主'
       return entity.role
-    }, hide:true},
-    {name: "jobNumber", title: "工号", readonly:true, creatable:true, hide:true},
+    }, hide:true, required: true},
+    {name: "jobNumber", title: "工号", required: true, readonly:true, creatable:true, hide:true},
     {name: "email", title: "电子邮箱"},
-    {name: "phone", title: "电话"},
-    {name: "idcard", title: "工号", readonly:true, creatable:true, hide:true},
-    {name: "leaveAt", title: "离职日期", unlist: true, readonly:true, creatable:true, hide:true},
-    {name: "createdAt", title: "创建日期", readonly:true, creatable:true, hide:true},
-    {name: "username", title: "用户名"},
-    {name: "password", title: "密码", unlist: true},
-    {name: "updateAt", title: "更新日期", unlist: true, readonly:true, creatable:true, hide:true}
+    {name: "phone", title: "电话", required: true},
+    {name: "idcard", title: "身份证", required: true, readonly:true, creatable:true, hide:true},
+    {name: "leaveAt", title: "离职日期", createHide: true, unlist: true, readonly:true, creatable:true, hide:true},
+    {name: "createdAt", title: "创建日期", createHide: true, readonly:true, creatable:true, hide:true},
+    {name: "username", title: "用户名", required: true},
+    {name: "password", title: "密码", required: true, unlist: true},
+    {name: "updateAt", title: "更新日期", createHide: true, unlist: true, readonly:true, creatable:true, hide:true}
   ]
 
+  $scope.showCreate = function() {
+    var d = new Date();
+    $scope.showEdit({createdAt: Math.round(d.getTime()/1000)})
+  }
 	// Restful
 	$scope.create = function(entity) {
 		if(!entity.shop._id) {
