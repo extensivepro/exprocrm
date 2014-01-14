@@ -18,16 +18,16 @@ function SkusController($scope, Skus, Pagination, $timeout, $injector){
 
     // profile
     $scope.profileFields = [
-        {name: "id", title: "id"},
-        {name: "shopID", title: "商店ID"},
-        {name: "itemID", title: "商品ID"},
-        {name: "name", title: "商品名"},
-        {name: "quantity", title: "数量"},
-        {name: "operator", title: "操作员"},
-        {name: "createdAt", title: "创建日期"},
-        {name: "status", title: "状态"},
-        {name: "sumPrice", title: "总价"},
-        {name: "updateAt", title: "更新日期"},
+//        {name: "id", title: "id"},
+        {name: "shopID", title: "商店ID", required:true},
+        {name: "itemID", title: "商品ID", required:true},
+        {name: "name", title: "商品名", required:true},
+        {name: "quantity", title: "数量", required:true},
+        {name: "operator", title: "操作员", listHide:true},
+        {name: "createdAt", title: "创建日期", required:true, hide:true },
+        {name: "status", title: "状态", required:true},
+        {name: "sumPrice", title: "总价", required:true}
+//        {name: "updateAt", title: "更新日期"},
 
     ];
 
@@ -35,5 +35,16 @@ function SkusController($scope, Skus, Pagination, $timeout, $injector){
     $scope.setStatus = function(status) {
         $scope.entity.status = status
         $scope.update(true)
+    };
+    $scope.create = function(entity) {
+        entity.operator = {"employeeID":"101"};
+        entity.createdAt = Math.round(new Date().getTime()/1000);
+        var newOne = new $scope.resource(entity)
+        newOne.$save(function(user) {
+            console.log("success",user)
+            $scope.showList()
+        },function(err){
+            console.log('error:', err)
+        })
     }
 }

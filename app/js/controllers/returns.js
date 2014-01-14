@@ -24,20 +24,20 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
 
     // profile
     $scope.profileFields = [
-        {name: "id", title: "id"},
-        {name: "shopID", title: "billNumber"},
-        {name: "dealID", title: "deviceID"},
-        {name: "billID", title: "dealID"},
-        {name: "dealSerialNumber", title: "dealType"},
-        {name: "serialNumber", title: "amount"},
-        {name: "deviceID", title: "discountAmount"},
-        {name: "quantity", title: "cashSettlement"},
-        {name: "fee", title: "memberSettlement"},
-        {name: "memo", title: "memo"},
-        {name: "items", title: "创建日期"},
-        {name: "agent", title: "agentID"},
-        {name: "customer", title: "shopID"},
-        {name: "createAt", title: "shopID"}
+//        {name: "id", title: "id"},
+        {name: "shopID", title: "商店ID"},
+        {name: "dealID", title: "交易ID"},
+        {name: "billID", title: "账单ID"},
+        {name: "dealSerialNumber", title: "dealSerialNumber", listHide:true},
+        {name: "serialNumber", title: "serialNumber", listHide:true},
+        {name: "deviceID", title: "deviceID", listHide:true},
+        {name: "quantity", title: "数量"},
+        {name: "fee", title: "费用"},
+        {name: "memo", title: "memo", listHide:true},
+        {name: "items", title: "items", listHide:true},
+        {name: "agent", title: "agent", listHide:true},
+        {name: "customer", title: "customer", listHide:true},
+        {name: "createAt", title: "createAt", listHide:true}
 
 
     ];

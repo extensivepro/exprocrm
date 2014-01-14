@@ -78,6 +78,7 @@ function BasicController($scope, Pagination, $timeout){
             console.log(params)
         }
         $scope.resource.query(params, function(results){
+            console.log("results:" + JSON.stringify(results));
             $scope.entities = results;
             $scope.pagination.paginate(results.length)
         })
@@ -94,10 +95,10 @@ function BasicController($scope, Pagination, $timeout){
     }
 
     $scope.update = function(entity) {
-        console.log('update=', entity)
-        var resource = new $scope.resource(entity)
+        console.log('update=', entity);
+        var resource = new $scope.resource(entity);
+        console.log('update=' + JSON.stringify(resource));
         resource.$update(function(err) {
-            console.log('update success', err)
             $scope.showList()
         }, function(err) {
             console.log('update user error:', err)

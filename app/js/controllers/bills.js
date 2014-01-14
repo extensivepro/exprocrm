@@ -24,19 +24,19 @@ function BillsController($scope, Bills, Pagination, $timeout, $injector){
 
     // profile
     $scope.profileFields = [
-        {name: "id", title: "id"},
-        {name: "billNumber", title: "billNumber"},
-        {name: "deviceID", title: "deviceID"},
-        {name: "dealID", title: "dealID"},
-        {name: "dealType", title: "dealType"},
-        {name: "amount", title: "amount"},
-        {name: "discountAmount", title: "discountAmount"},
-        {name: "cashSettlement", title: "cashSettlement"},
-        {name: "memberSettlement", title: "memberSettlement"},
-        {name: "memo", title: "memo"},
+//        {name: "id", title: "id"},
+        {name: "billNumber", title: "账单号"},
+        {name: "deviceID", title: "deviceID", listHide:true},
+        {name: "dealID", title: "设备ID"},
+        {name: "dealType", title: "交易类型"},
+        {name: "amount", title: "数量"},
+        {name: "discountAmount", title: "折扣数"},
+        {name: "cashSettlement", title: "cashSettlement",listHide:true},
+        {name: "memberSettlement", title: "memberSettlement",listHide:true},
+        {name: "memo", title: "memo",listHide:true},
         {name: "createdAt", title: "创建日期"},
-        {name: "agentID", title: "agentID"},
-        {name: "shopID", title: "shopID"}
+        {name: "agentID", title: "agentID",listHide:true},
+        {name: "shopID", title: "shopID",listHide:true}
 
 
     ];

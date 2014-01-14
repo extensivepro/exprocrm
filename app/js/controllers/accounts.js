@@ -24,8 +24,8 @@ function AccountsController($scope, Accounts, Pagination, $timeout, $injector){
 
     // profile
     $scope.profileFields = [
-        {name: "id", title: "id"},
-        {name: "ownerID", title: "ownerID"},
+//        {name: "id", title: "id"},
+        {name: "ownerID", title: "拥有者ID"},
         {name: "type", title: "类型"},
         {name: "name", title: "姓名"},
         {name: "balance", title: "余额"},
