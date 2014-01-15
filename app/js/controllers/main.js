@@ -3,6 +3,7 @@ function MainController($scope, Users){
 	$scope.views = [
     {name:"用户管理", icon:"icon-user-md", path:"views/user/profile.html"},
     {name:"会员管理", icon:"icon-user-md", path:"views/members/index.html"},
+    {name:"库存管理", icon:"icon-user-md", path:"views/skus/index.html"}，
     {name:"商户管理", icon:"icon-user-md", path:"views/merchant/index.html"},
     {name:"商店管理", icon:"icon-user-md", path:"views/shop/index.html"},
     {name:"员工管理", icon:"icon-user-md", path:"views/employee/index.html"},
