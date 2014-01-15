@@ -10,7 +10,8 @@ function MainController($scope, Users){
       // {name:"门店管理", icon:"icon-folder-close-alt", path:"views/shop/index.html", submenus: [
       //     {name:"门店员工", icon:"icon-hdd", path:"views/employe/index.html"}
       // ]},
-			{name:"用户管理", icon:"icon-user-md", path:"views/user/profile.html"}
+			{name:"用户管理", icon:"icon-user-md", path:"views/user/profile.html"},
+            {name:"会员管理", icon:"icon-user-md", path:"views/members/index.html"}
 	];
 	$scope.currentView = $scope.views[0];
 	
