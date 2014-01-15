@@ -1,12 +1,7 @@
-/**
- * 交易记录
- * Created by expro on 14-1-13.
- */
-
 
 /**
  * Created by expro on 14-1-10.
- * 库存管理
+ * 积分管理
  */
 function PointsController($scope, Points, Pagination, $timeout, $injector){
 

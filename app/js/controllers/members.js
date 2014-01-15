@@ -1,12 +1,8 @@
-/**
- * 交易记录
- * Created by expro on 14-1-13.
- */
 
 
 /**
  * Created by expro on 14-1-10.
- * 库存管理
+ * 会员管理
  */
 function MembersController($scope, Members, Pagination, $timeout, $injector){
 
