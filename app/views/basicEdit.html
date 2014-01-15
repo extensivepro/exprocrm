@@ -41,30 +41,30 @@
 
 <!-- start: confirm New User Modal -->
 <div modal="shouldOpenCreate" class="modal hide fade">
-	<div class="modal-header">
-		<button type="button" class="close" ng-click="closeCreate()">×</button>
-		<h3>新建用户</h3>
-	</div>
-	<div class="modal-body">
-		<form ng-model="entity">
-			<fieldset>
-				<div class="control-group">
-					<label class="control-label" for="username">用户名</label>
-					<div class="controls">
-					  <input class="input-xlarge span5 focused" ng-model="entity.username" id="username" type="text" required>
-					</div>
-			  </div>
-				<div class="alert alert-danger fade in" ng-show="showSettingMessage" style="display: none;">
-		      <button type="button" class="close" data-dismiss="alert">×</button>
-		      <h4 class="alert-heading">警告！</h4>
-		      <p class="ng-binding">{{errorDetail}}</p>
-			  </div>
-			</fieldset>
-		</form>
-	</div>
-	<div class="modal-footer">
-		<a class="btn" ng-click="closeCreate()">关闭</a>
-		<a class="btn btn-primary" ng-click="setPassword()">修改密码</a>
-	</div>
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="closeCreate()">×</button>
+        <h3>新建用户</h3>
+    </div>
+    <div class="modal-body">
+        <form ng-model="entity">
+            <fieldset>
+                <div class="control-group">
+                    <label class="control-label" for="username">用户名</label>
+                    <div class="controls">
+                        <input class="input-xlarge span5 focused" ng-model="entity.username" id="username" type="text" required>
+                    </div>
+                </div>
+                <div class="alert alert-danger fade in" ng-show="showSettingMessage" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <h4 class="alert-heading">警告！</h4>
+                    <p class="ng-binding">{{errorDetail}}</p>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a class="btn" ng-click="closeCreate()">关闭</a>
+        <a class="btn btn-primary" ng-click="setPassword()">修改密码</a>
+    </div>
 </div>
 <!-- end: confirm New User Modal -->
