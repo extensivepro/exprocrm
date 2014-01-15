@@ -33,7 +33,6 @@ function MembersController($scope, Members, Pagination, $timeout, $injector){
         {name: "userID", title: "用户id", listHide:true},
         {name: "shop", title: "商店", listHide:true},
         {name: "merchant", title: "商户", listHide:true, value:function(entity) {
-            console.log("name:" + entity.merchant.name);
             return entity.merchant.name;
         }},
         {name: "postPoint", title: "postPoint", listHide:true},
