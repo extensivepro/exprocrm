@@ -20,13 +20,15 @@ function DealsController($scope, Deals, Pagination, $timeout, $injector){
     // profile
     $scope.profileFields = [
 //        {name: "id", title: "id"},
-        {name: "shopID", title: "商店ID"},
-        {name: "serialNumber", title: "系列号", listHide:true, required:true},
+        {name: "shopID", title: "商店ID", listHide:true},
+        {name: "serialNumber", title: "流水号",  required:true},
         {name: "deviceCode", title: "设备编码",listHide:true, required:true},
         {name: "deviceID", title: "设备ID",listHide:true, required:true},
         {name: "billID", title: "交易ID",listHide:true, required:true},
         {name: "quantity", title: "数量", required:true},
-        {name: "fee", title: "费用", required:true},
+        {name: "fee", title: "成交金额", required:true,value:function(entity) {
+            return (entity.fee/100).toFixed(2);
+        } },
         {name: "memo", title: "memo",listHide:true, required:true},
         {name: "items", title: "商品", value:function(entity) {
             var itemNames = "";
@@ -34,14 +36,14 @@ function DealsController($scope, Deals, Pagination, $timeout, $injector){
                 itemNames += item.item.name + " ";
             });
             return itemNames;
-        }, required:true},
-        {name: "seller", title: "卖家", value:function(entity) {
+        }, required:true, listHide:true},
+        {name: "seller", title: "销售员", value:function(entity) {
             return entity.seller.name;
         }, required:true},
-        {name: "buyer", title: "买家",value:function(entity) {
+        {name: "buyer", title: "顾客",value:function(entity) {
             return entity.buyer.name;
         }, required:true},
-        {name: "createdAt", title: "创建时间", required:true}
+        {name: "createdAt", title: "成交时间", required:true}
 
 
     ];
