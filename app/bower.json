@@ -9,6 +9,7 @@
     "angular-bootstrap": "~0.6.0",
     "jquery": "1.10.2",
     "jquery-migrate": "1.2.1",
-    "jquery.cookie": "*"
+    "jquery.cookie": "*",
+    "angular-google-chart": "~0.0.6"
   }
 }

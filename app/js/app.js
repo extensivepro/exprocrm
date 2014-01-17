@@ -6,6 +6,7 @@ var app = angular.module('exproCRM', [
   'ngCookies',
   'ngRoute',
   'ui.bootstrap',
+  'googlechart',
   'exproCRM.filters',
   'exproCRM.services',
   'exproCRM.directives',
