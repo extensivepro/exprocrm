@@ -13,15 +13,17 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector){
   $scope.profileFields = [
     {name: "merchantID", title: "业主ID", required: true, unlist: true, hide: true},
     {name: "code", title: "商品编码", required: true},
-    {name: "mnemonicCode", title: "商品助记码"},
+    {name: "mnemonicCode", title: "商品助记码", unlist: true},
     {name: "name", title: "商品名称", required: true},
-    {name: "price", title: "单价", required: true},
-    {name: "desc", title: "商品描述"},
+    {name: "price", title: "单价/(元)", required: true, value:function(entity) {
+    entity.fieldClass = entity.fieldClass || {}
+    return (entity.price/100).toFixed(2)}},
+    {name: "desc", title: "商品描述", unlist: true},
     {name: "status", title: "状态", value:function(entity){
       entity.fieldClass = entity.fieldClass || {}
       if(entity.status === 'sale') {
         entity.fieldClass.status = "label label-success"
-        return "正常"
+        return "上架"
       } else if(entity.status === 'removed') {
         entity.fieldClass.status = "label label-warning"
         return "下架"
