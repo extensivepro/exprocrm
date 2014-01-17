@@ -7,7 +7,7 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
 	
 	// profile 
 	$scope.profileFields = [
-    {name: "code", title: "店面编码", required: true}
+    {name: "code", title: "店面编码", required: true, unlist: true}
 		,	{name: "name", title: "店名", required: true}
     , {name: "merchantID", title: "业主ID", unlist:true, hide: true}
     ,	{name: "status", title: "状态", value:function(entity){

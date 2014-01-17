@@ -68,7 +68,7 @@ function BasicController($scope, $rootScope, Pagination, $timeout){
 		$scope.refreshList()
 	})
 	$scope.$watch('pagination.iPage', function() {
-		$scope.refreshList()
+		$scope.refreshList();
 	})
 	$scope.pagination = Pagination
 	
@@ -76,12 +76,17 @@ function BasicController($scope, $rootScope, Pagination, $timeout){
 	$scope.refreshList = function() {
 		var p = $scope.pagination
 		var params = {page:p.iPage, limit:p.iLength}
+//    console.log("####"+$scope.searchOptions.text+"####")
+//    console.log("$$$$"+$scope.searchOptions.fields)
+
     if($scope.searchOptions.text !== '' && $scope.searchOptions.fields.length > 0) {
+      console.log("@@@@" + $scope.searchOptions.text);
 			params["$or"] = []
       $scope.searchOptions.fields.forEach(function(field){
         var filter = {}
         filter[field] = {$regex:$scope.searchOptions.text}
         params.$or.push(filter)
+
       })
       console.log(params)
 		}

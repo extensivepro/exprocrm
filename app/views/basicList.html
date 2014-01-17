@@ -30,7 +30,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="entity in entities">
+        <tr ng-repeat="entity in entities | startFrom: pagination.iStart-1 | limitTo: pagination.iLength">
             <td class="center" ng-repeat="field in fields" ng-show="!field.listHide">
                 <span ng-class="entity.fieldClass[field.name]"  ng-if="field.value">{{field.value(entity)}}</span>
                 <span ng-class="entity.fieldClass[field.name]" ng-if="!field.value">{{valueOfKeyString(entity, field.name)}}</span>
@@ -49,7 +49,7 @@
             显示 {{pagination.iStart}} ~ {{pagination.iEnd}} / {{pagination.iTotal}} 条
         </div>
         <div class="span12 center">
-            <pagination total-items="pagination.iPages" page="pagination.iPage" items-pre-page="pagination.iLength" previous-text="上一页" next-text="下一页"></pagination>
+            <pagination total-items="pagination.iTotal" page="pagination.iPage" items-per-page="pagination.iLength" previous-text="上一页" next-text="下一页"></pagination>
         </div>
     </div>
 </div>
