@@ -75,7 +75,7 @@ function BasicController($scope, $rootScope, Pagination, $timeout){
 	// Restful
 	$scope.refreshList = function() {
 		var p = $scope.pagination
-		var params = {page:p.iPage, limit:p.iLength}
+		var params = {page:p.iPage, limit:p.iLength, querys:userid}
     if($scope.searchOptions.text !== '' && $scope.searchOptions.fields.length > 0) {
 			params["$or"] = []
       $scope.searchOptions.fields.forEach(function(field){
