@@ -20,19 +20,24 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
     // profile
     $scope.profileFields = [
 //        {name: "id", title: "id"},
-        {name: "shopID", title: "商店ID"},
-        {name: "dealID", title: "交易ID"},
-        {name: "billID", title: "账单ID"},
-        {name: "dealSerialNumber", title: "dealSerialNumber", listHide:true},
-        {name: "serialNumber", title: "serialNumber", listHide:true},
-        {name: "deviceID", title: "deviceID", listHide:true},
-        {name: "quantity", title: "数量"},
-        {name: "fee", title: "费用"},
+        {name: "shopID", title: "商店ID", listHide:true},
+        {name: "dealID", title: "交易ID", listHide:true},
+        {name: "billID", title: "账单ID", listHide:true},
         {name: "memo", title: "memo", listHide:true},
         {name: "items", title: "items", listHide:true},
-        {name: "agent", title: "agent", listHide:true},
-        {name: "customer", title: "customer", listHide:true},
-        {name: "createAt", title: "createAt", listHide:true}
+        {name: "deviceID", title: "deviceID", listHide:true},
+        {name: "dealSerialNumber", title: "退单号"},
+        {name: "serialNumber", title: "交易流水号"},
+        {name: "createdAt", title: "退货时间"},
+        {name: "quantity", title: "数量"},
+        {name: "fee", title: "退款",value:function(entity) {
+            return (entity.fee/100).toFixed(2);
+        }},
+        {name: "customer", title: "顾客"},
+        {name: "agent", title: "经手人", value:function(entity) {
+            return entity.agent.name;
+        }}
+
 
 
     ];

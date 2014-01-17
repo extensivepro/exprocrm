@@ -9,7 +9,7 @@ function MainController($scope, Users){
     {name:"员工管理", icon:"icon-user-md", path:"views/employee/index.html"},
     {name:"商品管理", icon:"icon-user-md", path:"views/item/index.html"},
     {name:"销售流水", icon:"icon-user-md", path:"views/deals/index.html"},
-    {name:"退货管理", icon:"icon-user-md", path:"views/returns/index.html"},
+    {name:"退货流水", icon:"icon-user-md", path:"views/returns/index.html"},
     {name:"储值管理", icon:"icon-user-md", path:"views/bills/index.html"},
     {name:"积分管理", icon:"icon-user-md", path:"views/points/index.html"}
   ];
