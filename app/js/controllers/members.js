@@ -34,14 +34,23 @@ function MembersController($scope, Members, Pagination, $timeout, $injector){
         {name: "postPoint", title: "postPoint", listHide:true},
         {name: "postTotalPoint", title: "postTotalPoint", listHide:true},
         {name: "level", title: "等级", listHide:true},
-        {name: "status", title: "状态",required:true },
-        {name: "sinceAt", title: "开始时间",required:true },
-        {name: "dueAt", title: "结束时间",required:true},
+        {name: "status", title: "状态",required:true , value:function(entity){
+            entity.fieldClass = entity.fieldClass || {}
+            if(entity.status === 'active') {
+                entity.fieldClass.status = "label label-success";
+                return "正常"
+            }  else {
+                entity.fieldClass.status = "label label-warning";
+                return "到期";
+            }
+        }},
+        {name: "sinceAt", title: "开始时间",required:true , listHide:true},
+        {name: "dueAt", title: "结束时间",required:true, listHide:true},
         {name: "createdAt", title: "创建日期",required:true, hide:true },
         {name: "account", title: "账户", listHide:true, value:function(entity) {
             return entity.account.name;
         }},
-        {name: "registerShopID", title: "注册商店ID",required:true },
+        {name: "registerShopID", title: "注册商店ID",required:true , listHide:true}
 //        {name: "updateAt", title: "更新日期", listHide:true}
 
 
