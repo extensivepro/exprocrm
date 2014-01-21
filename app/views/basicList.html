@@ -1,7 +1,7 @@
 <div class="box-header">
     <h2><i ng-class="currentView.icon"></i><span class="break"></span>{{currentView.name}}</h2>
     <div class="box-icon">
-        <a ng-click="showCreate()" class="btn-puls"><i class="icon-plus" /></a>
+        <a ng-click="showCreate()" class="btn-puls" ng-hide="isHide"><i class="icon-plus" /></a>
         <a ng-click="refreshList()" class="btn-refresh"><i class="icon-refresh" /></a>
     </div>
 </div>

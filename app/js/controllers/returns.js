@@ -33,7 +33,13 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
         {name: "fee", title: "退款",value:function(entity) {
             return (entity.fee/100).toFixed(2);
         }},
-        {name: "customer", title: "顾客"},
+        {name: "customer", title: "顾客",value:function(entity) {
+            if (entity.hasOwnProperty("customer")) {
+                return entity.customer.name;
+            } else {
+                return "走入顾客";
+            }
+        }},
         {name: "agent", title: "经手人", value:function(entity) {
             return entity.agent.name;
         }}
@@ -47,4 +53,14 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
         $scope.entity.status = status
         $scope.update(true)
     }
+    $scope.fieldOperations = [
+        {class: "btn btn-success", icon: "icon-file", op: "showProfile"}
+        ,	{class: "btn btn-danger", icon: "icon-trash", op:"remove"}
+    ]
+
+    // profile
+    $scope.profileShortcuts = [
+        {class: "box quick-button-small span1", icon: "icon-trash", text: "删除", op:"remove"}
+    ];
+    $scope.isHide = true; //隐藏新增按钮
 }
