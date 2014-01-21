@@ -68,7 +68,7 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
         }
         $scope.resource.query(params, function(results){
             results.map(function(skus) {
-                Items.query({"id":skus.itemID}, function(item) {
+                Items.queryForSkus({"id":skus.itemID}, function(item) {
                     skus.name = item.name;//附上根据id查到的名字
                 });
             });
