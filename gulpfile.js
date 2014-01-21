@@ -5,7 +5,6 @@ var styl = require('gulp-styl');
 var refresh = require('gulp-livereload');
 var lr = require('tiny-lr');
 var server = lr();
-var nodemon = require('gulp-nodemon');
 
 gulp.task('scripts', function() {
   gulp.src(['app/js/**/*.js'])
@@ -25,6 +24,7 @@ gulp.task('styles', function() {
 })
 
 gulp.task('lr-server', function() {
+  require('./scripts/web-server.js')
   server.listen(35729, function(err) {
     if (err) return console.log(err);
 
@@ -38,11 +38,6 @@ gulp.task('build', function() {
   gulp.run('lr-server', 'scripts', 'styles');
 })
 
-gulp.task('nodemon', function() {
-  gulp.src('scripts/web-server.js')
-    .pipe(nodemon());
-})
-
 gulp.task('default', function() {
-  gulp.run('nodemon', 'lr-server');
+  gulp.run('lr-server');
 })

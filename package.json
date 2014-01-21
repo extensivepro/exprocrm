@@ -6,18 +6,17 @@
     "url": "https://github.com/extensivepro/exprocrm"
   },
   "devDependencies": {
+    "gulp": "latest",
+    "gulp-browserify": "~0.2.4",
+    "gulp-concat": "~2.1.7",
+    "gulp-livereload": "~0.1.1",
+    "tiny-lr": "0.0.5",
+    "gulp-styl": "~0.1.2",
     "phantomjs": "~1.9",
     "karma": "~0.10",
     "karma-junit-reporter": "~0.1",
     "karma-jasmine": "~0.1",
-    "karma-ng-scenario": "~0.1",
-    "gulp-livereload": "~0.1.1",
-    "tiny-lr": "0.0.5",
-    "gulp-concat": "~2.1.7",
-    "gulp-styl": "~0.1.2",
-    "gulp-browserify": "~0.2.4",
-    "gulp": "~3.2.5",
-    "gulp-nodemon": "0.0.3"
+    "karma-ng-scenario": "~0.1"
   },
   "bugs": {
     "url": "https://github.com/extensivepro/exprocrm/issues"
@@ -29,12 +28,6 @@
     "test": "test"
   },
   "dependencies": {
-    "gulp": "~3.2.5",
-    "gulp-browserify": "~0.2.4",
-    "gulp-concat": "~2.1.7",
-    "gulp-livereload": "~0.1.1",
-    "gulp-nodemon": "~0.0.3",
-    "gulp-styl": "~0.1.2",
     "karma": "~0.10.9",
     "karma-chrome-launcher": "~0.1.2",
     "karma-coffee-preprocessor": "~0.1.2",
@@ -47,8 +40,7 @@
     "karma-requirejs": "~0.2.1",
     "karma-script-launcher": "~0.1.0",
     "phantomjs": "~1.9.2-6",
-    "requirejs": "~2.1.9",
-    "tiny-lr": "~0.0.5"
+    "requirejs": "~2.1.9"
   },
   "scripts": {
     "test": "gulp test",

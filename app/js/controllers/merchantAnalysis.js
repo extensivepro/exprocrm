@@ -11,7 +11,7 @@ function MerchantAnalysisController($scope, Statistics) {
   ], "rows": []};
 
   chart1.options = {
-      "title": "经营趋势",
+      "title": "营业趋势",
       "isStacked": "false",
       "fill": 20,
       "displayExactValues": true,
@@ -19,10 +19,9 @@ function MerchantAnalysisController($scope, Statistics) {
           "title": "人民币/元", "gridlines": {"count": 10}
       },
       "hAxis": {
-          "title": "单位：日"
+          "title": "时间"
       }
   };
-
 
   var formatCollection = [
       {
@@ -96,92 +95,60 @@ function MerchantAnalysisController($scope, Statistics) {
   chart1.formatters = {};
 
   $scope.chart = chart1;
-  $scope.statis = {
-    keyID: '2834910281d26a76',
-    period: 86400000,
-    rowCount: 7,
-    from: Date.now()-86400000*7
-  }
   
-  $scope.refreshChart = function () {
-    Statistics.query($scope.statis, function (result) {
-      var updateRows = result.map(function (item) { return item.value })
-      from = $scope.statis.from
-      var rows = []
-      for (var i = 0, j = 0; i < $scope.statis.rowCount; i++) {
-        var d = new Date(from+$scope.statis.period*i)
-        var c = {c:[ {v: (d.getMonth()+1)+'/'+d.getDate() },{v: 0},{v: 0},{v: 0} ]};
-        var t = d.setHours(0,0,0,0)
+  $scope.today = new Date() 
+  $scope.dt = $scope.today
+  $scope.format = 'yyyy-MM-dd'
+  $scope.datapickOpen = false
+  $scope.open = function($event) {
+    $event.preventDefault()
+    $event.stopPropagation()
+    
+    $scope.datapickOpen = true;
+  }
+  $scope.dateOptions = {
+    'year-format': "'yyyy'",
+    'day-title-format': "yyyy-MM",
+    'month-format': "'yyyyMM'",
+    'starting-day': 1
+  }
 
-        for(;j < updateRows.length; j++) {
-          var v = updateRows[j]
-          var ut = new Date(v.statAt*1000).setHours(0,0,0,0)
-          if(t > ut ) continue;
-          else if( t < ut) break;
-          c.c[1] = {v: v.sale.total/100, f: v.sale.total/100+"元\n成交: "+v.sale.count+"次"}
-          c.c[2] = {v: v.return.total/100, f: v.return.total/100+"元\n退货: "+v.return.count+"次"}
-          c.c[3] = {v: v.prepay.total/100, f: v.prepay.total/100+"元\n充值: "+v.prepay.count+"次"}
-        }
-        rows.push(c);
-      }
-      chart1.data.rows = rows;
+  var statistics = new Statistics('e20dccdf039b3874')
+  $scope.statistics = statistics
+
+  var refreshing = false
+  $scope.refreshChart = function () {
+    if(refreshing) return;
+    refreshing = true
+    
+    var rows = []
+    var until = statistics.until($scope.dt)
+    for (var i = statistics.limit, j = 0; i > 0 ; i--) {
+      var d = statistics.periodDate(until-i+1)
+      var c = {c:[ {v: (d.getMonth()+1)+'/'+d.getDate() },{v: 0},{v: 0},{v: 0} ]};
+      rows.push(c);
+    }
+
+    statistics.query(function (result) {
+      result.forEach(function (item) {
+        var v = item.value
+        var c = rows[v.statAt-until+statistics.limit-1]
+        c.c[1] = {v: v.sale.total/100, f: v.sale.total/100+"元\n共: "+v.sale.count+"次"}
+        c.c[2] = {v: v.return.total/100, f: v.return.total/100+"元\n共: "+v.return.count+"次"}
+        c.c[3] = {v: v.prepay.total/100, f: v.prepay.total/100+"元\n共: "+v.prepay.count+"次"}
+      })
+      chart1.data.rows = rows
+      refreshing = false
     })
   }
   
-  $scope.chartSelectionChange = function () {
-
-      if (($scope.chart.type === 'Table' && $scope.chart.data.cols.length === 6 && $scope.chart.options.tooltip.isHtml === true) ||
-          ($scope.chart.type != 'Table' && $scope.chart.data.cols.length === 6 && $scope.chart.options.tooltip.isHtml === false)) {
-          $scope.chart.data.cols.pop();
-          delete $scope.chart.data.rows[0].c[5];
-          delete $scope.chart.data.rows[1].c[5];
-          delete $scope.chart.data.rows[2].c[5];
-      }
-
-
-      if ($scope.chart.type === 'Table') {
-
-          $scope.chart.options.tooltip.isHtml = false;
-
-          $scope.chart.data.cols.push({id: "data-id", label: "Date", type: "date"});
-          $scope.chart.data.rows[0].c[5] = {v: "Date(2013,01,05)"};
-          $scope.chart.data.rows[1].c[5] = {v: "Date(2013,02,05)"};
-          $scope.chart.data.rows[2].c[5] = {v: "Date(2013,03,05)"};
-      }
-
-  }
-
-
-  $scope.htmlTooltip = function () {
-
-      if ($scope.chart.options.tooltip.isHtml) {
-          $scope.chart.data.cols.push({id: "", "role": "tooltip", "type": "string", "p": { "role": "tooltip", 'html': true} });
-          $scope.chart.data.rows[0].c[5] = {v: " <b>Shipping " + $scope.chart.data.rows[0].c[4].v + "</b><br /><img src=\"http://icons.iconarchive.com/icons/antrepo/container-4-cargo-vans/512/Google-Shipping-Box-icon.png\" style=\"height:85px\" />"};
-          $scope.chart.data.rows[1].c[5] = {v: " <b>Shipping " + $scope.chart.data.rows[1].c[4].v + "</b><br /><img src=\"http://icons.iconarchive.com/icons/antrepo/container-4-cargo-vans/512/Google-Shipping-Box-icon.png\" style=\"height:85px\" />"};
-          $scope.chart.data.rows[2].c[5] = {v: " <b>Shipping " + $scope.chart.data.rows[2].c[4].v + "</b><br /><img src=\"http://icons.iconarchive.com/icons/antrepo/container-4-cargo-vans/512/Google-Shipping-Box-icon.png\" style=\"height:85px\" />"};
-      } else {
-          $scope.chart.data.cols.pop();
-          delete $scope.chart.data.rows[0].c[5];
-          delete $scope.chart.data.rows[1].c[5];
-          delete $scope.chart.data.rows[2].c[5];
-      }
-  }
-
-
-  $scope.hideServer = false;
-  $scope.selectionChange = function () {
-      if ($scope.hideServer) {
-          $scope.chart.view = {columns: [0, 1, 2, 4]};
-      } else {
-          $scope.chart.view = {};
-      }
-  }
-
-  $scope.formatCollection = formatCollection;
-  $scope.toggleFormat = function (format) {
-      $scope.chart.formatters[format.name] = format.format;
-  };
-
+  $scope.$watch('statistics.period', function () {
+    $scope.refreshChart()
+  })
+  $scope.$watch('dt', function () {
+    $scope.refreshChart()
+  })
+  
   $scope.chartReady = function () {
     fixGoogleChartsBarsBootstrap();
   }
@@ -203,6 +170,6 @@ function MerchantAnalysisController($scope, Statistics) {
   };
   
   $scope.init = function () {
-    $scope.refreshChart()
+    widthFunctions()
   }
 }
