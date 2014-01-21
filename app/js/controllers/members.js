@@ -20,20 +20,20 @@ function MembersController($scope, Members, Pagination, $timeout, $injector){
 
     // profile
     $scope.profileFields = [
-//        {name: "id", title: "id", listHide:true},
+//        {name: "id", title: "id", listHide:true, hide:true },
         {name: "name", title: "姓名",required:true},
-        {name: "code", title: "编码",required:true },
+        {name: "code", title: "编码",required:true, hide:true },
         {name: "email", title: "邮箱",required:true},
         {name: "phone", title: "手机号",required:true },
 
-        {name: "userID", title: "用户id", listHide:true},
-        {name: "shop", title: "商店", listHide:true},
+        {name: "userID", title: "用户id", listHide:true , hide:true },
+        {name: "shop", title: "商店", listHide:true, hide:true },
         {name: "merchant", title: "商户", listHide:true, value:function(entity) {
             return entity.merchant.name;
-        }},
-        {name: "postPoint", title: "postPoint", listHide:true},
-        {name: "postTotalPoint", title: "postTotalPoint", listHide:true},
-        {name: "level", title: "等级", listHide:true},
+        }, hide:true },
+        {name: "postPoint", title: "postPoint", listHide:true, hide:true },
+        {name: "postTotalPoint", title: "postTotalPoint", listHide:true, hide:true },
+        {name: "level", title: "等级", listHide:true, hide:true },
         {name: "status", title: "状态",required:true , value:function(entity){
             entity.fieldClass = entity.fieldClass || {}
             if(entity.status === 'active') {
@@ -43,15 +43,15 @@ function MembersController($scope, Members, Pagination, $timeout, $injector){
                 entity.fieldClass.status = "label label-warning";
                 return "到期";
             }
-        }},
-        {name: "sinceAt", title: "开始时间",required:true , listHide:true},
+        }, hide:true },
+        {name: "sinceAt", title: "开始时间",required:true , listHide:true, hide:true },
         {name: "dueAt", title: "结束时间",required:true, listHide:true},
         {name: "createdAt", title: "创建日期",required:true, hide:true },
         {name: "account", title: "账户", listHide:true, value:function(entity) {
             return entity.account.name;
-        }},
-        {name: "registerShopID", title: "注册商店ID",required:true , listHide:true}
-//        {name: "updateAt", title: "更新日期", listHide:true}
+        }, hide:true },
+        {name: "registerShopID", title: "注册商店ID",required:true , listHide:true, hide:true },
+        {name: "updateAt", title: "更新日期", listHide:true, hide:true }
 
 
     ];
