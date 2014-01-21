@@ -26,13 +26,13 @@ function MembersController($scope, Members, Pagination, $timeout, $injector){
         {name: "email", title: "邮箱",required:true},
         {name: "phone", title: "手机号",required:true },
 
-        {name: "userID", title: "用户id", listHide:true , hide:true },
-        {name: "shop", title: "商店", listHide:true, hide:true },
+        {name: "userID", title: "用户id", listHide:true , hide:true,isProfileHide:true },
+        {name: "shop", title: "商店", listHide:true, hide:true,isProfileHide:true },
         {name: "merchant", title: "商户", listHide:true, value:function(entity) {
             return entity.merchant.name;
-        }, hide:true },
-        {name: "postPoint", title: "postPoint", listHide:true, hide:true },
-        {name: "postTotalPoint", title: "postTotalPoint", listHide:true, hide:true },
+        }, hide:true,isProfileHide:true },
+        {name: "postPoint", title: "当前积分", listHide:true, hide:true },
+        {name: "postTotalPoint", title: "累计积分", listHide:true, hide:true },
         {name: "level", title: "等级", listHide:true, hide:true },
         {name: "status", title: "状态",required:true , value:function(entity){
             entity.fieldClass = entity.fieldClass || {}
@@ -44,14 +44,14 @@ function MembersController($scope, Members, Pagination, $timeout, $injector){
                 return "到期";
             }
         }, hide:true },
-        {name: "sinceAt", title: "开始时间",required:true , listHide:true, hide:true },
-        {name: "dueAt", title: "结束时间",required:true, listHide:true},
-        {name: "createdAt", title: "创建日期",required:true, hide:true },
-        {name: "account", title: "账户", listHide:true, value:function(entity) {
-            return entity.account.name;
-        }, hide:true },
-        {name: "registerShopID", title: "注册商店ID",required:true , listHide:true, hide:true },
-        {name: "updateAt", title: "更新日期", listHide:true, hide:true }
+        {name: "sinceAt", title: "加入时间",required:true , listHide:true, hide:true ,isProfileHide:true},
+        {name: "dueAt", title: "有效期至",required:true, listHide:true,isProfileHide:true},
+        {name: "createdAt", title: "创建日期",required:true, hide:true ,isProfileHide:true},
+        {name: "account", title: "账户金额",  value:function(entity) {
+            return (entity.account.balance/100).toFixed(2);
+        }, hide:true},
+        {name: "registerShopID", title: "注册商店ID",required:true , listHide:true, hide:true,isProfileHide:true },
+        {name: "updateAt", title: "更新日期", listHide:true, hide:true ,isProfileHide:true}
 
 
     ];
