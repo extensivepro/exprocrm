@@ -3,7 +3,7 @@
  * Created by expro on 14-1-10.
  * 储值管理
  */
-function BillsController($scope, Bills, Pagination, $timeout, $injector){
+function BillsController($scope, Bills, Employes, Pagination, $timeout, $injector){
 
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Bills;
@@ -27,6 +27,7 @@ function BillsController($scope, Bills, Pagination, $timeout, $injector){
 
         {name: "dealType", title: "交易类型",value:function(entity) {
             var type = entity.dealType;
+            console.log("type:" + type);
             if (type == 'deal') {
                 return '交易';
             } else if (type == 'prepay') {
@@ -42,7 +43,7 @@ function BillsController($scope, Bills, Pagination, $timeout, $injector){
             } else if (!entity.cashSettlement.hasOwnProperty('amount'))  {
                 return "";
             } else {
-                return entity.cashSettlement.amount;
+                return (entity.cashSettlement.amount/100).toFixed(2);
             }
         }},
         {name: "memberSettlement", title: "顾客", value:function(entity) {
@@ -98,13 +99,15 @@ function BillsController($scope, Bills, Pagination, $timeout, $injector){
                     return true;
                 }
             });
+            $scope.entities.map(function(emp) {
+                Employes.queryForBills({"id":emp.agentID}, function(employee) {
+                    emp.agentID = employee.name;
+                });
+            });
             $scope.pagination.paginate($scope.entities.length);
         })
     }
-    $scope.setStatus = function(status) {
-        $scope.entity.status = status
-        $scope.update(true)
-    }
+
     $scope.fieldOperations = [
         {class: "btn btn-success", icon: "icon-file", op: "showProfile"}
         ,	{class: "btn btn-danger", icon: "icon-trash", op:"remove"}
