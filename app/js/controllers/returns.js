@@ -53,4 +53,14 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
         $scope.entity.status = status
         $scope.update(true)
     }
+    $scope.fieldOperations = [
+        {class: "btn btn-success", icon: "icon-file", op: "showProfile"}
+        ,	{class: "btn btn-danger", icon: "icon-trash", op:"remove"}
+    ]
+
+    // profile
+    $scope.profileShortcuts = [
+        {class: "box quick-button-small span1", icon: "icon-trash", text: "删除", op:"remove"}
+    ];
+    $scope.isHide = true; //隐藏新增按钮
 }
