@@ -40,8 +40,8 @@ function MembersController($scope, Members, Pagination, $timeout, $injector){
                 return "到期";
             }
         }, hide:true },
-        {name: "sinceAt", title: "加入时间",required:true , listHide:true, hide:true ,isProfileHide:true},
-        {name: "dueAt", title: "有效期至",required:true, listHide:true,isProfileHide:true},
+        {name: "sinceAt", title: "加入时间",required:true , listHide:true, hide:true},
+        {name: "dueAt", title: "有效期至",required:true, listHide:true},
         {name: "createdAt", title: "创建日期",required:true, hide:true ,isProfileHide:true},
         {name: "account", title: "账户金额",  value:function(entity) {
             return (entity.account.balance/100).toFixed(2);

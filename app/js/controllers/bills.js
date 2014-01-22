@@ -19,6 +19,7 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
     // profile
     $scope.profileFields = [
 //        {name: "id", title: "id"},
+        {name: "createdAt", title: "日期"},
         {name: "billNumber", title: "账单号", listHide:true},
         {name: "deviceID", title: "deviceID", listHide:true},
         {name: "dealID", title: "dealID",  listHide:true},
@@ -57,7 +58,6 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
         }},
         {name: "memo", title: "memo",listHide:true},
         {name: "agentID", title: "经手人"},
-        {name: "createdAt", title: "日期",listHide:true},
         {name: "shopID", title: "shopID",listHide:true}
 
 
