@@ -71,11 +71,12 @@ function BasicController($scope, $rootScope, Pagination, $timeout){
 		$scope.refreshList();
 	})
 	$scope.pagination = Pagination
-	
+	$scope.total = 0;
+
 	// Restful
 	$scope.refreshList = function() {
 		var p = $scope.pagination
-		var params = {page:p.iPage, limit:p.iLength}
+		var params = {}
 //    console.log("####"+$scope.searchOptions.text+"####")
 //    console.log("$$$$"+$scope.searchOptions.fields)
 
@@ -90,11 +91,26 @@ function BasicController($scope, $rootScope, Pagination, $timeout){
       })
       console.log(params)
 		}
-		$scope.resource.query(params, function(results){
+
+    if ($scope.total == 0) {
+      $scope.$emit('LOAD')
+		  $scope.resource.query(params, function(results){
+			  $scope.pagination.paginate(results.length)
+        $scope.total = results.length
+        $scope.$emit('UNLOAD')
+		  })
+    } else {
+      $scope.pagination.paginate($scope.total)
+    }
+    params = {$skip: (p.iPage - 1)* p.iLength, $limit:p.iLength}
+    $scope.resource.query(params, function(results){
 			$scope.entities = results;
-			$scope.pagination.paginate(results.length)
-		})
+    })
+
 	}
+
+  $scope.$on('LOAD', function(){$scope.loading=true});
+  $scope.$on('UNLOAD', function(){$scope.loading=false});
 	
 	$scope.create = function(entity) {
 		var newOne = new $scope.resource(entity);
