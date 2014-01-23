@@ -52,6 +52,7 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
             console.log('error:', err)
         })
     }
+
     $scope.refreshList = function() {
         var p = $scope.pagination
         shopID = "2834910281d26a76";//暂时写死：商户为泛盈科技，商店名为总店
@@ -62,18 +63,36 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
                 var filter = {}
                 filter[field] = {$regex:$scope.searchOptions.text}
                 params.$or.push(filter)
-
             })
             console.log(params)
         }
+      if ($scope.total == 0) {
+        $scope.$emit('LOAD')
         $scope.resource.query(params, function(results){
-            results.map(function(skus) {
-                Items.queryForSkus({"id":skus.itemID}, function(item) {
-                    skus.name = item.name;//附上根据id查到的名字
-                });
-            });
-            $scope.entities = results;
-            $scope.pagination.paginate(results.length)
+          $scope.pagination.paginate(results.length)
+          $scope.total = results.length
+          $scope.$emit('UNLOAD')
         })
+      } else {
+        $scope.pagination.paginate($scope.total)
+      }
+      params = {$skip: (p.iPage - 1)* p.iLength, $limit:p.iLength}
+      $scope.resource.query(params, function(results){
+        results.map(function(skus) {
+          Items.queryForSkus({"id":skus.itemID}, function(item) {
+            skus.name = item.name;//附上根据id查到的名字
+          });
+        });
+        $scope.entities = results;
+      })
+//        $scope.resource.query(params, function(results){
+//            results.map(function(skus) {
+//                Items.queryForSkus({"id":skus.itemID}, function(item) {
+//                    skus.name = item.name;//附上根据id查到的名字
+//                });
+//            });
+//            $scope.entities = results;
+//            $scope.pagination.paginate(results.length)
+//        })
     }
 }

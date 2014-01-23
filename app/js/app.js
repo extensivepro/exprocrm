@@ -11,6 +11,7 @@ var app = angular.module('exproCRM', [
   'exproCRM.services',
   'exproCRM.directives',
   'exproCRM.controllers'
+
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/home', {templateUrl: 'views/home.html', controller: 'SignController'});
