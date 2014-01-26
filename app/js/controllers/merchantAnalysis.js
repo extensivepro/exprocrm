@@ -1,6 +1,6 @@
 function MerchantAnalysisController($scope, Statistics) {
   var chart1 = {};
-  chart1.type = "ColumnChart";
+  chart1.type = "AreaChart";
   chart1.displayed = false;
   chart1.cssStyle = "height:600px; width:100%;";
   chart1.data = {"cols": [

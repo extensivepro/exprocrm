@@ -6,7 +6,7 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
 
 	// profile 
 	$scope.profileAvatar = "img/avatar.jpg"
-
+  $scope.fieldOperations.push({class: "btn btn-info", icon: "icon-info", op:"analysis"});
   $scope.profileFields = [
     {name: "userID", title: "用户ID", required: true, unlist: true, readonly:true, creatable:true, hide:true},
     {name: "shopID", title: "店面ID", required: true, unlist: true, readonly:true, creatable:true, hide:true},
@@ -83,5 +83,9 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
 				$scope.entity.shop = $scope.shops[0]
 			}
 		})
-	}
+	};
+  $scope.analysis = function(entity) {
+    $scope.entity = entity;
+    $scope.activeView = "views/Analysis/employeeAnalysis.html"
+  }
 }

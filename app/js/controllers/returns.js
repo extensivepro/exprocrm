@@ -9,12 +9,6 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
     $scope.resource = Returns;
     $scope.searchOptions.fields = ['username']
     $scope.editView = "views/returns/edit.html"
-
-    // profile
-    $scope.profileShortcuts = $scope.profileShortcuts.concat([
-        {class: "span9"}
-        ,	{class: "box quick-button-small span1", icon: "icon-certificate", text: "重置密码", op:"resetPassword(entity)"}
-    ])
     $scope.profileAvatar = "img/avatar.jpg"
 
     // profile

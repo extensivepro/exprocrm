@@ -9,12 +9,6 @@ function PointsController($scope, Points, Pagination, $timeout, $injector){
     $scope.resource = Points;
     $scope.searchOptions.fields = ['username']
     $scope.editView = "views/points/edit.html"
-
-    // profile
-    $scope.profileShortcuts = $scope.profileShortcuts.concat([
-        {class: "span9"}
-        ,	{class: "box quick-button-small span1", icon: "icon-certificate", text: "重置密码", op:"resetPassword(entity)"}
-    ])
     $scope.profileAvatar = "img/avatar.jpg"
 
     // profile

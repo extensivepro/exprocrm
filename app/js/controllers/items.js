@@ -3,12 +3,6 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector){
   $scope.resource = Items
   $scope.searchOptions.fields = ['name']
   $scope.editView = "views/item/edit.html"
-
-  // profile
-  $scope.profileShortcuts = $scope.profileShortcuts.concat([
-    {class: "span9"}
-    ,	{class: "box quick-button-small span1", icon: "icon-certificate", text: "重置密码", op:"resetPassword(entity)"}
-  ])
   $scope.profileAvatar = "img/avatar.jpg"
   $scope.profileFields = [
     {name: "merchantID", title: "业主ID", required: true, unlist: true, hide: true},
