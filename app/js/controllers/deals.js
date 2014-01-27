@@ -31,11 +31,11 @@ function DealsController($scope, Deals, Pagination, $timeout, $injector){
             });
             return itemNames;
         }, required:true, listHide:true},
-        {name: "seller", title: "销售员", value:function(entity) {
-            return entity.seller.name;
-        }, required:true},
         {name: "buyer", title: "顾客",value:function(entity) {
             return entity.buyer.name;
+        }, required:true},
+        {name: "seller", title: "销售员", value:function(entity) {
+            return entity.seller.name;
         }, required:true},
         {name: "createdAt", title: "成交时间", required:true}
 

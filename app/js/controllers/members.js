@@ -17,8 +17,11 @@ function MembersController($scope, Members, Pagination, $timeout, $injector){
     // profile
     $scope.profileFields = [
 //        {name: "id", title: "id", listHide:true, hide:true },
-        {name: "name", title: "姓名",required:true},
         {name: "code", title: "编码",required:true, hide:true },
+        {name: "name", title: "姓名",required:true},
+        {name: "account", title: "账户金额",  value:function(entity) {
+            return (entity.account.balance/100).toFixed(2);
+        }, hide:true},
         {name: "email", title: "邮箱",required:true},
         {name: "phone", title: "手机号",required:true },
 
@@ -30,6 +33,9 @@ function MembersController($scope, Members, Pagination, $timeout, $injector){
         {name: "postPoint", title: "当前积分", listHide:true, hide:true },
         {name: "postTotalPoint", title: "累计积分", listHide:true, hide:true },
         {name: "level", title: "等级", listHide:true, hide:true },
+        {name: "sinceAt", title: "加入时间",required:true , hide:true},
+        {name: "dueAt", title: "有效期至",required:true, listHide:true},
+        {name: "createdAt", title: "创建日期",required:true,listHide:true, hide:true ,isProfileHide:true},
         {name: "status", title: "状态",required:true , value:function(entity){
             entity.fieldClass = entity.fieldClass || {}
             if(entity.status === 'active') {
@@ -40,12 +46,6 @@ function MembersController($scope, Members, Pagination, $timeout, $injector){
                 return "到期";
             }
         }, hide:true },
-        {name: "sinceAt", title: "加入时间",required:true , listHide:true, hide:true},
-        {name: "dueAt", title: "有效期至",required:true, listHide:true},
-        {name: "createdAt", title: "创建日期",required:true, hide:true ,isProfileHide:true},
-        {name: "account", title: "账户金额",  value:function(entity) {
-            return (entity.account.balance/100).toFixed(2);
-        }, hide:true},
         {name: "registerShopID", title: "注册商店ID",required:true , listHide:true, hide:true,isProfileHide:true },
         {name: "updateAt", title: "更新日期", listHide:true, hide:true ,isProfileHide:true}
 

@@ -21,8 +21,7 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
         {name: "items", title: "items", listHide:true},
         {name: "deviceID", title: "deviceID", listHide:true},
         {name: "dealSerialNumber", title: "退单号"},
-        {name: "serialNumber", title: "交易流水号"},
-        {name: "createdAt", title: "退货时间"},
+        {name: "serialNumber", title: "交易流水号", listHide:true},
         {name: "quantity", title: "数量"},
         {name: "fee", title: "退款",value:function(entity) {
             return (entity.fee/100).toFixed(2);
@@ -36,7 +35,8 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
         }},
         {name: "agent", title: "经手人", value:function(entity) {
             return entity.agent.name;
-        }}
+        }},
+        {name: "createdAt", title: "退货时间"}
 
 
 

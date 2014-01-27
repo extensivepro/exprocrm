@@ -10,6 +10,7 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
   $scope.profileFields = [
     {name: "userID", title: "用户ID", required: true, unlist: true, readonly:true, creatable:true, hide:true},
     {name: "shopID", title: "店面ID", required: true, unlist: true, readonly:true, creatable:true, hide:true},
+    {name: "jobNumber", title: "工号", required: true, readonly:true, creatable:true, hide:true},
     {name: "name", title: "姓名", required: true},
     {name: "role", title: "职务", value:function(entity){
       if(entity.role === 'cashier') return '收银员'
@@ -17,7 +18,6 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
       if(entity.role === 'owner') return '业主'
       return entity.role
     }, hide:true, required: true},
-    {name: "jobNumber", title: "工号", required: true, readonly:true, creatable:true, hide:true},
     {name: "email", title: "电子邮箱", unlist: true},
     {name: "phone", title: "电话", required: true},
     {name: "idcard", title: "身份证", required: true, readonly:true, creatable:true, hide:true},
