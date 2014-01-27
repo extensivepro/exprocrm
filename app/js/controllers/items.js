@@ -9,10 +9,12 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector){
     {name: "code", title: "商品编码", required: true},
     {name: "mnemonicCode", title: "商品助记码", unlist: true},
     {name: "name", title: "商品名称", required: true},
-    {name: "price", title: "单价/(元)", required: true, value:function(entity) {
+    {name: "model", title: "型号"},
+    {name: "price", title: "售价", required: true, value:function(entity) {
     entity.fieldClass = entity.fieldClass || {}
     return (entity.price/100).toFixed(2)}},
     {name: "desc", title: "商品描述", unlist: true},
+    {name: "createdAt", title: "创建日期", createHide: true, hide: true},
     {name: "status", title: "状态", value:function(entity){
       entity.fieldClass = entity.fieldClass || {}
       if(entity.status === 'sale') {
@@ -25,8 +27,6 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector){
         return entity.status
       }
     }, hide:true, createHide: true},
-    {name: "createdAt", title: "创建日期", createHide: true, hide: true},
-    {name: "model", title: "型号"},
     {name: "updatedAt", title: "更新日期", createHide: true, unlist: true, hide: true}
   ]
 
