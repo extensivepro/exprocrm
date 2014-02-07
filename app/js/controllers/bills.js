@@ -73,7 +73,10 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
     }
     $scope.refreshList = function() {
         var p = $scope.pagination
-        var params = {page:p.iPage, limit:p.iLength}
+        params = {
+          $skip: (p.iPage-1)* p.iLength, 
+          $limit:p.iLength
+        }
         if($scope.searchOptions.text !== '' && $scope.searchOptions.fields.length > 0) {
             params["$or"] = []
             $scope.searchOptions.fields.forEach(function(field){
@@ -84,21 +87,22 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
             console.log(params)
         }
         $scope.resource.query(params, function(results){
-            $scope.entities = results.filter(function(entity) {
-                if (!entity.hasOwnProperty('memberSettlement')) {
-                    return false;
-                } else if (!entity.memberSettlement.hasOwnProperty('payeeAccount'))  {
-                    return false;
-                } else {
-                    return true;
-                }
-            });
-            $scope.entities.map(function(emp) {
-                Employes.queryForBills({"id":emp.agentID}, function(employee) {
-                    emp.agentID = employee.name;
-                });
-            });
-            $scope.pagination.paginate($scope.entities.length);
+          $scope.entities = results
+            // $scope.entities = results.filter(function(entity) {
+            //     if (!entity.hasOwnProperty('memberSettlement')) {
+            //         return false;
+            //     } else if (!entity.memberSettlement.hasOwnProperty('payeeAccount'))  {
+            //         return false;
+            //     } else {
+            //         return true;
+            //     }
+            // });
+            // $scope.entities.map(function(emp) {
+            //     Employes.queryForBills({"id":emp.agentID}, function(employee) {
+            //         emp.agentID = employee.name;
+            //     });
+            // });
+            // $scope.pagination.paginate($scope.entities.length);
         })
     }
 

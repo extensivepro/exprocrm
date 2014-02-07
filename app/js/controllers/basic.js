@@ -102,7 +102,7 @@ function BasicController($scope, $rootScope, Pagination, $timeout){
     } else {
       $scope.pagination.paginate($scope.total)
     }
-    params = {$skip: (p.iPage - 1)* p.iLength, $limit:p.iLength}
+    params = {$skip: (p.iPage - 1)* p.iLength, "$limit":p.iLength}
     $scope.resource.query(params, function(results){
 			$scope.entities = results;
     })

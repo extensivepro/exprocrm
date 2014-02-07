@@ -2,7 +2,7 @@
   "name": "Exrpo CRM",
   "version": "1.0.0",
   "dependencies": {
-    "angular": "guanbo/bower-angular#1.2.9",
+    "angular": "1.2.9",
     "angular-resource": "1.2.9",
     "angular-cookies": "1.2.9",
     "angular-route": "1.2.9",
