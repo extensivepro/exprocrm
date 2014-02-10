@@ -7,7 +7,7 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
 
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Bills;
-    $scope.searchOptions.fields = ['username']
+    $scope.searchOptions.fields = ['agentID']
     $scope.editView = "views/bills/edit.html"
     $scope.profileAvatar = "img/avatar.jpg"
     // profile
@@ -78,13 +78,14 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
           $limit:p.iLength
         }
         if($scope.searchOptions.text !== '' && $scope.searchOptions.fields.length > 0) {
-            params["$or"] = []
-            $scope.searchOptions.fields.forEach(function(field){
-                var filter = {}
-                filter[field] = {$regex:$scope.searchOptions.text}
-                params.$or.push(filter)
-            })
-            console.log(params)
+    			var filters = []
+          $scope.searchOptions.fields.forEach(function(field){
+            var filter = {}
+            filter[field] = {$regex:$scope.searchOptions.text}
+            filters.push(filter)
+
+          })
+          params.$or = JSON.stringify(filters)
         }
         $scope.resource.query(params, function(results){
           $scope.entities = results
