@@ -21,21 +21,21 @@ function MembersController($scope, Members, Pagination, $timeout, $injector){
         {name: "name", title: "姓名",required:true},
         {name: "account", title: "账户金额",  value:function(entity) {
             return (entity.account.balance/100).toFixed(2);
-        }, hide:true},
-        {name: "email", title: "邮箱",required:true},
+        }, hide:true, createHide: true},
+        {name: "email", title: "邮箱"},
         {name: "phone", title: "手机号",required:true },
 
-        {name: "userID", title: "用户id", listHide:true , hide:true,isProfileHide:true },
-        {name: "shop", title: "商店", listHide:true, hide:true,isProfileHide:true },
+        {name: "userID", title: "用户id", createHide: true, listHide:true , hide:true,isProfileHide:true },
+        {name: "shop", title: "商店",createHide: true, listHide:true, hide:true,isProfileHide:true },
         {name: "merchant", title: "商户", listHide:true, value:function(entity) {
             return entity.merchant.name;
-        }, hide:true,isProfileHide:true },
-        {name: "postPoint", title: "当前积分", listHide:true, hide:true },
-        {name: "postTotalPoint", title: "累计积分", listHide:true, hide:true },
-        {name: "level", title: "等级", listHide:true, hide:true },
-        {name: "sinceAt", title: "加入时间",required:true , hide:true},
-        {name: "dueAt", title: "有效期至",required:true, listHide:true},
-        {name: "createdAt", title: "创建日期",required:true,listHide:true, hide:true ,isProfileHide:true},
+        }, hide:true,isProfileHide:true, createHide: true },
+        {name: "postPoint", title: "当前积分", listHide:true, hide:true, createHide: true },
+        {name: "postTotalPoint", title: "累计积分", listHide:true, hide:true, createHide: true },
+        {name: "level", title: "等级", createHide: true, listHide:true, hide:true },
+        {name: "sinceAt", title: "加入时间",required:true , hide:true, createHide: true},
+        {name: "dueAt", title: "有效期至",createHide: true, required:true, listHide:true},
+        {name: "createdAt", title: "创建日期",createHide: true, required:true,listHide:true, hide:true ,isProfileHide:true},
         {name: "status", title: "状态",required:true , value:function(entity){
             entity.fieldClass = entity.fieldClass || {}
             if(entity.status === 'active') {
@@ -45,9 +45,9 @@ function MembersController($scope, Members, Pagination, $timeout, $injector){
                 entity.fieldClass.status = "label label-warning";
                 return "到期";
             }
-        }, hide:true },
-        {name: "registerShopID", title: "注册商店ID",required:true , listHide:true, hide:true,isProfileHide:true },
-        {name: "updateAt", title: "更新日期", listHide:true, hide:true ,isProfileHide:true}
+        }, hide:true, createHide: true },
+        {name: "registerShopID", title: "注册商店ID",createHide: true, required:true , listHide:true, hide:true,isProfileHide:true },
+        {name: "updateAt", title: "更新日期", createHide: true, listHide:true, hide:true ,isProfileHide:true}
 
 
     ];
@@ -96,6 +96,12 @@ function MembersController($scope, Members, Pagination, $timeout, $injector){
 //        entity.sinceAt = 1389150462;
 //        entity.dueAt = 1420686462;
         entity.createdAt = Math.round(d.getTime()/1000);
+        entity.sinceAt = Math.round(d.getTime()/1000);
+        entity.dueAt = Math.round(d.getTime()/1000 + 86400*365);
+        entity.postPoint = 0;
+        entity.postTotalPoint = 0;
+        entity.level = 1;
+        entity.status = 'active';
 //        entity.registerShopID = "2834910281d26a76";
         entity.merchant = {
             "merchantID": "ca138f08c3c1d8e1",
