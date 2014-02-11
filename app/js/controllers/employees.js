@@ -1,7 +1,7 @@
 function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeout, $injector){
 	$injector.invoke(BasicController, this, {$scope: $scope});
 	$scope.resource = Employes
-	$scope.searchOptions.fields = ['user.name']
+	$scope.searchOptions.fields = ['name', 'role', 'phone', 'idcard']
 	$scope.editView ="views/employee/edit.html"
 
 	// profile 

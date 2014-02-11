@@ -7,7 +7,7 @@ function DealsController($scope, Deals, Pagination, $timeout, $injector){
 
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Deals;
-    $scope.searchOptions.fields = ['username']
+    $scope.searchOptions.fields = ['buyer.name', 'seller.name']
     $scope.editView = "views/deals/edit.html"
     $scope.profileAvatar = "img/avatar.jpg"
 
@@ -38,8 +38,6 @@ function DealsController($scope, Deals, Pagination, $timeout, $injector){
             return entity.seller.name;
         }, required:true},
         {name: "createdAt", title: "成交时间", required:true}
-
-
     ];
 
     // bussiness

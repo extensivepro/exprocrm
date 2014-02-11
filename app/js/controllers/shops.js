@@ -2,7 +2,7 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
 	$injector.invoke(BasicController, this, {$scope: $scope});
 	$scope.resource = Shops
 
-	$scope.searchOptions.fields = ['name']
+	$scope.searchOptions.fields = ['name', 'telephone']
 	$scope.editView ="views/shop/edit.html"
 	
 	// profile 

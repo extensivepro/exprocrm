@@ -71,41 +71,6 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
             return false;
         }
     }
-    $scope.refreshList = function() {
-        var p = $scope.pagination
-        params = {
-          $skip: (p.iPage-1)* p.iLength, 
-          $limit:p.iLength
-        }
-        if($scope.searchOptions.text !== '' && $scope.searchOptions.fields.length > 0) {
-    			var filters = []
-          $scope.searchOptions.fields.forEach(function(field){
-            var filter = {}
-            filter[field] = {$regex:$scope.searchOptions.text}
-            filters.push(filter)
-
-          })
-          params.$or = JSON.stringify(filters)
-        }
-        $scope.resource.query(params, function(results){
-          $scope.entities = results
-            // $scope.entities = results.filter(function(entity) {
-            //     if (!entity.hasOwnProperty('memberSettlement')) {
-            //         return false;
-            //     } else if (!entity.memberSettlement.hasOwnProperty('payeeAccount'))  {
-            //         return false;
-            //     } else {
-            //         return true;
-            //     }
-            // });
-            // $scope.entities.map(function(emp) {
-            //     Employes.queryForBills({"id":emp.agentID}, function(employee) {
-            //         emp.agentID = employee.name;
-            //     });
-            // });
-            // $scope.pagination.paginate($scope.entities.length);
-        })
-    }
 
     $scope.fieldOperations = [
         {class: "btn btn-success", icon: "icon-file", op: "showProfile"}

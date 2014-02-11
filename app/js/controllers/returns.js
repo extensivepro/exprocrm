@@ -7,7 +7,7 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
 
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Returns;
-    $scope.searchOptions.fields = ['username']
+    $scope.searchOptions.fields = ['agent.name', 'customer.name']
     $scope.editView = "views/returns/edit.html"
     $scope.profileAvatar = "img/avatar.jpg"
 
