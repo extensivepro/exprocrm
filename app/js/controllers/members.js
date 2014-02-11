@@ -8,7 +8,7 @@ function MembersController($scope, Members, Pagination, $timeout, $injector){
 
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Members;
-    $scope.searchOptions.fields = ['username']
+    $scope.searchOptions.fields = ['name', 'phone']
     $scope.editView = "views/members/edit.html"
 
 
