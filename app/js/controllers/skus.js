@@ -50,7 +50,7 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
     $scope.refreshList = function() {
         var p = $scope.pagination
         shopID = "2834910281d26a76";//暂时写死：商户为泛盈科技，商店名为总店
-        var params = {page: p.iPage, limit: p.iLength, "shopID": shopID};
+        var params = {"shopID": shopID};
         if($scope.searchOptions.text !== '' && $scope.searchOptions.fields.length > 0) {
             params["$or"] = []
             $scope.searchOptions.fields.forEach(function(field){
@@ -70,7 +70,7 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
       } else {
         $scope.pagination.paginate($scope.total)
       }
-      params = {$skip: (p.iPage - 1)* p.iLength, $limit:p.iLength}
+      params = {$skip: (p.iPage - 1)* p.iLength, $limit:p.iLength,"shopID": shopID}
       $scope.resource.query(params, function(results){
         results.map(function(skus) {
           Items.queryForSkus({"id":skus.itemID}, function(item) {
