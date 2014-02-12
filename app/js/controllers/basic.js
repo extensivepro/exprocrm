@@ -9,13 +9,13 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
     tooltip: '',
     fields: []
   }
-
+    
   // route
   $scope.showEdit = function (entity) {
     $scope.entity = entity || $scope.entity;
     $scope.activeView = "views/basicEdit.html"
   }
-
+  
   $scope.showCreate = function () {
     $scope.showEdit({createdAt: Date()})
   }

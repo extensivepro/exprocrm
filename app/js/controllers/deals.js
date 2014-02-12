@@ -8,6 +8,7 @@ function DealsController($scope, Deals, Pagination, $timeout, $injector){
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Deals;
     $scope.searchOptions.fields = ['buyer.name', 'seller.name']
+    $scope.searchOptions.tooltip = "搜索顾客，销售员姓名"
     $scope.editView = "views/deals/edit.html"
     $scope.profileAvatar = "img/avatar.jpg"
 

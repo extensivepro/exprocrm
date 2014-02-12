@@ -3,6 +3,8 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
 	$scope.resource = Shops
 
 	$scope.searchOptions.fields = ['name', 'telephone']
+  $scope.searchOptions.tooltip = "搜索商店名称或电话"
+
 	$scope.editView ="views/shop/edit.html"
 	
 	// profile 
