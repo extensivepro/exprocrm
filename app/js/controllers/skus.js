@@ -62,16 +62,16 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
         }
       if ($scope.total == 0) {
         $scope.$emit('LOAD')
-        $scope.resource.query(params, function(results){
-          $scope.pagination.paginate(results.length)
-          $scope.total = results.length
-          $scope.$emit('UNLOAD')
-        })
+        $scope.resource.count(function (result){
+          $scope.total = result.count
+          $scope.pagination.paginate(result.count)
+        });
       } else {
         $scope.pagination.paginate($scope.total)
       }
       params = {$skip: (p.iPage - 1)* p.iLength, $limit:p.iLength}
       $scope.resource.query(params, function(results){
+        $scope.$emit('UNLOAD')
         results.map(function(skus) {
           Items.queryForSkus({"id":skus.itemID}, function(item) {
             skus.name = item.name;//附上根据id查到的名字

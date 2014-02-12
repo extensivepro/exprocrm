@@ -4,6 +4,7 @@
 
 angular.module('exproCRM.services').factory("Members", function ($resource) {
     return $resource(window.restful.baseURL + '/members/:memberID', {memberID: '@_id'}, {
-        update: { method: 'PUT' }
+        update: { method: 'PUT' } ,
+        count: { method: 'GET' , params: {memberID: 'count'}}
     });
 });
