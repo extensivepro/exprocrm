@@ -8,6 +8,7 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Returns;
     $scope.searchOptions.fields = ['agent.name', 'customer.name']
+    $scope.searchOptions.tooltip = "搜索顾客，经手人姓名"
     $scope.editView = "views/returns/edit.html"
     $scope.profileAvatar = "img/avatar.jpg"
 

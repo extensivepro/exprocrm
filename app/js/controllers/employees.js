@@ -2,6 +2,7 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
 	$injector.invoke(BasicController, this, {$scope: $scope});
 	$scope.resource = Employes
 	$scope.searchOptions.fields = ['name', 'role', 'phone', 'idcard']
+  $scope.searchOptions.tooltip = "搜索员工姓名，职位，电话，身份证号"
 	$scope.editView ="views/employee/edit.html"
 
 	// profile 
