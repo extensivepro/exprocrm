@@ -4,6 +4,7 @@
 
 angular.module('exproCRM.services').factory("Bills", function ($resource) {
     return $resource(window.restful.baseURL + '/bills/:billID', {billID: '@_id', $sort:{createdAt:-1}}, {
-        update: { method: 'PUT' }
+        update: { method: 'PUT' },
+        count: { method: 'GET' , params: {billID: 'count'}}
     });
 });

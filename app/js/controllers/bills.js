@@ -23,7 +23,7 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
 
         {name: "dealType", title: "交易类型",value:function(entity) {
             var type = entity.dealType;
-            console.log("type:" + type);
+//            console.log("type:" + type);
             if (type == 'deal') {
                 return '交易';
             } else if (type == 'prepay') {

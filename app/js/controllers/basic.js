@@ -67,6 +67,7 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
   $scope.entities = []
   $scope.entity = {}
 
+
   $scope.$watch('pagination.iLength', function () {
     $scope.refreshList()
   })
@@ -94,43 +95,54 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
         $scope.pagination.paginate(results.length)
         $scope.totalSearch = results.length
         $scope.$emit('UNLOAD')
+        console.log($scope.totalSearch);
+
+        params.$skip = (p.iPage - 1) * p.iLength
+        params.$limit = p.iLength
+
+        if (params.$skip == -10 || $scope.totalSearch == 0){
+          $scope.$emit('NOSEARCHBACK')
+          params.$skip = 0
+          p.iStart = 1
+          p.iEnd = p.iTotal > p.iLength? p.iLength: p.iTotal
+          $scope.resource.query(params, function (results) {
+            $scope.entities = results;
+          })
+        }
+        else {
+          $scope.$emit('SEARCHBACK')
+          $scope.resource.query(params, function (results) {
+            $scope.entities = results;
+          })
+        }
+        if (! $scope.totalSearch == 0)
+          $scope.$emit('SEARCHBACK')
       })
-      params.$skip = (p.iPage - 1) * p.iLength
-      params.$limit = p.iLength
-      if (params.$skip == -10){
-        $scope.$emit('NOSEARCHBACK')
-        params.$skip = 0
-        $scope.resource.query(params, function (results) {
-          $scope.entities = results;
-        })
-      }
-      else {
-        $scope.$emit('SEARCHBACK')
-        $scope.resource.query(params, function (results) {
-          $scope.entities = results;
-        })
-      }
     } else {
+      $scope.$emit('LOAD')
       $scope.$emit('SEARCHBACK')
       if ($scope.total == 0) {
         $scope.$emit('LOAD')
-        $scope.resource.query(params, function (results) {
-          $scope.pagination.paginate(results.length)
-          $scope.total = results.length
-          $scope.$emit('UNLOAD')
-        })
+        $scope.resource.count(function (result){
+          $scope.total = result.count
+          $scope.pagination.paginate(result.count)
+        });
       } else {
         $scope.pagination.paginate($scope.total)
       }
       params = {$skip: (p.iPage - 1) * p.iLength, $limit: p.iLength}
       if (params.$skip == -10){
         params.$skip = 0
+        p.iStart = 1
+        p.iEnd = p.iTotal > p.iLength? p.iLength: p.iTotal
         $scope.resource.query(params, function (results) {
           $scope.entities = results;
+          $scope.$emit('UNLOAD')
         })
       } else {
         $scope.resource.query(params, function (results) {
           $scope.entities = results;
+          $scope.$emit('UNLOAD')
         })
       }
     }
