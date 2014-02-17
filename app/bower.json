@@ -2,14 +2,15 @@
   "name": "Exrpo CRM",
   "version": "1.0.0",
   "dependencies": {
-    "angular": "1.2.9",
-    "angular-resource": "1.2.9",
-    "angular-cookies": "1.2.9",
-    "angular-route": "1.2.9",
+    "angular": "1.2.13",
+    "angular-resource": "1.2.13",
+    "angular-cookies": "1.2.13",
+    "angular-route": "1.2.13",
     "angular-bootstrap": "~0.8.0",
     "jquery": "1.10.2",
     "jquery-migrate": "1.2.1",
     "jquery.cookie": "*",
-    "angular-google-chart": "~0.0.6"
+    "angular-google-chart": "~0.0.6",
+    "autofill-event": "~1.0.0"
   }
 }

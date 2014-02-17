@@ -4,6 +4,7 @@ function SignController($scope, Users, $location, $cookies){
 	}
 	
 	$scope.Login = function() {
+    $('input').checkAndTriggerAutoFillEvent();
 		var user = $scope.loginUser;
 		if(!user.username || user.username.length === 0 || !user.password || user.password.length === 0) {
       $scope.alert = { type: 'danger', msg: "用户名和密码不能为空" };
