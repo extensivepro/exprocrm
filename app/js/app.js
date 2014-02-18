@@ -7,10 +7,13 @@ var app = angular.module('exproCRM', [
   'ngRoute',
   'ui.utils',
   'ui.bootstrap',
+  'ngBootstrap',
   'googlechart',
   'exproCRM.filters',
   'exproCRM.services',
-  'exproCRM.directives'
+  'exproCRM.directives',
+  'exproCRM.controllers',
+  'NgSwitchery'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/home', {templateUrl: 'views/home.html', controller: 'SignController'});
