@@ -11,6 +11,7 @@
     "jquery-migrate": "1.2.1",
     "jquery.cookie": "*",
     "angular-google-chart": "~0.0.6",
-    "autofill-event": "~1.0.0"
+    "autofill-event": "~1.0.0",
+    "angular-ui-utils": "bower"
   }
 }

@@ -2,6 +2,7 @@ function MainController($scope, Users){
   if(!$scope.me) $scope.me = {displayName:'未登录'}; 
 	$scope.views = [
         {name:"商户分析", icon:"icon-bar-chart", path:"views/analysis/merchantAnalysis.html"},
+        {name:"设备管理", icon:"icon-tablet", path:"views/devices/index.html"},
         {name:"会员管理", icon:"icon-user", path:"views/members/index.html"},
         {name:"库存管理", icon:"icon-truck", path:"views/skus/index.html"},
         {name:"商户管理", icon:"icon-gift", path:"views/merchant/index.html"},
@@ -15,7 +16,7 @@ function MainController($scope, Users){
         {name:"用户管理", icon:"icon-user-md", path:"views/user/profile.html"}
   ];
 
-	$scope.currentView = $scope.views[0];
+	$scope.currentView = $scope.views[1];
 	
 	$scope.selectView = function(view) {
 		$scope.currentView = view

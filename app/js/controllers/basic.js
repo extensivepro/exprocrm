@@ -3,12 +3,13 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
   $scope.resource = undefined
   $scope.searchFields = []
   $scope.editView = undefined
-
+  $scope.defaultParams = {}
   $scope.searchOptions = {
     text: '',
     tooltip: '',
     fields: []
   }
+  $scope.sortOptions = {createdAt:-1}
     
   // route
   $scope.showEdit = function (entity) {
@@ -22,7 +23,6 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
 
   $scope.showCreateBasic = function (entity) {
     $scope.entity = entity || $scope.entity;
-    console.log("*****" + JSON.stringify($scope.entity));
     $scope.activeView = "views/basicCreate.html"
   }
 
@@ -33,7 +33,6 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
 
   $scope.showProfile = function (entity) {
     $scope.entity = entity || $scope.entity;
-    console.log("&&&&" + JSON.stringify($scope.entity));
     $scope.activeView = "views/basicProfile.html"
   }
 
@@ -81,7 +80,10 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
   // Restful
   $scope.refreshList = function () {
     var p = $scope.pagination
-    var params = {}
+    var params = {$sort: $scope.sortOptions}
+    for(var key in $scope.defaultParams) {
+      params[key] = $scope.defaultParams[key]
+    }
     if ($scope.searchOptions.text !== '' && $scope.searchOptions.fields.length > 0) {
       var filters = []
       $scope.searchOptions.fields.forEach(function (field) {
@@ -123,14 +125,15 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
       $scope.$emit('SEARCHBACK')
       if ($scope.total == 0) {
         $scope.$emit('LOAD')
-        $scope.resource.count(function (result){
+        $scope.resource.count(params, function (result){
           $scope.total = result.count
           $scope.pagination.paginate(result.count)
         });
       } else {
         $scope.pagination.paginate($scope.total)
       }
-      params = {$skip: (p.iPage - 1) * p.iLength, $limit: p.iLength}
+      params.$skip = (p.iPage - 1) * p.iLength
+      params.$limit = p.iLength
       if (params.$skip == -10){
         params.$skip = 0
         p.iStart = 1
@@ -183,7 +186,6 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
     delete resource.shopIDs;
 
     resource.$update(function (err) {
-      console.log('update success', err)
       $scope.showList()
     }, function (err) {
       console.log('update user error:', err)
@@ -223,8 +225,6 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
       v = v[key]
     })
     if (theKey === 'createdAt' || theKey === 'updateAt') {
-      // var d = new Date(v*1000)
-      // v = d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()
       v = new Date(v * 1000).toLocaleString()
     }
     return v
