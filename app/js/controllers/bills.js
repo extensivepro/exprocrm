@@ -18,7 +18,6 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
         {name: "billNumber", title: "账单号", listHide:true},
         {name: "deviceID", title: "deviceID", listHide:true},
         {name: "dealID", title: "dealID",  listHide:true},
-        {name: "amount", title: "数量", listHide:true},
         {name: "discountAmount", title: "折扣数", listHide:true},
 
         {name: "dealType", title: "交易类型",value:function(entity) {
@@ -33,26 +32,20 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
             }
         }},
 
-        {name: "cashSettlement", title: "金额", value:function(entity) {
-            if (!entity.hasOwnProperty('cashSettlement')) {
-                return "";
-            } else if (!entity.cashSettlement.hasOwnProperty('amount'))  {
-                return "";
-            } else {
-                return (entity.cashSettlement.amount/100).toFixed(2);
-            }
+        {name: "amount", title: "金额", value:function(entity) {
+            return (entity.amount/100).toFixed(2);
         }},
         {name: "memberSettlement", title: "顾客", value:function(entity) {
             if (!entity.hasOwnProperty('memberSettlement')) {
                 return "";
-            } else if (!entity.memberSettlement.hasOwnProperty('payeeAccount'))  {
+            } else if (!entity.memberSettlement.hasOwnProperty('payerAccount'))  {
                 return "";
             } else {
-                return entity.memberSettlement.payeeAccount.name;
+                return entity.memberSettlement.payerAccount.name;
             }
         }},
         {name: "memo", title: "memo",listHide:true},
-        {name: "agentID", title: "经手人"},
+        {name: "agentName", title: "经手人"},
         {name: "shopID", title: "shopID",listHide:true}
 
 
