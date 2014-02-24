@@ -1,6 +1,6 @@
 function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injector, $log, DeviceRegister){
 	$injector.invoke(BasicController, this, {$scope: $scope})
-  $scope.currentMerchant = {id: "c82e1197884d8806"}
+  $scope.currentMerchant = {id: "e20dccdf039b3874"}
 	$scope.resource = Devices
   $scope.defaultParams = {"shop.merchant.id": $scope.currentMerchant.id}
 	$scope.searchOptions.fields = ['code', 'name', 'udid']
@@ -116,6 +116,9 @@ function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injec
       resolve: {
         shop: function () {
           return $scope.entity.shop;
+        },
+        merchant: function () {
+          return $scope.currentMerchant;
         }
       }
     });
@@ -128,7 +131,7 @@ function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injec
   }
 }
 
-var ChooseShopModalInstanceCtrl = function ($scope, Shops, $modalInstance, shop) {
+var ChooseShopModalInstanceCtrl = function ($scope, Shops, $modalInstance, shop, merchant) {
   $scope.shops = []
   $scope.selected = {
     shop: shop
@@ -142,7 +145,7 @@ var ChooseShopModalInstanceCtrl = function ($scope, Shops, $modalInstance, shop)
     $modalInstance.dismiss('cancel');
   };
 
-  Shops.query({"merchantID": "c82e1197884d8806"}, function (shops) {
+  Shops.query({"merchantID": merchant.id}, function (shops) {
     $scope.shops = shops;
   })
 };
