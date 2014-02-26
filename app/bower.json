@@ -12,6 +12,9 @@
     "jquery.cookie": "*",
     "angular-google-chart": "~0.0.6",
     "autofill-event": "~1.0.0",
-    "angular-ui-utils": "bower"
+    "angular-ui-utils": "bower",
+    "moment": "*",
+    "ng-bs-daterangepicker":"*",
+    "bootstrap": "3.0.0"
   }
 }
