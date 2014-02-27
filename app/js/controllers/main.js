@@ -17,7 +17,7 @@ function MainController($scope, Users) {
     {name: "销售统计", icon: "icon-bar-chart", path: "views/analysis/salesAnalysis.html"}
   ];
 
-  $scope.currentView = $scope.views[12];
+  $scope.currentView = $scope.views[0];
 
   $scope.selectView = function (view) {
     $scope.currentView = view

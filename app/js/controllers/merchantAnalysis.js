@@ -112,9 +112,12 @@ function MerchantAnalysisController($scope, Statistics) {
     'month-format': "'yyyyMM'",
     'starting-day': 1
   }
-
-  var statistics = new Statistics('e20dccdf039b3874')
-  $scope.statistics = statistics
+  $scope.statParam = {
+    keyID: ['e20dccdf039b3874', '03ade6495d577b91'],
+    period: 'daily',
+    limit: 10,
+    end: 0
+  }
 
   var refreshing = false
   $scope.refreshChart = function () {
@@ -122,17 +125,18 @@ function MerchantAnalysisController($scope, Statistics) {
     refreshing = true
     
     var rows = []
-    var until = statistics.until($scope.dt)
-    for (var i = statistics.limit, j = 0; i > 0 ; i--) {
-      var d = statistics.periodDate(until-i+1)
+    var until = Statistics.until($scope.dt, $scope.statParam.period)
+    for (var i = $scope.statParam.limit, j = 0; i > 0 ; i--) {
+      var d = Statistics.periodDate(until-i+1, $scope.statParam.period)
       var c = {c:[ {v: (d.getMonth()+1)+'/'+d.getDate() },{v: 0},{v: 0},{v: 0} ]};
       rows.push(c);
     }
 
-    statistics.query(function (result) {
+    $scope.statParam.end = until
+    Statistics.query($scope.statParam, function (result) {
       result.forEach(function (item) {
         var v = item.value
-        var c = rows[v.statAt-until+statistics.limit-1]
+        var c = rows[v.statAt-until+$scope.statParam.limit-1]
         c.c[1] = {v: v.sale.total/100, f: v.sale.total/100+"元\n共: "+v.sale.count+"次"}
         c.c[2] = {v: v.return.total/100, f: v.return.total/100+"元\n共: "+v.return.count+"次"}
         c.c[3] = {v: v.prepay.total/100, f: v.prepay.total/100+"元\n共: "+v.prepay.count+"次"}
@@ -142,7 +146,7 @@ function MerchantAnalysisController($scope, Statistics) {
     })
   }
   
-  $scope.$watch('statistics.period', function () {
+  $scope.$watch('$scope.statParam.period', function () {
     $scope.refreshChart()
   })
   $scope.$watch('dt', function () {
