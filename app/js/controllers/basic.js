@@ -134,6 +134,7 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
       }
       params.$skip = (p.iPage - 1) * p.iLength
       params.$limit = p.iLength
+      params.shopID = $scope.shopID; // just use for employees
       if (params.$skip == -10){
         params.$skip = 0
         p.iStart = 1
