@@ -95,6 +95,5 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
     $scope.entity = entity;
     $scope.activeView = "views/Analysis/employeeAnalysis.html"
   }
-
-  $scope.shopID= JSON.stringify({$in:$scope.currentMerchant.shopIDs});
+  $scope.params['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});
 }

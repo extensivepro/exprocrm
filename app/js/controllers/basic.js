@@ -78,11 +78,12 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
   $scope.totalSearch = 0;
 
   // Restful
+  $scope.params = {};
   $scope.refreshList = function () {
     var p = $scope.pagination
-    var params = {$sort: $scope.sortOptions}
+    $scope.params.$sort = $scope.sortOptions;
     for(var key in $scope.defaultParams) {
-      params[key] = $scope.defaultParams[key]
+      $scope.params[key] = $scope.defaultParams[key]
     }
     if ($scope.searchOptions.text !== '' && $scope.searchOptions.fields.length > 0) {
       var filters = []
@@ -91,29 +92,29 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
         filter[field] = {$regex: $scope.searchOptions.text}
         filters.push(filter)
       })
-      params.$or = JSON.stringify(filters)
+      $scope.params.$or = JSON.stringify(filters)
       $scope.$emit('LOAD')
-      $scope.resource.query(params, function (results) {
+      $scope.resource.query($scope.params, function (results) {
         $scope.pagination.paginate(results.length)
         $scope.totalSearch = results.length
         $scope.$emit('UNLOAD')
         console.log($scope.totalSearch);
 
-        params.$skip = (p.iPage - 1) * p.iLength
-        params.$limit = p.iLength
+        $scope.params.$skip = (p.iPage - 1) * p.iLength
+        $scope.params.$limit = p.iLength
 
-        if (params.$skip == -10 || $scope.totalSearch == 0){
+        if ($scope.params.$skip == -10 || $scope.totalSearch == 0){
           $scope.$emit('NOSEARCHBACK')
-          params.$skip = 0
+          $scope.params.$skip = 0
           p.iStart = 1
           p.iEnd = p.iTotal > p.iLength? p.iLength: p.iTotal
-          $scope.resource.query(params, function (results) {
+          $scope.resource.query($scope.params, function (results) {
             $scope.entities = results;
           })
         }
         else {
           $scope.$emit('SEARCHBACK')
-          $scope.resource.query(params, function (results) {
+          $scope.resource.query($scope.params, function (results) {
             $scope.entities = results;
           })
         }
@@ -125,26 +126,25 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
       $scope.$emit('SEARCHBACK')
       if ($scope.total == 0) {
         $scope.$emit('LOAD')
-        $scope.resource.count(params, function (result){
+        $scope.resource.count($scope.params, function (result){
           $scope.total = result.count
           $scope.pagination.paginate(result.count)
         });
       } else {
         $scope.pagination.paginate($scope.total)
       }
-      params.$skip = (p.iPage - 1) * p.iLength
-      params.$limit = p.iLength
-      params.shopID = $scope.shopID; // just use for employees
-      if (params.$skip == -10){
-        params.$skip = 0
+      $scope.params.$skip = (p.iPage - 1) * p.iLength
+      $scope.params.$limit = p.iLength
+      if ($scope.params.$skip == -10){
+        $scope.params.$skip = 0
         p.iStart = 1
         p.iEnd = p.iTotal > p.iLength? p.iLength: p.iTotal
-        $scope.resource.query(params, function (results) {
+        $scope.resource.query($scope.params, function (results) {
           $scope.entities = results;
           $scope.$emit('UNLOAD')
         })
       } else {
-        $scope.resource.query(params, function (results) {
+        $scope.resource.query($scope.params, function (results) {
           $scope.entities = results;
           $scope.$emit('UNLOAD')
         })
