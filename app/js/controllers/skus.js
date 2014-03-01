@@ -2,7 +2,7 @@
  * Created by expro on 14-1-10.
  * 库存管理
  */
-function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
+function SkusController($scope, Skus, Items, Pagination, $timeout, $injector, $rootScope){
 
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Skus
@@ -47,72 +47,5 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
         })
     }
 
-  $scope.refreshList = function () {
-    var p = $scope.pagination
-    var params = {}
-    if ($scope.searchOptions.text !== '' && $scope.searchOptions.fields.length > 0) {
-      var filters = []
-      $scope.searchOptions.fields.forEach(function (field) {
-        var filter = {}
-        filter[field] = {$regex: $scope.searchOptions.text}
-        filters.push(filter)
-      })
-      params.$or = JSON.stringify(filters)
-      $scope.$emit('LOAD')
-      $scope.resource.query(params, function (results) {
-        $scope.pagination.paginate(results.length)
-        $scope.totalSearch = results.length
-        $scope.$emit('UNLOAD')
-        console.log($scope.totalSearch);
-
-        params.$skip = (p.iPage - 1) * p.iLength
-        params.$limit = p.iLength
-
-        if (params.$skip == -10 || $scope.totalSearch == 0){
-          $scope.$emit('NOSEARCHBACK')
-          params.$skip = 0
-          p.iStart = 1
-          p.iEnd = p.iTotal > p.iLength? p.iLength: p.iTotal
-          $scope.resource.query(params, function (results) {
-            $scope.entities = results;
-          })
-        }
-        else {
-          $scope.$emit('SEARCHBACK')
-          $scope.resource.query(params, function (results) {
-            $scope.entities = results;
-          })
-        }
-        if (! $scope.totalSearch == 0)
-          $scope.$emit('SEARCHBACK')
-      })
-    } else {
-      $scope.$emit('LOAD')
-      $scope.$emit('SEARCHBACK')
-      if ($scope.total == 0) {
-        $scope.$emit('LOAD')
-        $scope.resource.count(function (result){
-          $scope.total = result.count
-          $scope.pagination.paginate(result.count)
-        });
-      } else {
-        $scope.pagination.paginate($scope.total)
-      }
-      params = {$skip: (p.iPage - 1) * p.iLength, $limit: p.iLength, shopID:'2834910281d26a76'};
-      if (params.$skip == -10){
-        params.$skip = 0
-        p.iStart = 1
-        p.iEnd = p.iTotal > p.iLength? p.iLength: p.iTotal
-        $scope.resource.query(params, function (results) {
-          $scope.entities = results;
-          $scope.$emit('UNLOAD')
-        })
-      } else {
-        $scope.resource.query(params, function (results) {
-          $scope.entities = results;
-          $scope.$emit('UNLOAD')
-        })
-      }
-    }
-  }
+    $scope.params['shopID'] = $rootScope.currentMerchant.shopIDs[0]; // default use the first shop of the currentMerchant
 }

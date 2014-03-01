@@ -38,7 +38,7 @@
                 <span ng-class="entity.fieldClass[field.name]" ng-if="!field.value">{{valueOfKeyString(entity, field.name)}}</span>
             </td>
             <td class="center btn-toolbar">
-                <a ng-repeat="op in fieldOperations" ng-class="op.class" ng-click="operateFunc(entity, op.op)" class="btn">
+                <a ng-repeat="op in fieldOperations" ng-class="op.class" title="{{op.title}}" ng-click="operateFunc(entity, op.op)" class="btn">
                     <i ng-class="op.icon"></i>
                 </a>
             </td>

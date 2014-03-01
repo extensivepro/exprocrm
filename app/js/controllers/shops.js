@@ -1,4 +1,4 @@
-function ShopsController($scope, Shops, Pagination, $timeout, $injector){
+function ShopsController($scope, Shops, Pagination, $timeout, $injector, $rootScope){
 	$injector.invoke(BasicController, this, {$scope: $scope});
 	$scope.resource = Shops
 
@@ -53,4 +53,5 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
     $scope.update(entity)
   }
   widthFunctions();
+  $scope.params['merchantID'] = $rootScope.currentMerchant.id; // find all shops that just belong to the currentMerchant
 }

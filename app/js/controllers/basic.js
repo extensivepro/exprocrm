@@ -81,7 +81,6 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
   $scope.params = {};
   $scope.refreshList = function () {
     var p = $scope.pagination
-    $scope.params.$sort = $scope.sortOptions;
     for(var key in $scope.defaultParams) {
       $scope.params[key] = $scope.defaultParams[key]
     }
@@ -126,13 +125,14 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
       $scope.$emit('SEARCHBACK')
       if ($scope.total == 0) {
         $scope.$emit('LOAD')
-        $scope.resource.count($scope.params, function (result){
+        $scope.resource.count({}, function (result){
           $scope.total = result.count
           $scope.pagination.paginate(result.count)
         });
       } else {
         $scope.pagination.paginate($scope.total)
       }
+      $scope.params.$sort = $scope.sortOptions;
       $scope.params.$skip = (p.iPage - 1) * p.iLength
       $scope.params.$limit = p.iLength
       if ($scope.params.$skip == -10){

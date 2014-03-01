@@ -1,14 +1,11 @@
-function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeout, $injector){
+function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeout, $injector, $rootScope){
 	$injector.invoke(BasicController, this, {$scope: $scope});
 	$scope.resource = Employes
 	$scope.searchOptions.fields = ['name', 'role', 'phone', 'idcard']
   $scope.searchOptions.tooltip = "搜索员工姓名，职位，电话，身份证号"
 	$scope.editView ="views/employee/edit.html"
   $scope.currentMerchant = {
-    "shopIDs" : [
-      "2834910281d26a76",
-      "4e2937f2179449df"
-    ]
+    "shopIDs" :  $rootScope.currentMerchant.shopIDs
   }
 	// profile 
 	$scope.profileAvatar = "img/avatar.jpg"
