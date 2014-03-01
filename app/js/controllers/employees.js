@@ -4,13 +4,19 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
 	$scope.searchOptions.fields = ['name', 'role', 'phone', 'idcard']
   $scope.searchOptions.tooltip = "搜索员工姓名，职位，电话，身份证号"
 	$scope.editView ="views/employee/edit.html"
-
+  $scope.currentMerchant = {
+    "shopIDs" : [
+      "2834910281d26a76",
+      "4e2937f2179449df"
+    ]
+  }
 	// profile 
 	$scope.profileAvatar = "img/avatar.jpg"
   $scope.fieldOperations.push({class: "btn btn-info", icon: "icon-info", op:"analysis"});
   $scope.profileFields = [
     {name: "userID", title: "用户ID", required: true, unlist: true, readonly:true, creatable:true, hide:true},
     {name: "shopID", title: "店面ID", required: true, unlist: true, readonly:true, creatable:true, hide:true},
+    {name: "shopName", title: "所属商店", required: true,readonly:true, creatable:true, hide:true},
     {name: "jobNumber", title: "工号", required: true, readonly:true, creatable:true, hide:true},
     {name: "name", title: "姓名", required: true},
     {name: "role", title: "职务", value:function(entity){
@@ -89,4 +95,5 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
     $scope.entity = entity;
     $scope.activeView = "views/Analysis/employeeAnalysis.html"
   }
+  $scope.params['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});
 }
