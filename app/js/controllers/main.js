@@ -13,11 +13,11 @@ function MainController($scope, Users) {
     {name: "退货流水", icon: "icon-trash", path: "views/returns/index.html"},
     {name: "储值流水", icon: "icon-retweet", path: "views/bills/index.html"},
     {name: "积分管理", icon: "icon-trophy", path: "views/points/index.html"},
-    {name: "用户管理", icon: "icon-user-md", path: "views/user/profile.html"},
+    {name: "用户管理", icon: "icon-user-md", path: "views/user/index.html"},
     {name: "销售统计", icon: "icon-bar-chart", path: "views/analysis/salesAnalysis.html"}
   ];
 
-  $scope.currentView = $scope.views[1];
+  $scope.currentView = $scope.views[12];
 
   $scope.selectView = function (view) {
     $scope.currentView = view

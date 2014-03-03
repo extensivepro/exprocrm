@@ -1,4 +1,4 @@
-function BasicController($scope, $rootScope, Pagination, $timeout) {
+function BasicController($scope, Pagination) {
   $scope.activeView = "views/basicList.html"
   $scope.resource = undefined
   $scope.searchFields = []
@@ -13,7 +13,7 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
     
   // route
   $scope.showEdit = function (entity) {
-    $scope.entity = entity || $scope.entity;
+    $scope.entity = entity || $scope.entity
     $scope.activeView = "views/basicEdit.html"
   }
   
@@ -22,7 +22,7 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
   }
 
   $scope.showCreateBasic = function (entity) {
-    $scope.entity = entity || $scope.entity;
+    $scope.entity = entity || $scope.entity
     $scope.activeView = "views/basicCreate.html"
   }
 
@@ -32,7 +32,7 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
   }
 
   $scope.showProfile = function (entity) {
-    $scope.entity = entity || $scope.entity;
+    $scope.entity = entity || $scope.entity
     $scope.activeView = "views/basicProfile.html"
   }
 
@@ -176,20 +176,12 @@ function BasicController($scope, $rootScope, Pagination, $timeout) {
   }
 
   $scope.update = function (entity) {
-
     var resource = new $scope.resource(entity)
-    delete resource.owner;
-    delete resource.shopIDs;
-
-    console.log(resource);
-
-    delete resource.owner;
-    delete resource.shopIDs;
 
     resource.$update(function (err) {
       $scope.showList()
     }, function (err) {
-      console.log('update user error:', err)
+      console.log('update error:', err, entity)
     })
   }
 
