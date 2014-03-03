@@ -7,7 +7,7 @@ function UsersController($scope, Users, Pagination, $timeout, $injector){
 
 	// profile 
 	$scope.profileShortcuts = [
-			{class: "box quick-button-small span1", icon: "icon-edit", text: "编辑", op:"showEdit"}
+			{class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-edit", text: "编辑", op:"showEdit"}
 	]
   
 	$scope.profileAvatar = "img/avatar.jpg"

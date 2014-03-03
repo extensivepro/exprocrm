@@ -1,26 +1,30 @@
 <div class="box-header">
     <h2><i ng-class="currentView.icon"></i><span class="break"></span>{{currentView.name}}</h2>
     <div class="box-icon">
-        <a ng-click="showCreate()" class="btn-puls" ng-hide="isHide"><i class="icon-plus" /></a>
-        <a ng-click="refreshList()" class="btn-refresh"><i class="icon-refresh" /></a>
+        <a ng-click="showCreate()" class="btn-puls" ng-hide="isHide"><i class="fa fa-plus" /></a>
+        <a ng-click="refreshList()" class="btn-refresh"><i class="fa fa-refresh" /></a>
     </div>
 </div>
 <div class="box-content">
-    <div class="row-fluid">
-        <div class="span6">
-            <label>
-                <select ng-model="pagination.iLength" ng-options="option for option in pagination.iLengthOptions"></select>条/页
-            </label>
+    <div class="row">
+        <div class="col-lg-6">
+          <div class="col-lg-4">
+            <select class="form-control" ng-model="pagination.iLength" ng-options="option for option in pagination.iLengthOptions"></select>
+          </div>
+          <h4 class="col-lg-2">条/页</h3>
         </div>
-        <div class="span6">
+        <div class="col-lg-4">
             <form class="form-search" ng-model="searchOptions">
-                <div class="input-append">
-                    <input class="input-xlarge search-query focuse" type="text" ng-model="searchOptions.text" tooltip="{{searchOptions.tooltip}}" tooltip-trigger="focus">
-                    <button class="btn btn-primary" ng-click="refreshList()" ui-keypress="{13:'refreshList($event)'}">搜索</button>
+                <div class="input-group">
+                    <input class="form-control" type="search" ng-model="searchOptions.text" tooltip="{{searchOptions.tooltip}}" tooltip-trigger="focus">
+                    <span class="input-group-btn">
+                      <button class="btn btn-primary" ng-click="refreshList()" ui-keypress="{13:'refreshList($event)'}">搜索</button>
+                    </span>
                 </div>
             </form>
         </div>
     </div>
+    <br>
     <div class="alert alert-info" ng-show="loading">载入中</div>
     <div class="alert alert-info" ng-show="noSearchBack && !loading">抱歉，没有搜索到符合条件的记录</div>
     <div ng-show="!loading && !noSearchBack" >
@@ -46,11 +50,11 @@
         </tbody>
     </table>
 
-    <div class="row-fluid">
-        <div class="span12">
+    <div class="row">
+        <div class="col-lg-12">
             显示 {{pagination.iStart}} ~ {{pagination.iEnd}} / {{pagination.iTotal}} 条
         </div>
-        <div class="span12 center">
+        <div class="col-lg-12 center">
             <pagination total-items="pagination.iTotal" page="pagination.iPage" items-per-page="pagination.iLength" previous-text="上一页" next-text="下一页"></pagination>
         </div>
     </div>

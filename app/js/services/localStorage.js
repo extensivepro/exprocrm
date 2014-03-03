@@ -7,7 +7,7 @@
 */
 
 
-angular.module('exproCRM').factory('localStorage', function(){
+angular.module('exproRMS').factory('localStorage', function(){
 	var APP_ID =  'expro-crm-local-storage';
 
 	// api exposure

@@ -1,39 +1,35 @@
-<div class="navbar">
-	<div class="navbar-inner"  ng-controller="HeaderController" ng-init="init()">
-		<div class="container-fluid">
-			<a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</a>
-			<a id="main-menu-toggle" class="hidden-phone open"><i class="icon-reorder"></i></a>		
-			<div class="row-fluid">
-			<a class="brand span2" href="#!/crm"><span>泛商汇CRM</span></a>
-			</div>		
-			<!-- start: Header Menu -->
-			<div class="nav-no-collapse header-nav">
-				<ul class="nav pull-right">
-					<!-- start: User Dropdown -->
-					<li class="dropdown">
-						<a class="btn account dropdown-toggle" data-toggle="dropdown" href="#">
-							<div class="avatar"><img src="img/avatar.jpg" alt="Avatar"></div>
-							<div class="user">
-                <span class="hello">欢迎回来！</span>
-								<span class="name">{{me.displayName}}</span>
-							</div>
-						</a>
-						<ul class="dropdown-menu">
-							<li class="dropdown-menu-title">我的设置</li>
-							<li><a ng-click="showMeProfile()"><i class="icon-user"></i> 个人资料 </a></li>
-							<li><a ng-click="showChangePasswordDialog()"><i class="icon-cog"></i> 修改密码</a></li>
-							<li><a ng-click="signout()"><i class="icon-off"></i> 登出 </a></li>
-						</ul>
-					</li>
-					<!-- end: User Dropdown -->
-				</ul>
-			</div>
-			<!-- end: Header Menu -->
+<div class="navbar" ng-controller="HeaderController" ng-init="init()">
+	<div class="container">
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".sidebar-nav.nav-collapse">
+		      <span class="fa fa-bar"></span>
+		      <span class="fa fa-bar"></span>
+		      <span class="fa fa-bar"></span>
+		</button>
+		<a id="main-menu-toggle" class="hidden-xs open"><i class="fa fa fa-bars"></i></a>		
+		<a class="navbar-brand col-lg-2 col-sm-1 col-xs-12" href="#!/crm"><span>泛商汇RMS</span></a>
+		<!-- start: Header Menu -->
+		<div class="nav-no-collapse header-nav">
+			<ul class="nav navbar-nav pull-right">
+				<!-- start: User Dropdown -->
+				<li class="dropdown">
+					<a class="btn account dropdown-toggle" data-toggle="dropdown" href="#">
+						<div class="avatar"><img src="img/avatar.jpg" alt="Avatar"></div>
+						<div class="user">
+              <span class="hello">欢迎回来！</span>
+							<span class="name">{{me.displayName}}</span>
+						</div>
+					</a>
+					<ul class="dropdown-menu">
+						<li class="dropdown-menu-title">我的设置</li>
+						<li><a ng-click="showMeProfile()"><i class="fa fa-user"></i> 个人资料 </a></li>
+						<li><a ng-click="showChangePasswordDialog()"><i class="fa fa-cog"></i> 修改密码</a></li>
+						<li><a ng-click="signout()"><i class="fa fa-off"></i> 登出 </a></li>
+					</ul>
+				</li>
+				<!-- end: User Dropdown -->
+			</ul>
 		</div>
+		<!-- end: Header Menu -->
 	</div>
 </div>
 <!-- Start: Setting Password -->
@@ -42,19 +38,19 @@
 		<h3>设置新密码</h3>
 	</div>
 	<div class="modal-body">
-		<div class="control-group">
-			<label class="control-label" for="new-password">
-				<i class="icon-lock"></i>
+		<div class="form-group">
+			<label class="col-lg-2 control-label" for="new-password">
+				<i class="fa fa-lock"></i>
 				请输入新密码
 			</label>
-			<div class="controls">
+			<div class="col-lg-10">
 			  <input class="input-xlarge span5" ng-model="$parent.newPassword" type="password" required>
 			</div>
-			<label class="control-label" for="new-password">
-				<i class="icon-lock"></i>
+			<label class="col-lg-2 control-label" for="new-password">
+				<i class="fa fa-lock"></i>
 				请重复输入一遍上面的密码
 			</label>
-			<div class="controls">
+			<div class="col-lg-10">
 			  <input class="input-xlarge span5" ng-model="$parent.passwordConfirmation" type="password" required>
 			</div>
 	  </div>

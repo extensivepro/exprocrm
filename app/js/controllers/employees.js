@@ -6,7 +6,7 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
 	$scope.editView ="views/employee/edit.html"
 	// profile 
 	$scope.profileAvatar = "img/avatar.jpg"
-  $scope.fieldOperations.push({class: "btn btn-info", icon: "icon-info", op:"analysis"});
+  $scope.fieldOperations.push({class: "btn btn-info", icon: "fa fa-info", op:"analysis"});
   $scope.profileFields = [
     {name: "userID", title: "用户ID", required: true, unlist: true, readonly:true, creatable:true, hide:true},
     {name: "shopID", title: "店面ID", required: true, unlist: true, readonly:true, creatable:true, hide:true},

@@ -1,60 +1,54 @@
 <div class="box-header">
 	<h2><i ng-class="currentView.icon"></i><span class="break"></span><span>注册{{currentView.name}}</span></h2>
 	<div class="box-icon">
-		<a ng-click="cancelEdit()" class="btn-close"><i class="icon-remove"></i></a>
+		<a ng-click="cancelEdit()" class="btn-close"><i class="fa fa-times"></i></a>
 	</div>
 </div>
 <div class="box-content">
   <form class="form-horizontal" ng-model="entity" name="registerForm">
-    <fieldset>
-      <div class="control-group" ng-repeat="field in registerFields">
-        <label class="control-label">{{field.title}}</label>
-        <div class="controls">
-          <div class="input-prepend">
-            <span class="add-on"><i class="{{field.iPrepend}}"></i></span>
-            <input class="input-xlarge" type="text" ng-model="entity[field.key]" ui-event="{ blur: 'validate($index)' }" required>
-          </div>
-          <i class="{{field.iStatus}}"></i>
+		<div class="form-group">
+			<label class="col-lg-2 control-label"></label>
+      <span class="help-block"><i class="fa fa-circle"> 标记的项目不能为空</i></span>
+		</div>
+    <div class="form-group" ng-repeat="field in registerFields">
+      <label class="col-lg-2 control-label">{{field.title}}</label>
+      <div class="col-lg-6">
+        <div class="input-group">
+          <span class="input-group-addon"><i class="fa {{field.iPrepend}} fa-lg"></i></span>
+          <input class="form-control focused" type="text" ng-model="entity[field.key]" ui-event="{ blur: 'validate($index)' }" required>
+          <span class="input-group-addon"><i class="fa {{field.iStatus}}"></i></span>
         </div>
       </div>
-      <div class="control-group"><hr></div>
-      <div ng-include="editView" />
-      <!-- <div class="control-group">
-        <label class="control-label">归属商店</label>
-        <div class="controls">
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-home"></i></span>
-            <span class="input-xlarge uneditable-input" required>{{entity.shop.name}}</span>
-            <a class="btn" type="button" ng-click="chooseShop()"><i class="icon-arrow-right"></i></a>
-          </div>
-          <i class="icon-asterisk"></i>
-        </div>
-      </div> -->
-      <div class="control-group">
-        <label class="control-label">新编号</label>
-        <div class="controls">
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-sort-by-order"></i></span>
-            <input class="input-xlarge" type="text" ng-model="entity.code">
-          </div>
+    </div>
+    <hr>
+    <div ng-include="editView" />
+    <div class="form-group">
+      <label class="col-lg-2 control-label">新编号</label>
+      <div class="col-lg-6">
+        <div class="input-group">
+          <span class="input-group-addon"><i class="fa fa-barcode fa-lg"></i></span>
+          <input class="form-control focused" type="text" ng-model="entity.code">
         </div>
       </div>
-      <div class="control-group">
-        <label class="control-label">新名字</label>
-        <div class="controls">
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-flag"></i></span>
-            <input class="input-xlarge" type="text" ng-model="entity.name">
-          </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">新名字</label>
+      <div class="col-lg-6">
+        <div class="input-group">
+          <span class="input-group-addon"><i class="fa fa-flag fa-lg"></i></span>
+          <input class="form-control focused" type="text" ng-model="entity.name">
         </div>
       </div>
-      <div class="form-actions">
-        <alert ng-repeat="alert in registerOptions.alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-        <button ng-disabled="registerForm.$error.required" ng-click="register()" class="btn btn-primary btn-large">
-          <i class="{{registerOptions.icon}}"></i>注册设备
+    </div>
+    <hr>
+    <div class="form-group">
+      <alert ng-repeat="alert in registerOptions.alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+      <div class="col-lg-offset-2 col-lg-10">
+        <button ng-disabled="registerForm.$error.required" ng-click="register()" class="btn btn-primary btn-lg">
+          <i class="{{registerOptions.icon}}"></i>  注册设备
         </button>
-        <button ng-click="cancelEdit()" class="btn btn-large">取消</button>
+        <button ng-click="cancelEdit()" class="btn btn-lg">  取消</button>
       </div>
-    </fieldset>
+    </div>
   </form>
 </div>

@@ -2,7 +2,7 @@
 
 //Statistics service used for statistics REST endpoint
 
-angular.module('exproCRM.services').factory("Statistics", function($resource) {
+angular.module('exproRMS.services').factory("Statistics", function($resource) {
   var Statistics = $resource(window.restful.baseURL + '/statistics')
 
   Statistics.until = function (d, period) {

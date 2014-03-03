@@ -1,23 +1,23 @@
 <div class="box-header">
 	<h2><i ng-class="currentView.icon"></i><span class="break"></span>{{currentView.name}} - 详情</h2>
 	<div class="box-icon">
-		<a ng-click="showList()" class="btn-close"><i class="icon-remove"></i></a>
+		<a ng-click="showList()" class="btn-close"><i class="fa fa-times"></i></a>
 	</div>
 </div>
 <div class="box-content">
-	<div class="span12">
+	<div class="col-lg-12">
 		<a ng-repeat="shortcut in profileShortcuts" ng-class="shortcut.class" ng-click="operateFunc(entity, shortcut.op)">
 			<i ng-class="shortcut.icon" />
 			<p>{{shortcut.text}}</p>
 		</a>
 	</div>
 	
-	<div class="span12">
-		<div class="span1" />
-		<div class="span1" ng-show="profileAvatar">
-			<img ng-src={{profileAvatar}} alt="Avatar" class="img-circle">
+	<div class="col-lg-12">
+    <div class="col-lg-1 col-md-2 col-xs-6" />
+		<div class="col-lg-1 col-md-2 col-xs-6" ng-show="profileAvatar">
+			<img src={{profileAvatar}} alt="Avatar" class="img-circle">
 		</div>
-		<div class="span9">
+		<div class="col-lg-8 col-md-10 col-xs-12">
 			<table class="table table-striped">
 			  <tbody>
 					<tr ng-repeat="field in profileFields" ng-hide="field.isProfileHide">

@@ -47,18 +47,18 @@ function BasicController($scope, Pagination) {
   // list
   $scope.fields = []
   $scope.fieldOperations = [
-    {class: "btn btn-success", icon: "icon-file", op: "showProfile"}
+    {class: "btn btn-success", icon: "fa fa-file", op: "showProfile"}
     ,
-    {class: "btn btn-info", icon: "icon-edit", op: "showEdit"}
+    {class: "btn btn-info", icon: "fa fa-edit", op: "showEdit"}
     ,
-    {class: "btn btn-danger", icon: "icon-trash", op: "remove"}
+    {class: "btn btn-danger", icon: "fa fa-trash-o", op: "remove"}
   ]
 
   // profile
   $scope.profileShortcuts = [
-    {class: "box quick-button-small span1", icon: "icon-edit", text: "编辑", op: "showEdit"}
+    {class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-edit", text: "编辑", op: "showEdit"}
     ,
-    {class: "box quick-button-small span1", icon: "icon-trash", text: "删除", op: "remove"}
+    {class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-trash-o", text: "删除", op: "remove"}
   ]
   $scope.profileFields = []
 

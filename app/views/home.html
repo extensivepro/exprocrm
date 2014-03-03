@@ -1,23 +1,23 @@
-<div class="container-fluid">
-	<div class="row-fluid">
-		<div class="row-fluid">
+<div class="container">
+	<div class="row">
+		<div class="row">
 			<div class="page-header">
-			  <h1 class="text-center text-primary">泛商汇CRM - 会员管理系统</h1>
+			  <h1 class="text-center text-primary">泛商汇RMS - 零售管理系统</h1>
 			</div>
 			<div class="login-box">
 				<h2>请登录</h2>
 				<form class="form-horizontal" autofill-submit="login()" ui-keypress="{13:'Login($event)'}">
 					<fieldset>
 					
-						<input class="input-large span12" ng-model="loginUser.username" name="username" type="text" placeholder="用户名" required />
+						<input class="input-large col-xs-12" ng-model="loginUser.username" name="username" type="text" placeholder="用户名" required />
 
-						<input class="input-large span12" ng-model="loginUser.password" name="password" type="password" placeholder="密码" required />
+						<input class="input-large col-xs-12" ng-model="loginUser.password" name="password" type="password" placeholder="密码" required />
 
 						<div class="clearfix"></div>
 					
 						<div class="clearfix"></div>
 
-						<button type="submit" class="btn btn-primary span12" ng-click="Login()">登录</button>
+						<button type="submit" class="btn btn-primary col-xs-12" ng-click="Login()">登录</button>
 					</fieldset>	
 				</form>
         <alert type="alert.type" ng-hide="!alert">{{alert.msg}}</alert>

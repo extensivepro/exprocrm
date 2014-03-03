@@ -2,16 +2,16 @@
 
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('exproCRM', [
+var app = angular.module('exproRMS', [
   'ngCookies',
   'ngRoute',
   'ui.utils',
   'ui.bootstrap',
   'ngBootstrap',
   'googlechart',
-  'exproCRM.filters',
-  'exproCRM.services',
-  'exproCRM.directives'
+  'exproRMS.filters',
+  'exproRMS.services',
+  'exproRMS.directives'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/home', {templateUrl: 'views/home.html', controller: 'SignController'});

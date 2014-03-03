@@ -3,7 +3,7 @@
 /* Services */
 
 
-angular.module('exproCRM.services', [
+angular.module('exproRMS.services', [
   'ngResource'
 ])
 .value('baseURL', 'http://service.fankahui.com:2403');

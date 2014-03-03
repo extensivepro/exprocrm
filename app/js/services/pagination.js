@@ -7,7 +7,7 @@
 */
 
 
-angular.module('exproCRM').factory('Pagination', function(){
+angular.module('exproRMS').factory('Pagination', function(){
 	return {
 		iLength: 10,
 		iLengthOptions: [10, 25, 50, 100],

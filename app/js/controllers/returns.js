@@ -49,13 +49,13 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
         $scope.update(true)
     }
     $scope.fieldOperations = [
-        {class: "btn btn-success", icon: "icon-file", op: "showProfile"}
-        ,	{class: "btn btn-danger", icon: "icon-trash", op:"remove"}
+        {class: "btn btn-success", icon: "fa fa-file", op: "showProfile"}
+        ,	{class: "btn btn-danger", icon: "fa fa-trash-o", op:"remove"}
     ]
 
     // profile
     $scope.profileShortcuts = [
-        {class: "box quick-button-small span1", icon: "icon-trash", text: "删除", op:"remove"}
+        {class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-trash-o", text: "删除", op:"remove"}
     ];
     $scope.isHide = true; //隐藏新增按钮
 }
