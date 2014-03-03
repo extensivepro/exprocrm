@@ -5,13 +5,14 @@ function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injec
   $scope.defaultParams = {"shop.merchant.id": $scope.currentMerchant.id}
 	$scope.searchOptions.fields = ['code', 'name', 'udid']
   $scope.searchOptions.tooltip = "搜索编码、设备么、序列号"
+  $scope.editView = "views/devices/edit.html"
 
 	// profile 
 	$scope.profileFields = [
     {name: "code", title: "编码", required: true}
 		,	{name: "name", title: "设备名", required: true}
     , {name: "udid", title: "序列号", readonly:true}
-		, {name: "shop.name", title: "所属店铺"}
+		, {name: "shop.name", title: "所属店铺", readonly: true}
 		,	{name: "createdAt", title: "注册日期", readonly:true, createHide: true}
     ,	{name: "updateAt", title: "更新日期", unlist:true, readonly:true, createHide: true}
   ]

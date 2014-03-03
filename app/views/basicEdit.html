@@ -21,14 +21,13 @@
 					<i class="icon-asterisk" ng-if="!!field.required" />
 				</div>
 			</div>
-
-            <div class="control-group" ng-repeat="field in profileFields" ng-if="!entity.id" ng-hide="field.createHide">
-                <label class="control-label">{{field.title}}</label>
-                <div class="controls">
-                    <input class="input-xlarge focused" type="text" ng-model="entity[field.name]" ng-required="!!field.required">
-                    <i class="icon-asterisk" ng-if="!!field.required" />
-                </div>
-            </div>
+      <div class="control-group" ng-repeat="field in profileFields" ng-if="!entity.id" ng-hide="field.createHide">
+          <label class="control-label">{{field.title}}</label>
+          <div class="controls">
+              <input class="input-xlarge focused" type="text" ng-model="entity[field.name]" ng-required="!!field.required">
+              <i class="icon-asterisk" ng-if="!!field.required" />
+          </div>
+      </div>
 			<div ng-include="editView" />
 			<div class="form-actions">
 				<button ng-disabled="editForm.$error.required" ng-click="create(entity)" class="btn btn-primary btn-large" ng-if="!entity.id">创建</button>
