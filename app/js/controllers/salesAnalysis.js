@@ -22,8 +22,9 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
     $scope.headers = ['name', 'sale', 'percentage', 'crr', 'yyb']
     $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比']
     $scope.columnSort = { sortColumn: 'percentage', reverse: true };
-    $scope.primeryKeyID = undefined;
-    $scope.primeryName = undefined;
+    $scope.primaryKeyID = undefined;
+    $scope.primaryName = undefined;
+    $scope.virginEmployee = 0;
     widthFunctions();
   }
 
@@ -88,7 +89,7 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
   function chartHandler(callback) {
     var chart = basicChartInit();
     var primaryType = 'AreaChart';
-    var primaryTitle = ($scope.primeryName == undefined) ? '商户销售趋势' : $scope.primeryName + '销售趋势';
+    var primaryTitle = ($scope.primaryName == undefined) ? '商户销售趋势' : $scope.primaryName + '销售趋势';
     var primaryLegend = ($scope.shopsDiv != false) ? 'null' : 'none';
     if ($scope.shopsDiv == true) {
       var primaryCols = [];
@@ -265,7 +266,7 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
   function refreshChart() {
     if (refresh == true) return;
     refresh = true;
-    var primaryID = $scope.primeryKeyID ||'e20dccdf039b3874';
+    var primaryID = $scope.primaryKeyID ||'e20dccdf039b3874';
     console.log('refreshing')
     if (true) {
       $scope.primaryStatParam = statParamInit(primaryID)
@@ -291,8 +292,8 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
     });
   }
   $scope.lvlMove = function (tbRow){
-    $scope.primeryKeyID = tbRow.id || tbRow;
-    $scope.primeryName = tbRow.name || undefined;
+    $scope.primaryKeyID = tbRow.id || tbRow;
+    $scope.primaryName = tbRow.name || undefined;
     if($scope.analysisModel == 'merchant'){
       $scope.analysisModel = 'shop';
       $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比'];
@@ -317,25 +318,31 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
   $scope.$watch('currentShop', function (){
     if ($scope.currentShop == undefined)
        return;
-    $scope.primeryKeyID = $scope.currentShop.id || undefined;
-    $scope.primeryName = $scope.currentShop.name;
+    $scope.primaryKeyID = $scope.currentShop.id || undefined;
+    $scope.primaryName = $scope.currentShop.name;
     refreshChart();
   })
 
   $scope.$watch('currentEmployee', function (){
     if ($scope.currentEmployee == undefined)
       return;
-    $scope.primeryKeyID = $scope.currentEmployee.id || undefined;
-    $scope.primeryName = $scope.currentEmployee.name;
-    refreshChart();
+    $scope.primaryKeyID = $scope.currentEmployee.id || undefined;
+    $scope.primaryName = $scope.currentEmployee.name;
+    console.log($scope.shopsDiv);
+    if ($scope.virginEmployee == 0) {
+      $scope.virginEmployee ++;
+      return;
+    } else
+      refreshChart();
+  })
+
+  $scope.$watch('analysisModel', function (){
+    if ($scope.analysisModel != 'employee')
+      $scope.virginEmployee = 0;
   })
 
   $scope.$watch('shopsDiv', function() {
     console.log('attempt to refresh caused by shopsDiv')
-    if ($scope.analysisModel == 'merchant')
-      $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比'];
-    if ($scope.analysisModel == 'shop')
-      $scope.headersZ = ['员工姓名', '销售额(元)', '百分比', '环比', '同比'];
     if ($scope.statisticsDeep == 1) {
       $scope.statisticsDeep = 2;
       $scope.dualChart = true;
