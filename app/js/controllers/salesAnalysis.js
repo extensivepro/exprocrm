@@ -274,6 +274,13 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
     }
   }
   function fillChart(statParam) {
+    if ($scope.periodModel != 'custom'){
+      $scope.unitModel = 'daily';
+      $scope.dateRange = {
+        endDate: moment($scope.untilDate),
+        startDate: moment().subtract('days', $scope.primaryStatParam.limit - 1)
+      };
+    }
     chartHandler(function (){
       var rows = []
       var until = Statistics.until($scope.untilDate, statParam.period);
@@ -359,15 +366,8 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
   })
   $scope.$watch('periodModel', function () {
     console.log('attempt to refresh caused by perodModel')
-    if ($scope.periodModel != 'custom'){
-      $scope.unitModel = 'daily';
-      $scope.dateRange = {
-        endDate: moment($scope.untilDate),
-        startDate: moment().subtract('days', $scope.primaryStatParam.limit - 1)
-      }
-      $scope.stdt = $scope.dateRange.startDate.toDate()
+    if ($scope.periodModel != 'custom')
       refreshChart();
-    }
   })
   $scope.$watch('dateRange', function(){
     console.log('attempt to refresh caused by dateRange')
