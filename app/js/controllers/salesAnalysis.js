@@ -62,10 +62,10 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
     chart.options.title = title;
     chart.options.legend = legend;
     if ($scope.dualChart == false){
-      $scope.primaryChartFull = "span12";
+      $scope.primaryChartFull = "col-lg-12";
       return callback()
     } else{
-      $scope.primaryChartFull = "span8";
+      $scope.primaryChartFull = "col-lg-8";
       return callback()
     }
   }
