@@ -4,12 +4,6 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
 	$scope.searchOptions.fields = ['name', 'role', 'phone', 'idcard']
   $scope.searchOptions.tooltip = "搜索员工姓名，职位，电话，身份证号"
 	$scope.editView ="views/employee/edit.html"
-  $scope.currentMerchant = {
-    "shopIDs" : [
-      "2834910281d26a76",
-      "4e2937f2179449df"
-    ]
-  }
 	// profile 
 	$scope.profileAvatar = "img/avatar.jpg"
   $scope.fieldOperations.push({class: "btn btn-info", icon: "icon-info", op:"analysis"});

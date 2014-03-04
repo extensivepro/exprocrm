@@ -52,5 +52,6 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
     entity.password = "654321"
     $scope.update(entity)
   }
+  $scope.params['merchantID'] = $scope.currentMerchant.id; // find all shops that just belong to the currentMerchant
   widthFunctions();
 }

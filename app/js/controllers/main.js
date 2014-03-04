@@ -1,11 +1,11 @@
-function MainController($scope, Users) {
+function MainController($scope, Users, Merchants) {
   if (!$scope.me) $scope.me = {displayName: '未登录'};
   $scope.views = [
+    {name: "商户设置", icon: "icon-gift", path: "views/merchant/index.html"},
     {name: "商户分析", icon: "icon-bar-chart", path: "views/analysis/merchantAnalysis.html"},
     {name: "设备管理", icon: "icon-user", path: "views/devices/index.html"},
     {name: "会员管理", icon: "icon-user", path: "views/members/index.html"},
     {name: "库存管理", icon: "icon-truck", path: "views/skus/index.html"},
-    {name: "商户管理", icon: "icon-gift", path: "views/merchant/index.html"},
     {name: "商店管理", icon: "icon-inbox", path: "views/shop/index.html"},
     {name: "员工管理", icon: "icon-wrench", path: "views/employee/index.html"},
     {name: "商品管理", icon: "icon-cog", path: "views/item/index.html"},
@@ -41,10 +41,13 @@ function MainController($scope, Users) {
       }
     });
   };
-
+  $scope.currentMerchant = null;
   $scope.init = function () {
     Users.me(function (me) {
       $scope.me = me;
+      Merchants.query({'owner.id':me.id}, function (merchants) {
+        $scope.currentMerchant = merchants[7]; // the default merchant('吉林省梅河口中联商业广场') is in merchants[7]
+      })
     }, function () {
       $scope.me = {displayName: '未登录'};
     })
