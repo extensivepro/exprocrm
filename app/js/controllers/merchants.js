@@ -1,4 +1,4 @@
-function MerchantsController($scope, Merchants, Pagination, $timeout, $injector){
+function MerchantsController($scope, Merchants, Pagination, $timeout, $injector, $rootScope){
   $injector.invoke(BasicController, this, {$scope: $scope});
   $scope.resource = Merchants
   $scope.searchOptions.fields = ['name', 'telephone']
@@ -57,6 +57,37 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
     entity.password = "654321"
     $scope.update(entity)
   }
-  widthFunctions();
 
+  $scope.init = function () {
+    if ($rootScope.currentMerchant) {
+      $scope.showProfile($rootScope.currentMerchant);
+    } else {
+      $scope.resource.query({}, function (merchants) {
+        $scope.merchants = merchants;
+        $rootScope.currentMerchant = $scope.merchants[7]; // the default merchant('吉林省梅河口中联商业广场') is in merchant[7]
+        $scope.showProfile($rootScope.currentMerchant);
+      })
+    }
+  }
+  $scope.profileShortcuts = [
+    {class: "box quick-button-small span1", icon: "icon-edit", text: "编辑", op: "showEdit"}
+    ,
+    {class: "box quick-button-small span1", icon: "icon-folder-open", text: "选择其他商户", op: "showAllMercants"}
+  ];
+  $scope.fieldOperations.push({class: "btn btn-info", icon: "icon-gift", op: "setCurrentMercants", title:"设置为当前默认商户"});
+
+  $scope.setCurrentMercants = function (entity) {
+    $rootScope.currentMerchant = entity;
+    $scope.showProfile(entity);
+  }
+  $scope.showAllMercants = function () {
+    $scope.pagination.iPage = 1;
+    $scope.fields = $scope.profileFields.filter(function (field) {
+      return !field.unlist;
+    });
+    $scope.params['owner.id'] = $scope.me.id;
+    $scope.activeView = "views/basicList.html";
+    $scope.refreshList();
+  }
+  widthFunctions();
 }
