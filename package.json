@@ -40,7 +40,7 @@
   },
   "scripts": {
     "test": "gulp test",
-    "postinstall": "cd app || true; bower install"
+    "postinstall": "bower install"
   },
   "keywords": [
     "expro",
