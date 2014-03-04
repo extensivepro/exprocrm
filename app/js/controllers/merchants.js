@@ -59,12 +59,13 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
   }
   $scope.init = function () {
     $scope.showProfile($scope.currentMerchant);
+    $scope.countQs['owner.id'] = $scope.me.id;
   }
   $scope.profileShortcuts = [
-    {class: "box quick-button-small span1", icon: "icon-edit", text: "编辑", op: "showEdit"},
-    {class: "box quick-button-small span1", icon: "icon-folder-open", text: "选择其他商户", op: "showAllMercants"}
+    {class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-edit", text: "编辑", op: "showEdit"},
+    {class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-share-square", text: "选择其他商户", op: "showAllMercants"}
   ];
-  $scope.fieldOperations.push({class: "btn btn-info", icon: "icon-gift", op: "setCurrentMercants", title:"设置为当前默认商户"});
+  $scope.fieldOperations.push({class: "btn btn-info", icon: "fa fa-home", op: "setCurrentMercants", title:"设置为当前默认商户"});
 
   $scope.setCurrentMercants = function (entity) {
     $scope.__proto__.$parent.currentMerchant = entity;
@@ -80,5 +81,8 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
     $scope.refreshList();
   }
 
+  $scope.cancelEdit = function () {
+    $scope.showAllMercants();
+  }
   widthFunctions();
 }

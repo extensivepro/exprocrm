@@ -11,7 +11,7 @@
         <div class="nav-collapse sidebar-nav collapse navbar-collapse bs-navbar-collapse">
           <ul class="nav nav-tabs nav-stacked main-menu">
             <li ng-repeat="view in views" ng-class="{active:view == currentView && !view.submenus}">
-              <a ng-click="selectView(view)" ng-class="{dropmenu:view.submenus.length > 0}">
+              <a href="" ng-click="selectView(view)" ng-class="{dropmenu:view.submenus.length > 0}">
                 <i class={{view.icon}}></i>
                 <span class="hidden-tablet"> {{view.name}}</span>
                 <span class="label" ng-if="view.submenus.length">{{view.submenus.length}}</span>

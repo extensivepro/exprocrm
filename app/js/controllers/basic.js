@@ -79,6 +79,7 @@ function BasicController($scope, Pagination) {
 
   // Restful
   $scope.params = {};
+  $scope.countQs = {};
   $scope.refreshList = function () {
     var p = $scope.pagination
     $scope.params.$sort = $scope.sortOptions;
@@ -126,7 +127,7 @@ function BasicController($scope, Pagination) {
       $scope.$emit('SEARCHBACK')
       if ($scope.total == 0) {
         $scope.$emit('LOAD')
-        $scope.resource.count($scope.params, function (result){
+        $scope.resource.count($scope.countQs, function (result){
           $scope.total = result.count
           $scope.pagination.paginate(result.count)
         });
