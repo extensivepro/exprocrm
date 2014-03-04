@@ -1,21 +1,41 @@
-function SalesAnalysisController($scope, Statistics, Shops, Items) {
-  /**
-   * chart init
-   * @type {{}}
-   */
-  function chartInit() {
+function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
+  //controller initialization
+  $scope.init = function () {
+    $scope.analysisModel = 'merchant';
+    $scope.periodModel = 'lastWeek';
+    $scope.unitModel = 'daily';
+    $scope.untilDate = new Date();  //change here for natural week or month
+    $scope.dualChart = false;
+    $scope.statisticsDeep = 2;
+    $scope.tableHeader = ['name', 'sale', 'percentage', 'crr', 'yyb'];
+    $scope.tableHeaderDisplay = ['商店名称', '销售额(元)', '百分比', '环比', '同比'];
+    $scope.tableColumnSort = { sortColumn: 'percentage', reverse: true };
+    $scope.shopsDiv = false;
+    $scope.primaryChart = basicChartInit();
+    $scope.offChart = basicChartInit();
+    $scope.shopHashMap = {
+      Set : function(key,value){this[key] = value},
+      Get : function(key){return this[key]},
+      Contains : function(key){return this.Get(key) == null?false:true},
+      Remove : function(key){delete this[key]}
+    };
+    $scope.headers = ['name', 'sale', 'percentage', 'crr', 'yyb']
+    $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比']
+    $scope.columnSort = { sortColumn: 'percentage', reverse: true };
+    $scope.primaryKeyID = undefined;
+    $scope.primaryName = undefined;
+    $scope.virginEmployee = 0;
+    widthFunctions();
+  }
+
+  //empty basic chart initialization
+  function basicChartInit() {
     var chart = {};
-    chart.type = "AreaChart";
     chart.displayed = true;
-    chart.cssStyle = "height:300px; width:100%;text-align: right;";
-    chart.data = {"cols": [
-      {id: "period", label: "周期", type: "string"},
-      {id: "sales", label: "销售", type: "number"}
-    ], "rows": []};
+    chart.cssStyle = "height:350px; width:100%;text-align: right;";
+    chart.data = {"cols": [], "rows": []};
     chart.options = {
-      "title": "商户销售额走势",
       "isStacked": "false",
-      "legend": "none",
       "fill": 50,
       "displayExactValues": true,
       "vAxis": {
@@ -34,494 +54,333 @@ function SalesAnalysisController($scope, Statistics, Shops, Items) {
     return chart
   }
 
-  $scope.chart = chartInit()
-
-  /**
-   * configure chart for merchant
-   * @type {{}}
-   */
-  function merchantChartConfig(chart) {
-    chart.options.legend = "none"
-    chart.options.title = "商户销售额走势"
-    chart.data = {"cols": [
-      {id: "period", label: "周期", type: "string"},
-      {id: "sales", label: "销售", type: "number"}
-    ], "rows": []};
-    $scope.refreshChart()
+  //chart configuration
+  function chartConfig(chart, type, title, cols, legend, callback) {
+    chart.type = type;
+    chart.data.cols = cols;
+    chart.data.rows = [];
+    chart.options.title = title;
+    chart.options.legend = legend;
+    if ($scope.dualChart == false){
+      $scope.primaryChartFull = "span12";
+      return callback()
+    } else{
+      $scope.primaryChartFull = "span8";
+      return callback()
+    }
   }
 
-  /**
-   * configure chart for shop
-   * @type {string}
-   */
-  function shopChartConfig(chart) {
-    chart.options.legend = {position: 'bottom'}
-    chart.options.title = "商店销售额走势"
-    var shopChartCol = []
-    Shops.query({merchantID: statistics.keyID, $sort: {name: 1, id: 1}, $fields: {id: 1, merchantID: 1, name: 1}}, function (result) {
-      shopChartCol = [
-        {id: "period", label: "周期", type: "string"}
-      ]
-      result.forEach(function (item) {  //each item is a shop
-        var shop = {}
-        shop.id = "sales"
-        shop.label = item.name
-        shop.type = "number"
-        shopChartCol.push(shop)
-      })
-      chart.data.cols = shopChartCol
-      $scope.refreshChart()
+  //set cols for division chart
+  function colSet(primaryCols, primaryType, primaryTitle, primaryLegend, callback) {
+    primaryCols = [
+      {id: "period", label: "周期", type: "string"}
+    ];
+    $scope.shopsResult.forEach(function (item) {  //each item is a shop
+      var shop = {};
+      shop.id = "sales";
+      shop.label = item.name;
+      shop.type = "number";
+      primaryCols.push(shop);
     })
+    chartConfig($scope.primaryChart, primaryType, primaryTitle, primaryCols, primaryLegend, callback);
   }
 
-  /**
-   * configure pie chart for shops
-   * @type {string}
-   */
-  function shopPieChartConfig() {
-    var pieChart = chartInit()
-    pieChart.options.legend = {position: 'left'}
-    pieChart.options.title = "商店销售额比例"
-    pieChart.data.cols = [
-      {id: "shopName", label: "商店名称", type: "string"},
-      {id: "shopSale", label: "销售额", type: "number"}
-    ]
-    pieChart.type = "PieChart"
-    Shops.query({merchantID: statistics.keyID, $sort: {name: 1, id: 1}, $fields: {id: 1, merchantID: 1, name: 1}}, function (result) {
-      result.forEach(function (item) {  //each item is a shop
-        var shop = {}
-        shop.name = item.name
-        shop.sale = 0
-        shop.percentage = 0
-        //query for total sale of a shop
-        var shopTotal = 0
-        var statisticsShop = Object.create(statistics)
-        statisticsShop.keyID = item.id
-        statisticsShop.query(function (result) {
-          if (!result.length == 0) {
-            result.forEach(function (item) {  //each item is a statistic
-              shopTotal += item.value.sale.total / 100
-            })
-            shop.sale = shopTotal.toFixed(2)
-            shop.percentage = (100 * shop.sale / $scope.totalSale).toFixed(2)
-            var shopC = {c: [
-              {v: shop.name},
-              {v: Number(shop.sale)}
-            ]};
-            pieChart.data.rows.push(shopC)
-          }
+  //chart handler
+  function chartHandler(callback) {
+    var chart = basicChartInit();
+    var primaryType = 'AreaChart';
+    var primaryTitle = ($scope.primaryName == undefined) ? '商户销售趋势' : $scope.primaryName + '销售趋势';
+    var primaryLegend = ($scope.shopsDiv != false) ? 'null' : 'none';
+    if ($scope.shopsDiv == true) {
+      var primaryCols = [];
+      if ($scope.analysisModel == 'merchant'){
+        Shops.query({merchantID: $scope.primaryStatParam.keyID, '$fields': {id: 1, merchantID: 1, name: 1}}, function (result){
+          $scope.shopsResult = result;
+          colSet(primaryCols, primaryType, primaryTitle, primaryLegend, callback);
         })
-      })
-    })
-    return pieChart
+      }
+      if ($scope.analysisModel == 'shop'){
+        Employes.query({'shopID': $scope.primaryStatParam.keyID, $fields: {id: 1, shopID: 1, name: 1}}, function (result){
+          $scope.shopsResult = result; //should not have used this name
+          colSet(primaryCols, primaryType, primaryTitle, primaryLegend, callback);
+        })
+      }
+    }
+    if ($scope.shopsDiv == false) {
+      var primaryCols = [
+        {id: "period", label: "周期", type: "string"},
+        {id: "sales", label: "销售", type: "number"}
+      ];
+      chartConfig($scope.primaryChart, primaryType, primaryTitle, primaryCols, primaryLegend, callback);
+    }
+    if ($scope.dualChart == true) {
+      var offType = 'PieChart';
+      var offTitle = '商店销售比例';
+      if ($scope.analysisModel == 'merchant')
+        offTitle = '商店销售比例';
+      if ($scope.analysisModel == 'shop')
+        offTitle = '员工销售比例';
+      var offLegend = {position: 'left'};
+      var offCols = [
+        {id: "period", label: "周期", type: "string"},
+        {id: "sales", label: "销售", type: "number"}
+      ];
+      chartConfig($scope.offChart, offType, offTitle, offCols, offLegend, function(){});
+    }
   }
 
-  /**
-   * default value config
-   * @type {string}
-   */
+  //set row text
+  function rowSet(statParam, chart, rows, until, callback) {
+    for (var i = statParam.limit, j = 0; i > 0; i--) {
+      var d = Statistics.periodDate(until - i + 1, statParam.period);
+      var day = moment(d).weekday();
+      switch (day) {
+        case 0: day = '日'; break;
+        case 1: day = '一'; break;
+        case 2: day = '二'; break;
+        case 3: day = '三'; break;
+        case 4: day = '四'; break;
+        case 5: day = '五'; break;
+        case 6: day = '六'; break;
+      }
+      var flag = false;
+      var c = {c: []};
+      for (var k = 0; k < chart.data.cols.length; k++)
+        c.c.push({v: 0});
+      c.c[0] = {v: (d.getMonth() + 1) + '月' + d.getDate() + '日(' + day + ')'};
+      flag = true;
+      if (flag == true) {
+        rows.push(c);
+      }
+    }
+    return callback();
+  }
 
-  $scope.analysisModel = 'merchant';
-  $scope.periodModel = 'lastWeek';
-  $scope.unitModel = 'daily';
-  $scope.today = new Date()
-  $scope.dt = $scope.today
-  $scope.allShops = false
-
-  /**
-   * table headers and sort function
-   * @type {Array}
-   */
-  $scope.headers = ['name', 'sale', 'percentage', 'crr', 'yyb']
-  $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比']
-  $scope.columnSort = { sortColumn: 'percentage', reverse: true };
-
-  /**
-   * statistics init
-   * @type {Statistics}
-   */
-  var statistics = undefined
-  $scope.statistics = statistics
-
-  /**
-   * time setting
-   * @type {boolean}
-   */
-  function timeSet() {
-    //set limit according to selected
+  //initialize statistics parameters
+  function statParamInit(keyIDs) {
+    var statParam = {}
+    statParam.keyID = keyIDs;
+    statParam.period = $scope.unitModel;
     if ($scope.periodModel == 'lastWeek') {
-      statistics.limit = 7;
-      $scope.dt = new Date();
+      statParam.limit = 7;
+      $scope.untilDate = new Date();
+      $scope.stdt = moment($scope.untilDate).subtract('days', statParam.limit - 1).toDate()
     }
     if ($scope.periodModel == 'lastMonth') {
-      statistics.limit = 30;
-      $scope.dt = new Date();
+      statParam.limit = 30;
+      $scope.untilDate = new Date();
+      $scope.stdt = moment($scope.untilDate).subtract('days', statParam.limit - 1).toDate()
     }
     if ($scope.periodModel == 'custom') {
-      statistics.limit = $scope.dateRange.endDate.diff($scope.dateRange.startDate, 'days') + 1
-      $scope.dt = $scope.dateRange.endDate.toDate()
-      $scope.stdt = $scope.dateRange.startDate.toDate()
+      statParam.limit = $scope.dateRange.endDate.diff($scope.dateRange.startDate, 'days') + 1;
+      $scope.untilDate = $scope.dateRange.endDate.toDate();
+      $scope.stdt = $scope.dateRange.startDate.toDate();
     }
-
-    if (!($scope.periodModel == 'custom')) {
-      $scope.dateRange = {
-        endDate: moment($scope.dt),
-        startDate: moment().subtract('days', statistics.limit - 1)
-      }
-      $scope.stdt = $scope.dateRange.startDate.toDate()
-    }
-
-    statistics.period = $scope.unitModel;
-    if (statistics.period == "weekly")
-      statistics.limit = Math.floor(statistics.limit / 7);
-    if (statistics.period == "monthly")
-      statistics.limit = Math.floor(statistics.limit / 30);
+    if (statParam.period == "weekly")
+      statParam.limit = Math.floor(statParam.limit / 7);
+    if (statParam.period == "monthly")
+      statParam.limit = Math.floor(statParam.limit / 30);
+    return statParam;
   }
 
-  /**
-   * set row data, time
-   */
-  function rowSet(rows, until) {
-    //set hAxis, time
-    for (var i = statistics.limit, j = 0; i > 0; i--) {
-      var d = statistics.periodDate(until - i + 1)
-      var day = moment(d).weekday()
-      switch (day) {
-        case 0:
-          day = '日';
-          break;
-        case 1:
-          day = '一';
-          break;
-        case 2:
-          day = '二';
-          break;
-        case 3:
-          day = '三';
-          break;
-        case 4:
-          day = '四';
-          break;
-        case 5:
-          day = '五';
-          break;
-        case 6:
-          day = '六';
-          break;
-      }
-      var flag = false
-      var c = {c: []}
-      for (var k = 0; k < $scope.chart.data.cols.length; k++)
-        c.c.push({v: 0})
-      c.c[0] = {v: (d.getMonth() + 1) + '月' + d.getDate() + '日(' + day + ')'}
-      flag = true
-      if (flag == true) {
-        rows.push(c)
-      }
-//      console.log(rows)
-    }
-  }
-
-  /**
-   * switch to single shop mode
-   * @param shop
-   */
-  $scope.toSingleShop = function (shop) {
-    $scope.shop = shop
-  }
-
-  /**
-   * go to certain shop from table link
-   */
-  $scope.toShop = function (id, name, shop) {
-    $scope.analysisModel = "shop"
-    singleShopChartConfig(name, $scope.chart)
-//    $scope.shop = shop
-    timeSet()
-    $scope.weekDisable = $scope.dateRange.endDate.diff($scope.dateRange.startDate, 'days') <= 7 ? true : false
-    $scope.monthDisable = $scope.dateRange.endDate.diff($scope.dateRange.startDate, 'days') <= 30 ? true : false
-    var rows = []
-    var until = statistics.until($scope.dt)
-    rowSet(rows, until)
-    singleShopSaleSet(rows, until, id)
-    itemTableData()
-    refreshing = false
-//    console.log($scope.shop)
-  }
-
-  /**
-   * config chart for single shop
-   */
-  function singleShopChartConfig(name, chart) {
-    chart.options.legend = 'none'
-    chart.options.title = name + "销售额走势"
-    chart.data.cols = [
-      {id: "period", label: "周期", type: "string"},
-      {id: "sales", label: "销售", type: "number"}
-    ]
-  }
-
-  /**
-   * set sale for single shop
-   */
-  function singleShopSaleSet(rows, until, id) {
-    var statisticsShop = Object.create(statistics)
-    statisticsShop.keyID = id
-    statisticsShop.query(function (result) {
-      result.forEach(function (item) {
-        var v = item.value
-        $scope.totalSale += v.sale.total / 100;
-        var c = rows[v.statAt - until + statistics.limit - 1]
-        c.c[1] = {v: v.sale.total / 100, f: v.sale.total / 100 + "元\n共: " + v.sale.count + "次"}
-      })
-      $scope.chart.data.rows = rows
-    })
-  }
-
-  /**
-   * fetch data for item table
-   */
-  function itemTableData() {
-    var items = []
-    Items.query({merchantID: statistics.keyID, $fields: {id: 1, merchantID: 1, name: 1}}, function(result) {
-      $scope.itemRow = []
-      result.forEach(function(unit) {
-        var item = {}
-        item.name = unit.name
-        item.sale = 0
-        item.quantity = 0
-        item.id = unit.id
-        item.percentage = 0
-
-        var itemSaleTotal = 0
-        var itemQuantityTotal = 0
-        var statisticsItem = Object.create(statistics)
-        statisticsItem.keyID = unit.id
-        statisticsItem.query(function(result){
-          if (!result.length == 0) {
-            result.forEach(function(unit){
-              itemSaleTotal += unit.value.sale.total / 100
-              itemQuantityTotal += unit.value.sale.count
-            })
-            item.sale = itemSaleTotal.toFixed(2)
-            item.percentage = (100 * item.sale / $scope.totalSale).toFixed(2)
-
-            var itemC = {c:[
-              {v: item.name},
-              {v: Number(item.sale)}
-            ]}
-            $scope.itemRow.push(itemC)
-          }
+  //set sale numbers
+  function saleSet(rows, until, statParam, chart, callback) {
+    if ($scope.statisticsDeep == 1) {
+      Statistics.query(statParam, function (result) {
+        result.forEach(function (item) {
+          var v = item.value;
+          var c = rows[v.statAt - until + statParam.limit - 1];
+          c.c[1] = {v: v.sale.total / 100, f: v.sale.total / 100 + "元\n共: " + v.sale.count + "次"};
         })
-        items.push(item)
+        chart.data.rows = rows;
+        return callback();
       })
-      $scope.items = items
-//      console.log($scope.items)
-
-    })
-  }
-
-  /**
-   * fetch data for shop table
-   */
-  function shopTableData() {
-    //query for shops of the merchant
-    var shops = [];
-    Shops.query({merchantID: statistics.keyID, $sort: {name: 1, id: 1}, $fields: {id: 1, merchantID: 1, name: 1}}, function (result) {
-      $scope.shopRow = []
-      result.forEach(function (item, index) {  //each item is a shop
-        var shop = {}
-        shop.name = item.name
-        shop.sale = 0
-        shop.id = item.id
-        shop.percentage = 0
-        //query for total sale of a shop
-        var shopTotal = 0
-        var statisticsShop = Object.create(statistics)
-        statisticsShop.keyID = item.id
-        statisticsShop.query(function (result) {
-          if (!result.length == 0) {
-            result.forEach(function (item) {  //each item is a statistic
-              shopTotal += item.value.sale.total / 100
-            })
-            shop.sale = shopTotal.toFixed(2)
-            shop.percentage = (100 * shop.sale / $scope.totalSale).toFixed(2)
-
-            var shopC = {c: [
-              {v: shop.name},
-              {v: Number(shop.sale)}
-            ]};
-            $scope.shopRow.push(shopC)
-          }
-        })
-        shops.push(shop)
-      })
-      $scope.shops = shops
-    })
-  }
-
-  /**
-   * fetch data for employee table
-   */
-  function employeeTableData(shopID) {
-
-  }
-
-  /**
-   * set sales for merchant analysis
-   * @param rows
-   * @param until
-   */
-  function merchantSaleSet(rows, until) {
-    statistics.query(function (result) {
-      //add row data, the sales
-      result.forEach(function (item) {
-        var v = item.value
-        $scope.totalSale += v.sale.total / 100;
-        var c = rows[v.statAt - until + statistics.limit - 1]
-        c.c[1] = {v: v.sale.total / 100, f: v.sale.total / 100 + "元\n共: " + v.sale.count + "次"}
-      })
-      $scope.chart.data.rows = rows
-      shopTableData()
-      refreshing = false
-    })
-  }
-
-  /**
-   * set sales for shop analysis
-   * @type {boolean}
-   */
-  function shopSaleSet(rows, until) {
-    Shops.query({merchantID: statistics.keyID, $sort: {name: 1, id: 1}, $fields: {id: 1, merchantID: 1, name: 1}}, function (result) {
-      result.forEach(function (item, index) {  //each item is a shop
-        var statisticsShop = Object.create(statistics)
-        statisticsShop.keyID = item.id
-        statisticsShop.query(function (result) {
-          result.forEach(function (item) {
-            var v = item.value
-            $scope.totalSale += v.sale.total / 100;
-            var c = rows[v.statAt - until + statistics.limit - 1]
-            c.c[index + 1] = {v: v.sale.total / 100, f: v.sale.total / 100 + "元\n共: " + v.sale.count + "次"}
-          })
-        })
-      })
-      $scope.chart.data.rows = rows
-      itemTableData()
-      refreshing = true
-    })
-  }
-
-  /**
-   * info display
-   * @type {boolean}
-   */
-  var refreshing = false      //loop jumper
-  $scope.refreshChart = function () {
-//    console.log('refreshing')
-    if (refreshing) return;
-    refreshing = true
-//    console.log('refreshed')
-    $scope.totalSale = 0;
-
-    timeSet()
-
-    $scope.weekDisable = $scope.dateRange.endDate.diff($scope.dateRange.startDate, 'days') <= 7 ? true : false
-    $scope.monthDisable = $scope.dateRange.endDate.diff($scope.dateRange.startDate, 'days') <= 30 ? true : false
-
-    var rows = []
-    var until = statistics.until($scope.dt)
-
-    rowSet(rows, until)
-
-    if ((($scope.analysisModel == 'merchant') && ($scope.allShops == false))){
-//      merchantChartConfig($scope.chart)
-      merchantSaleSet(rows, until)
     }
-    if ($scope.analysisModel == 'merchant' && $scope.allShops == true) {
-      shopChartConfig($scope.chart)
-      shopSaleSet(rows, until)
+    if ($scope.statisticsDeep == 2) {
+      $scope.shopKeyIDs = [];
+      $scope.shopsResult.forEach(function (item, index) {
+        $scope.shopKeyIDs.push(item.id);
+        $scope.shopHashMap.Set(item.id, index);
+        $scope.shopHashMap.Set(index, item.name);
+      })
+      statParam.keyID = $scope.shopKeyIDs;
+      Statistics.query(statParam, function (result){
+        $scope.statResult = result;
+        result.forEach(function(item) {
+          var v = item.value;
+          var c = rows[v.statAt - until + statParam.limit - 1];
+          var index = $scope.shopHashMap.Get(item.id.split('#')[0]);
+          c.c[index + 1] = {v: v.sale.total / 100, f: v.sale.total / 100 + "元\n共: " + v.sale.count + "次"}
+        })
+        chart.data.rows = rows;
+        return callback();
+      })
     }
-    if (($scope.analysisModel == 'shop') && ($scope.shop == undefined)) {
-      shopChartConfig($scope.chart)
-      shopSaleSet(rows, until)
-//      $scope.pieChart = shopPieChartConfig()
+  }
+
+  Array.prototype.contains = function(obj) {
+    var i = this.length;
+    while (i--) {
+      if (this[i] === obj) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function sumSet(statParam, chart, callback) {
+    $scope.tbRows = [];
+    var hist = {};
+    var names = [];
+    var ids = [];
+    var total = 0;
+    $scope.statResult.map(function (a){
+      var index =  $scope.shopHashMap.Get(a.id.split('#')[0]);
+      var name = $scope.shopHashMap.Get(index);
+      total += a.value.sale.total/100;
+      if (!names.contains(name)){
+        names.push(name);
+        ids.push(a.id.split('#')[0]);
+      }
+      if(name in hist)
+        hist[name] += a.value.sale.total/100;
+      else
+        hist[name] = a.value.sale.total/100;
+    })
+    for (var counter = 0; counter < names.length; counter ++) {
+      var tbRow = {};
+      tbRow.name = names[counter];
+      tbRow.id = ids[counter];
+      tbRow.sale = hist[names[counter]].toFixed(1);
+      tbRow.percentage = (100 * tbRow.sale / total).toFixed(1);
+      $scope.tbRows.push(tbRow);
+      var content = {c:[
+        {v: names[counter]},
+        {v: Number(hist[names[counter]].toFixed(1))}
+      ]};
+      chart.data.rows.push(content);
+    }
+    return callback();
+  }
+  var refresh = false
+  function refreshChart() {
+    if (refresh == true) return;
+    refresh = true;
+    var primaryID = $scope.primaryKeyID ||'e20dccdf039b3874';
+    console.log('refreshing')
+    if (true) {
+      $scope.primaryStatParam = statParamInit(primaryID)
+      fillChart($scope.primaryStatParam)
+    }
+  }
+  function fillChart(statParam) {
+    chartHandler(function (){
+      var rows = []
+      var until = Statistics.until($scope.untilDate, statParam.period);
+      statParam.end = until;
+      statParam.start = until - statParam.limit;
+      rowSet(statParam, $scope.primaryChart, rows, until, function (){
+        saleSet(rows, until, statParam, $scope.primaryChart, function() {
+          console.log('Sale Set to primary chart completed'); //if load is to be added, this is the place
+          if ($scope.dualChart == true)
+            sumSet(statParam, $scope.offChart, function (){})
+          refresh = false;
+        });
+        $scope.weekDisable = moment($scope.untilDate).diff(moment($scope.stdt), 'days') <= 7 ? true : false
+        $scope.monthDisable = moment($scope.untilDate).diff(moment($scope.stdt), 'days') <= 30 ? true : false
+      });
+    });
+  }
+  $scope.lvlMove = function (tbRow){
+    $scope.primaryKeyID = tbRow.id || tbRow;
+    $scope.primaryName = tbRow.name || undefined;
+    if($scope.analysisModel == 'merchant'){
+      $scope.analysisModel = 'shop';
+      $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比'];
+      $scope.currentShops = $scope.tbRows;
+      $scope.currentShop = tbRow;
+      refreshChart();
+    }
+    else if($scope.analysisModel == 'shop'){
+      $scope.headersZ = ['员工姓名', '销售额(元)', '百分比', '环比', '同比'];
+      $scope.analysisModel = 'employee';
+      $scope.currentEmployees = $scope.tbRows;
+      $scope.currentEmployee = tbRow;
+      $scope.shopsDiv = false;
+    }
+    //temporary treat
+    else if($scope.analysisModel == 'employee'){
+      $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比'];
+      refreshChart();
+    }
+  }
+
+  $scope.$watch('currentShop', function (){
+    if ($scope.currentShop == undefined)
+       return;
+    $scope.primaryKeyID = $scope.currentShop.id || undefined;
+    $scope.primaryName = $scope.currentShop.name;
+    refreshChart();
+  })
+
+  $scope.$watch('currentEmployee', function (){
+    if ($scope.currentEmployee == undefined)
+      return;
+    $scope.primaryKeyID = $scope.currentEmployee.id || undefined;
+    $scope.primaryName = $scope.currentEmployee.name;
+    console.log($scope.shopsDiv);
+    if ($scope.virginEmployee == 0) {
+      $scope.virginEmployee ++;
+      return;
+    } else
+      refreshChart();
+  })
+
+  $scope.$watch('analysisModel', function (){
+    if ($scope.analysisModel != 'employee')
+      $scope.virginEmployee = 0;
+  })
+
+  $scope.$watch('shopsDiv', function() {
+    console.log('attempt to refresh caused by shopsDiv')
+    if ($scope.statisticsDeep == 1) {
+      $scope.statisticsDeep = 2;
+      $scope.dualChart = true;
+      refreshChart()
     } else {
-
+      $scope.statisticsDeep = 1;
+      $scope.dualChart = false;
+      refreshChart()
     }
-  }
-
-  $scope.$watch('onShop', function(){
-    if($scope.onShop == true) {
-      $scope.headers = ['name', 'sale', 'quantity', 'percentage', 'crr', 'yyb']
-      $scope.headersZ = ['商店名称', '销售额(元)', '数量(个)', '百分比', '环比', '同比']
-    }
-  })
-  $scope.$watch('allShops', function(){
-    if ($scope.analysisModel == 'merchant' && $scope.allShops == true){
-      shopChartConfig($scope.chart)
-    }
-    if ($scope.analysisModel == 'merchant' && $scope.allShops == false){
-      refreshing = false
-      $scope.chart = chartInit()
-      merchantChartConfig($scope.chart)
-    }
-  })
-  $scope.$watch('shop', function () {
-    if (!($scope.shop == undefined))
-      $scope.toShop($scope.shop.id, $scope.shop.name, $scope.shop)
-  })
-  $scope.$watch('statistics.period', function () {
-    $scope.refreshChart()
-  })
-  $scope.$watch('dateRange', function () {
-    $scope.unitModel = 'daily';
-    $scope.refreshChart()
   })
   $scope.$watch('unitModel', function () {
-    $scope.refreshChart()
+    console.log('attempt to refresh caused by unitModel')
+    refreshChart()
   })
   $scope.$watch('periodModel', function () {
-    $scope.refreshChart()
-  })
-  $scope.$watch('dt', function () {
-    $scope.refreshChart()
-  })
-  $scope.$watch('analysisModel', function () {
-    if (($scope.analysisModel == 'shop')) {
-      shopChartConfig($scope.chart)
-      $scope.pieChart = shopPieChartConfig()
-      $scope.onShop = true
-      $scope.allShops = true
-      $scope.areaChartFull = "span8"
-    }
-    if (($scope.analysisModel == 'merchant')) {
-      $scope.allShops = false
-//      console.log('on merchant')
-      refreshing = false
-      $scope.chart = chartInit()
-      merchantChartConfig($scope.chart)
-
-      $scope.onShop = false
-      $scope.areaChartFull = "span12"
+    console.log('attempt to refresh caused by perodModel')
+    if ($scope.periodModel != 'custom'){
+      $scope.unitModel = 'daily';
+      $scope.dateRange = {
+        endDate: moment($scope.untilDate),
+        startDate: moment().subtract('days', $scope.primaryStatParam.limit - 1)
+      }
+      $scope.stdt = $scope.dateRange.startDate.toDate()
+      refreshChart();
     }
   })
-
+  $scope.$watch('dateRange', function(){
+    console.log('attempt to refresh caused by dateRange')
+    $scope.unitModel = 'daily';
+    refreshChart();
+  })
+  //google chart utilities
   $scope.chartReady = function () {
     fixGoogleChartsBarsBootstrap();
   }
-
   function fixGoogleChartsBarsBootstrap() {
     $(".google-visualization-table-table img[width]").each(function (index, img) {
       $(img).css("width", $(img).attr("width")).css("height", $(img).attr("height"));
     });
-  };
-
-  $scope.init = function () {
-    /**
-     * inputted ID, currently fixed
-     * @type {Statistics}
-     */
-    statistics = new Statistics('e20dccdf039b3874')
-    widthFunctions()
   }
 }

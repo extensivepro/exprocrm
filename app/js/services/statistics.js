@@ -24,6 +24,6 @@ angular.module('exproCRM.services').factory("Statistics", function($resource) {
       return new Date(1970, units, 1, 8)
     }
   }
-  
+
   return Statistics
 })
