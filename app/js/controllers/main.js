@@ -41,7 +41,7 @@ function MainController($scope, Users, Merchants) {
       }
     });
   };
-  $scope.currentMerchant = null;
+  $scope.currentMerchant = {};
   $scope.init = function () {
     Users.me(function (me) {
       $scope.me = me;
