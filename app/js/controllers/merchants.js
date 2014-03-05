@@ -6,11 +6,11 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
   $scope.editView = "views/merchant/edit.html"
   $scope.profileAvatar = "img/avatar.jpg"
   $scope.profileFields = [
-    {name: "id", title: "商户ID", unlist: true, hide:true, createHide: true}
+    {name: "id", title: "商户ID", unlist: true, hide:true, createHide: true, isProfileHide:true}
     , {name: "owner", title: "商户业主", value:function(entity) {
       entity.fieldClass = entity.fieldClass || {}
       return entity.owner.displayName
-    }, hide: true, createHide: true, unlist: true}
+    }, hide: true, createHide: true, unlist: true, isProfileHide:true}
     , {name: "name", title: "商户名称", required: true, hide: true}
     , {name: "fullName", title: "商户全名", required: true, unlist: true, hide: true}
     , {name: "telephone", title: "电话", required: true}
@@ -18,9 +18,9 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
     , {name: "address", title: "地址", required: true}
     , {name: "zip", title: "邮编", required: true, unlist: true}
     , {name: "createdAt", title: "创建日期", hide: true, createHide: true}
-    , {name: "updateAt", title: "更新日期", unlist: true, hide: true, createHide: true}
-    , {name: "url", title: "商户网站", unlist: true}
-    , {name: "newestDeviceCode", title: "设备编码", hide: true, unlist: true}
+    , {name: "updateAt", title: "更新日期", unlist: true, hide: true, createHide: true, isProfileHide:true}
+    , {name: "url", title: "商户网站", unlist: true, isProfileHide:true}
+    , {name: "newestDeviceCode", title: "设备编码", hide: true, unlist: true, isProfileHide:true}
     ,	{name: "status", title: "状态", value:function(entity){
       entity.fieldClass = entity.fieldClass || {}
       if(entity.status === 'open') {

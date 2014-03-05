@@ -125,5 +125,6 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
       console.log('error:', err)
     })
   };
-
+  $scope.params['merchant.merchantID'] = $scope.currentMerchant.id;
+  $scope.countQs['merchant.merchantID'] = $scope.currentMerchant.id;
 }

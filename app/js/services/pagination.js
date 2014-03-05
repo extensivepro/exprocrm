@@ -16,6 +16,7 @@ angular.module('exproRMS').factory('Pagination', function(){
 		iStart: 0,
 		iEnd: 0,
 		iTotal: 0,
+    maxSize:10,
 		paginate: function(total) {
 			var p = this
 			p.iTotal = total
