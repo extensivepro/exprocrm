@@ -48,4 +48,5 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
     }
 
     $scope.params['shopID'] = $scope.currentMerchant.shopIDs[0]; // default use the first shop of the currentMerchant
+    $scope.countQs['shopID'] = $scope.currentMerchant.shopIDs[0];
 }

@@ -90,4 +90,5 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
     $scope.activeView = "views/Analysis/employeeAnalysis.html"
   }
   $scope.params['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});
+  $scope.countQs['merchantID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});
 }

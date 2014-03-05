@@ -58,4 +58,6 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
         {class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-trash-o", text: "删除", op:"remove"}
     ];
     $scope.isHide = true; //隐藏新增按钮
+  $scope.params['shopID'] = $scope.currentMerchant.shopIDs[0];
+  $scope.countQs['shopID'] = $scope.currentMerchant.shopIDs[0];
 }

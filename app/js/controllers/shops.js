@@ -53,5 +53,6 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
     $scope.update(entity)
   }
   $scope.params['merchantID'] = $scope.currentMerchant.id; // find all shops that just belong to the currentMerchant
+  $scope.countQs['merchantID'] = $scope.currentMerchant.id;
   widthFunctions();
 }
