@@ -2,7 +2,7 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
 	$injector.invoke(BasicController, this, {$scope: $scope});
 	$scope.resource = Employes
 	$scope.searchOptions.fields = ['name', 'role', 'phone', 'idcard']
-  $scope.searchOptions.tooltip = "搜索员工姓名，职位，电话，身份证号"
+  $scope.searchOptions.tooltip = "请输入员工姓名"
 	$scope.editView ="views/employee/edit.html"
 	// profile 
 	$scope.profileAvatar = "img/avatar.jpg"
@@ -91,4 +91,5 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
   }
   $scope.params['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});
   $scope.countQs['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});
+  $scope.defaultString = "name";
 }

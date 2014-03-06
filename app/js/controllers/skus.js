@@ -6,7 +6,7 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
 
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Skus
-    $scope.searchOptions.fields = ['username']
+    $scope.searchOptions.tooltip = "请输入经手人名称";
     $scope.editView = "views/skus/edit.html"
     $scope.profileAvatar = "img/avatar.jpg"
 
@@ -49,4 +49,5 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
 
     $scope.params['shopID'] = $scope.currentMerchant.shopIDs[0]; // default use the first shop of the currentMerchant
     $scope.countQs['shopID'] = $scope.currentMerchant.shopIDs[0];
+    $scope.defaultString = "operator.name";
 }

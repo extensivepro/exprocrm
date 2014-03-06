@@ -14,9 +14,9 @@
           <h4 class="col-lg-2">条/页</h4>
         </div>
         <div class="col-lg-4">
-            <form class="form-search" ng-model="searchOptions">
+            <form class="form-search" >
                 <div class="input-group">
-                    <input class="form-control" type="search" ng-model="searchOptions.text" tooltip="{{searchOptions.tooltip}}" tooltip-trigger="focus">
+                    <input class="form-control" type="search" ng-model="search.text" tooltip="{{searchOptions.tooltip}}" tooltip-trigger="focus">
                     <span class="input-group-btn">
                       <button class="btn btn-primary" ng-click="refreshList()" ui-keypress="{13:'refreshList($event)'}">搜索</button>
                     </span>

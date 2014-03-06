@@ -2,7 +2,7 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
   $injector.invoke(BasicController, this, {$scope: $scope});
   $scope.resource = Merchants
   $scope.searchOptions.fields = ['name', 'telephone']
-  $scope.searchOptions.tooltip = "搜索商户姓名或电话"
+  $scope.searchOptions.tooltip = "请输入商户名称"
   $scope.editView = "views/merchant/edit.html"
   $scope.profileAvatar = "img/avatar.jpg"
   $scope.profileFields = [
@@ -84,5 +84,6 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
   $scope.cancelEdit = function () {
     $scope.showAllMercants();
   }
+  $scope.defaultString = "name";
   widthFunctions();
 }

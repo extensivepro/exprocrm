@@ -7,7 +7,7 @@ function PointsController($scope, Points, Pagination, $timeout, $injector){
 
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Points;
-    $scope.searchOptions.fields = ['username']
+    $scope.searchOptions.tooltip = "请输入会员ID"
     $scope.editView = "views/points/edit.html"
     $scope.profileAvatar = "img/avatar.jpg"
 
@@ -75,4 +75,5 @@ function PointsController($scope, Points, Pagination, $timeout, $injector){
     $scope.isHide = true; //隐藏新增按钮
     $scope.params['merchantID'] = $scope.currentMerchant.id;
     $scope.countQs['merchantID'] = $scope.currentMerchant.id;
+    $scope.defaultString = "memberID";
 }

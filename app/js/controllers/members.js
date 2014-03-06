@@ -8,7 +8,7 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
   $scope.resource = Members;
   $scope.searchOptions.fields = ['name', 'phone']
   $scope.editView = "views/members/edit.html"
-  $scope.searchOptions.tooltip = "搜索会员姓名或手机号"
+  $scope.searchOptions.tooltip = "请输入会员姓名"
 
 
   $scope.profileAvatar = "img/avatar.jpg"
@@ -127,4 +127,5 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
   };
   $scope.params['merchant.merchantID'] = $scope.currentMerchant.id;
   $scope.countQs['merchant.merchantID'] = $scope.currentMerchant.id;
+  $scope.defaultString = "name";
 }

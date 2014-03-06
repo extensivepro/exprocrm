@@ -74,98 +74,37 @@ function BasicController($scope, Pagination) {
     $scope.refreshList();
   })
   $scope.pagination = Pagination
-  $scope.total = 0;
   $scope.totalSearch = 0;
 
   // Restful
   $scope.params = {};
   $scope.countQs = {};
+  $scope.search = {};
   $scope.refreshList = function () {
-    var p = $scope.pagination
+    // query for getting count
+    $scope.resource.count($scope.countQs, function (result) {
+      $scope.pagination.paginate(result.count)
+    });
+    // query for getting result
+    var p = $scope.pagination;
     $scope.params.$sort = $scope.sortOptions;
-    for(var key in $scope.defaultParams) {
-      $scope.params[key] = $scope.defaultParams[key]
-    }
-    if ($scope.searchOptions.text !== '' && $scope.searchOptions.fields.length > 0) {
-      var filters = []
-      $scope.searchOptions.fields.forEach(function (field) {
-        var filter = {}
-        filter[field] = {$regex: $scope.searchOptions.text}
-        filters.push(filter)
-      })
-      $scope.params.$or = JSON.stringify(filters)
-      $scope.$emit('LOAD')
-      $scope.resource.query($scope.params, function (results) {
-        $scope.pagination.paginate(results.length)
-        $scope.totalSearch = results.length
-        $scope.$emit('UNLOAD')
-        console.log($scope.totalSearch);
-
-        $scope.params.$skip = (p.iPage - 1) * p.iLength
-        $scope.params.$limit = p.iLength
-
-        if ($scope.params.$skip == -10 || $scope.totalSearch == 0){
-          $scope.$emit('NOSEARCHBACK')
-          $scope.params.$skip = 0
-          p.iStart = 1
-          p.iEnd = p.iTotal > p.iLength? p.iLength: p.iTotal
-          $scope.resource.query($scope.params, function (results) {
-            $scope.entities = results;
-          })
-        }
-        else {
-          $scope.$emit('SEARCHBACK')
-          $scope.resource.query($scope.params, function (results) {
-            $scope.entities = results;
-          })
-        }
-        if (! $scope.totalSearch == 0)
-          $scope.$emit('SEARCHBACK')
-      })
-    } else {
-      $scope.$emit('LOAD')
-      $scope.$emit('SEARCHBACK')
-      if ($scope.total == 0) {
-        $scope.$emit('LOAD')
-        $scope.resource.count($scope.countQs, function (result){
-          $scope.total = result.count
-          $scope.pagination.paginate(result.count)
-        });
-      } else {
-        $scope.pagination.paginate($scope.total)
-      }
-      $scope.params.$skip = (p.iPage - 1) * p.iLength
-      $scope.params.$limit = p.iLength
-      if ($scope.params.$skip == -10){
-        $scope.params.$skip = 0
-        p.iStart = 1
-        p.iEnd = p.iTotal > p.iLength? p.iLength: p.iTotal
-        $scope.resource.query($scope.params, function (results) {
-          $scope.entities = results;
-          $scope.$emit('UNLOAD')
-        })
-      } else {
-        $scope.resource.query($scope.params, function (results) {
-          $scope.entities = results;
-          $scope.$emit('UNLOAD')
-        })
-      }
-    }
+    $scope.params.$skip = (p.iPage - 1) * p.iLength;
+    $scope.params.$limit = p.iLength;
+    $scope.resource.query($scope.params, function (results) {
+      $scope.entities = results;
+    });
   }
 
-  $scope.$on('NOSEARCHBACK', function() {
-    $scope.noSearchBack = true
+  $scope.$watch('search.text', function () {
+    if (!$scope.search.text) {
+      delete $scope.params[$scope.defaultString];
+      delete $scope.countQs[$scope.defaultString];
+    }
+    else {
+      $scope.params[$scope.defaultString] = $scope.search.text;
+      $scope.countQs[$scope.defaultString] = $scope.search.text;
+    }
   });
-  $scope.$on('SEARCHBACK', function() {
-    $scope.noSearchBack = false
-  });
-  $scope.$on('LOAD', function () {
-    $scope.loading = true
-  });
-  $scope.$on('UNLOAD', function () {
-    $scope.loading = false
-  });
-
   $scope.create = function (entity) {
     var newOne = new $scope.resource(entity);
     newOne.$save(function (user) {
