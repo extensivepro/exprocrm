@@ -14,7 +14,8 @@ function MainController($scope, Users, Merchants) {
     {name: "储值流水", icon: "fa fa-retweet", path: "views/bills/index.html"},
     {name: "积分管理", icon: "fa fa-gift", path: "views/points/index.html"},
     {name: "用户管理", icon: "fa fa-user-md", path: "views/user/index.html"},
-    {name: "销售统计", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html"}
+    {name: "销售统计", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html"},
+    {name: "库存统计", icon: "fa fa-bar-chart-o", path: "views/analysis/skusAnalysis.html"}
   ];
 
   $scope.currentView = $scope.views[13];
