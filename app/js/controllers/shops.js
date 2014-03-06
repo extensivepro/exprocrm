@@ -3,7 +3,7 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
 	$scope.resource = Shops
 
 	$scope.searchOptions.fields = ['name', 'telephone']
-  $scope.searchOptions.tooltip = "搜索商店名称或电话"
+  $scope.searchOptions.tooltip = "请输入商店名称"
 
 	$scope.editView ="views/shop/edit.html"
 	
@@ -54,5 +54,6 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
   }
   $scope.params['merchantID'] = $scope.currentMerchant.id; // find all shops that just belong to the currentMerchant
   $scope.countQs['merchantID'] = $scope.currentMerchant.id;
+  $scope.defaultString = "name";
   widthFunctions();
 }

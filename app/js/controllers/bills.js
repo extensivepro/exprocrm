@@ -8,7 +8,7 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Bills;
     $scope.searchOptions.fields = ['agentID']
-    $scope.searchOptions.tooltip = "搜索经手人ID"
+    $scope.searchOptions.tooltip = "请输入顾客姓名"
     $scope.editView = "views/bills/edit.html"
     $scope.profileAvatar = "img/avatar.jpg"
     // profile
@@ -78,4 +78,5 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
     $scope.isHide = true; //隐藏新增按钮
     $scope.params['merchantID'] = $scope.currentMerchant.id;
     $scope.countQs['merchantID'] = $scope.currentMerchant.id;
+    $scope.defaultString = "memberSettlement.payerAccount.name";
 }

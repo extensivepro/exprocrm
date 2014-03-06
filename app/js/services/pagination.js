@@ -22,8 +22,14 @@ angular.module('exproRMS').factory('Pagination', function(){
 			p.iTotal = total
 			p.iPages = Math.ceil(p.iTotal/p.iLength)
 			p.iPage = p.iPages < p.iPage ? p.iPages: p.iPage
-			p.iStart = p.iLength*(p.iPage-1)+1
-			p.iEnd = p.iLength*p.iPage > p.iTotal ? p.iTotal : p.iLength*p.iPage
+      if (!total) { // fix the bug: when total=0 then iStart=-9 and $skip=-10.
+        p.iStart = 0;
+        p.iEnd = 0;
+        p.iPage = 1;
+      } else {
+        p.iStart = p.iLength*(p.iPage-1)+1
+        p.iEnd = p.iLength*p.iPage > p.iTotal ? p.iTotal : p.iLength*p.iPage
+      }
 			widthFunctions()
 		}
 	}

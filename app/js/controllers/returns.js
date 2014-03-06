@@ -8,7 +8,7 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Returns;
     $scope.searchOptions.fields = ['agent.name', 'customer.name']
-    $scope.searchOptions.tooltip = "搜索顾客，经手人姓名"
+    $scope.searchOptions.tooltip = "请输入经手人姓名"
     $scope.editView = "views/returns/edit.html"
     $scope.profileAvatar = "img/avatar.jpg"
 
@@ -60,4 +60,5 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
     $scope.isHide = true; //隐藏新增按钮
   $scope.params['shopID'] = $scope.currentMerchant.shopIDs[0];
   $scope.countQs['shopID'] = $scope.currentMerchant.shopIDs[0];
+  $scope.defaultString = "agent.name";
 }
