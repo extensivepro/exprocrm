@@ -25,6 +25,7 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
     $scope.primaryKeyID = undefined;
     $scope.primaryName = undefined;
     $scope.virginEmployee = 0;
+    $scope.virginItem = 0;
     widthFunctions();
   }
 
@@ -105,6 +106,12 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
           colSet(primaryCols, primaryType, primaryTitle, primaryLegend, callback);
         })
       }
+      if ($scope.analysisModel == 'shopItem'){
+        Items.query({'shopID': $scope.primaryStatParam.keyID, $fields: {id: 1, shopID: 1, name: 1}}, function (result){
+          $scope.shopsResult = result; //should not have used this name
+          colSet(primaryCols, primaryType, primaryTitle, primaryLegend, callback);
+        })
+      }
     }
     if ($scope.shopsDiv == false) {
       var primaryCols = [
@@ -120,6 +127,8 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
         offTitle = '商店销售比例';
       if ($scope.analysisModel == 'shop')
         offTitle = '员工销售比例';
+      if ($scope.analysisModel == 'item')
+        offTitle = '商品销售比例';
       var offLegend = {position: 'left'};
       var offCols = [
         {id: "period", label: "周期", type: "string"},
@@ -201,16 +210,30 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
       $scope.shopsResult.forEach(function (item, index) {
         $scope.shopKeyIDs.push(item.id);
         $scope.shopHashMap.Set(item.id, index);
+//        console.log(item.id)
         $scope.shopHashMap.Set(index, item.name);
       })
-      statParam.keyID = $scope.shopKeyIDs;
+      if ($scope.analysisModel == 'shopItem'){
+        statParam.keyID = $scope.currentShop.id;
+        statParam.itemID = $scope.shopKeyIDs;
+        statParam.target = 'deals';
+      }
+      else
+        statParam.keyID = $scope.shopKeyIDs;
+//      console.log(statParam)
       Statistics.query(statParam, function (result){
         $scope.statResult = result;
         result.forEach(function(item) {
           var v = item.value;
           var c = rows[v.statAt - until + statParam.limit - 1];
           var index = $scope.shopHashMap.Get(item.id.split('#')[0]);
-          c.c[index + 1] = {v: v.sale.total / 100, f: v.sale.total / 100 + "元\n共: " + v.sale.count + "次"}
+//          console.log(item.id)
+          if ($scope.analysisModel == 'shopItem'){
+            index = $scope.shopHashMap.Get(item.id.split('#')[2]);
+            c.c[index + 1] = {v: v.sumPrice / 100, f: v.sumPrice / 100 + "元\n共: " + v.count + "次"};
+          }
+          else
+            c.c[index + 1] = {v: v.sale.total / 100, f: v.sale.total / 100 + "元\n共: " + v.sale.count + "次"};
         })
         chart.data.rows = rows;
         return callback();
@@ -236,16 +259,32 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
     var total = 0;
     $scope.statResult.map(function (a){
       var index =  $scope.shopHashMap.Get(a.id.split('#')[0]);
+      if ($scope.analysisModel == 'shopItem')
+        index =  $scope.shopHashMap.Get(a.id.split('#')[2]);
       var name = $scope.shopHashMap.Get(index);
-      total += a.value.sale.total/100;
+      if ($scope.analysisModel == 'shopItem')
+        total += a.value.sumPrice/100;
+      else
+        total += a.value.sale.total/100;
       if (!names.contains(name)){
         names.push(name);
-        ids.push(a.id.split('#')[0]);
+        if ($scope.analysisModel == 'shopItem')
+          ids.push(a.id.split('#')[2]);
+        else
+          ids.push(a.id.split('#')[0]);
       }
-      if(name in hist)
-        hist[name] += a.value.sale.total/100;
-      else
-        hist[name] = a.value.sale.total/100;
+      if(name in hist){
+        if ($scope.analysisModel == 'shopItem')
+          hist[name] += a.value.sumPrice/100;
+        else
+          hist[name] += a.value.sale.total/100;
+      }
+      else{
+        if ($scope.analysisModel == 'shopItem')
+          hist[name] = a.value.sumPrice/100;
+        else
+          hist[name] = a.value.sale.total/100;
+      }
     })
     for (var counter = 0; counter < names.length; counter ++) {
       var tbRow = {};
@@ -287,6 +326,8 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
       statParam.end = until;
       statParam.start = until - statParam.limit;
       rowSet(statParam, $scope.primaryChart, rows, until, function (){
+//        if ($scope.analysisModel == 'shopItem')
+//          console.log(statParam);
         saleSet(rows, until, statParam, $scope.primaryChart, function() {
           console.log('Sale Set to primary chart completed'); //if load is to be added, this is the place
           if ($scope.dualChart == true)
@@ -315,8 +356,19 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
       $scope.currentEmployee = tbRow;
       $scope.shopsDiv = false;
     }
+    else if($scope.analysisModel == 'shopItem'){
+      $scope.headersZ = ['商品名称', '销售额(元)', '百分比', '环比', '同比'];
+      $scope.analysisModel = 'item';
+      $scope.currentItems = $scope.tbRows;
+      $scope.currentItem = tbRow;
+      $scope.shopsDiv = false;
+    }
     //temporary treat
     else if($scope.analysisModel == 'employee'){
+      $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比'];
+      refreshChart();
+    }
+    else if($scope.analysisModel == 'item'){
       $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比'];
       refreshChart();
     }
@@ -343,9 +395,29 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
       refreshChart();
   })
 
+  $scope.$watch('currentItem', function (){
+    if ($scope.currentItem == undefined)
+      return;
+    $scope.primaryKeyID = $scope.currentItem.id || undefined;
+    $scope.primaryName = $scope.currentItem.name;
+    console.log($scope.shopsDiv);
+    if ($scope.virginItem == 0) {
+      $scope.virginItem ++;
+      return;
+    } else
+      refreshChart();
+  })
+
+  $scope.$watch('analysisModel', function(){
+    if ($scope.analysisModel == 'shop' || $scope.analysisModel == 'shopItem')
+      refreshChart();
+  })
+
   $scope.$watch('analysisModel', function (){
     if ($scope.analysisModel != 'employee')
       $scope.virginEmployee = 0;
+    if ($scope.analysisModel != 'item')
+      $scope.virginItem = 0;
   })
 
   $scope.$watch('shopsDiv', function() {

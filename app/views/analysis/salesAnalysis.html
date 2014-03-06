@@ -15,11 +15,17 @@
                             <button ng-click="lvlMove('e20dccdf039b3874')" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'merchant'">
                                 <i ng-class="views[3].icon"></i> 商户
                             </button>
-                            <button ng-click="lvlMove(currentShop.id)" ng-show="!(analysisModel == 'merchant')" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'shop'">
+                            <button ng-click="lvlMove(currentShop.id)" ng-show="!(analysisModel == 'merchant') && !(analysisModel == 'shopItem')" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'shop'">
+                                <i ng-class="views[4].icon"></i> {{currentShop.name}}
+                            </button>
+                            <button ng-click="lvlMove(currentShop.id)" ng-show="analysisModel == 'shopItem'" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'shopItem'">
                                 <i ng-class="views[4].icon"></i> {{currentShop.name}}
                             </button>
                             <button ng-show="analysisModel == 'employee'" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'employee'">
                                 <i ng-class="views[1].icon"></i> {{currentEmployee.name}}
+                            </button>
+                            <button ng-show="analysisModel == 'item'" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'item'">
+                                <i ng-class="views[1].icon"></i> {{currentItem.name}}
                             </button>
                         </div>
                     </div>
@@ -50,25 +56,34 @@
                     <div class="col-lg-3" style="text-align: right">
                         <div class="row">
                             <div class="col-lg-6" style="text-align: right">
-                                <select class="form-control" ng-show="analysisModel == 'shop'" style="width: 130px; "
+                                <select class="form-control" ng-show="analysisModel == 'shop'||analysisModel == 'shopItem'" style="width: 130px; "
                                         ng-model="currentShop"
                                         ng-options="currentShop.name for currentShop in currentShops|orderBy:columnSort.sortColumn:columnSort.reverse">
                                 </select>
-                                <select ng-show="analysisModel == 'employee'" style="width: 130px;"
+                                <select class="form-control" ng-show="analysisModel == 'employee'" style="width: 130px;"
                                         ng-model="currentEmployee"
                                         ng-options="currentEmployee.name for currentEmployee in currentEmployees|orderBy:columnSort.sortColumn:columnSort.reverse">
                                 </select>
+                                <select class="form-control" ng-show="analysisModel == 'item'" style="width: 130px;"
+                                        ng-model="currentItem"
+                                        ng-options="currentItem.name for currentItem in currentItems|orderBy:columnSort.sortColumn:columnSort.reverse">
+                                </select>
                             </div>
-                            <div class="col-lg-6">
-                                <button ng-show="analysisModel == 'merchant'" type="button" class="btn btn-primary"
+                            <div class="col-lg-6" >
+                                <button style="margin-right: -30px" ng-show="analysisModel == 'merchant'" type="button" class="btn btn-primary"
                                         ng-model="shopsDiv" btn-checkbox btn-checkbox-true="true"
                                         btn-checkbox-false="false">
                                     所有商店
                                 </button>
-                                <button ng-show="analysisModel == 'shop'" type="button" class="btn btn-primary"
+                                <button style="margin-right: -30px" ng-show="analysisModel == 'shop'" type="button" class="btn btn-primary"
                                         ng-model="shopsDiv" btn-checkbox btn-checkbox-true="true"
                                         btn-checkbox-false="false">
                                     所有员工
+                                </button>
+                                <button style="margin-right: -30px" ng-show="analysisModel == 'shopItem'" type="button" class="btn btn-primary"
+                                        ng-model="shopsDiv" btn-checkbox btn-checkbox-true="true"
+                                        btn-checkbox-false="false">
+                                    所有商品
                                 </button>
                             </div>
                         </div>
@@ -82,6 +97,16 @@
                     <div ng-class="primaryChartFull" style="text-align: right">
                         <div google-chart="" chart="primaryChart" style="{{primaryChart.cssStyle}}"
                              on-ready="chartReady()"></div>
+                    </div>
+                </div>
+                <div class="row" style="text-align: center" ng-show="(analysisModel == 'shop' || analysisModel == 'shopItem') && dualChart == true">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'shop'">
+                            <i ng-class="views[3].icon"></i> 员工
+                        </button>
+                        <button type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'shopItem'">
+                            <i ng-class="views[4].icon"></i> 商品
+                        </button>
                     </div>
                 </div>
 
@@ -101,8 +126,9 @@
                         </button>
                     </div>
                 </fieldset>
-                <hr>
+
                 <div style="width: 100%" ng-show="(shopsDiv == true)">
+                    <hr>
                     <table class="table table-striped table-bordered bootstrap-datatable datatable">
                         <thead style="background-color: #dcdcdc">
                         <th style="width: 16%" ng-repeat="header in headers">
