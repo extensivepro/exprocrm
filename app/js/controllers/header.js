@@ -1,8 +1,20 @@
 function HeaderController($scope, $location, Users, $modal, $log) {
   $scope.showMeProfile = function () {
-    $log.info('Show Profile :' + new Date());
-    $scope.selectViewByPath('views/user/profile.html');
-    $scope.showProfile($scope.me);
+    $scope.user = $scope.__proto__.$parent.me;
+    var modalInstance = $modal.open({
+      templateUrl: 'userProfileDialog.html',
+      controller: ShowUserProfileController,
+      resolve: {
+        me: function () {
+          return $scope.user;
+        }
+      }
+    });
+    modalInstance.result.then(function () {
+    }, function () {
+
+    });
+
   }
   
   $scope.showChangePasswordDialog = function () {
@@ -27,7 +39,45 @@ function HeaderController($scope, $location, Users, $modal, $log) {
     $location.path('/home');
   };
 }
+function ShowUserProfileController($scope, $modalInstance, me) {
+  $scope.me = me;
+  $scope.profileAvatar = "img/avatar.jpg"
+  $scope.profileFields = [
+    {name: "username", title: "用户名", readonly:true}
+    , {name: "name", title: "姓名"}
+    , {name: "idcard", title: "身份证"}
+    , {name: "phone", title: "电话"}
+    ,	{name: "email", title: "电子邮箱"}
+    ,	{name: "createdAt", title: "注册日期", readonly:true}
+    ,	{name: "male", title: "性别", value:function(me){
+      if(me.male) {
+        return "男"
+      } else if(me.male == false) {
+        return "女"
+      } else {
+        return "保密"
+      }
+    }}
+  ];
+  $scope.valueOfKeyString = function (entity, keyString) {
+    var v = entity
+    var keys = keyString.split('.')
+    var theKey = keys[0]
+    keys.forEach(function (key) {
+      theKey = key
+      v = v[key]
+    })
+    if (theKey === 'createdAt' || theKey === 'updateAt') {
+      v = new Date(v * 1000).toLocaleString()
+    }
+    return v
+  }
 
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+}
 function SettingPasswordController($scope, $rootScope, Users, $modalInstance, me) {
   $scope.me = me;
 	$scope.newPassword = "";

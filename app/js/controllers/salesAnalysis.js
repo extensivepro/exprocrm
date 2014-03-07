@@ -1,5 +1,10 @@
 function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
   //controller initialization
+  $scope.$watch('currentMerchant', function () {
+    if ($scope.currentMerchant['address']) {
+      $scope.init();
+    }
+  })
   $scope.init = function () {
     $scope.analysisModel = 'merchant';
     $scope.periodModel = 'lastWeek';
@@ -22,7 +27,7 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
     $scope.headers = ['name', 'sale', 'percentage', 'crr', 'yyb']
     $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比']
     $scope.columnSort = { sortColumn: 'percentage', reverse: true };
-    $scope.primaryKeyID = undefined;
+    $scope.primaryKeyID = $scope.currentMerchant.id;
     $scope.primaryName = undefined;
     $scope.virginEmployee = 0;
     $scope.virginItem = 0;
@@ -305,7 +310,7 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
   function refreshChart() {
     if (refresh == true) return;
     refresh = true;
-    var primaryID = $scope.primaryKeyID ||'e20dccdf039b3874';
+    var primaryID = $scope.primaryKeyID;
     console.log('refreshing')
     if (true) {
       $scope.primaryStatParam = statParamInit(primaryID)
@@ -373,82 +378,101 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
   }
 
   $scope.$watch('currentShop', function (){
-    if ($scope.currentShop == undefined)
-       return;
-    $scope.primaryKeyID = $scope.currentShop.id || undefined;
-    $scope.primaryName = $scope.currentShop.name;
-    refreshChart();
+    if ($scope.currentMerchant['address']) {
+      if ($scope.currentShop == undefined)
+        return;
+      $scope.primaryKeyID = $scope.currentShop.id || undefined;
+      $scope.primaryName = $scope.currentShop.name;
+      refreshChart();
+    }
   })
 
   $scope.$watch('currentEmployee', function (){
-    if ($scope.currentEmployee == undefined)
-      return;
-    $scope.primaryKeyID = $scope.currentEmployee.id || undefined;
-    $scope.primaryName = $scope.currentEmployee.name;
-    console.log($scope.shopsDiv);
-    if ($scope.virginEmployee == 0) {
-      $scope.virginEmployee ++;
-      return;
-    } else
-      refreshChart();
+    if ($scope.currentMerchant['address']) {
+      if ($scope.currentEmployee == undefined)
+        return;
+      $scope.primaryKeyID = $scope.currentEmployee.id || undefined;
+      $scope.primaryName = $scope.currentEmployee.name;
+      console.log($scope.shopsDiv);
+      if ($scope.virginEmployee == 0) {
+        $scope.virginEmployee ++;
+        return;
+      } else
+        refreshChart();
+    }
   })
 
   $scope.$watch('currentItem', function (){
-    if ($scope.currentItem == undefined)
-      return;
-    $scope.primaryKeyID = $scope.currentItem.id || undefined;
-    $scope.primaryName = $scope.currentItem.name;
-    console.log($scope.shopsDiv);
-    if ($scope.virginItem == 0) {
-      $scope.virginItem ++;
-      return;
-    } else
-      refreshChart();
+    if ($scope.currentMerchant['address']) {
+      if ($scope.currentItem == undefined)
+        return;
+      $scope.primaryKeyID = $scope.currentItem.id || undefined;
+      $scope.primaryName = $scope.currentItem.name;
+      console.log($scope.shopsDiv);
+      if ($scope.virginItem == 0) {
+        $scope.virginItem ++;
+        return;
+      } else
+        refreshChart();
+    }
   })
 
   $scope.$watch('analysisModel', function(){
-    if ($scope.analysisModel == 'merchant')
-      $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比'];
-    if ($scope.analysisModel == 'shop')
-      $scope.headersZ = ['员工姓名', '销售额(元)', '百分比', '环比', '同比'];
-    if ($scope.analysisModel == 'shopItem')
-      $scope.headersZ = ['商品名称', '销售额(元)', '百分比', '环比', '同比'];
-    if ($scope.analysisModel == 'shop' || $scope.analysisModel == 'shopItem')
-      refreshChart();
+    if ($scope.currentMerchant['address']) {
+      if ($scope.analysisModel == 'merchant')
+        $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比'];
+      if ($scope.analysisModel == 'shop')
+        $scope.headersZ = ['员工姓名', '销售额(元)', '百分比', '环比', '同比'];
+      if ($scope.analysisModel == 'shopItem')
+        $scope.headersZ = ['商品名称', '销售额(元)', '百分比', '环比', '同比'];
+      if ($scope.analysisModel == 'shop' || $scope.analysisModel == 'shopItem')
+        refreshChart();
+    }
   })
 
   $scope.$watch('analysisModel', function (){
-    if ($scope.analysisModel != 'employee')
-      $scope.virginEmployee = 0;
-    if ($scope.analysisModel != 'item')
-      $scope.virginItem = 0;
+    if ($scope.currentMerchant['address']) {
+      if ($scope.analysisModel != 'employee')
+        $scope.virginEmployee = 0;
+      if ($scope.analysisModel != 'item')
+        $scope.virginItem = 0;
+    }
   })
 
   $scope.$watch('shopsDiv', function() {
-    console.log('attempt to refresh caused by shopsDiv')
-    if ($scope.statisticsDeep == 1) {
-      $scope.statisticsDeep = 2;
-      $scope.dualChart = true;
-      refreshChart()
-    } else {
-      $scope.statisticsDeep = 1;
-      $scope.dualChart = false;
+    if ($scope.currentMerchant['address']) {
+      console.log('attempt to refresh caused by shopsDiv')
+      if ($scope.statisticsDeep == 1) {
+        $scope.statisticsDeep = 2;
+        $scope.dualChart = true;
+        refreshChart()
+      } else {
+        $scope.statisticsDeep = 1;
+        $scope.dualChart = false;
+        refreshChart()
+      }
+    }
+
+  })
+  $scope.$watch('unitModel', function () {
+    if ($scope.currentMerchant['address']) {
+      console.log('attempt to refresh caused by unitModel')
       refreshChart()
     }
   })
-  $scope.$watch('unitModel', function () {
-    console.log('attempt to refresh caused by unitModel')
-    refreshChart()
-  })
   $scope.$watch('periodModel', function () {
-    console.log('attempt to refresh caused by perodModel')
-    if ($scope.periodModel != 'custom')
-      refreshChart();
+    if ($scope.currentMerchant['address']) {
+      console.log('attempt to refresh caused by perodModel')
+      if ($scope.periodModel != 'custom')
+        refreshChart();
+    }
   })
   $scope.$watch('dateRange', function(){
-    console.log('attempt to refresh caused by dateRange')
-    $scope.unitModel = 'daily';
-    refreshChart();
+    if ($scope.currentMerchant['address']) {
+      console.log('attempt to refresh caused by dateRange')
+      $scope.unitModel = 'daily';
+      refreshChart();
+    }
   })
   //google chart utilities
   $scope.chartReady = function () {
