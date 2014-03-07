@@ -14,11 +14,11 @@
               <a href="" ng-click="selectView(view)" ng-class="{dropmenu:view.submenus.length > 0}">
                 <i class={{view.icon}}></i>
                 <span class="hidden-tablet"> {{view.name}}</span>
-                <span class="label" ng-if="view.submenus.length">{{view.submenus.length}}</span>
+                <span class="badge pull-right" style="margin-top: 2px" ng-if="view.submenus.length">{{view.submenus.length}}</span>
               </a>
-              <ul ng-show="view.submenus.length && (view == currentView || -1 < view.submenus.indexOf(currentView))" style="display: block">
+              <ul ng-show="view.submenus.length && (view == currentView || -1 < view.submenus.indexOf(currentView))" style="margin-left:10px;display: block">
                 <li ng-repeat="subview in view.submenus" ng-class="{active:subview == currentView}">
-                  <a class="submenu" ng-click="selectView(subview)">
+                  <a class="submenu" href ng-click="selectView(subview)">
                     <i class={{subview.icon}}></i>
                     <span class="hidden-tablet"> {{subview.name}}</span>
                   </a>
