@@ -1,33 +1,73 @@
 <div class="container">
-	<div class="row">
-		<div class="row">
-			<div class="page-header">
-			  <h1 class="text-center text-primary">泛商汇RMS - 零售管理系统</h1>
-			</div>
-			<div class="login-box">
-				<h2>请登录</h2>
-				<form class="form-horizontal" autofill-submit="login()" ui-keypress="{13:'Login($event)'}">
-					<fieldset>
-					
-						<input class="input-large col-xs-12" style="background-color:#383e4b" ng-model="loginUser.username" name="username" type="text" placeholder="用户名" required />
+    <div class="row">
+        <div class="row">
+            <div class="page-header" >
+                <h1 class="text-center text-primary"  >泛商汇RMS - 零售管理系统</h1>
+            </div>
 
-						<input class="input-large col-xs-12" style="background-color:#383e4b" ng-model="loginUser.password" name="password" type="password" placeholder="密码" required />
+            <script type="text/ng-template" id="myModalContent.html">
+                <div class="modal-header" style="background-color: #36a9e1">
+                    <h1 class="text-center" style="color: #ffffff">新用户注册</h1>
+                </div>
+                <div class="modal-body">
+                    <form role="form" >
+                        <div class="form-group col-lg-6">
+                            <label>手机号*</label>
+                            <input type="text" ng-model="registerUser.username" class="form-control" required="true">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>密码*</label>
+                            <input type="password" ng-model="registerUser.password" class="form-control" required="true">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>姓名*</label>
+                            <input type="text" ng-model="registerUser.displayName" class="form-control" required="true">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>身份证</label>
+                            <input type="number" ng-minlength=18 ng-model="registerUser.idcard" class="form-control">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>邮箱</label>
+                            <input type="email" ng-model="registerUser.email" class="form-control">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>性别</label><br>
+                            <div class="btn-group" style="text-align: right">
+                                <button type="button" class="btn btn-primary" ng-model="registerUser.male" btn-radio="true">男</button>
+                                <button type="button" class="btn btn-danger" ng-model="registerUser.male" btn-radio="false">女</button>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-6" style="text-align: right">
+                            <button type="submit" class="btn btn-primary col-xs-12" ng-click="ok()">注册</button>
+                        </div>
+                    </form>
+                    <br>
+                    <p style="padding-left: 15px">* 标注为必填项 </p>
+                </div>
 
-						<div class="clearfix"></div>
-					
-						<div class="clearfix"></div>
-
-						<button type="submit" class="btn btn-primary col-xs-12" ng-click="Login()">登录</button>
-					</fieldset>	
-				</form>
-        <alert type="alert.type" ng-hide="!alert">{{alert.msg}}</alert>
-				<hr>
-				<p class="text-center"> 泛盈科技 @2013</p>
-				<!-- <h3>Forgot Password?</h3>
-				<p>
-					No problem, <a href="login.html#">click here</a> to get a new password.
-				</p>	 -->
-			</div>
-		</div><!--/row-->
-	</div><!--/fluid-row-->
+            </script>
+            <div class="login-box">
+                <h2>请登录</h2>
+                <form class="form-horizontal" autofill-submit="login()" ui-keypress="{13:'Login($event)'}">
+                    <fieldset>
+                        <input class="input-large col-xs-12" ng-model="loginUser.username" name="username" type="text"
+                               placeholder="用户名" required/>
+                        <input class="input-large col-xs-12" ng-model="loginUser.password" name="password"
+                               type="password" placeholder="密码" required/>
+                        <div class="clearfix"></div>
+                        <div class="clearfix"></div>
+                        <button type="submit" class="btn btn-primary col-xs-5" ng-click="Login()">登录</button>
+                        <div class="col-xs-2"></div>
+                        <button class="btn btn-default col-xs-5" ng-click="registerWizard()">注册</button>
+                    </fieldset>
+                </form>
+                <alert type="alert.type" ng-hide="!alert">{{alert.msg}}</alert>
+                <hr>
+                <p class="text-center"> 泛盈科技 @2013</p>
+            </div>
+        </div>
+        <!--/row-->
+    </div>
+    <!--/fluid-row-->
 </div><!--/.fluid-container-->
