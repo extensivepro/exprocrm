@@ -53,7 +53,9 @@ function MainController($scope, Users, Merchants, Shops) {
     });
   };
   $scope.currentMerchant = {};
-  $scope.currentShowShop = {};
+  $scope.currentShowShop = {
+    shop:{}
+  };
   $scope.allShop = [];
   $scope.init = function () {
     Users.me(function (me) {
@@ -71,7 +73,7 @@ function MainController($scope, Users, Merchants, Shops) {
   $scope.$watch('currentMerchant', function () {
     if ($scope.currentMerchant['address']) {
       Shops.query({merchantID:$scope.currentMerchant.id}, function (shops) {
-        $scope.currentShowShop = shops[12];
+        $scope.currentShowShop.shop = shops[12];
         shops.forEach(function (item) {
           $scope.allShop.push(item);
         });

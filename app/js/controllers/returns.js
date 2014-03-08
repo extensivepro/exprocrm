@@ -58,7 +58,12 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
         {class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-trash-o", text: "删除", op:"remove"}
     ];
     $scope.isHide = true; //隐藏新增按钮
-  $scope.params['shopID'] = $scope.currentMerchant.shopIDs[0];
-  $scope.countQs['shopID'] = $scope.currentMerchant.shopIDs[0];
-  $scope.defaultString = "agent.name";
+    $scope.$watch('currentShowShop.shop', function () {
+      console.log('curr::', $scope.currentShowShop.shop.id);
+      $scope.params['shopID'] = $scope.currentShowShop.shop.id; // default use the first shop of the currentMerchant
+      $scope.countQs['shopID'] = $scope.currentShowShop.shop.id;
+      $scope.refreshList();
+    })
+    $scope.defaultString = "agent.name";
+    $scope.showOptions = true;
 }
