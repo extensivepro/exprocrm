@@ -89,7 +89,14 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
     $scope.entity = entity;
     $scope.activeView = "views/Analysis/employeeAnalysis.html"
   }
-  $scope.params['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});
-  $scope.countQs['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});
+  $scope.$watch('currentShowShop.shop', function () {
+    console.log('curr::', $scope.currentShowShop.shop.id);
+    $scope.params['shopID'] = $scope.currentShowShop.shop.id; // default use the first shop of the currentMerchant
+    $scope.countQs['shopID'] = $scope.currentShowShop.shop.id;
+    $scope.refreshList();
+  })
+//  $scope.params['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});
+//  $scope.countQs['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});
   $scope.defaultString = "name";
+  $scope.showOptions = true;
 }
