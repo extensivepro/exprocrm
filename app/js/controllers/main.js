@@ -1,4 +1,4 @@
-function MainController($scope, Users, Merchants) {
+function MainController($scope, Users, Merchants, Shops) {
   if (!$scope.me) $scope.me = {displayName: '未登录'};
   $scope.views = [
     {name: "销售统计", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html"},
@@ -53,6 +53,8 @@ function MainController($scope, Users, Merchants) {
     });
   };
   $scope.currentMerchant = {};
+  $scope.currentShowShop = {};
+  $scope.allShop = [];
   $scope.init = function () {
     Users.me(function (me) {
       $scope.me = me;
@@ -63,4 +65,21 @@ function MainController($scope, Users, Merchants) {
       $scope.me = {displayName: '未登录'};
     })
   }
+  $scope.showOp = function (index) {
+    $scope.currentIndex = index;
+  };
+  $scope.$watch('currentMerchant', function () {
+    if ($scope.currentMerchant['address']) {
+      Shops.query({merchantID:$scope.currentMerchant.id}, function (shops) {
+        $scope.currentShowShop = shops[12];
+        shops.forEach(function (item) {
+          $scope.allShop.push(item);
+        });
+      });
+    }
+  })
+  $scope.showCheckbox = function () {
+    $scope.showCbx = !$scope.showCbx;
+  }
+  $scope.checked = false;
 };
