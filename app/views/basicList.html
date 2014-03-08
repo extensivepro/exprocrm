@@ -30,7 +30,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6"></div>
+        <div class="col-lg-2">
+
+        </div>
+        <div class="col-lg-4"></div>
         <div class="col-lg-4">
             <form class="form-search" >
                 <div class="input-group">
@@ -42,6 +45,11 @@
             </form>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-2">
+        </div>
+        <div class="col-lg-10"></div>
+    </div>
     <br>
     <div class="alert alert-info" ng-show="loading">载入中</div>
     <div class="alert alert-info" ng-show="noSearchBack && !loading">抱歉，没有搜索到符合条件的记录</div>
@@ -50,7 +58,27 @@
         <thead>
         <tr>
             <th ng-repeat="field in fields" ng-show="!field.listHide">{{field.title}}</th>
-            <th>操作</th>
+            <th>
+                <div class="row">
+                    <div class="col-lg-4">操作</div>
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4">
+                        <a href="" ng-click="showCheckbox()" class="btn-danger" title="批量删除">
+                          <i class="fa fa-trash-o"></i>
+                        </a>
+                    </div>
+                </div>
+            </th>
+            <th ng-show="showCbx">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <input type="checkbox" ng-model="checked" title="全选">
+                    </div>
+                    <div class="col-lg-4">
+                        <button ng-click="deleteByIds()" class="btn btn-default btn-primary" style="margin: 0px; padding: 0px">删除</button>
+                    </div>
+                </div>
+            </th>
         </tr>
         </thead>
         <tbody>
@@ -60,9 +88,22 @@
                 <span ng-class="entity.fieldClass[field.name]" ng-if="!field.value">{{valueOfKeyString(entity, field.name)}}</span>
             </td>
             <td class="center btn-toolbar">
-                <a ng-repeat="op in fieldOperations" ng-class="op.class" title="{{op.title}}" ng-click="operateFunc(entity, op.op)" class="" style="margin-left: 5px; margin-right: 5px">
-                <i ng-class="op.icon"></i>
+                <li class="dropdown" style="list-style-type: none">
+                <a href class="btn btn-info dropdown-toggle" style="padding-bottom: 2px; padding-top: 2px">
+                    <i class="fa fa-info fa-lg"></i>
                 </a>
+                <ul class="dropdown-menu" style="min-width: 100px">
+                    <li ng-repeat="op in fieldOperations">
+                        <a ng-class="op.class" title="{{op.title}}"
+                           ng-click="operateFunc(entity, op.op)">
+                            <i ng-class="op.icon"></i>
+                        </a>
+                    </li>
+                </ul>
+                </li>
+            </td>
+            <td ng-show="showCbx">
+                <input type="checkbox" ng-checked="checked">
             </td>
         </tr>
         </tbody>
@@ -73,7 +114,7 @@
             显示 {{pagination.iStart}} ~ {{pagination.iEnd}} / {{pagination.iTotal}} 条
         </div>
         <div class="col-lg-12 center">
-            <pagination total-items="pagination.iTotal" page="pagination.iPage" max-size="pagination.maxSize"  rotate="false" previous-text="上一页" next-text="下一页"></pagination>
+            <pagination total-items="pagination.iTotal" items-per-page="pagination.iLength" page="pagination.iPage" max-size="pagination.maxSize"  rotate="false" previous-text="上一页" next-text="下一页"></pagination>
         </div>
     </div>
 </div>
