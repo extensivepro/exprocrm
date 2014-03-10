@@ -13,11 +13,18 @@
                     <form role="form" >
                         <div class="form-group col-lg-6">
                             <label>手机号*</label>
-                            <input type="text" ng-model="registerUser.username" class="form-control" required="true">
+                            <label style="color: red">{{userNameErrMess}}</label>
+                            <input type="number" ng-model="registerUser.username" class="form-control" required="true">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>密码*</label>
+                            <label style="color: red">{{passwordErrMess}}</label>
                             <input type="password" ng-model="registerUser.password" class="form-control" required="true">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>再次输入密码*</label>
+                            <label style="color: red">{{repasswordErrMess}}</label>
+                            <input type="password" ng-model="registerUser.repassword" class="form-control" required="true">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>姓名*</label>
@@ -25,7 +32,8 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label>身份证</label>
-                            <input type="number" ng-minlength=18 ng-model="registerUser.idcard" class="form-control">
+                            <label style="color: red">{{idcardErrMess}}</label>
+                            <input type="number" ng-model="registerUser.idcard" class="form-control">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>邮箱</label>
@@ -48,7 +56,7 @@
 
             </script>
             <div class="login-box">
-                <h2>请登录</h2>
+                <h2>{{loginTitle}}</h2>
                 <form class="form-horizontal" autofill-submit="login()" ui-keypress="{13:'Login($event)'}">
                     <fieldset>
                         <input class="input-large col-xs-12" ng-model="loginUser.username" name="username" type="text"
