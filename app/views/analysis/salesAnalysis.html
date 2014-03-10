@@ -9,8 +9,8 @@
                 </h2>
             </div>
             <div class="box-content">
-                <div class="row">
-                    <div class="col-lg-3" style="text-align: left">
+                <div class="row col-lg-12">
+                    <div class="col-lg-3" style="text-align: center;">
                         <div class="btn-group">
                             <button ng-click="lvlMove('e20dccdf039b3874')" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'merchant'">
                                 <i ng-class="views[3].icon"></i> 商户
@@ -29,8 +29,8 @@
                             </button>
                         </div>
                     </div>
-                    <div class="col-lg-6 row" style="text-align: center">
-                        <div class="col-lg-6" style="text-align: right; margin-right: -30px">
+                    <div class="col-lg-6 row" style="text-align: center; ">
+                        <div class="col-lg-6" style="text-align: center">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-success" ng-model="periodModel"
                                         btn-radio="'lastWeek'">
@@ -46,41 +46,42 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="col-lg-6" style="text-align: left">
+                        <div class="col-lg-6" style="text-align: center;">
                             <input class="form-control" format="YYYY年MM月DD日"
-                                   style="width: 252px;height: 32px; background-color: floralwhite" id="dateRange"
+                                   id="dateRange"
                                    type="daterange"
                                    ng-model="dateRange" disabled="true">
                         </div>
                     </div>
-                    <div class="col-lg-3" style="text-align: right">
+
+                    <div class="col-lg-3" style="text-align: center">
                         <div class="row">
-                            <div class="col-lg-6" style="text-align: right">
-                                <select class="form-control" ng-show="analysisModel == 'shop'||analysisModel == 'shopItem'" style="width: 130px; "
+                            <div class="col-lg-6" style="text-align: center">
+                                <select style="text-align: center; " class="form-control" ng-show="analysisModel == 'shop'||analysisModel == 'shopItem'" style="width: 130px; "
                                         ng-model="currentShop"
                                         ng-options="currentShop.name for currentShop in currentShops|orderBy:columnSort.sortColumn:columnSort.reverse">
                                 </select>
-                                <select class="form-control" ng-show="analysisModel == 'employee'" style="width: 130px;"
+                                <select style="text-align: center; " class="form-control" ng-show="analysisModel == 'employee'" style="width: 130px;"
                                         ng-model="currentEmployee"
                                         ng-options="currentEmployee.name for currentEmployee in currentEmployees|orderBy:columnSort.sortColumn:columnSort.reverse">
                                 </select>
-                                <select class="form-control" ng-show="analysisModel == 'item'" style="width: 130px;"
+                                <select style="text-align: center; " class="form-control" ng-show="analysisModel == 'item'" style="width: 130px;"
                                         ng-model="currentItem"
                                         ng-options="currentItem.name for currentItem in currentItems|orderBy:columnSort.sortColumn:columnSort.reverse">
                                 </select>
                             </div>
                             <div class="col-lg-6" >
-                                <button style="margin-right: -30px" ng-show="analysisModel == 'merchant'" type="button" class="btn btn-primary"
+                                <button style="margin-right: 0px" ng-show="analysisModel == 'merchant'" type="button" class="btn btn-primary"
                                         ng-model="shopsDiv" btn-checkbox btn-checkbox-true="true"
                                         btn-checkbox-false="false">
                                     所有商店
                                 </button>
-                                <button style="margin-right: -30px" ng-show="analysisModel == 'shop'" type="button" class="btn btn-primary"
+                                <button style="margin-right: 0px" ng-show="analysisModel == 'shop'" type="button" class="btn btn-primary"
                                         ng-model="shopsDiv" btn-checkbox btn-checkbox-true="true"
                                         btn-checkbox-false="false">
                                     所有员工
                                 </button>
-                                <button style="margin-right: -30px" ng-show="analysisModel == 'shopItem'" type="button" class="btn btn-primary"
+                                <button style="margin-right: 0px" ng-show="analysisModel == 'shopItem'" type="button" class="btn btn-primary"
                                         ng-model="shopsDiv" btn-checkbox btn-checkbox-true="true"
                                         btn-checkbox-false="false">
                                     所有商品
