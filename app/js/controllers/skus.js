@@ -9,7 +9,12 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
     $scope.searchOptions.tooltip = "请输入经手人名称";
     $scope.editView = "views/skus/edit.html"
     $scope.profileAvatar = "img/avatar.jpg"
-
+    $scope.fieldOperations = [
+      {class: "btn btn-success", icon: "fa fa-file", op: "showProfile", title:'详情'}
+      ,
+      {class: "btn btn-danger", icon: "fa fa-trash-o", op: "remove", title:'删除'}
+    ]
+    $scope.isHide = true;
     // profile
     $scope.profileFields = [
 //        {name: "id", title: "id"},
