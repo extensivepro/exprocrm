@@ -16,7 +16,6 @@ function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injec
 		,	{name: "createdAt", title: "注册日期", readonly:true, createHide: true}
     ,	{name: "updateAt", title: "更新日期", unlist:true, readonly:true, createHide: true}
   ]
-
   // route
   $scope.showCreate = function() {
     var d = new Date()
@@ -32,7 +31,10 @@ function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injec
     ]
     $scope.activeView = "views/devices/register.html"
   }
-  
+
+  $scope.params['merchantID'] = $scope.currentMerchant.id;
+  $scope.countQs['merchantID'] = $scope.currentMerchant.id;
+  $scope.defaultString = "name";
   // model
   $scope.validate = function (index) {
     var field = $scope.registerFields[index]

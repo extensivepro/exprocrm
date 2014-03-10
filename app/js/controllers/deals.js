@@ -15,16 +15,16 @@ function DealsController($scope, Deals, Pagination, $timeout, $injector){
     // profile
     $scope.profileFields = [
 //        {name: "id", title: "id"},
-        {name: "shopID", title: "商店ID", listHide:true},
+        {name: "shopID", title: "商店ID", listHide:true, isProfileHide:true},
         {name: "serialNumber", title: "流水号",  required:true},
-        {name: "deviceCode", title: "设备编码",listHide:true, required:true},
-        {name: "deviceID", title: "设备ID",listHide:true, required:true},
-        {name: "billID", title: "交易ID",listHide:true, required:true},
+        {name: "deviceCode", title: "设备编码",listHide:true, required:true, isProfileHide:true},
+        {name: "deviceID", title: "设备ID",listHide:true, required:true, isProfileHide:true},
+        {name: "billID", title: "交易ID",listHide:true, required:true, isProfileHide:true},
         {name: "quantity", title: "数量", required:true},
         {name: "fee", title: "成交金额", required:true,value:function(entity) {
             return (entity.fee/100).toFixed(2);
         } },
-        {name: "memo", title: "memo",listHide:true, required:true},
+        {name: "memo", title: "memo",listHide:true, required:true, isProfileHide:true},
         {name: "items", title: "商品", value:function(entity) {
             var itemNames = "";
             entity.items.forEach(function (item) {

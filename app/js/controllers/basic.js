@@ -81,18 +81,20 @@ function BasicController($scope, Pagination) {
   $scope.countQs = {};
   $scope.search = {};
   $scope.refreshList = function () {
-    // query for getting count
-    $scope.resource.count($scope.countQs, function (result) {
-      $scope.pagination.paginate(result.count)
-    });
-    // query for getting result
-    var p = $scope.pagination;
-    $scope.params.$sort = $scope.sortOptions;
-    $scope.params.$skip = (p.iPage - 1) * p.iLength;
-    $scope.params.$limit = p.iLength;
-    $scope.resource.query($scope.params, function (results) {
-      $scope.entities = results;
-    });
+    if ($scope.countQs.hasOwnProperty('merchantID') || $scope.countQs.hasOwnProperty('shopID') || $scope.countQs.hasOwnProperty('merchant.merchantID')) {
+      // query for getting count
+      $scope.resource.count($scope.countQs, function (result) {
+        $scope.pagination.paginate(result.count)
+      });
+      // query for getting result
+      var p = $scope.pagination;
+      $scope.params.$sort = $scope.sortOptions;
+      $scope.params.$skip = (p.iPage - 1) * p.iLength;
+      $scope.params.$limit = p.iLength;
+      $scope.resource.query($scope.params, function (results) {
+        $scope.entities = results;
+      });
+    }
   }
 
   $scope.$watch('search.text', function () {
@@ -161,5 +163,26 @@ function BasicController($scope, Pagination) {
       v = new Date(v * 1000).toLocaleString()
     }
     return v
+  }
+
+  // 批量删除
+  $scope.deleteByIds = function () {
+    var ids = [];
+    $('input[name="chbox"]:checked').each(function () {
+      ids.push($(this).val());
+    });
+    if (!ids.length) {
+      alert('你还没有选择任何内容');
+    } else {
+      if (confirm("确定要删除吗？")) {
+        $scope.parameter = {};
+        $scope.parameter.id = JSON.stringify({$in:ids})
+        $scope.resource.put($scope.parameter, function (result) {
+          console.log('result:', result);
+          $scope.refreshList()
+        })
+
+      }
+    }
   }
 }

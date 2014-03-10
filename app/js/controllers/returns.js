@@ -15,12 +15,18 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
     // profile
     $scope.profileFields = [
 //        {name: "id", title: "id"},
-        {name: "shopID", title: "商店ID", listHide:true},
-        {name: "dealID", title: "交易ID", listHide:true},
-        {name: "billID", title: "账单ID", listHide:true},
-        {name: "memo", title: "memo", listHide:true},
-        {name: "items", title: "items", listHide:true},
-        {name: "deviceID", title: "deviceID", listHide:true},
+        {name: "shopID", title: "商店ID", listHide:true, isProfileHide:true},
+        {name: "dealID", title: "交易ID", listHide:true, isProfileHide:true},
+        {name: "billID", title: "账单ID", listHide:true, isProfileHide:true},
+        {name: "memo", title: "memo", listHide:true, isProfileHide:true},
+        {name: "items", title: "items", listHide:true, value: function (entity) {
+          var itemNames = "";
+          entity.items.forEach(function (item) {
+            itemNames += item.dealItem.item.name + " ";
+          });
+          return itemNames;
+        }},
+        {name: "deviceID", title: "deviceID", listHide:true, isProfileHide:true},
         {name: "dealSerialNumber", title: "退单号"},
         {name: "serialNumber", title: "交易流水号", listHide:true},
         {name: "quantity", title: "数量"},
