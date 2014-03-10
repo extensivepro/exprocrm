@@ -14,7 +14,7 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
     $scope.profileFields = [
 //        {name: "id", title: "id"},
         {name: "shopID", title: "商店ID", required:true, listHide:true},
-        {name: "itemID", title: "商品编码", required:true},
+        {name: "itemCode", title: "商品编码", required:true},
         {name: "itemName", title: "商品", required:true},
         {name: "quantity", title: "数量", required:true},
         {name: "sumPrice", title: "支出", required:true,value:function(entity) {

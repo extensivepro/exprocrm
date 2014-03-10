@@ -61,7 +61,7 @@ function MainController($scope, Users, Merchants, Shops) {
     Users.me(function (me) {
       $scope.me = me;
       Merchants.query({'owner.id':me.id}, function (merchants) {
-        $scope.currentMerchant = merchants[7]; // the default merchant('吉林省梅河口中联商业广场') is in merchants[7]
+        $scope.currentMerchant = merchants[7] || merchants[0]; // the default merchant('吉林省梅河口中联商业广场') is in merchants[7]
       })
     }, function () {
       $scope.me = {displayName: '未登录'};
@@ -73,7 +73,7 @@ function MainController($scope, Users, Merchants, Shops) {
   $scope.$watch('currentMerchant', function () {
     if ($scope.currentMerchant['address']) {
       Shops.query({merchantID:$scope.currentMerchant.id}, function (shops) {
-        $scope.currentShowShop.shop = shops[12];
+        $scope.currentShowShop.shop = shops[12] || shops[0];
         shops.forEach(function (item) {
           $scope.allShop.push(item);
         });
