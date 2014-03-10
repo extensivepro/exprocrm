@@ -32,11 +32,14 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
     $scope.primaryName = undefined;
     $scope.virginEmployee = 0;
     $scope.virginItem = 0;
+    $scope.showPrimaryChart = false;
     widthFunctions();
   }
 
   //empty basic chart initialization
   function basicChartInit() {
+    console.log("basicChartInit");
+    $scope.showPrimaryChart = false;
     var chart = {};
     chart.displayed = true;
     chart.cssStyle = "height:350px; width:100%;text-align: right;";
@@ -63,6 +66,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
 
   //chart configuration
   function chartConfig(chart, type, title, cols, legend, callback) {
+    console.log("chartConfig");
     chart.type = type;
     chart.data.cols = cols;
     chart.data.rows = [];
@@ -79,6 +83,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
 
   //set cols for division chart
   function colSet(primaryCols, primaryType, primaryTitle, primaryLegend, callback) {
+    console.log("colSet");
     primaryCols = [
       {id: "period", label: "周期", type: "string"}
     ];
@@ -94,6 +99,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
 
   //chart handler
   function chartHandler(callback) {
+    console.log("chartHandler");
     var chart = basicChartInit();
     var primaryType = 'ColumnChart';
     var primaryTitle = ($scope.primaryName == undefined) ? '商户进货统计' : $scope.primaryName + '进货统计';
@@ -145,6 +151,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
 
   //set row text
   function rowSet(statParam, chart, rows, until, callback) {
+    console.log("rowSet");
     for (var i = statParam.limit, j = 0; i > 0; i--) {
       var d = Statistics.periodDate(until - i + 1, statParam.period);
       var day = moment(d).weekday();
@@ -172,6 +179,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
 
   //initialize statistics parameters
   function statParamInit(keyIDs) {
+    console.log("statParamInit");
     var statParam = {}
     statParam.keyID = keyIDs;
     statParam.period = $scope.unitModel;
@@ -199,6 +207,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
   }
 
   function getResult(arr) {
+    console.log("getResult");
     var tempArr = []; // 1,2,3,6
     for (var i = 0; i < arr.length; i++) {
       var at = arr[i].value.statAt;
@@ -245,6 +254,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
 
   //set sale numbers
   function saleSet(rows, until, statParam, chart, callback) {
+    console.log("saleSet");
     if ($scope.statisticsDeep == 1) {
       Statistics.query(statParam, function (result) {
 //        console.log(result);
@@ -314,6 +324,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
   }
 
   function sumSet(statParam, chart, callback) {
+    console.log("sumSet");
     $scope.tbRows = [];
     var hist = {};
     var names = [];
@@ -375,6 +386,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
     }
   }
   function fillChart(statParam) {
+    console.log("fillChart");
     if ($scope.periodModel != 'custom'){
       $scope.unitModel = 'daily';
       $scope.dateRange = {
@@ -390,6 +402,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
       rowSet(statParam, $scope.primaryChart, rows, until, function (){
         saleSet(rows, until, statParam, $scope.primaryChart, function() {
           console.log('Sale Set to primary chart completed'); //if load is to be added, this is the place
+
           if ($scope.dualChart == true)
             sumSet(statParam, $scope.offChart, function (){})
           refresh = false;
@@ -400,6 +413,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
     });
   }
   $scope.lvlMove = function (tbRow){
+    console.log("lvlMove");
     $scope.primaryKeyID = tbRow.id || tbRow;
     $scope.primaryName = tbRow.name || undefined;
     if($scope.analysisModel == 'merchant'){
@@ -433,6 +447,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
   }
 
   $scope.$watch('currentShop', function (){
+    console.log("$watch('currentShop'");
     if ($scope.currentShop == undefined)
       return;
     $scope.primaryKeyID = $scope.currentShop.id || undefined;
@@ -441,6 +456,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
   })
 
   $scope.$watch('currentEmployee', function (){
+    console.log("$watch('currentEmployee'");
     if ($scope.currentEmployee == undefined)
       return;
     $scope.primaryKeyID = $scope.currentEmployee.id || undefined;
@@ -454,6 +470,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
   })
 
   $scope.$watch('currentItem', function (){
+    console.log("$watch('currentItem'");
     if ($scope.currentItem == undefined)
       return;
     $scope.primaryKeyID = $scope.currentItem.id || undefined;
@@ -467,6 +484,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
   })
 
   $scope.$watch('analysisModel', function(){
+    console.log("$watch('analysisModel'");
     if ($scope.analysisModel == 'merchant')
       $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比'];
     if ($scope.analysisModel == 'shop')
@@ -478,6 +496,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
   })
 
   $scope.$watch('analysisModel', function (){
+    console.log("$watch('analysisModel2'");
     if ($scope.analysisModel != 'employee')
       $scope.virginEmployee = 0;
     if ($scope.analysisModel != 'item')
@@ -485,6 +504,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
   })
 
   $scope.$watch('shopsDiv', function() {
+    console.log("$watch('shopsDiv'");
     console.log('attempt to refresh caused by shopsDiv')
     if ($scope.statisticsDeep == 1) {
       $scope.statisticsDeep = 2;
@@ -512,6 +532,8 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
   })
   //google chart utilities
   $scope.chartReady = function () {
+    $scope.showPrimaryChart = true;
+    console.log('chartReady')
     fixGoogleChartsBarsBootstrap();
   }
   function fixGoogleChartsBarsBootstrap() {

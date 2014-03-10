@@ -3,6 +3,8 @@ function SignController($scope, Users, $location, $modal, $cookies, $log){
 		username:"", password:""
 	}
 
+  $scope.loginTitle = "请登录"
+
   $scope.registerUser = {
     username: "", password: "",
     displayName: "", idcard: "",
@@ -21,6 +23,9 @@ function SignController($scope, Users, $location, $modal, $cookies, $log){
     });
 
     modalInstance.result.then(function (registerUser) {
+      $scope.loginTitle = "注册成功！请登录";
+      $scope.loginUser.username = $scope.registerUser.username;
+      $scope.loginUser.password = $scope.registerUser.password;
       Users.save(registerUser, function(){console.log('user registered')})
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
