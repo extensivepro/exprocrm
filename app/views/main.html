@@ -12,9 +12,16 @@
           <ul class="nav nav-tabs nav-stacked main-menu">
             <li ng-repeat="view in views" ng-class="{active:view == currentView && !view.submenus}">
               <a href="" ng-click="selectView(view)" ng-class="{dropmenu:view.submenus.length > 0}">
-                <i class={{view.icon}}></i>
-                <span class="hidden-tablet"> {{view.name}}</span>
-                <span class="badge pull-right" style="margin-top: 2px" ng-if="view.submenus.length">{{view.submenus.length}}</span>
+                  <div class="row">
+                      <div class="col-lg-10">
+                          <i class={{view.icon}}></i>
+                          <span class="hidden-tablet"> {{view.name}}</span>
+                      </div>
+                      <div class="col-lg-2">
+                          <span class="badge" style="margin-top: 2px" ng-if="view.submenus.length">{{view.submenus.length}}</span>
+                      </div>
+                  </div>
+
               </a>
               <ul ng-show="view.submenus.length && (view == currentView || -1 < view.submenus.indexOf(currentView))" style="margin-left:10px;display: block">
                 <li ng-repeat="subview in view.submenus" ng-class="{active:subview == currentView}">

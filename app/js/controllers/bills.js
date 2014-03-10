@@ -16,18 +16,23 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
 //        {name: "id", title: "id"},
         {name: "createdAt", title: "日期"},
         {name: "billNumber", title: "账单号", listHide:true},
-        {name: "deviceID", title: "deviceID", listHide:true},
-        {name: "dealID", title: "dealID",  listHide:true},
-        {name: "discountAmount", title: "折扣数", listHide:true},
+        {name: "deviceID", title: "deviceID", listHide:true, isProfileHide:true},
+        {name: "dealID", title: "dealID",  listHide:true, isProfileHide:true},
+        {name: "discountAmount", title: "折扣数", listHide:true, value: function (entity) {
+          return (entity.discountAmount/100).toFixed(2);
+        }},
 
         {name: "dealType", title: "交易类型",value:function(entity) {
             var type = entity.dealType;
-//            console.log("type:" + type);
+            entity.fieldClass = entity.fieldClass || {}
             if (type == 'deal') {
+                entity.fieldClass.dealType = "label label-success";
                 return '交易';
             } else if (type == 'prepay') {
+                entity.fieldClass.dealType = "label label-info";
                 return  '充值';
             } else {
+                entity.fieldClass.dealType = "label label-warning";
                 return '退款';
             }
         }},
@@ -38,15 +43,15 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
         {name: "memberSettlement", title: "顾客", value:function(entity) {
             if (!entity.hasOwnProperty('memberSettlement')) {
                 return "";
-            } else if (!entity.memberSettlement.hasOwnProperty('payerAccount'))  {
+            } else if (!entity.memberSettlement.hasOwnProperty('payeeAccount'))  {
                 return "";
             } else {
-                return entity.memberSettlement.payerAccount.name;
+                return entity.memberSettlement.payeeAccount.name;
             }
         }},
-        {name: "memo", title: "memo",listHide:true},
+        {name: "memo", title: "memo",listHide:true, isProfileHide:true},
         {name: "agentName", title: "经手人"},
-        {name: "shopID", title: "shopID",listHide:true}
+        {name: "shopID", title: "shopID",listHide:true, isProfileHide:true}
 
 
     ];

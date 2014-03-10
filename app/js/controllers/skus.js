@@ -51,13 +51,10 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
             console.log('error:', err)
         })
     }
-
     $scope.params['shopID'] = $scope.currentMerchant.shopIDs[0]; // default use the first shop of the currentMerchant
     $scope.countQs['shopID'] = $scope.currentMerchant.shopIDs[0];
     $scope.defaultString = "operator.name";
-    $scope.deleteByIds = function () {
-      console.log('deleteByIDs');
-    }
+
     $scope.$watch('currentShowShop.shop', function () {
       console.log('curr::', $scope.currentShowShop.shop.id);
       $scope.params['shopID'] = $scope.currentShowShop.shop.id; // default use the first shop of the currentMerchant
