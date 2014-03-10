@@ -13,7 +13,7 @@ function MainController($scope, Users, Merchants, Shops) {
       {name: "商店管理", icon: "fa fa-inbox", path: "views/shop/index.html"},
       {name: "员工管理", icon: "fa fa-wrench", path: "views/employee/index.html"},
       {name: "商品管理", icon: "fa fa-cog", path: "views/item/index.html"},
-      {name: "库存管理", icon: "fa fa-truck", path: "views/skus/index.html"},
+      {name: "库存记录", icon: "fa fa-truck", path: "views/skus/index.html"},
       {name: "会员管理", icon: "fa fa-user", path: "views/members/index.html"},
       {name: "积分管理", icon: "fa fa-gift", path: "views/points/index.html"},
       {name: "当前商户", icon: "fa fa-gift", path: "views/merchant/index.html"}
@@ -61,7 +61,7 @@ function MainController($scope, Users, Merchants, Shops) {
     Users.me(function (me) {
       $scope.me = me;
       Merchants.query({'owner.id':me.id}, function (merchants) {
-        $scope.currentMerchant = merchants[7]; // the default merchant('吉林省梅河口中联商业广场') is in merchants[7]
+        $scope.currentMerchant = merchants[7] || merchants[0]; // the default merchant('吉林省梅河口中联商业广场') is in merchants[7]
       })
     }, function () {
       $scope.me = {displayName: '未登录'};
@@ -73,7 +73,7 @@ function MainController($scope, Users, Merchants, Shops) {
   $scope.$watch('currentMerchant', function () {
     if ($scope.currentMerchant['address']) {
       Shops.query({merchantID:$scope.currentMerchant.id}, function (shops) {
-        $scope.currentShowShop.shop = shops[12];
+        $scope.currentShowShop.shop = shops[12] || shops[0];
         shops.forEach(function (item) {
           $scope.allShop.push(item);
         });
