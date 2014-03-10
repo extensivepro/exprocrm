@@ -310,7 +310,7 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
   function refreshChart() {
     if (refresh == true) return;
     refresh = true;
-    var primaryID = $scope.primaryKeyID;
+    var primaryID = $scope.primaryKeyID || $scope.currentMerchant.id;
     console.log('refreshing')
     if (true) {
       $scope.primaryStatParam = statParamInit(primaryID)
