@@ -16,6 +16,24 @@ function HeaderController($scope, $location, Users, $modal, $log) {
     });
 
   }
+
+  $scope.showUserSettingDialog = function () {
+    // $log.info('Open passoword Dialog :' + new Date());
+    $scope.user = $scope.__proto__.$parent.me;
+    var modalInstance = $modal.open({
+      templateUrl: 'userSettingDialog.html',
+      controller: UserSettingController,
+      resolve: {
+        me: function () {
+          return $scope.user;
+        }
+      }
+    });
+    modalInstance.result.then(function () {
+    }, function () {
+      // $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
   
   $scope.showChangePasswordDialog = function () {
     // $log.info('Open passoword Dialog :' + new Date());
@@ -41,6 +59,7 @@ function HeaderController($scope, $location, Users, $modal, $log) {
 }
 function ShowUserProfileController($scope, $modalInstance, me) {
   $scope.me = me;
+//  console.log($scope.me)
   $scope.profileAvatar = "img/avatar.jpg"
   $scope.profileFields = [
     {name: "username", title: "用户名", readonly:true}
@@ -78,8 +97,39 @@ function ShowUserProfileController($scope, $modalInstance, me) {
   };
 
 }
+
+function UserSettingController($scope, Users, $modalInstance, me) {
+  $scope.me = me;
+//  console.log($scope.me)
+  $scope.profileFields = [
+    {name: "name", title: "姓名", required: true, type: "text"}
+    , {name: "idcard", title: "身份证", required: true, type: "text"}
+    , {name: "phone", title: "手机号", required: true, type: "text"}
+    ,	{name: "email", title: "电子邮箱", type: "email"}
+  ]
+
+  $scope.userSettingSave = function() {
+    if ($scope.me["idcard"].length != 18)
+      $scope.alert = { type: 'danger', msg: "请输入长度为18位的有效身份证号" };
+    else if ($scope.me["phone"].length != 11)
+      $scope.alert = { type: 'danger', msg: "请输入长度为11位的有效手机号" };
+    else if ($scope.me["name"].length == 0)
+      $scope.alert = { type: 'danger', msg: "姓名不能为空" };
+    else {
+      Users.save({userID:$scope.me.id}, $scope.me, function() {
+        $scope.alert = { type: 'success', msg: "用户设定成功" };
+        setTimeout(function(){$modalInstance.close();}, 500);
+      }, function() {
+        $scope.alert = { type: 'danger', msg: "用户设定失败" };
+      })
+    }
+//    console.log($scope.me["idcard"].length)
+  }
+}
+
 function SettingPasswordController($scope, $rootScope, Users, $modalInstance, me) {
   $scope.me = me;
+
 	$scope.newPassword = "";
 	$scope.passwordConfirmation = "";
 	
@@ -93,7 +143,7 @@ function SettingPasswordController($scope, $rootScope, Users, $modalInstance, me
 		} else {
 			Users.save({userID:$scope.me.id}, {password:$scope.newPassword}, function() {
         $scope.alert = { type: 'success', msg: "修改密码成功" };
-        $modalInstance.close();
+        setTimeout(function(){$modalInstance.close();}, 500);
 			}, function() {
         $scope.alert = { type: 'danger', msg: "更新失败请重试" };
 			})
