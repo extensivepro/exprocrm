@@ -20,6 +20,14 @@
 </div>
 <div class="box-content">
     <div class="row">
+        <!--START:operator for deletes-->
+        <div class="col-lg-1">
+            <a href="" ng-click="showCheckbox()" class="btn btn-success" title="批量删除">
+                <i class="fa fa-trash-o">批量删除</i>
+            </a>
+        </div>
+        <!--END:operator for deletes-->
+        <!--START:operator for switch page's length-->
         <div class="col-lg-3">
             <div class="row">
                 <div class="col-lg-8">
@@ -30,6 +38,8 @@
                 </div>
             </div>
         </div>
+        <!--END:operator for switch page's length-->
+        <!--START:operator for switch shops-->
         <div class="col-lg-3">
             <div class="row" ng-if="showOptions" >
                 <div class="col-lg-8">
@@ -41,9 +51,10 @@
                     <h4>切换商店</h4>
                 </div>
             </div>
-
         </div>
-        <div class="col-lg-3"></div>
+        <!--END:operator for switch shops-->
+        <div class="col-lg-2"></div>
+        <!--START: operator for search-->
         <div class="col-lg-3">
             <form class="form-search" >
                 <div class="input-group">
@@ -54,71 +65,80 @@
                 </div>
             </form>
         </div>
+        <!--END: operator for search-->
     </div>
-    <div class="row">
-        <div class="col-lg-2">
-        </div>
-        <div class="col-lg-10"></div>
-    </div>
-    <br>
-    <div class="alert alert-info" ng-show="loading">载入中</div>
-    <div class="alert alert-info" ng-show="noSearchBack && !loading">抱歉，没有搜索到符合条件的记录</div>
-    <div ng-show="!loading && !noSearchBack" >
-    <table class="table table-striped table-bordered bootstrap-datatable datatable">
+
+    <!--just for generate margin between the operator column and table-->
+    <div class="row" style="height: 10px"></div>
+
+    <!--START: table for showing datas-->
+    <table class="table table-striped table-bordered bootstrap-datatable datatable table-hover">
         <thead>
         <tr>
-            <th ng-repeat="field in fields" ng-show="!field.listHide">{{field.title}}</th>
-            <th>
-                <div class="row">
-                    <div class="col-lg-4">操作</div>
-                    <div class="col-lg-4"></div>
-                    <div class="col-lg-4">
-                        <a href="" ng-click="showCheckbox()" class="btn-danger" title="批量删除">
-                          <i class="fa fa-trash-o"></i>
-                        </a>
-                    </div>
-                </div>
-            </th>
             <th ng-show="showCbx">
                 <div class="row">
                     <div class="col-lg-8">
                         <input type="checkbox" ng-model="checked" title="全选">
                     </div>
                     <div class="col-lg-4">
-                        <button ng-click="deleteByIds()" class="btn btn-default btn-primary" style="margin: 0px; padding: 0px">删除</button>
+                        <button ng-click="deleteByIds()" class="btn btn-default btn-success" style="margin: 0px; padding: 0px">删除</button>
                     </div>
                 </div>
+            </th>
+            <th ng-repeat="field in fields" ng-show="!field.listHide">
+                {{field.title}}
             </th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="entity in entities | limitTo: pagination.iLength">
-            <td class="center" ng-repeat="field in fields" ng-show="!field.listHide">
-                <span ng-class="entity.fieldClass[field.name]"  ng-if="field.value">{{field.value(entity)}}</span>
-                <span ng-class="entity.fieldClass[field.name]" ng-if="!field.value">{{valueOfKeyString(entity, field.name)}}</span>
-            </td>
-            <td class="center btn-toolbar">
-                <li class="dropdown" style="list-style-type: none">
-                <a href class="btn btn-info dropdown-toggle" style="padding-bottom: 2px; padding-top: 2px">
-                    <i class="fa fa-info fa-lg"></i>
-                </a>
-                <ul class="dropdown-menu" style="min-width: 100px">
-                    <li ng-repeat="op in fieldOperations">
-                        <a ng-class="op.class" title="{{op.title}}"
-                           ng-click="operateFunc(entity, op.op)">
-                            <i ng-class="op.icon"></i>
-                        </a>
-                    </li>
-                </ul>
-                </li>
-            </td>
-            <td ng-show="showCbx">
-                <input type="checkbox" name="chbox" value="{{entity.id}}" ng-checked="checked">
-            </td>
-        </tr>
+            <!--START: modal for operation-->
+            <div>
+                <script type="text/ng-template" id="myModalContent.html">
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div ng-class="cols" ng-repeat="op in fieldOperations" style="text-align:center;">
+                                    <a ng-class="op.class" title="{{op.title}}" ng-click="operateFun(op.op)">
+                                        <i ng-class="op.icon"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </script>
+            </div>
+            <!--END: modal for operation-->
+            <!--START: temp css for tr-->
+            <style>
+                tr:hover,
+                tr:focus {
+                    color: #2a6496;
+                }
+
+                tr:focus {
+                    outline: thin dotted #333;
+                    outline: 5px auto -webkit-focus-ring-color;
+                    outline-offset: -2px;
+                }
+            </style>
+            <!--END: temp css for tr -->
+            <!--START: list all datas for table-->
+            <tr class="tr" style="cursor: pointer" ng-click="open(entity)"
+                ng-repeat="entity in entities | limitTo: pagination.iLength">
+                <td ng-show="showCbx" ng-click="doNothing($event)">
+                    <input type="checkbox" ng-model="none" name="chbox" value="{{entity.id}}" ng-checked="checked">
+                </td>
+                <td class="center" ng-repeat="field in fields" ng-show="!field.listHide">
+                    <span ng-class="entity.fieldClass[field.name]" ng-if="field.value">{{field.value(entity)}}</span>
+                    <span ng-class="entity.fieldClass[field.name]" ng-if="!field.value">{{valueOfKeyString(entity, field.name)}}</span>
+                </td>
+            </tr>
+            <!--END: list all datas for table-->
         </tbody>
     </table>
+    <!--END: table for showing datas-->
 
+    <!--START: pagination-->
     <div class="row">
         <div class="col-lg-12">
             显示 {{pagination.iStart}} ~ {{pagination.iEnd}} / {{pagination.iTotal}} 条
@@ -127,5 +147,6 @@
             <pagination total-items="pagination.iTotal" items-per-page="pagination.iLength" page="pagination.iPage" max-size="pagination.maxSize"  rotate="false" previous-text="上一页" next-text="下一页"></pagination>
         </div>
     </div>
+    <!--END: pagination-->
 </div>
 </div>

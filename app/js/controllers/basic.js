@@ -1,4 +1,4 @@
-function BasicController($scope, Pagination) {
+function BasicController($scope, Pagination, $modal, $log) {
   $scope.activeView = "views/basicList.html"
   $scope.resource = undefined
   $scope.searchFields = []
@@ -47,11 +47,11 @@ function BasicController($scope, Pagination) {
   // list
   $scope.fields = []
   $scope.fieldOperations = [
-    {class: "btn btn-success", icon: "fa fa-file", op: "showProfile", title:'详情'}
+    {class: "btn btn-success", icon: "fa fa-file fa-5x", op: "showProfile", title:'详情'}
     ,
-    {class: "btn btn-info", icon: "fa fa-edit", op: "showEdit",title:'编辑'}
+    {class: "btn btn-info", icon: "fa fa-edit fa-5x", op: "showEdit",title:'编辑'}
     ,
-    {class: "btn btn-danger", icon: "fa fa-trash-o", op: "remove", title:'删除'}
+    {class: "btn btn-danger", icon: "fa fa-trash-o fa-5x", op: "remove", title:'删除'}
   ]
 
   // profile
@@ -81,7 +81,7 @@ function BasicController($scope, Pagination) {
   $scope.countQs = {};
   $scope.search = {};
   $scope.refreshList = function () {
-    if ($scope.countQs.hasOwnProperty('merchantID') || $scope.countQs.hasOwnProperty('shopID') || $scope.countQs.hasOwnProperty('merchant.merchantID')) {
+    if ($scope.countQs.hasOwnProperty('merchantID') || $scope.countQs.hasOwnProperty('shopID') || $scope.countQs.hasOwnProperty('merchant.merchantID') || $scope.countQs.hasOwnProperty('owner.id')) {
       // query for getting count
       $scope.resource.count($scope.countQs, function (result) {
         $scope.pagination.paginate(result.count)
@@ -165,6 +165,10 @@ function BasicController($scope, Pagination) {
     return v
   }
 
+  $scope.showCheckbox = function () {
+    $scope.showCbx = !$scope.showCbx;
+  }
+  $scope.checked = false;
   // 批量删除
   $scope.deleteByIds = function () {
     var ids = [];
@@ -185,4 +189,49 @@ function BasicController($scope, Pagination) {
       }
     }
   }
+
+  $scope.open = function (obj) {
+    var modalInstance = $modal.open({
+      templateUrl: 'myModalContent.html',
+      controller: ModalInstanceCtrl,
+      resolve: {
+        obj: function () {
+          return obj;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (op) {
+      var self = $scope.operateFunc;
+      $scope.operateFunc = function (op) {
+        $scope[op](obj);
+      }
+      $scope.operateFunc(op);
+      $scope.operateFunc = self;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+  $scope.doNothing = function ($event) {
+    $event.stopPropagation();
+    return;
+  }
 }
+
+var ModalInstanceCtrl = function ($injector, $scope, $modalInstance, obj) {
+  $scope.fieldOperations = [
+    {class: "btn btn-success", icon: "fa fa-file fa-5x", op: "showProfile", title:'详情'}
+    ,
+    {class: "btn btn-info", icon: "fa fa-edit fa-5x", op: "showEdit",title:'编辑'}
+    ,
+    {class: "btn btn-danger", icon: "fa fa-trash-o fa-5x", op: "remove", title:'删除'}
+  ]
+  $scope.cols = "col-lg-4";
+  if (obj.hasOwnProperty('owner')) { // this is a table of merchant
+    $scope.fieldOperations.push({class: "btn btn-info", icon: "fa fa-home fa-5x", op: "setCurrentMercants", title:"设置为当前默认商户"});
+    $scope.cols = "col-lg-3";
+  }
+  $scope.operateFun = function (op) {
+    $modalInstance.close(op);
+  }
+};

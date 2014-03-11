@@ -80,8 +80,4 @@ function MainController($scope, Users, Merchants, Shops) {
       });
     }
   })
-  $scope.showCheckbox = function () {
-    $scope.showCbx = !$scope.showCbx;
-  }
-  $scope.checked = false;
 };
