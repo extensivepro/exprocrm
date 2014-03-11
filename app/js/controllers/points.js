@@ -19,7 +19,7 @@ function PointsController($scope, Points, Pagination, $timeout, $injector){
         {name: "merchantID", title: "商户ID",required:true},
         {name: "createdAt", title: "创建时间",required:true },
 
-        {name: "postPoint", title: "累积积分",required:true},
+        {name: "postPoint", title: "当前积分",required:true},
         {name: "postTotalPoint", title: "累计积分",required:true},
         {name: "agentID", title: "agentID", listHide:true,required:true},
         {name: "shopID", title: "商店ID", listHide:true,required:true},
