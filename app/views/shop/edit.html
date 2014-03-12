@@ -2,7 +2,7 @@
     <label class="col-lg-2 control-label">手机号码</label>
     <div class="col-lg-6">
         <div class="input-group">
-            <input class="form-control" name="telephone" type="text" ng-model="entity.telephone" ng-pattern="/^(1(([35][0-9])|(47)|[8][01236789]))\d{8}$/">
+            <input class="form-control" name="telephone" type="text" ng-model="entity.telephone" ng-pattern="patternForTelephone">
             <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
         </div>
     </div>
