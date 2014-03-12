@@ -19,7 +19,7 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
         {name: "dealID", title: "交易ID", listHide:true, isProfileHide:true},
         {name: "billID", title: "账单ID", listHide:true, isProfileHide:true},
         {name: "memo", title: "memo", listHide:true, isProfileHide:true},
-        {name: "items", title: "items", listHide:true, value: function (entity) {
+        {name: "items", title: "退货商品", listHide:true, value: function (entity) {
           var itemNames = "";
           entity.items.forEach(function (item) {
             itemNames += item.dealItem.item.name + " ";
@@ -72,4 +72,8 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
     })
     $scope.defaultString = "agent.name";
     $scope.showOptions = true;
+    $scope.showProfile = function (entity) {
+      $scope.entity = entity || $scope.entity;
+      $scope.activeView = "views/returnProfile.html";
+    }
 }
