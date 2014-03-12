@@ -33,7 +33,11 @@ function DealsController($scope, Deals, Pagination, $timeout, $injector){
             return itemNames;
         }, required:true, listHide:true},
         {name: "buyer", title: "顾客",value:function(entity) {
+          if (entity.hasOwnProperty('buyer')) {
             return entity.buyer.name;
+          } else {
+            return '走入顾客';
+          }
         }, required:true},
         {name: "seller", title: "销售员", value:function(entity) {
             return entity.seller.name;
