@@ -77,11 +77,9 @@
         <tr>
             <th ng-show="showCbx">
                 <div class="row">
-                    <div class="col-lg-8">
-                        <input type="checkbox" ng-model="checked" title="全选">
-                    </div>
-                    <div class="col-lg-4">
-                        <button ng-click="deleteByIds()" class="btn btn-default btn-success" style="margin: 0px; padding: 0px">删除</button>
+                    <div class="col-lg-12">
+                    <input type="checkbox" ng-model="checked" title="全选">&nbsp;&nbsp;&nbsp;
+                    <button ng-click="deleteByIds()" class="btn btn-default btn-success" style="margin: 0px; padding: 0px">删除</button>
                     </div>
                 </div>
             </th>
@@ -110,12 +108,12 @@
             <!--END: modal for operation-->
             <!--START: temp css for tr-->
             <style>
-                tr:hover,
-                tr:focus {
+                tbody>tr:hover,
+                tbody>tr:focus {
                     color: #2a6496;
                 }
 
-                tr:focus {
+                tbody>tr:focus {
                     outline: thin dotted #333;
                     outline: 5px auto -webkit-focus-ring-color;
                     outline-offset: -2px;
@@ -123,12 +121,12 @@
             </style>
             <!--END: temp css for tr -->
             <!--START: list all datas for table-->
-            <tr class="tr" style="cursor: pointer" ng-click="open(entity)"
+            <tr class="tr" style="cursor: pointer; height: 50px" ng-click="open(entity)"
                 ng-repeat="entity in entities | limitTo: pagination.iLength">
-                <td ng-show="showCbx" ng-click="doNothing($event)">
+                <td ng-show="showCbx" ng-click="doNothing($event)" style="vertical-align: middle; width: 80px">
                     <input type="checkbox" ng-model="none" name="chbox" value="{{entity.id}}" ng-checked="checked">
                 </td>
-                <td class="center" ng-repeat="field in fields" ng-show="!field.listHide">
+                <td class="center" ng-repeat="field in fields" ng-show="!field.listHide" style="vertical-align: middle">
                     <span ng-class="entity.fieldClass[field.name]" ng-if="field.value">{{field.value(entity)}}</span>
                     <span ng-class="entity.fieldClass[field.name]" ng-if="!field.value">{{valueOfKeyString(entity, field.name)}}</span>
                 </td>

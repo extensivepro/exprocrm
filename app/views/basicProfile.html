@@ -23,8 +23,8 @@
 					<tr ng-repeat="field in profileFields" ng-hide="field.isProfileHide">
 						<td class="center"><h4>{{field.title}}</h4></td>
 						<td class="center">
-							<h4 ng-if="field.value">{{field.value(entity)}}</h4>
-							<h4 ng-if="!field.value">{{valueOfKeyString(entity, field.name)}}</h4>
+							<h4 ng-if="field.value" ng-class="entity.fieldClass[field.name]">{{field.value(entity)}}</h4>
+							<h4 ng-if="!field.value" ng-class="entity.fieldClass[field.name]">{{valueOfKeyString(entity, field.name)}}</h4>
 						</td>
 					</tr>
 				</tbody>

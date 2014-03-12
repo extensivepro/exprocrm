@@ -15,8 +15,10 @@ function DealsController($scope, Deals, Pagination, $timeout, $injector){
     // profile
     $scope.profileFields = [
 //        {name: "id", title: "id"},
+        {name: "serialNumber", title: "交易号",  required:true},
+        {name: "seller.name", title: "收银员", listHide:true, required:true},
+        {name: "createdAt", title: "交易时间", required:true},
         {name: "shopID", title: "商店ID", listHide:true, isProfileHide:true},
-        {name: "serialNumber", title: "流水号",  required:true},
         {name: "deviceCode", title: "设备编码",listHide:true, required:true, isProfileHide:true},
         {name: "deviceID", title: "设备ID",listHide:true, required:true, isProfileHide:true},
         {name: "billID", title: "交易ID",listHide:true, required:true, isProfileHide:true},
@@ -38,11 +40,8 @@ function DealsController($scope, Deals, Pagination, $timeout, $injector){
           } else {
             return '走入顾客';
           }
-        }, required:true},
-        {name: "seller", title: "销售员", value:function(entity) {
-            return entity.seller.name;
-        }, required:true},
-        {name: "createdAt", title: "成交时间", required:true}
+        }, required:true}
+
     ];
 
     // bussiness
@@ -68,4 +67,9 @@ function DealsController($scope, Deals, Pagination, $timeout, $injector){
     });
     $scope.defaultString = "buyer.name";
     $scope.showOptions = true;
+
+    $scope.showProfile = function (entity) {
+      $scope.entity = entity || $scope.entity;
+      $scope.activeView = "views/dealProfile.html";
+    }
 }

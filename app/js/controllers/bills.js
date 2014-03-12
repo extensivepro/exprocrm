@@ -43,10 +43,10 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
         {name: "memberSettlement", title: "顾客", value:function(entity) {
             if (!entity.hasOwnProperty('memberSettlement')) {
                 return "";
-            } else if (!entity.memberSettlement.hasOwnProperty('payeeAccount'))  {
+            } else if (!entity.memberSettlement.hasOwnProperty('payerAccount'))  {
                 return "";
             } else {
-                return entity.memberSettlement.payeeAccount.name;
+                return entity.memberSettlement.payerAccount.name;
             }
         }},
         {name: "memo", title: "memo",listHide:true, isProfileHide:true},
