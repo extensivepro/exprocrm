@@ -8,39 +8,52 @@
 	</div>
 </div>
 <div class="box-content">
-	<form class="form-horizontal" role="form" name="editForm">
-		<div class="form-group">
-			<label class="col-lg-2 control-label"></label>
-      <span class="help-block"><i class="fa fa-circle"> 标记的项目不能为空</i></span>
-		</div>
-		<div class="form-group" ng-repeat="field in profileFields" ng-if="!!entity.id && !field.readonly" ng-hide="field.hide || (field.readonly && !(!entity._id && field.creatable))">
-			<label class="col-lg-2 control-label">{{field.title}}</label>
-			<div class="col-lg-6">
-        <div class="input-group">
-  				<input class="form-control" name="{{field.name}}" type="text" ng-model="entity[field.name]" ng-required="!!field.required">
-          <span class="input-group-addon" ng-if="!!field.required"><i class="fa fa-circle"></i></span>
-          <span class="input-group-addon" ng-if="!field.required"><i class="fa fa-circle-o"></i></span>
+    <form class="form-horizontal" role="form" name="editForm">
+        <div class="form-group">
+            <label class="col-lg-2 control-label"></label>
+            <span class="help-block"><i class="fa fa-circle"> 标记的项目不能为空</i></span>
         </div>
-			</div>
-		</div>
-    <div class="form-group" ng-repeat="field in profileFields" ng-if="!entity.id" ng-hide="field.createHide">
-        <label class="col-lg-2 control-label">{{field.title}}</label>
-        <div class="col-lg-6">
-  				<input class="form-control" type="text" ng-model="entity[field.name]" ng-required="!!field.required">
-          <span class="input-group-addon" ng-if="!!field.required"><i class="fa fa-circle"></i></span>
-          <span class="input-group-addon" ng-if="!field.required"><i class="fa fa-circle-o"></i></span>
+        <!--START:just use for edit-->
+        <div class="form-group" ng-repeat="field in profileFields" ng-if="!!entity.id && !field.readonly"
+             ng-hide="field.hide || (field.readonly && !(!entity._id && field.creatable))">
+            <label class="col-lg-2 control-label">{{field.title}}</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="{{field.name}}" type="text" ng-model="entity[field.name]"
+                           ng-required="!!field.required">
+                    <span class="input-group-addon" ng-if="!!field.required"><i class="fa fa-circle"></i></span>
+                    <span class="input-group-addon" ng-if="!field.required"><i class="fa fa-circle-o"></i></span>
+                </div>
+            </div>
         </div>
-    </div>
-		<div ng-include="editView" />
-    <hr>
-		<div class="form-group">
-      <div class="col-lg-offset-2 col-lg-6">
-  			<button ng-disabled="editForm.$error.required" ng-click="create(entity)" class="btn btn-primary btn-lg" ng-if="!entity.id"><i class="fa fa-plus fa-lg"></i>  创建</button>
-  			<button ng-disabled="editForm.$error.required" ng-click="update(entity)" class="btn btn-primary btn-lg" ng-if="!!entity.id"><i class="fa fa-save fa-lg"></i>  保存</button>
-        <button ng-click="cancelEdit()" class="btn btn-lg">  取消</button>
-      </div>
-		</div>
-	</form>
+        <!--END:just use for edit-->
+
+        <!--START:just use for create-->
+        <div class="form-group" ng-repeat="field in profileFields" ng-if="!entity.id" ng-hide="field.createHide">
+            <label class="col-lg-2 control-label">{{field.title}}</label>
+
+            <div class="col-lg-6">
+                <input class="form-control" type="text" ng-model="entity[field.name]" ng-required="!!field.required">
+                <span class="input-group-addon" ng-if="!!field.required"><i class="fa fa-circle"></i></span>
+                <span class="input-group-addon" ng-if="!field.required"><i class="fa fa-circle-o"></i></span>
+            </div>
+        </div>
+        <!--END:just use for create-->
+        <div ng-include="editView"/>
+        <hr>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-6">
+                <button ng-disabled="editForm.$error.required" ng-click="create(entity)" class="btn btn-primary btn-lg"
+                        ng-if="!entity.id"><i class="fa fa-plus fa-lg"></i> 创建
+                </button>
+                <button ng-disabled="editForm.$invalid" ng-click="update(entity)" class="btn btn-primary btn-lg"
+                        ng-if="!!entity.id"><i class="fa fa-save fa-lg"></i> 保存
+                </button>
+                <button ng-click="cancelEdit()" class="btn btn-warning btn-lg"><i class="fa fa-arrows-alt fa-lg"></i> 取消
+                </button>
+            </div>
+        </div>
+    </form>
 </div>
 
 <!-- start: confirm New User Modal -->

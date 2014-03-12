@@ -13,7 +13,7 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
 		,	{name: "name", title: "店名", required: true}
     , {name: "merchantID", title: "业主ID", unlist:true, hide: true}
 		, {name: "address", title: "地址"}
-		, {name: "telephone", title: "电话"}
+		, {name: "telephone", title: "电话", hide:true}
 		,	{name: "createdAt", title: "注册日期", readonly:true, createHide: true}
 		,	{name: "closedAt", title: "关闭日期", unlist:true, readonly:true, createHide: true}
     ,	{name: "updateAt", title: "更新日期", unlist:true, readonly:true, createHide: true}
