@@ -152,7 +152,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
   //set row text
   function rowSet(statParam, chart, rows, until, callback) {
     console.log("rowSet");
-    for (var i = statParam.limit, j = 0; i > 0; i--) {
+    for (var i = $scope.pLimit, j = 0; i > 0; i--) {
       var d = Statistics.periodDate(until - i + 1, statParam.period);
       var day = moment(d).weekday();
       switch (day) {
@@ -184,25 +184,27 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
     statParam.keyID = keyIDs;
     statParam.period = $scope.unitModel;
     statParam.target = 'skus';
+    statParam.type = 'add';
+    statParam.limit = 1000;
     if ($scope.periodModel == 'lastWeek') {
-      statParam.limit = 7;
+      $scope.pLimit = 7;
       $scope.untilDate = new Date();
-      $scope.stdt = moment($scope.untilDate).subtract('days', statParam.limit - 1).toDate()
+      $scope.stdt = moment($scope.untilDate).subtract('days', $scope.pLimit - 1).toDate()
     }
     if ($scope.periodModel == 'lastMonth') {
-      statParam.limit = 30;
+      $scope.pLimit = 30;
       $scope.untilDate = new Date();
-      $scope.stdt = moment($scope.untilDate).subtract('days', statParam.limit - 1).toDate()
+      $scope.stdt = moment($scope.untilDate).subtract('days', $scope.pLimit - 1).toDate()
     }
     if ($scope.periodModel == 'custom') {
-      statParam.limit = $scope.dateRange.endDate.diff($scope.dateRange.startDate, 'days') + 1;
+      $scope.pLimit = $scope.dateRange.endDate.diff($scope.dateRange.startDate, 'days') + 1;
       $scope.untilDate = $scope.dateRange.endDate.toDate();
       $scope.stdt = $scope.dateRange.startDate.toDate();
     }
     if (statParam.period == "weekly")
-      statParam.limit = Math.floor(statParam.limit / 7);
+      $scope.pLimit = Math.floor($scope.pLimit / 7);
     if (statParam.period == "monthly")
-      statParam.limit = Math.floor(statParam.limit / 30);
+      $scope.pLimit = Math.floor($scope.pLimit / 30);
     return statParam;
   }
 
@@ -266,7 +268,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
 //            console.log($scope.itemHashMap.Get(item.id.split("#")[2]))
             $scope.primaryChart.data.cols[index + 1] = {id: "sales", label: $scope.itemHashMap.Get(item.id.split("#")[2]), type: "number"}
             var v = item.value;
-            var c = rows[v.statAt - until + statParam.limit - 1];
+            var c = rows[v.statAt - until + $scope.pLimit - 1];
             c.c[index + 1] = {v: v.sumPrice / 100, f: v.sumPrice / 100 + "元\n共: " + v.quantity + "个"};
           })
         });
@@ -297,7 +299,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
 //        console.log(lala)
         result.forEach(function(item) {
           var v = item;
-          var c = rows[v.statAt - until + statParam.limit - 1];
+          var c = rows[v.statAt - until + $scope.pLimit - 1];
           var index = $scope.shopHashMap.Get(item.id);
 //          console.log(item.id)
           if ($scope.analysisModel == 'shopItem'){
@@ -398,7 +400,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
       var rows = []
       var until = Statistics.until($scope.untilDate, statParam.period);
       statParam.end = until;
-      statParam.start = until - statParam.limit;
+      statParam.start = until - $scope.pLimit;
       rowSet(statParam, $scope.primaryChart, rows, until, function (){
         saleSet(rows, until, statParam, $scope.primaryChart, function() {
           console.log('Sale Set to primary chart completed'); //if load is to be added, this is the place
@@ -533,7 +535,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
   //google chart utilities
   $scope.chartReady = function () {
     $scope.showPrimaryChart = true;
-    console.log('chartReady')
+//    console.log('chartReady')
     fixGoogleChartsBarsBootstrap();
   }
   function fixGoogleChartsBarsBootstrap() {
