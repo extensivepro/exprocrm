@@ -10,12 +10,12 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
     $scope.periodModel = 'lastWeek';
     $scope.unitModel = 'daily';
     $scope.untilDate = new Date();  //change here for natural week or month
-    $scope.dualChart = false;
-    $scope.statisticsDeep = 2;
+    $scope.dualChart = true;
+    $scope.shopsDiv = true;
+    $scope.statisticsDeep = 1;
     $scope.tableHeader = ['name', 'sale', 'percentage', 'crr', 'yyb'];
     $scope.tableHeaderDisplay = ['商店名称', '销售额(元)', '百分比', '环比', '同比'];
     $scope.tableColumnSort = { sortColumn: 'percentage', reverse: true };
-    $scope.shopsDiv = false;
     $scope.primaryChart = basicChartInit();
     $scope.offChart = basicChartInit();
     $scope.shopHashMap = {
@@ -31,7 +31,11 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
     $scope.primaryName = undefined;
     $scope.virginEmployee = 0;
     $scope.virginItem = 0;
+//    setTimeout(showAllShops, 200);
     widthFunctions();
+  }
+  function showAllShops() {
+    $('#showAll').click();
   }
 
   //empty basic chart initialization
