@@ -3,7 +3,6 @@
  * 库存管理
  */
 function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
-
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Skus
     $scope.searchOptions.tooltip = "请输入经手人名称";
@@ -81,12 +80,14 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
             console.log('error:', err)
         })
     }
-    $scope.params['shopID'] = $scope.currentMerchant.shopIDs[0]; // default use the first shop of the currentMerchant
-    $scope.countQs['shopID'] = $scope.currentMerchant.shopIDs[0];
+
+    if ($scope.currentMerchant.merchant.hasOwnProperty('shopIDs')) {
+      $scope.params['shopID'] = $scope.currentMerchant.merchant.shopIDs[0]; // default use the first shop of the currentMerchant
+      $scope.countQs['shopID'] = $scope.currentMerchant.merchant.shopIDs[0];
+    }
     $scope.defaultString = "operator.name";
 
     $scope.$watch('currentShowShop.shop', function () {
-      console.log('curr::', $scope.currentShowShop.shop.id);
       $scope.params['shopID'] = $scope.currentShowShop.shop.id; // default use the first shop of the currentMerchant
       $scope.countQs['shopID'] = $scope.currentShowShop.shop.id;
       $scope.refreshList();

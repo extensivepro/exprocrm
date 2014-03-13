@@ -3,7 +3,7 @@ function MainController($scope, Users, Merchants, Shops) {
   $scope.views = [
     {name: "销售统计", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html"},
     {name: "进货统计", icon: "fa fa-bar-chart-o", path: "views/analysis/skusAnalysis.html"},
-    {name: "设备管理", icon: "fa fa-tablet", path: "views/devices/index.html"},
+    {name: "设备管理", icon: "fa fa-print", path: "views/devices/index.html"},
     {name: "流水管理", icon: "fa fa-cogs", path: "views/deals/index.html", submenus: [
       {name: "销售流水", icon: "fa fa-cogs", path: "views/deals/index.html"},
       {name: "退货流水", icon: "fa fa-trash-o", path: "views/returns/index.html"},
@@ -52,17 +52,21 @@ function MainController($scope, Users, Merchants, Shops) {
       }
     });
   };
-  $scope.currentMerchant = {};
+  $scope.currentMerchant = {
+    merchant:{}
+  };
   $scope.currentShowShop = {
     shop:{}
   };
   $scope.allShop = [];
+  $scope.allMerchant = [];
   $scope.init = function () {
     Users.me(function (me) {
       $scope.me = me;
       Merchants.query({'owner.id':me.id}, function (merchants) {
-        $scope.currentMerchant = merchants[7] || merchants[0]; // the default merchant('吉林省梅河口中联商业广场') is in merchants[7]
-      })
+        $scope.currentMerchant.merchant = merchants[7] || merchants[0]; // the default merchant('吉林省梅河口中联商业广场') is in merchants[7]
+        $scope.allMerchant = merchants;
+      });
     }, function () {
       $scope.me = {displayName: '未登录'};
     })
@@ -70,13 +74,11 @@ function MainController($scope, Users, Merchants, Shops) {
   $scope.showOp = function (index) {
     $scope.currentIndex = index;
   };
-  $scope.$watch('currentMerchant', function () {
-    if ($scope.currentMerchant['address']) {
-      Shops.query({merchantID:$scope.currentMerchant.id}, function (shops) {
+  $scope.$watch('currentMerchant.merchant', function () {
+    if ($scope.currentMerchant.merchant['id']) {
+      Shops.query({merchantID:$scope.currentMerchant.merchant.id}, function (shops) {
         $scope.currentShowShop.shop = shops[12] || shops[0];
-        shops.forEach(function (item) {
-          $scope.allShop.push(item);
-        });
+        $scope.allShop = shops;
       });
     }
   })

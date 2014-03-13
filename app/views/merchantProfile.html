@@ -1,0 +1,46 @@
+<div class="box-header">
+    <h2><i ng-class="currentView.icon"></i><span class="break"></span>商户管理 - 详情</h2>
+</div>
+<div class="box-content">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-1">
+            <h4>当前商户</h4>
+        </div>
+        <div class="col-lg-2">
+            <select class="form-control" ng-model="currentMerchant.merchant" ng-options="option as option.name for option in allMerchant">
+                <option value="">-- 选择商户 --</option>
+            </select>
+        </div>
+        <div class="col-lg-4"></div>
+        <div class="col-lg-1">
+            <a class="btn btn-primary" ng-click="editMerchant(currentMerchant.merchant)"><i class="fa fa-edit fa-lg"></i> 编辑</a>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+    <div class="row" style="height: 30px"></div>
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-1">
+            <div ng-show="profileAvatar">
+                <img ng-src={{profileAvatar}} alt="Avatar" class="img-circle">
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <table class="table table-striped">
+                <tbody>
+                <tr ng-repeat="field in profileFields" ng-hide="field.isProfileHide">
+                    <td class="center"><h4>{{field.title}}</h4></td>
+                    <td class="center">
+                        <h4 ng-if="field.value" ng-class="currentMerchant.merchant.fieldClass[field.name]">{{field.value(currentMerchant.merchant)}}</h4>
+                        <h4 ng-if="!field.value" ng-class="currentMerchant.merchant.fieldClass[field.name]">{{valueOfKeyString(currentMerchant.merchant, field.name)}}</h4>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
