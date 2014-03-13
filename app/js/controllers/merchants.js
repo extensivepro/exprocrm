@@ -19,7 +19,7 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
     , {name: "zip", title: "邮编", required: true, unlist: true}
     , {name: "createdAt", title: "创建日期", hide: true, createHide: true}
     , {name: "updateAt", title: "更新日期", unlist: true, hide: true, createHide: true, isProfileHide:true}
-    , {name: "url", title: "商户网站", unlist: true, isProfileHide:true}
+    , {name: "url", title: "商户网站", unlist: true}
     , {name: "newestDeviceCode", title: "设备编码", hide: true, unlist: true, isProfileHide:true}
     ,	{name: "status", title: "状态", value:function(entity){
       entity.fieldClass = entity.fieldClass || {}
