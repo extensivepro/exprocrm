@@ -42,8 +42,8 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector){
     entity.password = "654321"
     $scope.update(entity)
   }
-  $scope.params['merchantID'] = $scope.currentMerchant.id;
-  $scope.countQs['merchantID'] = $scope.currentMerchant.id;
+  $scope.params['merchantID'] = $scope.currentMerchant.merchant.id;
+  $scope.countQs['merchantID'] = $scope.currentMerchant.merchant.id;
   $scope.defaultString = "name";
   widthFunctions();
 

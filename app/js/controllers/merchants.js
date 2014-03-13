@@ -1,9 +1,9 @@
 function MerchantsController($scope, Merchants, Pagination, $timeout, $injector){
   $injector.invoke(BasicController, this, {$scope: $scope});
+  $scope.activeView = "views/merchantProfile.html"
   $scope.resource = Merchants
   $scope.searchOptions.fields = ['name', 'telephone']
   $scope.searchOptions.tooltip = "请输入商户名称"
-  $scope.editView = "views/merchant/edit.html"
   $scope.profileAvatar = "img/avatar.jpg"
   $scope.profileFields = [
     {name: "id", title: "商户ID", unlist: true, hide:true, createHide: true, isProfileHide:true}
@@ -57,32 +57,25 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
     entity.password = "654321"
     $scope.update(entity)
   }
-  $scope.init = function () {
-    $scope.showProfile($scope.currentMerchant);
-    $scope.countQs['owner.id'] = $scope.me.id;
-  }
-  $scope.profileShortcuts = [
-    {class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-edit", text: "编辑", op: "showEdit"},
-    {class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-share-square", text: "选择其他商户", op: "showAllMercants"}
-  ];
 
-  $scope.setCurrentMercants = function (entity) {
-    $scope.__proto__.$parent.currentMerchant = entity;
-    $scope.showProfile(entity);
-  }
-  $scope.showAllMercants = function () {
-    $scope.pagination.iPage = 1;
-    $scope.fields = $scope.profileFields.filter(function (field) {
-      return !field.unlist;
-    });
-    $scope.params['owner.id'] = $scope.me.id;
-    $scope.countQs['owner.id'] = $scope.me.id;
-    $scope.activeView = "views/basicList.html";
-    $scope.refreshList();
+  $scope.editMerchant = function (entity) {
+    $scope.entity = entity
+    $scope.activeView = "views/merchant/edit.html"
   }
 
   $scope.cancelEdit = function () {
-    $scope.showAllMercants();
+    $scope.activeView = "views/merchantProfile.html"
+  }
+  $scope.update = function (entity) {
+    var resource = new $scope.resource(entity)
+    resource.$update(function (err) {
+      Merchants.query({id:entity.id}, function (merchant) {
+        $scope.currentMerchant.merchant = merchant;
+        $scope.activeView = "views/merchantProfile.html"
+      })
+    }, function (err) {
+      console.log('update error:', err, entity)
+    })
   }
   $scope.defaultString = "name";
   widthFunctions();

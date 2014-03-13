@@ -65,7 +65,6 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
     ];
     $scope.isHide = true; //隐藏新增按钮
     $scope.$watch('currentShowShop.shop', function () {
-      console.log('curr::', $scope.currentShowShop.shop.id);
       $scope.params['shopID'] = $scope.currentShowShop.shop.id; // default use the first shop of the currentMerchant
       $scope.countQs['shopID'] = $scope.currentShowShop.shop.id;
       $scope.refreshList();

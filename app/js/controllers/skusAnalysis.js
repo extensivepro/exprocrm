@@ -28,7 +28,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
     $scope.headers = ['name', 'sale', 'percentage', 'crr', 'yyb']
     $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比']
     $scope.columnSort = { sortColumn: 'percentage', reverse: true };
-    $scope.primaryKeyID = undefined;
+    $scope.primaryKeyID = $scope.currentMerchant.merchant.id;
     $scope.primaryName = undefined;
     $scope.virginEmployee = 0;
     $scope.virginItem = 0;
@@ -380,8 +380,9 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
   function refreshChart() {
     if (refresh == true) return;
     refresh = true;
-    var primaryID = $scope.primaryKeyID ||'e20dccdf039b3874';
+    var primaryID = $scope.primaryKeyID || $scope.currentMerchant.merchant.id;
     console.log('refreshing')
+    
     if (true) {
       $scope.primaryStatParam = statParamInit(primaryID)
       fillChart($scope.primaryStatParam)
