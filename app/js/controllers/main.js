@@ -1,22 +1,22 @@
 function MainController($scope, Users, Merchants, Shops) {
   if (!$scope.me) $scope.me = {displayName: '未登录'};
   $scope.views = [
-    {name: "销售统计", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html"},
-    {name: "进货统计", icon: "fa fa-bar-chart-o", path: "views/analysis/skusAnalysis.html"},
-    {name: "设备管理", icon: "fa fa-print", path: "views/devices/index.html"},
-    {name: "流水管理", icon: "fa fa-cogs", path: "views/deals/index.html", submenus: [
-      {name: "销售流水", icon: "fa fa-cogs", path: "views/deals/index.html"},
-      {name: "退货流水", icon: "fa fa-trash-o", path: "views/returns/index.html"},
-      {name: "储值流水", icon: "fa fa-retweet", path: "views/bills/index.html"}
+    {name: "销售统计", icon: "fa fa-bar-chart-o fa-lg", path: "views/analysis/salesAnalysis.html"},
+    {name: "进货统计", icon: "fa fa-truck fa-lg", path: "views/analysis/skusAnalysis.html"},
+    {name: "设备管理", icon: "fa fa-tablet fa-lg", path: "views/devices/index.html"},
+    {name: "营业流水", icon: "fa fa-bars fa-lg", path: "views/deals/index.html", submenus: [
+      {name: "销售流水", icon: "fa fa-shopping-cart", path: "views/deals/index.html"},
+      {name: "退货流水", icon: "fa fa-exchange", path: "views/returns/index.html"},
+      {name: "储值流水", icon: "fa fa-rmb", path: "views/bills/index.html"}
     ]},
-    {name: "商户管理", icon: "fa fa-gift", path: "views/shop/index.html", submenus:[
-      {name: "商店管理", icon: "fa fa-inbox", path: "views/shop/index.html"},
-      {name: "员工管理", icon: "fa fa-wrench", path: "views/employee/index.html"},
-      {name: "商品管理", icon: "fa fa-cog", path: "views/item/index.html"},
+    {name: "商户管理", icon: "fa fa-home fa-lg", path: "views/shop/index.html", submenus:[
+      {name: "商店管理", icon: "fa fa-building-o", path: "views/shop/index.html"},
+      {name: "员工管理", icon: "fa fa-users", path: "views/employee/index.html"},
+      {name: "商品管理", icon: "fa fa-barcode", path: "views/item/index.html"},
       {name: "库存记录", icon: "fa fa-truck", path: "views/skus/index.html"},
       {name: "会员管理", icon: "fa fa-user", path: "views/members/index.html"},
       {name: "积分管理", icon: "fa fa-gift", path: "views/points/index.html"},
-      {name: "当前商户", icon: "fa fa-gift", path: "views/merchant/index.html"}
+      {name: "当前商户", icon: "fa fa-cog", path: "views/merchant/index.html"}
     ]}
   ];
 
