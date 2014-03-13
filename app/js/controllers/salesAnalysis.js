@@ -172,7 +172,15 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
 
   //initialize statistics parameters
   function statParamInit(keyIDs) {
+    console.log($scope.analysisModel);
     var statParam = {}
+    if ($scope.analysisModel == "item"){
+      statParam.itemID = $scope.currentItem.id;
+      statParam.target="deals";
+    } else {
+      statParam.itemID = undefined;
+      statParam.target="bills";
+    }
     statParam.keyID = keyIDs;
     statParam.period = $scope.unitModel;
     if ($scope.periodModel == 'lastWeek') {
@@ -204,7 +212,10 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
         result.forEach(function (item) {
           var v = item.value;
           var c = rows[v.statAt - until + statParam.limit - 1];
-          c.c[1] = {v: v.sale.total / 100, f: v.sale.total / 100 + "元\n共: " + v.sale.count + "次"};
+          if ($scope.analysisModel == "item")
+            c.c[1] = {v: v.sumPrice / 100, f: v.sumPrice / 100 + "元\n共: " + v.count + "次"};
+          else
+            c.c[1] = {v: v.sale.total / 100, f: v.sale.total / 100 + "元\n共: " + v.sale.count + "次"};
         })
         chart.data.rows = rows;
         return callback();
@@ -344,25 +355,26 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
       });
     });
   }
-  $scope.lvlMove = function (tbRow){
+  $scope.lvlMove = function (tbRow, analysisModel){
     $scope.primaryKeyID = tbRow.id || tbRow;
     $scope.primaryName = tbRow.name || undefined;
     if($scope.analysisModel == 'merchant'){
-      $scope.analysisModel = 'shop';
+      $scope.analysisModel = analysisModel || 'shop';
       $scope.currentShops = $scope.tbRows;
       $scope.currentShop = tbRow;
       refreshChart();
       return;
     }
     else if($scope.analysisModel == 'shop'){
-      $scope.analysisModel = 'employee';
+      $scope.analysisModel = analysisModel || 'employee';
       $scope.currentEmployees = $scope.tbRows;
       $scope.currentEmployee = tbRow;
       $scope.shopsDiv = false;
       return;
     }
     else if($scope.analysisModel == 'shopItem'){
-      $scope.analysisModel = 'item';
+      console.log('here')
+      $scope.analysisModel = analysisModel || 'item';
       $scope.currentItems = $scope.tbRows;
       $scope.currentItem = tbRow;
       $scope.shopsDiv = false;
@@ -370,9 +382,11 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
     }
     //temporary treat
     else if($scope.analysisModel == 'employee'){
+      $scope.analysisModel = analysisModel || 'employee';
       refreshChart();
     }
     else if($scope.analysisModel == 'item'){
+      $scope.analysisModel = analysisModel || 'item';
       refreshChart();
     }
   }
@@ -394,9 +408,14 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
       $scope.primaryKeyID = $scope.currentEmployee.id || undefined;
       $scope.primaryName = $scope.currentEmployee.name;
       console.log($scope.shopsDiv);
+      console.log($scope.currentEmployee.name);
       if ($scope.virginEmployee == 0) {
-        $scope.virginEmployee ++;
-        return;
+        if ($scope.currentEmployee.name == undefined) {
+          refreshChart();
+        } else {
+          $scope.virginEmployee ++;
+          return;
+        }
       } else
         refreshChart();
     }
@@ -406,12 +425,17 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
     if ($scope.currentMerchant['address']) {
       if ($scope.currentItem == undefined)
         return;
-      $scope.primaryKeyID = $scope.currentItem.id || undefined;
+//      $scope.primaryKeyID = $scope.currentItem.id || undefined;
+      $scope.primaryKeyID = $scope.currentShop.id || undefined;
       $scope.primaryName = $scope.currentItem.name;
-      console.log($scope.shopsDiv);
+      console.log($scope.primaryKeyID);
       if ($scope.virginItem == 0) {
-        $scope.virginItem ++;
-        return;
+        if($scope.currentItem.name == undefined){
+          refreshChart();
+        } else {
+          $scope.virginItem ++;
+          return;
+        }
       } else
         refreshChart();
     }
