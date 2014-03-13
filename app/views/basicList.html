@@ -58,10 +58,10 @@
         <div class="col-lg-3">
             <form class="form-search" >
                 <div class="input-group">
-                    <input class="form-control" type="search" ng-model="search.text" tooltip="{{searchOptions.tooltip}}" tooltip-trigger="focus">
-                    <span class="input-group-btn">
-                      <button class="btn btn-primary" ng-click="refreshList()" ui-keypress="{13:'refreshList($event)'}">搜索</button>
-                    </span>
+                  <span class="input-group-btn">
+                    <h4>搜索：</h4>
+                  </span>
+                    <input class="form-control" ng-model="search.text">
                 </div>
             </form>
         </div>
@@ -122,7 +122,7 @@
             <!--END: temp css for tr -->
             <!--START: list all datas for table-->
             <tr class="tr" style="cursor: pointer; height: 50px" ng-click="open(entity)"
-                ng-repeat="entity in entities | limitTo: pagination.iLength">
+                ng-repeat="entity in entities | limitTo: pagination.iLength | filter: search.text">
                 <td ng-show="showCbx" ng-click="doNothing($event)" style="vertical-align: middle; width: 80px">
                     <input type="checkbox" ng-model="none" name="chbox" value="{{entity.id}}" ng-checked="checked">
                 </td>
