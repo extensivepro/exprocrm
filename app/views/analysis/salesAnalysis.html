@@ -12,19 +12,19 @@
                 <div class="row col-lg-12">
                     <div class="col-lg-3" style="text-align: center;">
                         <div class="btn-group">
-                            <button ng-click="lvlMove('e20dccdf039b3874')" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'merchant'">
+                            <button ng-disabled="analysisModel == 'merchant'" ng-click="lvlMove('e20dccdf039b3874')" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'merchant'">
                                 <i ng-class="views[3].icon"></i> 商户
                             </button>
-                            <button ng-click="lvlMove(currentShop.id)" ng-show="!(analysisModel == 'merchant') && !(analysisModel == 'shopItem')" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'shop'">
+                            <button ng-disabled="analysisModel == 'shop'" ng-click="lvlMove(currentShop.id)" ng-show="!(analysisModel == 'merchant') && !(analysisModel == 'shopItem')" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'shop'">
                                 <i ng-class="views[4].icon"></i> {{currentShop.name}}
                             </button>
-                            <button ng-click="lvlMove(currentShop.id)" ng-show="analysisModel == 'shopItem'" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'shopItem'">
+                            <button ng-disabled="analysisModel == 'shopItem'" ng-click="lvlMove(currentShop.id)" ng-show="analysisModel == 'shopItem'" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'shopItem'">
                                 <i ng-class="views[4].icon"></i> {{currentShop.name}}
                             </button>
-                            <button ng-show="analysisModel == 'employee'" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'employee'">
+                            <button ng-disabled="analysisModel == 'employee'" ng-show="analysisModel == 'employee'" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'employee'">
                                 <i ng-class="views[1].icon"></i> {{currentEmployee.name}}
                             </button>
-                            <button ng-show="analysisModel == 'item'" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'item'">
+                            <button ng-disabled="analysisModel == 'item'" ng-show="analysisModel == 'item'" type="button" class="btn btn-primary" ng-model="analysisModel" btn-radio="'item'">
                                 <i ng-class="views[1].icon"></i> {{currentItem.name}}
                             </button>
                         </div>

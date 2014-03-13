@@ -2,7 +2,7 @@ function MainController($scope, Users, Merchants, Shops) {
   if (!$scope.me) $scope.me = {displayName: '未登录'};
   $scope.views = [
     {name: "销售统计", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html"},
-    {name: "库存统计", icon: "fa fa-bar-chart-o", path: "views/analysis/skusAnalysis.html"},
+    {name: "进货统计", icon: "fa fa-bar-chart-o", path: "views/analysis/skusAnalysis.html"},
     {name: "设备管理", icon: "fa fa-tablet", path: "views/devices/index.html"},
     {name: "流水管理", icon: "fa fa-cogs", path: "views/deals/index.html", submenus: [
       {name: "销售流水", icon: "fa fa-cogs", path: "views/deals/index.html"},
