@@ -21,9 +21,39 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
         {name: "shopID", title: "商店ID", required:true, listHide:true},
         {name: "itemCode", title: "商品编码", required:true},
         {name: "itemName", title: "商品", required:true},
-        {name: "quantity", title: "数量", required:true},
-        {name: "sumPrice", title: "支出", required:true,value:function(entity) {
+        {name: "dealType", title: "类型", isProfileHide:true, value: function (entity) {
+          entity.fieldClass = {};
+          if (entity.type == 'add') {
+            entity.fieldClass.dealType = "label label-success"
+            return "进货"
+          } else if (entity.type == 'sub') {
+            entity.fieldClass.dealType = "label label-warning"
+            return "核销"
+          } else{
+            entity.fieldClass.dealType = "label label-success"
+            return "进货";
+          }
+        }},
+        {name: "quantity", title: "数量", required:true, value: function (entity) {
+          if (entity.type == 'add') {
+            return entity.quantity;
+          } else if (entity.type == 'sub') {
+            return parseInt(entity.quantity) * (-1);
+          } else {
+            return entity.quantity;
+          }
+        }},
+        {name: "sumPrice", title: "总金额", required:true,value:function(entity) {
+          if (entity.type == 'add') {
             return (entity.sumPrice/100).toFixed(2);
+          } else if (entity.type == 'sub') {
+            return -(entity.sumPrice/100).toFixed(2);
+          } else {
+            return (entity.sumPrice/100).toFixed(2);
+          }
+        }},
+        {name: "averagePrice", title: "均价", isProfileHide:true,value:function(entity) {
+          return (((entity.sumPrice/100)) / parseInt(entity.quantity)).toFixed(2);
         }},
         {name: "createdAt", title: "日期", required:true},
         {name: "operator", title: "经手人", required:true, value:function(entity) {
