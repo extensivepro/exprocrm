@@ -8,9 +8,6 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
 	$scope.profileAvatar = "img/avatar.jpg"
   $scope.fieldOperations.push({class: "btn btn-info", icon: "fa fa-info", op:"analysis"});
   $scope.profileFields = [
-    {name: "userID", title: "用户ID", required: true, unlist: true, readonly:true, creatable:true, hide:true},
-    {name: "shopID", title: "店面ID", required: true, unlist: true, readonly:true, creatable:true, hide:true},
-    {name: "shopName", title: "所属商店", required: true,readonly:true, creatable:true, hide:true},
     {name: "jobNumber", title: "工号", required: true, readonly:true, creatable:true, hide:true},
     {name: "name", title: "姓名", required: true},
     {name: "role", title: "职务", value:function(entity){
@@ -19,14 +16,13 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
       if(entity.role === 'owner') return '业主'
       return entity.role
     }, hide:true, required: true},
-    {name: "email", title: "电子邮箱", unlist: true},
     {name: "phone", title: "电话", required: true},
+    {name: "email", title: "电子邮箱", unlist: true},
     {name: "idcard", title: "身份证", required: true, readonly:true, creatable:true, hide:true},
-    {name: "leaveAt", title: "离职日期", createHide: true, unlist: true, readonly:true, creatable:true, hide:true},
     {name: "createdAt", title: "入职日期", createHide: true, readonly:true, creatable:true, hide:true},
-    {name: "username", title: "用户名", required: true, unlist: true},
+    {name: "leaveAt", title: "离职日期", createHide: true, unlist: true, readonly:true, creatable:true, hide:true},
     {name: "password", title: "密码", required: true, unlist: true},
-    {name: "updateAt", title: "更新日期", createHide: true, unlist: true, readonly:true, creatable:true, hide:true},
+    {name: "updateAt", title: "更新日期", createHide: true, unlist: true, readonly:true, creatable:true, hide:true, isProfileHide: true},
     {name: "status", title: "状态", value:function(entity){
       entity.fieldClass = entity.fieldClass || {}
       if(entity.status === 'active') {
