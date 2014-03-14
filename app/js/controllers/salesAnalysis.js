@@ -31,6 +31,7 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
     $scope.primaryName = undefined;
     $scope.virginEmployee = 0;
     $scope.virginItem = 0;
+    $scope.refreshComplete = undefined;
 //    setTimeout(showAllShops, 200);
     widthFunctions();
   }
@@ -149,7 +150,7 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
 
   //set row text
   function rowSet(statParam, chart, rows, until, callback) {
-    for (var i = statParam.limit, j = 0; i > 0; i--) {
+    for (var i = $scope.pLimit, j = 0; i > 0; i--) {
       var d = Statistics.periodDate(until - i + 1, statParam.period);
       var day = moment(d).weekday();
       switch (day) {
@@ -186,26 +187,27 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
       statParam.target="bills";
     }
     statParam.keyID = keyIDs;
+    statParam.limit = 1000;
     statParam.period = $scope.unitModel;
     if ($scope.periodModel == 'lastWeek') {
-      statParam.limit = 7;
+      $scope.pLimit = 7;
       $scope.untilDate = new Date();
-      $scope.stdt = moment($scope.untilDate).subtract('days', statParam.limit - 1).toDate()
+      $scope.stdt = moment($scope.untilDate).subtract('days', $scope.pLimit - 1).toDate()
     }
     if ($scope.periodModel == 'lastMonth') {
-      statParam.limit = 30;
+      $scope.pLimit = 30;
       $scope.untilDate = new Date();
-      $scope.stdt = moment($scope.untilDate).subtract('days', statParam.limit - 1).toDate()
+      $scope.stdt = moment($scope.untilDate).subtract('days', $scope.pLimit - 1).toDate()
     }
     if ($scope.periodModel == 'custom') {
-      statParam.limit = $scope.dateRange.endDate.diff($scope.dateRange.startDate, 'days') + 1;
+      $scope.pLimit = $scope.dateRange.endDate.diff($scope.dateRange.startDate, 'days') + 1;
       $scope.untilDate = $scope.dateRange.endDate.toDate();
       $scope.stdt = $scope.dateRange.startDate.toDate();
     }
     if (statParam.period == "weekly")
-      statParam.limit = Math.floor(statParam.limit / 7);
+      $scope.pLimit = Math.floor($scope.pLimit / 7);
     if (statParam.period == "monthly")
-      statParam.limit = Math.floor(statParam.limit / 30);
+      $scope.pLimit = Math.floor($scope.pLimit / 30);
     return statParam;
   }
 
@@ -215,7 +217,7 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
       Statistics.query(statParam, function (result) {
         result.forEach(function (item) {
           var v = item.value;
-          var c = rows[v.statAt - until + statParam.limit - 1];
+          var c = rows[v.statAt - until + $scope.pLimit - 1];
           if ($scope.analysisModel == "item")
             c.c[1] = {v: v.sumPrice / 100, f: v.sumPrice / 100 + "元\n共: " + v.count + "次"};
           else
@@ -245,7 +247,7 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
         $scope.statResult = result;
         result.forEach(function(item) {
           var v = item.value;
-          var c = rows[v.statAt - until + statParam.limit - 1];
+          var c = rows[v.statAt - until + $scope.pLimit - 1];
           var index = $scope.shopHashMap.Get(item.id.split('#')[0]);
 //          console.log(item.id)
           if ($scope.analysisModel == 'shopItem'){
@@ -310,8 +312,10 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
       var tbRow = {};
       tbRow.name = names[counter];
       tbRow.id = ids[counter];
-      tbRow.sale = hist[names[counter]].toFixed(1);
-      tbRow.percentage = (100 * tbRow.sale / total).toFixed(1);
+      tbRow.sale = parseFloat(hist[names[counter]].toFixed(1));
+//      console.log(tbRow.sale);
+      tbRow.percentage = parseFloat((100 * tbRow.sale / total).toFixed(1));
+//      console.log(tbRow.percentage);
       $scope.tbRows.push(tbRow);
       var content = {c:[
         {v: names[counter]},
@@ -326,6 +330,7 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
     if (refresh == true) return;
     refresh = true;
     var primaryID = $scope.primaryKeyID || $scope.currentMerchant.merchant.id;
+    $scope.refreshComplete = false;
     console.log('refreshing')
     if (true) {
       $scope.primaryStatParam = statParamInit(primaryID)
@@ -344,14 +349,14 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
       var rows = []
       var until = Statistics.until($scope.untilDate, statParam.period);
       statParam.end = until;
-      statParam.start = until - statParam.limit;
+      statParam.start = until - $scope.pLimit;
       rowSet(statParam, $scope.primaryChart, rows, until, function (){
 //        if ($scope.analysisModel == 'shopItem')
 //          console.log(statParam);
         saleSet(rows, until, statParam, $scope.primaryChart, function() {
           console.log('Sale Set to primary chart completed'); //if load is to be added, this is the place
           if ($scope.dualChart == true)
-            sumSet(statParam, $scope.offChart, function (){})
+            sumSet(statParam, $scope.offChart, function (){$scope.refreshComplete = true;})
           refresh = false;
         });
         $scope.weekDisable = moment($scope.untilDate).diff(moment($scope.stdt), 'days') <= 7 ? true : false
@@ -373,7 +378,10 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
       $scope.analysisModel = analysisModel || 'employee';
       $scope.currentEmployees = $scope.tbRows;
       $scope.currentEmployee = tbRow;
-      $scope.shopsDiv = false;
+      if (analysisModel == "merchant") {
+        refreshChart();
+      } else
+        $scope.shopsDiv = false;
       return;
     }
     else if($scope.analysisModel == 'shopItem'){
