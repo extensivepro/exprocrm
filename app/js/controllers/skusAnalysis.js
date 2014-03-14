@@ -26,12 +26,13 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
       Remove : function(key){delete this[key]}
     };
     $scope.headers = ['name', 'sale', 'percentage', 'crr', 'yyb']
-    $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比']
+    $scope.headersZ = ['商店名称', '进货支出(元)', '百分比', '环比', '同比']
     $scope.columnSort = { sortColumn: 'percentage', reverse: true };
     $scope.primaryKeyID = $scope.currentMerchant.merchant.id;
     $scope.primaryName = undefined;
     $scope.virginEmployee = 0;
     $scope.virginItem = 0;
+    $scope.virginShop = 0;
     $scope.showPrimaryChart = false;
     widthFunctions();
   }
@@ -258,6 +259,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
   function saleSet(rows, until, statParam, chart, callback) {
     console.log("saleSet");
     if ($scope.statisticsDeep == 1) {
+//      alert("coming");
       Statistics.query(statParam, function (result) {
 //        console.log(result);
         Items.query({merchantID: $scope.primaryStatParam.keyID}, function(itemResult){
@@ -266,6 +268,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
           })
           result.forEach(function (item, index) {
 //            console.log($scope.itemHashMap.Get(item.id.split("#")[2]))
+            console.log($scope.itemHashMap.Get(item.id.split("#")[2]));
             $scope.primaryChart.data.cols[index + 1] = {id: "sales", label: $scope.itemHashMap.Get(item.id.split("#")[2]), type: "number"}
             var v = item.value;
             var c = rows[v.statAt - until + $scope.pLimit - 1];
@@ -277,6 +280,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
       })
     }
     if ($scope.statisticsDeep == 2) {
+//      alert("coming 2");
       $scope.shopKeyIDs = [];
       $scope.shopsResult.forEach(function (item, index) {
         $scope.shopKeyIDs.push(item.id);
@@ -365,8 +369,8 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
       var tbRow = {};
       tbRow.name = names[counter];
       tbRow.id = ids[counter];
-      tbRow.sale = hist[names[counter]].toFixed(1);
-      tbRow.percentage = (100 * tbRow.sale / total).toFixed(1);
+      tbRow.sale = parseFloat(hist[names[counter]].toFixed(1));
+      tbRow.percentage = parseFloat((100 * tbRow.sale / total).toFixed(1));
       $scope.tbRows.push(tbRow);
       var content = {c:[
         {v: names[counter]},
@@ -378,11 +382,12 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
   }
   var refresh = false
   function refreshChart() {
+//    alert($scope.statisticsDeep)
     if (refresh == true) return;
     refresh = true;
     var primaryID = $scope.primaryKeyID || $scope.currentMerchant.merchant.id;
     console.log('refreshing')
-    
+//    console.log(primaryID)
     if (true) {
       $scope.primaryStatParam = statParamInit(primaryID)
       fillChart($scope.primaryStatParam)
@@ -415,22 +420,27 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
       });
     });
   }
-  $scope.lvlMove = function (tbRow){
+  $scope.lvlMove = function (tbRow, analysisModel){
     console.log("lvlMove");
     $scope.primaryKeyID = tbRow.id || tbRow;
     $scope.primaryName = tbRow.name || undefined;
     if($scope.analysisModel == 'merchant'){
+      console.log("######"+$scope.primaryKeyID);
       $scope.analysisModel = 'shop';
       $scope.currentShops = $scope.tbRows;
       $scope.currentShop = tbRow;
-      refreshChart();
+      $scope.shopsDiv = false;
+//      refreshChart();
       return;
     }
     else if($scope.analysisModel == 'shop'){
-      $scope.analysisModel = 'employee';
+      $scope.analysisModel = analysisModel || 'employee';
       $scope.currentEmployees = $scope.tbRows;
       $scope.currentEmployee = tbRow;
-      $scope.shopsDiv = false;
+      if (analysisModel == "merchant") {
+        refreshChart();
+      }else
+        $scope.shopsDiv = false;
       return;
     }
     else if($scope.analysisModel == 'shopItem'){
@@ -455,7 +465,12 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
       return;
     $scope.primaryKeyID = $scope.currentShop.id || undefined;
     $scope.primaryName = $scope.currentShop.name;
-    refreshChart();
+    if ($scope.virginShop == 0) {
+      $scope.virginShop ++;
+      return;
+    } else
+      refreshChart();
+//    refreshChart();
   })
 
   $scope.$watch('currentEmployee', function (){
@@ -489,13 +504,13 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
   $scope.$watch('analysisModel', function(){
     console.log("$watch('analysisModel'");
     if ($scope.analysisModel == 'merchant')
-      $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比'];
+      $scope.headersZ = ['商店名称', '进货支出(元)', '百分比', '环比', '同比'];
     if ($scope.analysisModel == 'shop')
-      $scope.headersZ = ['员工姓名', '销售额(元)', '百分比', '环比', '同比'];
+      $scope.headersZ = ['员工姓名', '进货支出(元)', '百分比', '环比', '同比'];
     if ($scope.analysisModel == 'shopItem')
-      $scope.headersZ = ['商品名称', '销售额(元)', '百分比', '环比', '同比'];
-    if ($scope.analysisModel == 'shop' || $scope.analysisModel == 'shopItem')
-      refreshChart();
+      $scope.headersZ = ['商品名称', '进货支出(元)', '百分比', '环比', '同比'];
+//    if ($scope.analysisModel == 'shop' || $scope.analysisModel == 'shopItem')
+//      refreshChart();
   })
 
   $scope.$watch('analysisModel', function (){
@@ -504,6 +519,8 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
       $scope.virginEmployee = 0;
     if ($scope.analysisModel != 'item')
       $scope.virginItem = 0;
+    if ($scope.analysisModel != 'shop')
+      $scope.virginShop = 0;
   })
 
   $scope.$watch('shopsDiv', function() {
