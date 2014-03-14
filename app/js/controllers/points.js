@@ -3,7 +3,7 @@
  * Created by expro on 14-1-10.
  * 积分管理
  */
-function PointsController($scope, Points, Pagination, $timeout, $injector){
+function PointsController($scope, Points, Pagination, $timeout, $injector, Merchants){
 
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Points;
@@ -14,11 +14,14 @@ function PointsController($scope, Points, Pagination, $timeout, $injector){
     // profile
     $scope.profileFields = [
 //        {name: "id", title: "id", listHide:true},
-        {name: "point", title: "积分数",required:true},
-        {name: "memberID", title: "会员ID",required:true },
-        {name: "merchantID", title: "商户ID",required:true},
         {name: "createdAt", title: "创建时间",required:true },
-
+        {name: "memberID", title: "会员名",required:true, value: function (entity) {
+          return entity.member.name;
+        }},
+        {name: "point", title: "积分数",required:true},
+        {name: "merchantID", title: "商户名",required:true, value: function (entity) {
+          return entity.merchantName;
+        }},
         {name: "postPoint", title: "当前积分",required:true},
         {name: "postTotalPoint", title: "累计积分",required:true},
         {name: "agentID", title: "agentID", listHide:true,required:true},
