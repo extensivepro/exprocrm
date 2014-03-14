@@ -203,6 +203,10 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
       $scope.pLimit = $scope.dateRange.endDate.diff($scope.dateRange.startDate, 'days') + 1;
       $scope.untilDate = $scope.dateRange.endDate.toDate();
       $scope.stdt = $scope.dateRange.startDate.toDate();
+      if ($scope.pLimit >= 120)
+        statParam.period = "weekly";
+      else
+        statParam.period = "daily";
     }
     if (statParam.period == "weekly")
       $scope.pLimit = Math.floor($scope.pLimit / 7);
@@ -342,7 +346,7 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
       $scope.unitModel = 'daily';
       $scope.dateRange = {
         endDate: moment($scope.untilDate),
-        startDate: moment().subtract('days', $scope.primaryStatParam.limit - 1)
+        startDate: moment().subtract('days', $scope.pLimit - 1)
       };
     }
     chartHandler(function (){
