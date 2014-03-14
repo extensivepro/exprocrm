@@ -394,7 +394,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
       $scope.unitModel = 'daily';
       $scope.dateRange = {
         endDate: moment($scope.untilDate),
-        startDate: moment().subtract('days', $scope.primaryStatParam.limit - 1)
+        startDate: moment().subtract('days', $scope.pLimit - 1)
       };
     }
     chartHandler(function (){
