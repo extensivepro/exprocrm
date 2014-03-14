@@ -300,14 +300,18 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
           ids.push(a.id.split('#')[0]);
       }
       if(name in hist){
-        if ($scope.analysisModel == 'shopItem')
+        if ($scope.analysisModel == 'shopItem'){
           hist[name] += a.value.sumPrice/100;
+          hist[name+"#"] += a.value.quantity;
+        }
         else
           hist[name] += a.value.sale.total/100;
       }
       else{
-        if ($scope.analysisModel == 'shopItem')
+        if ($scope.analysisModel == 'shopItem'){
           hist[name] = a.value.sumPrice/100;
+          hist[name+"#"] = a.value.quantity;     //for quantity
+        }
         else
           hist[name] = a.value.sale.total/100;
       }
@@ -317,6 +321,7 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
       tbRow.name = names[counter];
       tbRow.id = ids[counter];
       tbRow.sale = parseFloat(hist[names[counter]].toFixed(1));
+      tbRow.quantity = parseInt(hist[names[counter]+"#"]);
 //      console.log(tbRow.sale);
       tbRow.percentage = parseFloat((100 * tbRow.sale / total).toFixed(1));
 //      console.log(tbRow.percentage);
@@ -334,6 +339,8 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
     if (refresh == true) return;
     refresh = true;
     var primaryID = $scope.primaryKeyID || $scope.currentMerchant.merchant.id;
+    if ($scope.analysisModel == 'merchant')
+      primaryID = $scope.currentMerchant.merchant.id;
     $scope.refreshComplete = false;
     console.log('refreshing')
     if (true) {
@@ -393,7 +400,10 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
       $scope.analysisModel = analysisModel || 'item';
       $scope.currentItems = $scope.tbRows;
       $scope.currentItem = tbRow;
-      $scope.shopsDiv = false;
+      if (analysisModel == "merchant") {
+        refreshChart();
+      } else
+        $scope.shopsDiv = false;
       return;
     }
     //temporary treat
@@ -463,8 +473,10 @@ function SalesAnalysisController($scope, Statistics, Shops, Employes, Items) {
         $scope.headersZ = ['商店名称', '销售额(元)', '百分比', '环比', '同比'];
       if ($scope.analysisModel == 'shop')
         $scope.headersZ = ['员工姓名', '销售额(元)', '百分比', '环比', '同比'];
-      if ($scope.analysisModel == 'shopItem')
-        $scope.headersZ = ['商品名称', '销售额(元)', '百分比', '环比', '同比'];
+      if ($scope.analysisModel == 'shopItem') {
+        $scope.headers = ['name', 'sale', 'percentage', 'quantity', 'crr', 'yyb']
+        $scope.headersZ = ['商品名称', '销售额(元)', '百分比', '销售量(个)', '环比', '同比'];
+      }
       if ($scope.analysisModel == 'shop' || $scope.analysisModel == 'shopItem')
         refreshChart();
     }

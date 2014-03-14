@@ -138,7 +138,7 @@
                         </thead>
                     </table>
                     <div style="display: block; height: 200px; overflow-y: auto; margin-top: -12px">
-                        <table class="table table-striped table-bordered bootstrap-datatable datatable">
+                        <table ng-show="!(analysisModel == 'shopItem')" class="table table-striped table-bordered bootstrap-datatable datatable">
                             <tbody>
                             <tr ng-repeat="tbRow in tbRows|orderBy:columnSort.sortColumn:columnSort.reverse">
                                 <td style="width: 20%"><a href="" ng-click="lvlMove(tbRow)">{{tbRow.name}}</a></td>
@@ -146,6 +146,18 @@
                                 <td style="width: 20%">{{tbRow.percentage}}%</td>
                                 <td style="width: 20%">N/A</td>
                                 <td style="width: 20%">N/A</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table ng-show="analysisModel == 'shopItem'" class="table table-striped table-bordered bootstrap-datatable datatable">
+                            <tbody>
+                            <tr ng-repeat="tbRow in tbRows|orderBy:columnSort.sortColumn:columnSort.reverse">
+                                <td style="width: 16%"><a href="" ng-click="lvlMove(tbRow)">{{tbRow.name}}</a></td>
+                                <td style="width: 16%">{{tbRow.sale}}</td>
+                                <td style="width: 16%">{{tbRow.percentage}}%</td>
+                                <td style="width: 16%">{{tbRow.quantity}}</td>
+                                <td style="width: 16%">N/A</td>
+                                <td style="width: 16%">N/A</td>
                             </tr>
                             </tbody>
                         </table>
