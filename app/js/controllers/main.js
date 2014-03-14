@@ -1,5 +1,9 @@
 function MainController($scope, Users, Merchants, Shops) {
   if (!$scope.me) $scope.me = {displayName: '未登录'};
+  $scope.hideMainMenu = false;
+  $scope.switchMainMenu = function () {
+    $scope.hideMainMenu = !$scope.hideMainMenu;
+  }
   $scope.views = [
     {name: "销售统计", icon: "fa fa-bar-chart-o fa-lg", path: "views/analysis/salesAnalysis.html"},
     {name: "进货统计", icon: "fa fa-truck fa-lg", path: "views/analysis/skusAnalysis.html"},
