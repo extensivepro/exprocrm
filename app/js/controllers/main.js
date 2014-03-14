@@ -8,7 +8,7 @@ function MainController($scope, Users, Merchants, Shops) {
   $scope.views = [
     {name: "销售统计", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html"},
     {name: "进货统计", icon: "fa fa-truck", path: "views/analysis/skusAnalysis.html"},
-    {name: "设备管理", icon: "fa fa-suitcase", path: "views/devices/index.html"},
+    {name: "设备管理", icon: "fa fa-tablet", path: "views/devices/index.html"},
     {name: "营业流水", icon: "fa fa-bars", path: "views/deals/index.html", submenus: [
       {name: "销售流水", icon: "fa fa-shopping-cart", path: "views/deals/index.html"},
       {name: "退货流水", icon: "fa fa-exchange", path: "views/returns/index.html"},
