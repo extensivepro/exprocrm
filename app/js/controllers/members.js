@@ -8,7 +8,7 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
   $scope.resource = Members;
   $scope.searchOptions.fields = ['name', 'phone']
   $scope.editView = "views/members/edit.html"
-  $scope.searchOptions.tooltip = "请输入会员姓名"
+  $scope.searchOptions.tooltip = "请输入会员姓名或手机号码"
 
 
   $scope.profileAvatar = "img/avatar.jpg"

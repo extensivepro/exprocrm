@@ -7,8 +7,8 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
 
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Bills;
-    $scope.searchOptions.fields = ['agentID']
-    $scope.searchOptions.tooltip = "请输入顾客姓名"
+    $scope.searchOptions.fields = ['agentName', 'memberSettlement.payerAccount.name']
+    $scope.searchOptions.tooltip = "请输入经手人姓名或顾客姓名"
     $scope.editView = "views/bills/edit.html"
     $scope.profileAvatar = "img/avatar.jpg"
     // profile

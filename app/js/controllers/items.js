@@ -1,7 +1,7 @@
 function ItemsController($scope, Items, Pagination, $timeout, $injector){
   $injector.invoke(BasicController, this, {$scope: $scope});
   $scope.resource = Items
-  $scope.searchOptions.fields = ['name', 'code']
+  $scope.searchOptions.fields = ['name']
   $scope.searchOptions.tooltip = "请输入商品名称"
   $scope.editView = "views/item/edit.html"
   $scope.profileAvatar = "img/avatar.jpg"

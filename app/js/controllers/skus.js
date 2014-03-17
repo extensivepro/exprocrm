@@ -4,7 +4,8 @@
  */
 function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
     $injector.invoke(BasicController, this, {$scope: $scope});
-    $scope.resource = Skus
+    $scope.resource = Skus;
+    $scope.searchOptions.fields = ['operator.name']
     $scope.searchOptions.tooltip = "请输入经手人名称";
     $scope.editView = "views/skus/edit.html"
     $scope.profileAvatar = "img/avatar.jpg"
