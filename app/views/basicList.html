@@ -119,7 +119,7 @@
             </style>
             <!--END: temp css for tr -->
             <!--START: list all datas for table-->
-            <tr class="tr" style="cursor: pointer; height: 50px" ng-click="open(entity)"
+            <tr class="tr" style="cursor: pointer; height: 50px" ng-click="showProfile(entity)"
                 ng-repeat="entity in entities | limitTo: pagination.iLength">
                 <td ng-show="showCbx" ng-click="doNothing($event)" style="vertical-align: middle; width: 80px">
                     <input type="checkbox" ng-model="none" name="chbox" value="{{entity.id}}" ng-checked="checked">
