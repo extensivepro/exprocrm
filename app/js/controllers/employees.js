@@ -1,8 +1,8 @@
 function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeout, $injector){
 	$injector.invoke(BasicController, this, {$scope: $scope});
 	$scope.resource = Employes
-	$scope.searchOptions.fields = ['name', 'role', 'phone', 'idcard']
-  $scope.searchOptions.tooltip = "请输入员工姓名"
+	$scope.searchOptions.fields = ['name', 'phone', 'idcard']
+  $scope.searchOptions.tooltip = "请输入员工姓名、手机号、身份证号"
 	$scope.editView ="views/employee/edit.html"
 	// profile 
 	$scope.profileAvatar = "img/avatar.jpg"

@@ -81,7 +81,7 @@ function BasicController($scope, Pagination, $modal, $log) {
   $scope.countQs = {};
   $scope.search = {};
   $scope.refreshList = function () {
-    if ($scope.countQs.hasOwnProperty('merchantID') || $scope.countQs.hasOwnProperty('shopID') || $scope.countQs.hasOwnProperty('merchant.merchantID') || $scope.countQs.hasOwnProperty('owner.id')) {
+    if ($scope.countQs.hasOwnProperty('merchantID') || $scope.countQs.hasOwnProperty('$or') || $scope.countQs.hasOwnProperty('shopID') || $scope.countQs.hasOwnProperty('merchant.merchantID') || $scope.countQs.hasOwnProperty('owner.id')) {
       // query for getting count
       $scope.resource.count($scope.countQs, function (result) {
         $scope.pagination.paginate(result.count)
@@ -99,12 +99,18 @@ function BasicController($scope, Pagination, $modal, $log) {
 
   $scope.$watch('search.text', function () {
     if (!$scope.search.text) {
-      delete $scope.params[$scope.defaultString];
-      delete $scope.countQs[$scope.defaultString];
+      delete $scope.params['$or'];
+      delete $scope.countQs['$or'];
     }
     else {
-      $scope.params[$scope.defaultString] = $scope.search.text;
-      $scope.countQs[$scope.defaultString] = $scope.search.text;
+      $scope.filters = [];
+      $scope.searchOptions.fields.forEach(function(field) {
+        var filter = {};
+        filter[field] = {$regex:$scope.search.text};
+        $scope.filters.push(filter);
+      })
+      $scope.params.$or = JSON.stringify($scope.filters);
+      $scope.countQs.$or = JSON.stringify($scope.filters);
     }
   });
   $scope.create = function (entity) {

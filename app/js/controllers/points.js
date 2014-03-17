@@ -7,7 +7,8 @@ function PointsController($scope, Points, Pagination, $timeout, $injector, Merch
 
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Points;
-    $scope.searchOptions.tooltip = "请输入会员ID"
+    $scope.searchOptions.fields = ['member.name']
+    $scope.searchOptions.tooltip = "请输入会员名称"
     $scope.editView = "views/points/edit.html"
     $scope.profileAvatar = "img/avatar.jpg"
 

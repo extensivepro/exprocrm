@@ -3,8 +3,8 @@ function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injec
   $scope.currentMerchant = {id: "e20dccdf039b3874"}
 	$scope.resource = Devices
   $scope.defaultParams = {"shop.merchant.id": $scope.currentMerchant.id}
-	$scope.searchOptions.fields = ['code', 'name', 'udid']
-//  $scope.searchOptions.tooltip = "请输入设备名"
+	$scope.searchOptions.fields = ['name']
+  $scope.searchOptions.tooltip = "请输入设备名"
   $scope.editView = "views/devices/edit.html"
 
 	// profile 

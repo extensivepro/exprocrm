@@ -8,7 +8,7 @@ function DealsController($scope, Deals, Pagination, $timeout, $injector){
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Deals;
     $scope.searchOptions.fields = ['buyer.name', 'seller.name']
-    $scope.searchOptions.tooltip = "请输入顾客姓名"
+    $scope.searchOptions.tooltip = "请输入顾客姓名或收银员姓名"
     $scope.editView = "views/deals/edit.html"
     $scope.profileAvatar = "img/avatar.jpg"
 
@@ -16,7 +16,7 @@ function DealsController($scope, Deals, Pagination, $timeout, $injector){
     $scope.profileFields = [
 //        {name: "id", title: "id"},
         {name: "serialNumber", title: "交易号",  required:true},
-        {name: "seller.name", title: "收银员", listHide:true, required:true},
+        {name: "seller.name", title: "收银员",  required:true},
         {name: "createdAt", title: "交易时间", required:true},
         {name: "shopID", title: "商店ID", listHide:true, isProfileHide:true},
         {name: "deviceCode", title: "设备编码",listHide:true, required:true, isProfileHide:true},
