@@ -90,11 +90,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4" style="text-align: right" ng-show="dualChart">
-                        <div google-chart="" chart="offChart" style="{{offChart.cssStyle}}"
-                             on-ready="chartReady()"></div>
-                    </div>
-                    <div ng-class="primaryChartFull" ng-show="showPrimaryChart" style="text-align: right">
+                    <div ng-class="col-lg-12" style="text-align: right">
                         <div google-chart="" chart="primaryChart" style="{{primaryChart.cssStyle}}"
                              on-ready="chartReady()"></div>
                     </div>

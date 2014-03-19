@@ -33,6 +33,7 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
     $scope.virginEmployee = 0;
     $scope.virginItem = 0;
     $scope.virginShop = 0;
+    $scope.chartVirgin = 0;
     $scope.showPrimaryChart = false;
     widthFunctions();
   }
@@ -550,10 +551,11 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
     $scope.unitModel = 'daily';
     refreshChart();
   })
+
   //google chart utilities
   $scope.chartReady = function () {
+    alert('chartReady')
     $scope.showPrimaryChart = true;
-//    console.log('chartReady')
     fixGoogleChartsBarsBootstrap();
   }
   function fixGoogleChartsBarsBootstrap() {
