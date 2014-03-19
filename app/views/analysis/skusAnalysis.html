@@ -89,8 +89,10 @@
                         </div>
                     </div>
                 </div>
+                <div style="text-align: center" class="alert alert-info" ng-show="!showPrimaryChart && !noData" close="closeAlert()">正在载入您的进货数据</div>
+                <div style="text-align: center" class="alert alert-danger" ng-show="noData" close="closeAlert()">抱歉，您在此时间段内没有任何进货数据</div>
                 <div class="row">
-                    <div ng-class="col-lg-12" style="text-align: right">
+                    <div ng-class="col-lg-12" ng-show="showPrimaryChart" style="text-align: right">
                         <div google-chart="" chart="primaryChart" style="{{primaryChart.cssStyle}}"
                              on-ready="chartReady()"></div>
                     </div>
