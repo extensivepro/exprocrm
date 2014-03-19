@@ -2,7 +2,7 @@
  * Created by expro on 14-1-10.
  * 库存管理
  */
-function SkusController($scope, Skus, Items, Pagination, $timeout, $injector, $http){
+function SkusController($scope, Skus, Items, Pagination, $timeout, $injector){
     $injector.invoke(BasicController, this, {$scope: $scope});
     $scope.resource = Skus;
     $scope.searchOptions.fields = ['operator.name']
@@ -78,6 +78,7 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector, $h
           entity.shopID = $scope.currentShowShop.shop.id;
           entity.merchantID = $scope.currentMerchant.merchant.id;
           entity['type'] = $scope.entity.selection.value;
+          delete entity.selection;
           entity.sumPrice = parseInt($scope.entity.quantity, 10) * parseInt($scope.entity.price, 10);
           entity.createdAt = Math.round(new Date().getTime()/1000);
           var newOne = new $scope.resource(entity)
@@ -107,19 +108,17 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector, $h
     $scope.activeView = "views/basicEditForSkus.html"
   }
     $scope.getInfo = function(val) {
-      $http.get(window.restful.baseURL + '/items', {
-        params: {
-          code: val,
-          merchantID : $scope.currentMerchant.merchant.id
+      Items.query({
+        code: val,
+        merchantID : $scope.currentMerchant.merchant.id
+      }, function (res) {
+        if (res[0]) {
+          $scope.entity.itemName = res[0].name;
+          $scope.entity.quantity = '1';
+          $scope.entity.price = res[0].price;
+          $scope.entity.itemID = res[0].id;
         }
-      }).then(function(res){
-          if (res.data[0]) {
-            $scope.entity.itemName = res.data[0].name;
-            $scope.entity.quantity = '1';
-            $scope.entity.price = res.data[0].price;
-            $scope.entity.itemID = res.data[0].id;
-          }
-        });
+      });
     };
   $scope.types = [
     {
