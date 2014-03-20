@@ -9,31 +9,21 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector) {
   $scope.searchOptions.tooltip = "请输入经手人名称";
   $scope.editView = "views/skus/edit.html"
   $scope.profileAvatar = "img/avatar.jpg"
-  $scope.fieldOperations = [
-    {class: "btn btn-success", icon: "fa fa-file", op: "showProfile", title: '详情'}
-    ,
-    {class: "btn btn-danger", icon: "fa fa-trash-o", op: "remove", title: '删除'}
-  ]
+  //$scope.fieldOperations = [
+  //  {class: "btn btn-success", icon: "fa fa-file", op: "showProfile", title: '详情'}
+  //  ,
+  //  {class: "btn btn-danger", icon: "fa fa-trash-o", op: "remove", title: '删除'}
+  //]
+  $scope.profileShortcuts = [
+      {class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-trash-o", text: "删除", op:"remove"}
+  ];
 //    $scope.isHide = true;
   // profile
   $scope.profileFields = [
 //        {name: "id", title: "id"},
-    {name: "shopID", title: "商店ID", required: true, listHide: true, createHide: true},
+    {name: "shopID", title: "商店ID", required: true, listHide: true, createHide: true, isProfileHide:true},
     {name: "itemCode", title: "商品编码", required: true},
     {name: "itemName", title: "商品", required: true},
-    {name: "dealType", title: "类型", isProfileHide: true, value: function (entity) {
-      entity.fieldClass = {};
-      if (entity.type == 'add') {
-        entity.fieldClass.dealType = "label label-success"
-        return "进货"
-      } else if (entity.type == 'sub') {
-        entity.fieldClass.dealType = "label label-warning"
-        return "核销"
-      } else {
-        entity.fieldClass.dealType = "label label-success"
-        return "进货";
-      }
-    }},
     {name: "quantity", title: "数量", required: true, value: function (entity) {
       if (entity.type == 'add') {
         return entity.quantity;
@@ -52,17 +42,28 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector) {
         return (entity.sumPrice / 100).toFixed(2);
       }
     }},
-    {name: "averagePrice", title: "均价", isProfileHide: true, value: function (entity) {
+    {name: "averagePrice", title: "均价", value: function (entity) {
       return (((entity.sumPrice / 100)) / parseInt(entity.quantity)).toFixed(2);
     }, createHide: true},
-    {name: "createdAt", title: "日期", required: true, createHide: true},
     {name: "operator", title: "经手人", required: true, value: function (entity) {
       return entity.operator.name;
     }},
-    {name: "status", title: "状态", required: true, listHide: true},
-    {name: "merchantID", title: "商户ID", required: true, listHide: true, createHide: true},
-    {name: "updateAt", title: "更新日期", listHide: true, required: true, createHide: true}
-
+    {name: "createdAt", title: "日期", required: true, createHide: true},
+    {name: "merchantID", title: "商户ID", required: true, listHide: true, isProfileHide: true, createHide: true},
+    {name: "updateAt", title: "更新日期", listHide: true, required: true, isProfileHide: true, createHide: true},
+    {name: "dealType", title: "类型", value: function (entity) {
+      entity.fieldClass = {};
+      if (entity.type == 'add') {
+        entity.fieldClass.dealType = "label label-success"
+        return "进货"
+      } else if (entity.type == 'sub') {
+        entity.fieldClass.dealType = "label label-warning"
+        return "核销"
+      } else {
+        entity.fieldClass.dealType = "label label-success"
+        return "进货";
+      }
+    }}
   ];
 
   // bussiness
@@ -144,7 +145,7 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector) {
   $scope.showEdit = function (entity) {
     $scope.entity = entity || $scope.entity
     $scope.entity.selection = $scope.types[0];
-    $scope.activeView = "views/basicEditForSkus.html"
+    $scope.activeView = "views/skus/profile.html"
   };
 
   $scope.getInfo = function (itemCode) {
