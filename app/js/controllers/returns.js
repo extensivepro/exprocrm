@@ -18,21 +18,8 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
         {name: "shopID", title: "商店ID", listHide:true, isProfileHide:true},
         {name: "dealID", title: "交易ID", listHide:true, isProfileHide:true},
         {name: "billID", title: "账单ID", listHide:true, isProfileHide:true},
-        {name: "memo", title: "memo", listHide:true, isProfileHide:true},
-        {name: "items", title: "退货商品", listHide:true, value: function (entity) {
-          var itemNames = "";
-          entity.items.forEach(function (item) {
-            itemNames += item.dealItem.item.name + " ";
-          });
-          return itemNames;
-        }},
-        {name: "deviceID", title: "deviceID", listHide:true, isProfileHide:true},
         {name: "dealSerialNumber", title: "退单号"},
         {name: "serialNumber", title: "交易流水号", listHide:true},
-        {name: "quantity", title: "数量"},
-        {name: "fee", title: "退款",value:function(entity) {
-            return (entity.fee/100).toFixed(2);
-        }},
         {name: "customer", title: "顾客",value:function(entity) {
             if (entity.hasOwnProperty("customer")) {
                 return entity.customer.name;
@@ -40,6 +27,19 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
                 return "走入顾客";
             }
         }},
+        {name: "memo", title: "memo", listHide:true, isProfileHide:true},
+        {name: "items", title: "退货商品", value: function (entity) {
+          var itemNames = "";
+          entity.items.forEach(function (item) {
+            itemNames += item.dealItem.item.name + " ";
+          });
+          return itemNames;
+        }},
+        {name: "quantity", title: "总数"},
+        {name: "fee", title: "退款",value:function(entity) {
+            return (entity.fee/100).toFixed(2);
+        }},
+        {name: "deviceID", title: "deviceID", listHide:true, isProfileHide:true},
         {name: "agent", title: "经手人", value:function(entity) {
             return entity.agent.name;
         }},
