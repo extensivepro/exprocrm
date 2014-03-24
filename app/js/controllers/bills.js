@@ -14,31 +14,11 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
     // profile
     $scope.profileFields = [
 //        {name: "id", title: "id"},
-        {name: "createdAt", title: "日期"},
-        {name: "billNumber", title: "账单号", listHide:true},
+        {name: "billNumber", title: "账单号"},
         {name: "deviceID", title: "deviceID", listHide:true, isProfileHide:true},
         {name: "dealID", title: "dealID",  listHide:true, isProfileHide:true},
-        {name: "discountAmount", title: "折扣数", listHide:true, value: function (entity) {
+        {name: "discountAmount", title: "折扣数", listHide:true, isProfileHide:true, value: function (entity) {
           return (entity.discountAmount/100).toFixed(2);
-        }},
-
-        {name: "dealType", title: "交易类型",value:function(entity) {
-            var type = entity.dealType;
-            entity.fieldClass = entity.fieldClass || {}
-            if (type == 'deal') {
-                entity.fieldClass.dealType = "label label-success";
-                return '交易';
-            } else if (type == 'prepay') {
-                entity.fieldClass.dealType = "label label-info";
-                return  '充值';
-            } else {
-                entity.fieldClass.dealType = "label label-warning";
-                return '退款';
-            }
-        }},
-
-        {name: "amount", title: "金额", value:function(entity) {
-            return (entity.amount/100).toFixed(2);
         }},
         {name: "memberSettlement", title: "顾客", value:function(entity) {
             if (!entity.hasOwnProperty('memberSettlement')) {
@@ -49,8 +29,34 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
                 return entity.memberSettlement.payerAccount.name;
             }
         }},
-        {name: "memo", title: "memo",listHide:true, isProfileHide:true},
+        {name: "amount", title: "账户金额", value:function(entity) {
+          if (entity.dealType == 'deal') {
+            return parseInt(entity.amount)/100*(-1);
+          }
+          else if (entity.dealType == 'prepay') {
+            return '+' + (entity.amount/100).toFixed(2);
+          } 
+          else {
+            return '+' + (entity.amount/100).toFixed(2);
+          }
+        }},
         {name: "agentName", title: "经手人"},
+        {name: "createdAt", title: "日期"},
+        {name: "dealType", title: "交易类型",value:function(entity) {
+            var type = entity.dealType;
+            entity.fieldClass = entity.fieldClass || {}
+            if (type == 'deal') {
+                entity.fieldClass.dealType = "label label-success";
+                return '付款';
+            } else if (type == 'prepay') {
+                entity.fieldClass.dealType = "label label-info";
+                return  '充值';
+            } else {
+                entity.fieldClass.dealType = "label label-warning";
+                return '退款';
+            }
+        }},
+        {name: "memo", title: "memo",listHide:true, isProfileHide:true},
         {name: "shopID", title: "shopID",listHide:true, isProfileHide:true}
 
 
