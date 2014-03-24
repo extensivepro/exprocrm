@@ -32,9 +32,9 @@
                         </div>
                         <div class="row" ng-repeat="item in entity.items">
                             <div class="col-lg-3"><h4>{{item.dealItem.item.name}}</h4></div>
-                            <div class="col-lg-3"><h4>{{(item.dealItem.item.price/100).toFixed(2)}}元</h4></div>
-                            <div class="col-lg-3"><h4>{{item.quantity}}</h4></div>
                             <div class="col-lg-3"><h4>{{(item.returnPrice/100).toFixed(2)}}元</h4></div>
+                            <div class="col-lg-3"><h4>{{item.quantity}}</h4></div>
+                            <div class="col-lg-3"><h4>{{(item.returnPrice/100*item.quantity).toFixed(2)}}元</h4></div>
                         </div>
                     </td>
                     <td class="center" ng-if="field.name != 'items'">
