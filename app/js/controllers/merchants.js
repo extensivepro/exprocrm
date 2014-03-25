@@ -17,9 +17,9 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
     , {name: "email", title: "电子邮箱", unlist: true}
     , {name: "address", title: "地址", required: true}
     , {name: "zip", title: "邮编", required: true, unlist: true}
+    , {name: "url", title: "商户网站", unlist: true}
     , {name: "createdAt", title: "创建日期", hide: true, createHide: true}
     , {name: "updateAt", title: "更新日期", unlist: true, hide: true, createHide: true, isProfileHide:true}
-    , {name: "url", title: "商户网站", unlist: true}
     , {name: "newestDeviceCode", title: "设备编码", hide: true, unlist: true, isProfileHide:true}
     ,	{name: "status", title: "状态", value:function(entity){
       entity.fieldClass = entity.fieldClass || {}
@@ -34,6 +34,10 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
       }
     }, hide:true}
   ]
+
+  $scope.profileShortcuts = [
+      {class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-cog", text: "设置", op:"edit"}
+  ];
 
   // route
   $scope.showCreate = function() {
