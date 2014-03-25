@@ -24,7 +24,7 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
     {name: "account", title: "账户金额", value: function (entity) {
       return (entity.account.balance / 100).toFixed(2);
     }, hide: true, createHide: true},
-    {name: "phone", title: "手机号", required: true,  hide: true },
+    {name: "phone", title: "手机号码", required: true,  hide: true , createHide: true},
 
     {name: "userID", title: "用户id", createHide: true, listHide: true, hide: true, isProfileHide: true },
     {name: "shop", title: "商店", createHide: true, listHide: true, hide: true, isProfileHide: true },
@@ -47,8 +47,8 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
         return "到期";
       }
     }, createHide: true, hide: true },
-    {name: "email", title: "邮箱", listHide: true,  hide: true},
-    {name: "idcard", title: "身份证", listHide: true, hide:true},
+    {name: "email", title: "邮箱", listHide: true,  hide: true, createHide: true},
+    {name: "idcard", title: "身份证", listHide: true, hide:true, createHide: true},
     {name: "registerShopID", title: "注册商店ID", createHide: true, required: true, listHide: true, hide: true, isProfileHide: true },
     {name: "updateAt", title: "更新日期", createHide: true, listHide: true, hide: true, isProfileHide: true}
 

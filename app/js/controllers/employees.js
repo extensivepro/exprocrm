@@ -34,7 +34,7 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
       } else {
         return entity.status
       }
-    }, hide:true}
+    }, hide:true, createHide: true}
   ]
 
   $scope.showCreate = function() {
