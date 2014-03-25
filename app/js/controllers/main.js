@@ -1,4 +1,4 @@
-function MainController($scope, Users, Merchants, Shops) {
+function MainController($scope, $modal, Users, Merchants, Shops) {
   if (!$scope.me) $scope.me = {displayName: '未登录'};
   $scope.hideMainMenu = false;
   $scope.switchMainMenu = function () {
@@ -82,6 +82,12 @@ function MainController($scope, Users, Merchants, Shops) {
       });
     }
   })
+  
+  $scope.showTwoDimensionalCode = function () {
+    $modal.open({
+      templateUrl: 'TwoDimensionalCode.html',
+    })
+  }
 
   $scope.patternForIdcard = /(^\d{15}$)|(^\d{17}([0-9]|X)$)/;
   $scope.patternForTelephone = /^(1(([35][0-9])|(47)|[8][01236789]))\d{8}$/;
