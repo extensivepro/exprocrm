@@ -1,22 +1,22 @@
 <div class="navbar" ng-controller="HeaderController" ng-init="init()">
 	<div class="container">
-		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".sidebar-nav.nav-collapse">
-		      <span class="fa fa-bar"></span>
-		      <span class="fa fa-bar"></span>
-		      <span class="fa fa-bar"></span>
-		</button>
-		<a id="main-menu-toggle" class="hidden-xs open" ng-click="switchMainMenu()"><i class="fa fa fa-bars"></i></a>		
-		<a class="navbar-brand col-lg-2 col-sm-1 col-xs-12" href="#!/crm"><img src="img/logo.png"></a>
-		<!-- start: Header Menu -->
-		<div class="nav-no-collapse header-nav">
-			<ul class="nav navbar-nav pull-right">
-				<!-- start: User Dropdown -->
-				<li class="dropdown">
-					<a class="btn account dropdown-toggle" data-toggle="dropdown" href="#">
-						<div class="avatar"><img src="img/avatar.jpg" alt="Avatar"></div>
-						<div class="user">
-              <span class="hello">欢迎回来！</span>
-							<span class="name">{{me.displayName}}</span>
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".sidebar-nav.nav-collapse">
+            <span class="fa fa-bar"></span>
+            <span class="fa fa-bar"></span>
+            <span class="fa fa-bar"></span>
+        </button>
+        <a id="main-menu-toggle" class="hidden-xs open" ng-click="switchMainMenu()"><i class="fa fa fa-bars"></i></a>
+        <a style="padding-bottom: 0px; height: 40px;" class="navbar-brand col-lg-2 col-sm-1 col-xs-12" href="#!/crm"><img src="img/logo.png"></a>
+        <!-- start: Header Menu -->
+        <div class="nav-no-collapse header-nav">
+            <ul class="nav navbar-nav pull-right">
+                <!-- start: User Dropdown -->
+                <li class="dropdown">
+                    <a class="btn account dropdown-toggle" data-toggle="dropdown" href="#">
+                        <div class="avatar"><img src="img/avatar.jpg" alt="Avatar"></div>
+                        <div class="user">
+                            <span class="hello">欢迎回来！</span>
+                            <span class="name">{{me.displayName}}</span>
 						</div>
 					</a>
 					<ul class="dropdown-menu">

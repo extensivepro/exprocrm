@@ -1,13 +1,13 @@
 <div ng-controller="MainController">
   <!-- start: Header -->
-  <div ng-include="'views/header.html'">
+  <div class="navbar-fixed-top" ng-include="'views/header.html'">
   </div>
   <!-- end: Header -->
   <div class="container">
     <!-- start: Main Menu && Content-->
     <div class="row">
       <!-- start: Main Menu -->
-      <div id="sidebar-left" class="col-lg-2 col-sm-1" ng-hide="hideMainMenu">
+      <div style="margin-top:40px" id="sidebar-left" class="col-lg-2 col-sm-1" ng-hide="hideMainMenu">
         <div class="nav-collapse sidebar-nav collapse navbar-collapse bs-navbar-collapse">
           <ul class="nav nav-tabs nav-stacked main-menu">
             <li ng-repeat="view in views" ng-class="{active:view == currentView && !view.submenus}">
@@ -47,7 +47,7 @@
 
       <!-- start: Content -->
       <div id="content" class="col-lg-10 col-sm-11" ng-class="hideMainMenu? 'full': ''">
-        <div style="padding-left: 5px; padding-right: 5px" ng-include="currentView.path" />
+        <div style="margin-top:30px; padding-left: 5px; padding-right: 5px" ng-include="currentView.path" />
       </div>
       <!-- end: Content -->
     </div>
