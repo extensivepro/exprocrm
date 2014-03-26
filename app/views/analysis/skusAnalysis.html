@@ -93,7 +93,7 @@
                 <div style="text-align: center" class="alert alert-danger" ng-show="noData" close="closeAlert()">抱歉，您在此时间段内没有任何进货数据</div>
 
                 <div class="row">
-                    <div class="col-lg-4" style="text-align: right" ng-show="dualChart">
+                    <div class="col-lg-4" style="text-align: right" ng-show="dualChart && showPrimaryChart">
                         <div google-chart="" chart="offChart" style="{{offChart.cssStyle}}"
                              on-ready="chartReady()"></div>
                     </div>

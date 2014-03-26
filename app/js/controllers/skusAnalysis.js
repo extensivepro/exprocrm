@@ -304,6 +304,12 @@ function SkusAnalysisController($scope, Statistics, Shops, Employes, Items) {
         statParam.keyID = $scope.shopKeyIDs;
 //      //console.log(statParam)
       Statistics.query(statParam, function (result){
+        if (result.length != 0){
+          $scope.noData = false;
+          $scope.showPrimaryChart = true;
+        } else if (result.length == 0){
+          $scope.noData = true;
+        }
         $scope.statResult = result;
         //console.log(result);
         var result = getResult(result);
