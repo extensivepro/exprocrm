@@ -1,6 +1,6 @@
 function MerchantsController($scope, Merchants, Pagination, $timeout, $injector){
   $injector.invoke(BasicController, this, {$scope: $scope});
-  $scope.activeView = "views/merchantProfile.html"
+  $scope.activeView = "views/merchant/profile.html"
   $scope.resource = Merchants
   $scope.searchOptions.fields = ['name', 'telephone']
   $scope.searchOptions.tooltip = "请输入商户名称"
@@ -68,14 +68,14 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
   }
 
   $scope.cancelEdit = function () {
-    $scope.activeView = "views/merchantProfile.html"
+    $scope.activeView = "views/merchant/profile.html"
   }
   $scope.update = function (entity) {
     var resource = new $scope.resource(entity)
     resource.$update(function (err) {
       Merchants.query({id:entity.id}, function (merchant) {
         $scope.currentMerchant.merchant = merchant;
-        $scope.activeView = "views/merchantProfile.html"
+        $scope.activeView = "views/merchant/profile.html"
       })
     }, function (err) {
       console.log('update error:', err, entity)

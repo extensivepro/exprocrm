@@ -73,6 +73,6 @@ function ReturnsController($scope, Returns, Pagination, $timeout, $injector){
     $scope.showOptions = true;
     $scope.showProfile = function (entity) {
       $scope.entity = entity || $scope.entity;
-      $scope.activeView = "views/returnProfile.html";
+      $scope.activeView = "views/returns/profile.html";
     }
 }
