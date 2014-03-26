@@ -6,15 +6,16 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector){
   $scope.editView = "views/item/edit.html"
   $scope.profileAvatar = "img/avatar.jpg"
   $scope.profileFields = [
-    {name: "merchantID", title: "业主ID", required: true, unlist: true, hide: true, isProfileHide:true, createHide: true},
+    {name: "merchantID", title: "业主ID", required: true, listHide: true, hide: true, isProfileHide:true, createHide: true},
     {name: "code", title: "商品编码", required: true, hide: true},
     {name: "name", title: "品名", required: true},
+
     {name: "model", title: "型号"},
     {name: "mnemonicCode", title: "助记码", unlist: true},
     {name: "price", title: "售价", required: true, value:function(entity) {
     entity.fieldClass = entity.fieldClass || {}
     return (entity.price/100).toFixed(2)}},
-    {name: "desc", title: "商品描述", unlist: true},
+    {name: "desc", title: "商品描述", listHide: true},
     {name: "createdAt", title: "创建日期", createHide: true, hide: true},
     {name: "status", title: "状态", value:function(entity){
       entity.fieldClass = entity.fieldClass || {}
@@ -28,7 +29,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector){
         return entity.status
       }
     }, hide:true, createHide: true},
-    {name: "updatedAt", title: "更新日期", createHide: true, unlist: true, hide: true, isProfileHide:true}
+    {name: "updatedAt", title: "更新日期", createHide: true, listHide: true, hide: true, isProfileHide:true}
   ]
 
   // route

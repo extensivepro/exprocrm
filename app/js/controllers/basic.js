@@ -93,6 +93,7 @@ function BasicController($scope, Pagination, $modal, $log) {
       $scope.params.$limit = p.iLength;
       $scope.resource.query($scope.params, function (results) {
         $scope.entities = results;
+        $scope.percent= 100 / $scope.fields.length ;
       });
     }
   }
@@ -153,8 +154,8 @@ function BasicController($scope, Pagination, $modal, $log) {
   $scope.init = function () {
     $scope.pagination.iPage = 1
     $scope.fields = $scope.profileFields.filter(function (field) {
-      return !field.unlist
-    })
+      return !field.listHide
+    });
   }
 
   $scope.valueOfKeyString = function (entity, keyString) {
