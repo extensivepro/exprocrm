@@ -14,7 +14,7 @@ function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injec
     , {name: "udid", title: "序列号", readonly:true}
 		, {name: "shop.name", title: "所属店铺", readonly: true, required:true}
 		,	{name: "createdAt", title: "注册日期", readonly:true, createHide: true}
-    ,	{name: "updateAt", title: "更新日期", unlist:true, readonly:true, createHide: true}
+    ,	{name: "updateAt", title: "更新日期", listHide:true, readonly:true, createHide: true}
   ]
   // route
   $scope.showCreate = function() {
