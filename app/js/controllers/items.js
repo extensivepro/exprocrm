@@ -6,11 +6,11 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector){
   $scope.editView = "views/item/edit.html"
   $scope.profileAvatar = "img/avatar.jpg"
   $scope.profileFields = [
-    {name: "merchantID", title: "业主ID", required: true, unlist: true, hide: true},
-    {name: "code", title: "商品编码", required: true},
-    {name: "mnemonicCode", title: "商品助记码", unlist: true},
-    {name: "name", title: "商品名称", required: true},
+    {name: "merchantID", title: "业主ID", required: true, unlist: true, hide: true, isProfileHide:true, createHide: true},
+    {name: "code", title: "商品编码", required: true, hide: true},
+    {name: "name", title: "品名", required: true},
     {name: "model", title: "型号"},
+    {name: "mnemonicCode", title: "助记码", unlist: true},
     {name: "price", title: "售价", required: true, value:function(entity) {
     entity.fieldClass = entity.fieldClass || {}
     return (entity.price/100).toFixed(2)}},
@@ -28,7 +28,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector){
         return entity.status
       }
     }, hide:true, createHide: true},
-    {name: "updatedAt", title: "更新日期", createHide: true, unlist: true, hide: true}
+    {name: "updatedAt", title: "更新日期", createHide: true, unlist: true, hide: true, isProfileHide:true}
   ]
 
   // route
