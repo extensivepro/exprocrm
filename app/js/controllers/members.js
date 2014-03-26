@@ -23,7 +23,7 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
     {name: "name", title: "姓名", required: true},
     {name: "account", title: "账户金额", value: function (entity) {
       return (entity.account.balance / 100).toFixed(2);
-    }, hide: true, createHide: true},
+    }, hide: true, createHide: true, sort: "fa fa-sort"},
     {name: "phone", title: "手机号码", required: true,  hide: true , createHide: true},
 
     {name: "userID", title: "用户id", createHide: true, listHide: true, hide: true, isProfileHide: true },
@@ -132,4 +132,10 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
   $scope.params['merchant.merchantID'] = $scope.currentMerchant.merchant.id;
   $scope.countQs['merchant.merchantID'] = $scope.currentMerchant.merchant.id;
   $scope.defaultString = "name";
+  $scope.flag = 1;
+  $scope.sortByMoney = function (flag) {
+    $scope.flag = flag;
+    $scope.sortOptions = {"account.balance":flag};
+    $scope.refreshList();
+  }
 }
