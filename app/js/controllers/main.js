@@ -6,6 +6,7 @@ function MainController($scope, $modal, Users, Merchants, Shops) {
   };
   
   $scope.views = [
+    {name: "控制面板", icon: "fa fa-dashboard", path: "views/analysis/dashboard.html"},
     {name: "销售统计", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html"},
     {name: "进货统计", icon: "fa fa-truck", path: "views/analysis/skusAnalysis.html"},
     {name: "设备管理", icon: "fa fa-tablet", path: "views/devices/index.html"},
