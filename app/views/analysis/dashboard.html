@@ -1,0 +1,70 @@
+<div class="row" ng-controller="DashboardController" data-ng-init="init()">
+    <div class="row" style="padding-left: 15px; padding-right: 15px">
+        <div class="box">
+            <div class="box-header">
+                <h2>
+                    <i ng-class="currentView.icon"></i>
+                    <span class="break"></span>
+                    {{currentView.name}}
+                </h2>
+            </div>
+            <div class="box-content">
+                <br/>
+                <div class="row" style="padding-left: 20px; padding-right: 20px">
+                    <div class="col-lg-3" style="border:2px solid #428bca; margin-left: 4.16%; margin-right: 4.16%">
+                        <table style="width: 100%">
+                            <tr class="bg-primary"><td style="text-align: center"><i class="fa fa-money fa-4x"></i><h2 style="margin-top: -3px"> 销售额(元)</h2></td>
+                            </tr>
+                            <tr style="height: 20px"></tr>
+                            <tr><td style="text-align: center"><h1 class="text-primary" ng-click="showStat = !showStat" style="font-weight: bold; font-family: Arial; font-size: 48px;">{{saleNum}}</h1></td>
+                            </tr>
+                            <tr style="height: 20px"><td style="text-align: right"><h2 class="text-primary"><i ng-show="saleDiffSign > 0" style="color: green" class="fa fa-arrow-up fa-1x"></i><i ng-show="saleDiffSign <= 0" style="color: red" class="fa fa-arrow-down fa-1x"></i> {{saleDiff}}%</h2> </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-lg-3" style="border:2px solid #3c763d; margin-left: 4.16%; margin-right: 4.16%">
+                        <table style="width: 100%">
+                            <tr style="background-color: #3c763d"><td style="text-align: center"><i style="color: white" class="fa fa-exchange fa-4x"></i><h2 style="color: white; margin-top: -3px"> 现金流(元)</h2></td>
+                            </tr>
+                            <tr style="height: 20px"></tr>
+                            <tr><td style="text-align: center"><h1 class="text-success" ng-click="showStat = !showStat" style="font-weight: bold; font-family: Arial; font-size: 48px;">{{cashFlowNum}}</h1></td>
+                            </tr>
+                            <tr style="height: 20px"><td style="text-align: right"><h2 class="text-success"><i style="color: green" class="fa fa-arrow-up fa-1x"></i> 4.5%</h2> </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-lg-3" style="border:2px solid darkred; margin-left: 4.16%; margin-right: 4.16%">
+                        <table style="width: 100%">
+                            <tr style="background-color: #a94442"><td style="text-align: center"><i style="color: white" class="fa fa-truck fa-4x"></i><h2 style="color: white; margin-top: -3px"> 进货支出(元)</h2></td>
+                            </tr>
+                            <tr style="height: 20px"></tr>
+                            <tr><td style="text-align: center"><h1 class="text-danger" ng-click="showStat = !showStat" style="font-weight: bold; font-family: Arial; font-size: 48px;">{{skusNum}}</h1></td>
+                            </tr>
+                            <tr style="height: 20px"><td style="text-align: right"><h2 class="text-danger"><i style="color: green" class="fa fa-arrow-up fa-1x"></i></h2> </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <br/>
+                <hr>
+                <div class="row" style="padding-left: 40px; padding-right: 40px">
+                    <div class="col-lg-6" style="text-align: center" >
+                        <h2 style="font-size: 32px">商店排行</h2>
+                        <div style="text-align: right">
+                            <div google-chart="" chart="shopChart" style="{{shopChart.cssStyle}}"
+                                 on-ready="chartReady()"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" style="text-align: center" >
+                        <h2 style="font-size: 32px">单品排行:</h2>
+                        <div style="text-align: right">
+                            <div google-chart="" chart="itemChart" style="{{shopChart.cssStyle}}"
+                                 on-ready="chartReady()"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

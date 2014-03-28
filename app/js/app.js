@@ -11,7 +11,8 @@ var app = angular.module('exproRMS', [
   'googlechart',
   'exproRMS.filters',
   'exproRMS.services',
-  'exproRMS.directives'
+  'exproRMS.directives',
+  'ngAnimate'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/home', {templateUrl: 'views/home.html', controller: 'SignController'});
