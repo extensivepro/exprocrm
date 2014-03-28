@@ -16,9 +16,9 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
       if(entity.role === 'owner') return '业主'
       return entity.role
     }, hide:true, required: true},
-    {name: "phone", title: "电话", required: true},
-    {name: "email", title: "电子邮箱", listHide: true},
-    {name: "idcard", title: "身份证", required: true, readonly:true, creatable:true, hide:true},
+    {name: "phone", title: "手机号码", required: true, createHide: true, hide:true},
+    {name: "email", title: "电子邮箱", listHide: true, createHide: true, hide:true},
+    {name: "idcard", title: "身份证", required: true, readonly:true, creatable:true, hide:true, createHide: true},
     {name: "createdAt", title: "入职日期", createHide: true, readonly:true, creatable:true, hide:true},
     {name: "leaveAt", title: "离职日期", createHide: true, listHide: true, readonly:true, creatable:true, hide:true},
     {name: "password", title: "密码", required: true, listHide: true},
