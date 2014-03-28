@@ -8,7 +8,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector){
   $scope.profileFields = [
     {name: "merchantID", title: "业主ID", required: true, listHide: true, hide: true, isProfileHide:true, createHide: true},
     {name: "code", title: "商品编码", required: true, hide: true},
-    {name: "name", title: "品名", required: true},
+    {name: "name", title: "商品名", required: true},
 
     {name: "model", title: "型号"},
     {name: "mnemonicCode", title: "助记码", unlist: true},
