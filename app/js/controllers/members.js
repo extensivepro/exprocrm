@@ -35,7 +35,7 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
     {name: "postTotalPoint", title: "累计积分", listHide: true, hide: true, createHide: true },
     {name: "level", title: "等级", createHide: true, listHide: true, hide: true },
     {name: "sinceAt", title: "加入时间", required: true, hide: true, createHide: true},
-    {name: "dueAt", title: "有效期至", createHide: true, required: true, listHide: true},
+    {name: "dueAt", title: "有效期至", createHide: true, required: true, listHide: true, hide: true},
     {name: "createdAt", title: "创建日期", createHide: true, required: true, listHide: true, hide: true, isProfileHide: true},
     {name: "status", title: "状态", required: true, value: function (entity) {
       entity.fieldClass = entity.fieldClass || {}
