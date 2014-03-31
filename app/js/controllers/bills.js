@@ -23,10 +23,12 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
         {name: "memberSettlement", title: "顾客", value:function(entity) {
             if (!entity.hasOwnProperty('memberSettlement')) {
                 return "";
-            } else if (!entity.memberSettlement.hasOwnProperty('payerAccount'))  {
-                return "";
-            } else {
+            } else if (entity.memberSettlement.hasOwnProperty('payeeAccount'))  {
+                return entity.memberSettlement.payeeAccount.name;
+            } else if (entity.memberSettlement.hasOwnProperty('payerAccount')){
                 return entity.memberSettlement.payerAccount.name;
+            } else {
+                return "";
             }
         }},
         {name: "amount", title: "账户金额", value:function(entity) {

@@ -11,7 +11,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector){
     {name: "name", title: "商品名", required: true},
 
     {name: "model", title: "型号"},
-    {name: "mnemonicCode", title: "助记码", unlist: true},
+    {name: "mnemonicCode", title: "助记码", listhide: true},
     {name: "price", title: "售价", required: true, value:function(entity) {
     entity.fieldClass = entity.fieldClass || {}
     return (entity.price/100).toFixed(2)}},
