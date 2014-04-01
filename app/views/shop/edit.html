@@ -1,17 +1,39 @@
 <div class="form-group">
-    <label class="col-lg-2 control-label">电话号码</label>
+    <label class="col-lg-2 control-label">店面编码</label>
     <div class="col-lg-6">
         <div class="input-group">
-            <input class="form-control" name="telephone" type="text" ng-model="entity.telephone" ng-pattern="patternForTelephone">
+            <input class="form-control" name="code" type="text" ng-model="entity.code">
             <span class="input-group-addon"><i class="fa fa-circle"></i></span>
         </div>
     </div>
-    <div class="col-lg-4" ng-if="editForm.$error.pattern">
-        <span class="label label-warning">电话号码格式不正确！</span>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">店名</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="name" type="text" ng-model="entity.name">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
     </div>
 </div>
-
-
+<div class="form-group">
+    <label class="col-lg-2 control-label">地址</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="address" type="text" ng-model="entity.address">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">电话号码</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="telephone" type="text" ng-model="entity.telephone">
+            <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+        </div>
+    </div>
+</div>
 <div class="form-group">
 	<label class="col-lg-2 control-label">状态</label>
 	<div class="col-lg-10">

@@ -19,7 +19,7 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
    */
   $scope.profileFields = [
 //        {name: "id", title: "id", listHide:true, hide:true },
-    {name: "code", title: "编码", required: true, hide: true },
+    {name: "code", title: "编码", required: true, hide: true},
     {name: "name", title: "姓名", required: true},
     {name: "account", title: "账户金额", value: function (entity) {
       return (entity.account.balance / 100).toFixed(2);
