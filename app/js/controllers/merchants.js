@@ -11,7 +11,7 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
       entity.fieldClass = entity.fieldClass || {}
       return entity.owner.displayName
     }, hide: true, createHide: true, unlist: true, isProfileHide:true}
-    , {name: "name", title: "商户名称", required: true, hide: true}
+    , {name: "name", title: "商户简称", required: true, hide: true}
     , {name: "fullName", title: "商户全名", required: true, unlist: true, hide: true}
     , {name: "telephone", title: "电话", required: true}
     , {name: "email", title: "电子邮箱", unlist: true}
