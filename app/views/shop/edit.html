@@ -29,9 +29,12 @@
     <label class="col-lg-2 control-label">电话号码</label>
     <div class="col-lg-6">
         <div class="input-group">
-            <input class="form-control" name="telephone" type="text" ng-model="entity.telephone">
+            <input class="form-control" name="telephone" type="text" ng-model="entity.telephone" ng-pattern="patternForTelephone">
             <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
         </div>
+    </div>
+    <div class="col-lg-4" ng-if="editForm.telephone.$error.pattern">
+        <span class="label label-warning">电话号码格式不正确！</span>
     </div>
 </div>
 <div class="form-group">
