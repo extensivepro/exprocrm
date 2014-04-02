@@ -20,7 +20,7 @@
 		<div class="col-lg-8 col-md-10 col-xs-12">
 			<table class="table table-striped">
 			  <tbody>
-					<tr ng-repeat="field in profileFields" ng-hide="field.isProfileHide">
+					<tr ng-repeat="field in profileFields" ng-hide="field.isProfileHide || field.leaverNoHide(entity)">
 						<td class="center"><h4>{{field.title}}</h4></td>
 						<td class="center">
 							<h4 ng-if="field.value" ng-class="entity.fieldClass[field.name]">{{field.value(entity)}}</h4>

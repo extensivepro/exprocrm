@@ -8,20 +8,27 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
 	$scope.profileAvatar = "img/avatar.jpg"
   $scope.fieldOperations.push({class: "btn btn-info", icon: "fa fa-info", op:"analysis"});
   $scope.profileFields = [
-    {name: "jobNumber", title: "工号", required: true, readonly:true, creatable:true, hide:true},
-    {name: "name", title: "姓名", required: true},
+    {name: "jobNumber", title: "工号", required: true, creatable:true, hide: true, createHide: true},
+    {name: "name", title: "姓名", required: true, hide: true, createHide: true},
     {name: "role", title: "职务", value:function(entity){
       if(entity.role === 'cashier') return '收银员'
       if(entity.role === 'shopManager') return '店长'
       if(entity.role === 'owner') return '业主'
       return entity.role
-    }, hide:true, required: true},
+    }, hide:true, required: true, createHide: true},
+    {name: "idcard", title: "身份证", required: true, readonly:true, creatable:true, hide:true, createHide: true},
     {name: "phone", title: "手机号码", required: true, createHide: true, hide:true},
     {name: "email", title: "电子邮箱", listHide: true, createHide: true, hide:true},
-    {name: "idcard", title: "身份证", required: true, readonly:true, creatable:true, hide:true, createHide: true},
     {name: "createdAt", title: "入职日期", createHide: true, readonly:true, creatable:true, hide:true},
-    {name: "leaveAt", title: "离职日期", createHide: true, listHide: true, readonly:true, creatable:true, hide:true},
-    {name: "password", title: "密码", required: true, listHide: true},
+    {name: "leaveAt", title: "离职日期", createHide: true, listHide: true, readonly:true, creatable:true, hide:true,
+     leaverNoHide: function(entity) {
+      if(entity.status === 'leave') {
+        return false
+      } else if (entity.status === 'active') {
+        return true
+      }
+    }},
+    {name: "password", title: "密码", listHide: true, hide: true, isProfileHide: true, createHide: true},
     {name: "updateAt", title: "更新日期", createHide: true, listHide: true, readonly:true, creatable:true, hide:true, isProfileHide: true},
     {name: "status", title: "状态", value:function(entity){
       entity.fieldClass = entity.fieldClass || {}
@@ -37,6 +44,21 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
     }, hide:true, createHide: true}
   ]
 
+  //Formatting date
+  $scope.valueOfKeyString = function (entity, keyString) {
+    var v = entity
+    var keys = keyString.split('.')
+    var theKey = keys[0]
+    keys.forEach(function (key) {
+      theKey = key
+      v = v[key]
+    })
+    if (theKey === 'createdAt' || theKey === 'leaveAt' || theKey === 'updateAt') {
+      v = new Date(v * 1000).toLocaleString()
+    }
+    return v
+  }
+  
   $scope.showCreate = function() {
     var d = new Date();
     $scope.showEdit({createdAt: Math.round(d.getTime()/1000)})
