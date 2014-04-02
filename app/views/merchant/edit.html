@@ -1,6 +1,6 @@
 <div class="box-header">
     <h2><i ng-class="currentView.icon"></i><span class="break"></span>
-        <span ng-show='!!entity.id'>设置 - {{currentMerchant.merchant.name}}</span>
+        <span ng-show='!!entity.id'>{{currentView.name}} - 设置</span>
     </h2>
     <div class="box-icon">
         <a ng-click="cancelEdit()" class="btn-close"><i class="fa fa-times"></i></a>
@@ -13,15 +13,72 @@
             <span class="help-block"><i class="fa fa-circle"> 标记的项目不能为空</i></span>
         </div>
         <!--START:just use for edit-->
-        <div class="form-group" ng-repeat="field in profileFields" ng-if="!!entity.id && !field.readonly"
-             ng-hide="field.hide || (field.readonly && !(!entity._id && field.creatable))">
-            <label class="col-lg-2 control-label">{{field.title}}</label>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">商户简称</label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <input class="form-control" name="{{field.name}}" type="text" ng-model="entity[field.name]"
-                           ng-required="!!field.required">
-                    <span class="input-group-addon" ng-if="!!field.required"><i class="fa fa-circle"></i></span>
-                    <span class="input-group-addon" ng-if="!field.required"><i class="fa fa-circle-o"></i></span>
+                    <input class="form-control" name="name" type="text" ng-model="entity.name">
+                    <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">商户全称</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="fullName" type="text" ng-model="entity.fullName">
+                    <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">电话</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="telephone" type="text" ng-model="entity.telephone" ng-pattern="patternForTelephone">
+                    <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+                </div>
+            </div>
+            <div class="col-lg-4" ng-if="editForm.telephone.$error.pattern">
+                <span class="label label-warning">电话号码格式不正确！</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">电子邮箱</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="email" type="text" ng-model="entity.email" ng-pattern="patternForEmail">
+                    <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+                </div>
+            </div>
+            <div class="col-lg-4" ng-if="editForm.email.$error.pattern">
+                <span class="label label-warning">电子邮箱格式不正确！</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">地址</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="address" type="text" ng-model="entity.address">
+                    <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">邮编</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="zip" type="text" ng-model="entity.zip">
+                    <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">商户网站</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="url" type="text" ng-model="entity.url">
+                    <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
                 </div>
             </div>
         </div>
