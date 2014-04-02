@@ -10,10 +10,10 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
 	// profile 
 	$scope.profileFields = [
     {name: "code", title: "店面编码", required: true, listHide: true, hide: true, createHide: true}
-		,	{name: "name", title: "店名", required: true, createHide: true}
+		,	{name: "name", title: "店名", required: true, hide: true, createHide: true}
     , {name: "merchantID", title: "业主ID", listHide:true, hide: true, isProfileHide: true, createHide: true}
-		, {name: "address", title: "地址", required: true, createHide: true}
-		, {name: "telephone", title: "电话号码", createHide: true}
+		, {name: "address", title: "地址", required: true, hide: true, createHide: true}
+		, {name: "telephone", title: "电话号码", hide: true, createHide: true}
 		,	{name: "createdAt", title: "注册日期", readonly:true, createHide: true}
 		,	{name: "closedAt", title: "关闭日期", listHide:true, readonly:true, createHide: true, isProfileHide: true}
     ,	{name: "updateAt", title: "更新日期", listHide:true, readonly:true, createHide: true, isProfileHide: true}
