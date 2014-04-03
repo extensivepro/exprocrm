@@ -32,12 +32,9 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
             }
         }},
         {name: "amount", title: "账户金额", value:function(entity) {
-          if (entity.dealType == 'deal') {
-            return parseInt(entity.amount)/100*(-1);
+          if (entity.dealType == 'deal' || entity.dealType == 'writedown') {
+            return parseInt(entity.amount)/100*(-1).toFixed(2);
           }
-          else if (entity.dealType == 'prepay') {
-            return '+' + (entity.amount/100).toFixed(2);
-          } 
           else {
             return '+' + (entity.amount/100).toFixed(2);
           }
