@@ -53,9 +53,12 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
             } else if (type == 'prepay') {
                 entity.fieldClass.dealType = "label label-info";
                 return  '充值';
-            } else {
+            } else if (type == 'return') {
                 entity.fieldClass.dealType = "label label-warning";
                 return '退款';
+            } else if (type == 'writedown') {
+              entity.fieldClass.dealType = "label label-danger";
+              return '冲减';
             }
         }},
         {name: "memo", title: "memo",listHide:true, isProfileHide:true},
