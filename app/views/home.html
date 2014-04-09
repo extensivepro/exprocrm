@@ -57,7 +57,7 @@
             </script>
             <div class="login-box">
                 <h2>{{loginTitle}}</h2>
-                <form class="form-horizontal" autofill-submit="login()" ui-keypress="{13:'Login($event)'}">
+                <form class="form-horizontal" ng-submit="Login()" ui-keypress="{13:'Login($event)'}" form-autofill-fix>
                     <fieldset>
                         <input class="input-large col-xs-12" ng-model="loginUser.username" name="username" type="text"
                                placeholder="用户名" style="color: #000000!important;" required/>
@@ -65,7 +65,7 @@
                                type="password" placeholder="密码" style="color: #000000!important;" required/>
                         <div class="clearfix"></div>
                         <div class="clearfix"></div>
-                        <button type="submit" class="btn btn-primary col-xs-5" ng-click="Login()">登录</button>
+                        <button type="submit" class="btn btn-primary col-xs-5">登录</button>
                         <div class="col-xs-2"></div>
                         <button class="btn btn-default col-xs-5" ng-click="registerWizard()">注册</button>
                     </fieldset>
