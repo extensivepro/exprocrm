@@ -74,7 +74,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
         period: 'daily'
       }
       Statistics.query(param, function(result){
-        console.log(result);
+//        console.log(result);
         var itemData = [];
         var rows = [];
         result.forEach(function(item){
@@ -146,7 +146,8 @@ function DashboardController($scope, Statistics, Shops, Items) {
 
   function saleFetch(){
     Statistics.query($scope.saleParam, function (result) {
-//      console.log(result)
+
+      console.log(result)
       if (result.length == 2){
         $scope.saleNum = numberWithCommas(Number(result[0].value.sale.total / 100).toFixed(1));
         $scope.saleNumPrv = numberWithCommas(Number(result[1].value.sale.total / 100).toFixed(1));
@@ -163,6 +164,10 @@ function DashboardController($scope, Statistics, Shops, Items) {
           $scope.saleDiffSign = -100;
           $scope.saleDiff = 100;
         }
+      }else if (result.length == 0){
+        $scope.saleNum = 0;
+        $scope.saleDiffSign = -100;
+        $scope.saleDiff = 100;
       }
     })
   }
