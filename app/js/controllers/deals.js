@@ -11,6 +11,27 @@ function DealsController($scope, Deals, Pagination, $timeout, $injector){
     $scope.searchOptions.tooltip = "请输入顾客姓名或收银员姓名"
     $scope.editView = "views/deals/edit.html"
     $scope.profileAvatar = "img/avatar.jpg"
+    $scope.loading = false;
+    $scope.entitiesWh = undefined;
+
+    $scope.exportExcel = function(){
+      $scope.loading = true;
+      var param = {$sort: $scope.sortOptions,
+      shopID: $scope.currentShowShop.shop.id};
+      Deals.query(param, function(result){
+        $scope.loading = false;
+        $scope.entitiesWh = result;
+        if ($scope.entitiesWh != undefined){
+          setTimeout(function(){
+            var blob = new Blob([document.getElementById('exportable').innerHTML], {
+              type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+            });
+            saveAs(blob, "销售记录.xls");
+          }, 1)
+        }
+        console.log(result);
+      })
+    }
 
     // profile
     $scope.profileFields = [
@@ -66,6 +87,7 @@ function DealsController($scope, Deals, Pagination, $timeout, $injector){
     });
     $scope.defaultString = "buyer.name";
     $scope.showOptions = true;
+    $scope.showExport = true;
 
     $scope.showProfile = function (entity) {
       $scope.entity = entity || $scope.entity;
