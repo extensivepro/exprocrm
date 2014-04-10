@@ -29,6 +29,10 @@ function RegisterModalController($scope, $modalInstance, registerUser) {
       return false;
     }else
       $scope.passwordErrMess = ""
+      
+    if (registerUser.displayName.toString().length == 0) {
+      return false;
+    }
 
     if (registerUser.idcard.toString().length != 0)
       if (usernameReg.test(registerUser.idcard) == true ||
