@@ -12,7 +12,8 @@ var app = angular.module('exproRMS', [
   'exproRMS.filters',
   'exproRMS.services',
   'exproRMS.directives',
-  'ngAnimate'
+  'ngAnimate',
+  'angularFileUpload'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/home', {templateUrl: 'views/home.html', controller: 'SignController'});
@@ -25,5 +26,7 @@ config(['$httpProvider', function($httpProvider) {
 
 //Setting up Restful Server
 window.restful = {
-	baseURL: "http://service.fankahui.com:2403"
+//	baseURL: "http://service.fankahui.com:2403"
+//	baseURL: "http://192.168.0.116:2403"
+	baseURL: "http://localhost:2403"
 };
