@@ -180,6 +180,8 @@ function DashboardController($scope, Statistics, Shops, Items) {
           skusTotal += item.value.sumPrice;
         })
         $scope.skusNum = numberWithCommas((skusTotal / 100).toFixed(1));
+      } else if (result.length == 0) {
+        $scope.skusNum = 0;
       }
     })
   }
