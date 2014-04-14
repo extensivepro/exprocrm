@@ -7,8 +7,9 @@ function RegisterModalController($scope, $modalInstance, registerUser) {
   $scope.ok = function () {
     if ($scope.registerUser.username != "" &&
       $scope.registerUser.password != "" &&
-      $scope.registerUser.displayName != "") {
+      $scope.registerUser.name != "") {
       $scope.registerUser.phone = $scope.registerUser.username;
+      $scope.registerUser.displayName = $scope.registerUser.name;
       if (validate($scope.registerUser) == true) {
         $modalInstance.close($scope.registerUser);
         console.log($scope.registerUser);
@@ -30,7 +31,7 @@ function RegisterModalController($scope, $modalInstance, registerUser) {
     }else
       $scope.passwordErrMess = ""
       
-    if (registerUser.displayName.toString().length == 0) {
+    if (registerUser.name.toString().length == 0) {
       return false;
     }
 
