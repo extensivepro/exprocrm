@@ -1,10 +1,94 @@
-<div class="form-group">
-    <label class="col-lg-2 control-label">状态</label>
-    <div class="col-lg-10">
-        <div class="btn-group">
-            <button type="button" class="btn btn-success" ng-model="entity.status" btn-radio="'sale'">上架</button>
-            <button type="button" class="btn btn-warning" ng-model="entity.status" btn-radio="'removed'">下架</button>
-           
-        </div>
+<div class="box-header">
+    <h2><i ng-class="currentView.icon"></i><span class="break"></span>
+        <span>编辑{{currentView.name}}</span>
+    </h2>
+
+    <div class="box-icon">
+        <a ng-click="cancelEdit()" class="btn-close" style="color: white"><i class="fa fa-times"></i></a>
     </div>
 </div>
+<div class="box-content">
+    <form class="form-horizontal" role="form" name="editForm">
+        <div class="form-group" ng-repeat="field in profileFields"
+             ng-if="!field.hide">
+            <div class="form-group">
+                <label class="col-lg-2 control-label">{{field.title}}：</label>
+
+                <div class="col-lg-6">
+                    <input class="form-control" type="text" ng-model="entity[field.name]" required>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" ng-repeat="img in imgs">
+            <div class="form-group">
+                <label class="col-lg-2 control-label">图片详情：</label>
+
+                <div class="col-lg-6">
+                    <img ng-src="{{img}}">
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-6">
+                <button ng-disabled="editForm.$invalid" ng-click="update(entity)" class="btn btn-primary btn-lg"><i
+                        class="fa fa-save fa-lg"></i> 保存
+                </button>
+                <button ng-click="cancelEdit()" class="btn btn-warning btn-lg"><i class="fa fa-arrows-alt fa-lg"></i> 取消
+                </button>
+                <button ng-click="changePic()" class="btn btn-info btn-lg"><i class="fa fa-picture-o fa-lg"></i> 更换图片
+                </button>
+            </div>
+        </div>
+
+        <div ng-if="showChangePic">
+            <div class="form-group">
+                <label class="col-lg-2 control-label"></label>
+                <div class="col-lg-6">
+                    <div class="alert alert-danger">注意：重新上传后，原先的图片会从服务器上删除！</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">上传：</label>
+                <div class="col-lg-2">
+                    <input ng-file-select="" type="file" multiple ng-model="none">
+                </div>
+                <div class="col-lg-8">
+                    <table class="table">
+                        <tbody>
+                        <tr ng-repeat="item in uploaderForEdit.queue" class="ng-scope">
+                            <td>
+                                <strong>{{ item.file.name }}</strong>
+
+                                <div ng-show="uploaderForEdit.isHTML5" ng-thumb="{ file: item.file, height: 100 }"></div>
+                            </td>
+                            <td ng-show="uploaderForEdit.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                            <td ng-show="uploaderForEdit.isHTML5">
+                                <div class="progress" style="margin-bottom: 0;">
+                                    <div class="progress-bar" role="progressbar"
+                                         ng-style="{ 'width': item.progress + '%' }"></div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                                <span ng-show="item.isError"><i class="fa fa-times"></i></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-6">
+                    <button type="button" class="btn btn-success btn-s" ng-click="uploadForEdit()"
+                            ng-disabled="!uploaderForEdit.getNotUploadedItems().length">
+                        <i class="fa fa-cloud-upload"></i>上传
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+
