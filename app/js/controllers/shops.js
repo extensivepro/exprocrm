@@ -11,7 +11,7 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
 	$scope.profileFields = [
     {name: "code", title: "店面编码", required: true, listHide: true, hide: true, createHide: true}
 		,	{name: "name", title: "店名", required: true, hide: true, createHide: true}
-    , {name: "merchantID", title: "业主ID", listHide:true, hide: true, isProfileHide: true, createHide: true}
+    , {name: "merchantID", title: "商户ID", listHide:true, hide: true, isProfileHide: true, createHide: true}
 		, {name: "address", title: "地址", required: true, hide: true, createHide: true}
 		, {name: "telephone", title: "电话号码", hide: true, createHide: true}
 		,	{name: "createdAt", title: "注册日期", readonly:true, createHide: true}
@@ -38,6 +38,7 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
   }
 
   $scope.create = function(entity) {
+    $scope.entity.merchantID = $scope.currentMerchant.merchant.id;
     var newOne = new $scope.resource(entity);
     console.log("#####"+JSON.stringify(newOne));
     newOne.$save(function(user) {
