@@ -1,6 +1,5 @@
 function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injector, $log, DeviceRegister){
 	$injector.invoke(BasicController, this, {$scope: $scope})
-  $scope.currentMerchant = {id: "e20dccdf039b3874"}
 	$scope.resource = Devices
   $scope.defaultParams = {"shop.merchant.id": $scope.currentMerchant.id}
 	$scope.searchOptions.fields = ['name']
