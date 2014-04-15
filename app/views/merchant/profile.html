@@ -1,13 +1,21 @@
 <div class="box-header">
-     <h2>
-       <div>
-            <ol class="breadcrumb" style="background-color: #36a9e1; margin: 0px; padding: 0px; padding-left: 0px; margin-bottom: 0px;" >
-                <li><a style="color: #fff">商户管理</a></li>
-                <li><a style="color: #fff">{{currentView.name}}</a></li>
-            </ol>
-       </div>
-     </h2>
+  <div class="row">
+    <div class="col-xs-4">
+      <ol class="breadcrumb" style="background-color: #36a9e1; margin: 0px; padding: 0px; padding-left: 0px; margin-bottom: 0px; margin-top: 8px; margin-left: 15px;">
+        <li><a style="color: #fff">商户管理</a></li>
+        <li><a style="color: #fff">{{currentView.name}}</a></li>
+      </ol>
+    </div>
+    <div class="col-xs-6"></div>
+    <div class="col-xs-2">
+      <div class="box-icon">
+        <a ng-click="showCreate()" class="btn-puls" ng-hide="isHide"><i class="fa fa-plus"/></a>
+        <a ng-click="refreshList()" class="btn-refresh"><i class="fa fa-refresh"/></a>
+      </div>
+    </div>
+  </div>
 </div>
+
 <div class="box-content">
   	<div class="col-lg-12">
   		<a ng-repeat="shortcut in profileShortcuts" ng-class="shortcut.class" ng-click="editMerchant(currentMerchant.merchant)">

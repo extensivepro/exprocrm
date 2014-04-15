@@ -16,11 +16,11 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
     , {name: "telephone", title: "电话", required: true}
     , {name: "email", title: "电子邮箱", unlist: true}
     , {name: "address", title: "地址", required: true}
-    , {name: "zip", title: "邮编", required: true, unlist: true}
+    , {name: "zip", title: "邮编", unlist: true}
     , {name: "url", title: "商户网站", unlist: true}
     , {name: "createdAt", title: "创建日期", hide: true, createHide: true}
     , {name: "updateAt", title: "更新日期", unlist: true, hide: true, createHide: true, isProfileHide:true}
-    , {name: "newestDeviceCode", title: "设备编码", hide: true, unlist: true, isProfileHide:true}
+    , {name: "newestDeviceCode", title: "设备编码", hide: true, unlist: true, isProfileHide:true, createHide: true}
     ,	{name: "status", title: "状态", value:function(entity){
       entity.fieldClass = entity.fieldClass || {}
       if(entity.status === 'open') {
@@ -32,7 +32,7 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
       } else {
         return "状态错误"
       }
-    }, hide:true}
+    }, hide:true, createHide: true}
   ]
 
   $scope.profileShortcuts = [
@@ -43,6 +43,7 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
   $scope.showCreate = function() {
     var d = new Date();
     $scope.showEdit({createdAt: Math.round(d.getTime()/1000)})
+    $scope.activeView = "views/merchant/create.html"
   }
 
   $scope.create = function(entity) {
@@ -51,7 +52,11 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
     console.log("#####"+JSON.stringify(newOne));
     newOne.$save(function(user) {
       console.log("success",user)
-      $scope.showList()
+      Merchants.get({id:newOne.id}, function(merchant) {
+        $scope.currentMerchant.merchant = merchant;
+        $scope.allMerchant.push(merchant);
+        $scope.activeView = "views/merchant/profile.html"
+      })
     },function(err){
       console.log('error:', err)
     })
