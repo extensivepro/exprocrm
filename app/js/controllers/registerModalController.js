@@ -10,6 +10,7 @@ function RegisterModalController($scope, $modalInstance, registerUser) {
       $scope.registerUser.name != "") {
       $scope.registerUser.phone = $scope.registerUser.username;
       $scope.registerUser.displayName = $scope.registerUser.name;
+      $scope.registerUser.roles = "owner";
       if (validate($scope.registerUser) == true) {
         $modalInstance.close($scope.registerUser);
         console.log($scope.registerUser);

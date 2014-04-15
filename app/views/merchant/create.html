@@ -1,6 +1,6 @@
 <div class="box-header">
-    <h2><i ng-class="currentView.icon"></i><span class="break"></span>
-        <span ng-show='!!entity.id'>{{currentView.name}} - 设置</span>
+    <h2>
+        <span>创建商户</span>
     </h2>
     <div class="box-icon">
         <a ng-click="cancelEdit()" class="btn-close"><i class="fa fa-times"></i></a>
@@ -12,7 +12,6 @@
             <label class="col-lg-2 control-label"></label>
             <span class="help-block"><i class="fa fa-circle"> 标记的项目不能为空</i></span>
         </div>
-        <!--START:just use for edit-->
         <div class="form-group">
             <label class="col-lg-2 control-label">商户简称</label>
             <div class="col-lg-6">
@@ -82,12 +81,11 @@
                 </div>
             </div>
         </div>
-        <!--END:just use for edit-->
         <hr>
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-6">
-                <button ng-disabled="editForm.$invalid" ng-click="update(entity)" class="btn btn-primary btn-lg"
-                        ng-if="!!entity.id"><i class="fa fa-save fa-lg"></i> 保存
+                <button ng-disabled="editForm.$error.required" ng-click="create(entity)" class="btn btn-primary btn-lg">
+                  <i class="fa fa-plus fa-lg"></i> 创建
                 </button>
                 <button ng-click="cancelEdit()" class="btn btn-warning btn-lg"><i class="fa fa-arrows-alt fa-lg"></i> 取消
                 </button>
