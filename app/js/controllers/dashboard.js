@@ -68,7 +68,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
         keyID: $scope.currentMerchant.merchant.id,
         itemID: itemIDs,
         end: Statistics.until(new Date(), 'daily'),
-        start: Statistics.until(new Date(), 'daily') - 7,
+        start: Statistics.until(new Date(), 'daily') - 2,
         target: 'deals',
         limit: 10000,
         period: 'daily'
@@ -202,7 +202,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
       keyID: keyID,
       period: 'daily',
       end: Statistics.until(new Date(), 'daily') ,
-      start: Statistics.until(new Date(), 'daily') - 7,
+      start: Statistics.until(new Date(), 'daily') - 2,
       target: 'skus',
       type: 'add',
       limit: 10000
