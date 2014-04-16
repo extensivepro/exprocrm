@@ -15,7 +15,7 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
       if(entity.role === 'shopManager') return '店长'
       if(entity.role === 'owner') return '业主'
       return entity.role
-    }, hide:true, required: true, createHide: true},
+    }, hide:true, createHide: true},
     {name: "idcard", title: "身份证", required: true, readonly:true, creatable:true, hide:true, createHide: true},
     {name: "phone", title: "手机号码", required: true, createHide: true, hide:true},
     {name: "email", title: "电子邮箱", listHide: true, createHide: true, hide:true},
@@ -65,15 +65,16 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
   }
 	// Restful
 	$scope.create = function(entity) {
-		if(!entity.shop._id) {
-			return console.log('error: must have shop')
-		}
+		$scope.entity.role = "cashier"
+    $scope.entity.shopID = $scope.currentShowShop.shop.id
 		var newOne = new $scope.resource(entity)
 		console.log(newOne)
-		newOne.shop = entity.shop._id
 		newOne.$save(function(one) {
 			console.log("success",one)
 			$scope.showList()
+      Employes.get({id:newOne.id}, function(employee) {
+        console.log(employee)
+      })
 		},function(err){
 			console.log('error:', err)
 		})
@@ -108,8 +109,8 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
     $scope.activeView = "views/Analysis/employeeAnalysis.html"
   }
   $scope.$watch('currentShowShop.shop', function () {
-    $scope.params['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});// default use the first shop of the currentMerchant
-    $scope.countQs['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});
+    $scope.params['shopID'] = $scope.currentShowShop.shop.id;// default use the first shop of the currentMerchant
+    $scope.countQs['shopID'] = $scope.currentShowShop.shop.id;
     $scope.refreshList();
   })
 //  $scope.params['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});

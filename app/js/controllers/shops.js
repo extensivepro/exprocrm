@@ -44,6 +44,10 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
     newOne.$save(function(user) {
       console.log("success",user)
       $scope.showList()
+      Shops.get({id:newOne.id}, function(shop) {
+        $scope.allShop.push(shop);
+        console.log(shop)
+      })
     },function(err){
       console.log('error:', err)
     })
