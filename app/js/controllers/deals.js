@@ -81,8 +81,8 @@ function DealsController($scope, Deals, Pagination, $timeout, $injector){
     ];
     $scope.isHide = true; //隐藏新增按钮
     $scope.$watch('currentShowShop.shop', function () {
-      $scope.params['shopID'] = $scope.currentShowShop.shop.id; // default use the first shop of the currentMerchant
-      $scope.countQs['shopID'] = $scope.currentShowShop.shop.id;
+       $scope.params['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs}); // default use the first shop of the currentMerchant
+      $scope.countQs['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});
       $scope.refreshList();
     });
     $scope.defaultString = "buyer.name";
