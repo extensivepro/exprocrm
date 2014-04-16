@@ -16,7 +16,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       return (entity.price/100).toFixed(2)}, hide:false},
     {name: "model", title: "型号", createHide:true, hide:false},
     {name: "code", title: "编号", required: true, hide: true, createHide:true},
-    {name: "mnemonicCode", title: "助记码", listHide: true, createHide:true, hide:true},
+    {name: "mnemonicCode", title: "助记码", listHide: true, createHide:true, hide:true, isProfileHide:true},
     {name: "desc", title: "描述", listHide: true, hide:false},
     {name: "createdAt", title: "创建日期", createHide: true, hide: true, createHide:true},
     {name: "status", title: "状态", value:function(entity){
@@ -90,6 +90,9 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
         id: $scope.entity.id,
         images: {
           $push: item.file.name
+        },
+        imagesID:{
+          $push: res[0].id
         }
       }
       Items.update(JSON.stringify(obj), function (result) {
@@ -107,12 +110,12 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
   $scope.uploadForEdit = function () {
     var qsItem = {
       "id": $scope.entity.id,
-      "images": {$pullAll: $scope.entity.images}
+      "images": {$pullAll: $scope.entity.images},
+      "imagesID": {$pullAll: $scope.entity.imagesID}
     }
     Items.update(JSON.stringify(qsItem), function (result) {
       var Upload = $resource(window.restful.baseURL+'/upload/:id', {id:'@id'});
       var arr = $scope.entity.imagesID || [];
-      console.log('****arr:\n', arr);
       var jici = 0;
       arr.forEach(function (id) {
         Upload.delete({id: id}, function () {
@@ -132,11 +135,9 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
     Items.get({id:entity.id}, function (result) {
       $scope.entity = result;
       $scope.activeView = "views/item/itemProfile.html";
-      console.log('imgages:\n', $scope.entity.images);
       $scope.imgs = ($scope.entity.images).map(function (img) {
-        return window.restful.baseUploadURL + img;
+        return window.restful.baseImgSrcURL + img;
       });
-      console.log('imgs:\n', $scope.imgs);
     }, function (err) {
       console.log('err:\n', err);
     });
@@ -185,7 +186,6 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
   $scope.create = function (entity) {
     entity.createdAt = Math.round(new Date().getTime() / 1000);
     entity.merchantID = $scope.currentMerchant.merchant.id;
-    console.log('entity:\n', entity);
     var obj = {
       createdAt : Math.round(new Date().getTime() / 1000),
       merchantID: $scope.currentMerchant.merchant.id,
@@ -196,10 +196,10 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       desc: $scope.entity.desc,
       model: $scope.entity.model,
       tags: [],
-      images:[]
+      images:[],
+      imagesID:[]
     };
     obj.tags.push($scope.entity.tags);
-    console.log('obj:\n', obj);
     var tempArr = [];
     obj.tags.forEach(function (tag) {
       if ($scope.merchantItemTags.indexOf(tag) == -1) {
