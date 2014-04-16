@@ -108,8 +108,8 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
     $scope.activeView = "views/Analysis/employeeAnalysis.html"
   }
   $scope.$watch('currentShowShop.shop', function () {
-    $scope.params['shopID'] = $scope.currentShowShop.shop.id; // default use the first shop of the currentMerchant
-    $scope.countQs['shopID'] = $scope.currentShowShop.shop.id;
+    $scope.params['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});// default use the first shop of the currentMerchant
+    $scope.countQs['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});
     $scope.refreshList();
   })
 //  $scope.params['shopID'] = JSON.stringify({$in:$scope.currentMerchant.shopIDs});
