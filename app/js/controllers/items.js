@@ -7,16 +7,20 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
   $scope.profileAvatar = "img/avatar.jpg"
   $scope.profileFields = [
     {name: "merchantID", title: "业主ID", required: true, listHide: true, hide: true, isProfileHide:true, createHide: true},
-    {name: "name", title: "商品名", required: true, hide:false},
-    {name: "tags", title: "类别", createHide: true, listHide: true, hide: false, isProfileHide:false, value: function (entity) {
-      return entity.tags.toString() || '';
-    }},
+    {name: "code", title: "编码", required: true, hide: true, createHide:true},
+    {name: "name", title: "品名", required: true, hide:false},
+    {name: "model", title: "型号", createHide:true, hide:false},
     {name: "price", title: "售价", required: true, value:function(entity) {
       entity.fieldClass = entity.fieldClass || {}
       return (entity.price/100).toFixed(2)}, hide:false},
-    {name: "model", title: "型号", createHide:true, hide:false},
-    {name: "code", title: "编号", required: true, hide: true, createHide:true},
     {name: "mnemonicCode", title: "助记码", listHide: true, createHide:true, hide:true, isProfileHide:true},
+    {name: "tags", title: "类别", createHide: true, listHide: true, hide: false, isProfileHide:false, value: function (entity) {
+      if(entity.tags = " ") {
+        return "未分类"
+      } else {
+        return entity.tags.toString();
+      }
+    }},
     {name: "desc", title: "描述", listHide: true, hide:false},
     {name: "createdAt", title: "创建日期", createHide: true, hide: true, createHide:true},
     {name: "status", title: "状态", value:function(entity){
@@ -24,7 +28,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       if(entity.status === 'sale') {
         entity.fieldClass.status = "label label-success"
         return "上架"
-      } else if(entity.status === 'removed') {
+      } else if(entity.status === 'desale') {
         entity.fieldClass.status = "label label-warning"
         return "下架"
       } else {
