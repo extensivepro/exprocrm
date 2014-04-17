@@ -1,17 +1,23 @@
 <div class="form-group">
-    <label class="col-lg-2 control-label">身份证号码</label>
+    <label class="col-lg-2 control-label">编码</label>
     <div class="col-lg-6">
         <div class="input-group">
-            <input class="form-control" name="idcard" type="text" ng-model="entity.idcard" ng-pattern="patternForIdcard">
-            <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+            <input class="form-control" name="code" type="text" ng-model="entity.code">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
         </div>
-    </div>
-    <div class="col-lg-4" ng-if="editForm.idcard.$error.pattern">
-        <span class="label label-warning">身份证号码格式不正确！</span>
     </div>
 </div>
 <div class="form-group">
-    <label class="col-lg-2 control-label">手机号码</label>
+    <label class="col-lg-2 control-label">姓名</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="name" type="text" ng-model="entity.name">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">手机</label>
     <div class="col-lg-6">
         <div class="input-group">
             <input class="form-control" name="phone" type="text" ng-model="entity.phone" ng-pattern="patternForTelephone">
@@ -32,6 +38,18 @@
     </div>
     <div class="col-lg-4" ng-if="editForm.email.$error.pattern">
         <span class="label label-warning">邮箱格式不正确！</span>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">身份证</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="idcard" type="text" ng-model="entity.idcard" ng-pattern="patternForIdcard">
+            <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+        </div>
+    </div>
+    <div class="col-lg-4" ng-if="editForm.idcard.$error.pattern">
+        <span class="label label-warning">身份证号码格式不正确！</span>
     </div>
 </div>
 <div class="form-group">
