@@ -19,13 +19,11 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
    */
   $scope.profileFields = [
 //        {name: "id", title: "id", listHide:true, hide:true },
-    {name: "code", title: "编码", required: true, hide: true},
-    {name: "name", title: "姓名", required: true},
+    {name: "code", title: "编码", required: true, hide: true, createHide: true},
+    {name: "name", title: "姓名", required: true, hide: true, createHide: true},
     {name: "account", title: "账户金额", value: function (entity) {
       return (entity.account.balance / 100).toFixed(2);
     }, hide: true, createHide: true, sort: "fa fa-sort"},
-    {name: "phone", title: "手机号码", required: true,  hide: true , createHide: true},
-
     {name: "userID", title: "用户id", createHide: true, listHide: true, hide: true, isProfileHide: true },
     {name: "shop", title: "商店", createHide: true, listHide: true, hide: true, isProfileHide: true },
     {name: "merchant", title: "商户", listHide: true, value: function (entity) {
@@ -33,11 +31,14 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
     }, hide: true, isProfileHide: true, createHide: true },
     {name: "postPoint", title: "当前积分", listHide: true, hide: true, createHide: true },
     {name: "postTotalPoint", title: "累计积分", listHide: true, hide: true, createHide: true },
+    {name: "phone", title: "手机", hide: true , createHide: true},
+    {name: "email", title: "邮箱", listHide: true,  hide: true, createHide: true},
+    {name: "idcard", title: "身份证", listHide: true, hide:true, createHide: true},
     {name: "level", title: "等级", createHide: true, listHide: true, hide: true },
-    {name: "sinceAt", title: "加入时间", required: true, hide: true, createHide: true},
-    {name: "dueAt", title: "有效期至", createHide: true, required: true, listHide: true, hide: true},
-    {name: "createdAt", title: "创建日期", createHide: true, required: true, listHide: true, hide: true, isProfileHide: true},
-    {name: "status", title: "状态", required: true, value: function (entity) {
+    {name: "sinceAt", title: "加入时间", hide: true, createHide: true},
+    {name: "dueAt", title: "有效期至", createHide: true, listHide: true, hide: true},
+    {name: "createdAt", title: "创建日期", createHide: true, listHide: true, hide: true, isProfileHide: true},
+    {name: "status", title: "状态", value: function (entity) {
       entity.fieldClass = entity.fieldClass || {}
       if (entity.status === 'active') {
         entity.fieldClass.status = "label label-success";
@@ -47,9 +48,7 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
         return "到期";
       }
     }, createHide: true, hide: true },
-    {name: "email", title: "邮箱", listHide: true,  hide: true, createHide: true},
-    {name: "idcard", title: "身份证", listHide: true, hide:true, createHide: true},
-    {name: "registerShopID", title: "注册商店ID", createHide: true, required: true, listHide: true, hide: true, isProfileHide: true },
+    {name: "registerShopID", title: "注册商店ID", createHide: true, listHide: true, hide: true, isProfileHide: true },
     {name: "updateAt", title: "更新日期", createHide: true, listHide: true, hide: true, isProfileHide: true}
 
 
@@ -91,6 +90,7 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
     return v
   }
   $scope.create = function (entity) {
+    var d = new Date()
 //        entity.name = "tst";
 //        entity.code = "18012989801";
 //        entity.email =  "1@qq.com";
@@ -107,18 +107,13 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
     entity.status = 'active';
 //        entity.registerShopID = "2834910281d26a76";
     entity.merchant = {
-      "merchantID": "ca138f08c3c1d8e1",
-      "name": "泛盈科技",
-      "fullName": "泛盈信息科技有限公司"
+      "merchantID": $scope.currentMerchant.merchant.id,
+      "name": $scope.currentMerchant.merchant.name,
+      "fullName": $scope.currentMerchant.merchant.fullName,
     };
     entity.account = {
-      "balance": 5000,
-      "createdAt": 1389149081239,
-      "name": "郭芳",
-      "ownerID": "ae43a4a589a619c3",
-      "type": "member",
-      "updateAt": 1389156617.253,
-      "id": "6968827aed566840"
+      "balance": 0,
+      "name": entity.name,
     };
     console.log("entity:" + JSON.stringify(entity));
     var newOne = new $scope.resource(entity)
