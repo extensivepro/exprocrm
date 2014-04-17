@@ -65,7 +65,7 @@ function MainController($scope, $modal, Users, Merchants, Shops) {
     Users.me(function (me) {
       $scope.me = me;
       Merchants.query({'owner.id':me.id}, function (merchants) {
-        $scope.currentMerchant.merchant = merchants[7] || merchants[0]; // the default merchant('吉林省梅河口中联商业广场') is in merchants[7]
+        $scope.currentMerchant.merchant = merchants[9] || merchants[0]; // the default merchant('吉林省梅河口中联商业广场') is in merchants[7]
         $scope.allMerchant = merchants;
       });
     }, function () {
@@ -78,7 +78,7 @@ function MainController($scope, $modal, Users, Merchants, Shops) {
   $scope.$watch('currentMerchant.merchant', function () {
     if ($scope.currentMerchant.merchant['id']) {
       Shops.query({merchantID:$scope.currentMerchant.merchant.id}, function (shops) {
-        $scope.currentShowShop.shop = shops[12] || shops[0];
+        $scope.currentShowShop.shop = shops[2] || shops[0];
         $scope.allShop = shops;
       });
     }
