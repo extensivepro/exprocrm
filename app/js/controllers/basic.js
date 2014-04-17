@@ -10,13 +10,13 @@ function BasicController($scope, Pagination, $modal, $log) {
     fields: []
   }
   $scope.sortOptions = {createdAt:-1}
-    
+
   // route
   $scope.showEdit = function (entity) {
     $scope.entity = entity || $scope.entity
     $scope.activeView = "views/basicEdit.html"
   }
-  
+
   $scope.showCreate = function () {
     $scope.showEdit({createdAt: Date()})
   }
@@ -186,13 +186,22 @@ function BasicController($scope, Pagination, $modal, $log) {
       alert('你还没有选择任何内容');
     } else {
       if (confirm("确定要删除吗？")) {
-        $scope.parameter = {};
-        $scope.parameter.id = JSON.stringify({$in:ids})
-        $scope.resource.put($scope.parameter, function (result) {
-          console.log('result:', result);
-          $scope.refreshList()
-        })
-
+        var jici = 0;
+        ids.forEach(function (id) {
+          var obj = {
+            id: id,
+            status:  $scope.paramsForDelete || 'removed'
+          }
+          $scope.resource.update(obj, function (result) {
+            jici++;
+            if (jici == ids.length) {
+              $scope.showList();
+              $scope.showCbx = false;
+            }
+          }, function (err) {
+            console.log('err:\n', err);
+          });
+        });
       }
     }
   }
