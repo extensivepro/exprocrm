@@ -241,9 +241,12 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       }, 4000);
     });
   }
-
+  $scope.paramsForDelete = 'removed';
   // some params for list page
   $scope.params['status'] = JSON.stringify({
+    $ne: 'removed'
+  });
+  $scope.countQs['status'] = JSON.stringify({
     $ne: 'removed'
   });
   $scope.params['merchantID'] = $scope.currentMerchant.merchant.id;
