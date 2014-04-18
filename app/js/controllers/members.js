@@ -53,6 +53,19 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
 
 
   ];
+  
+  // delete a member
+  $scope.remove = function (entity) {
+    var obj = {
+      id: entity.id,
+      status: 'removed'
+    }
+    Members.update(obj, function (result) {
+      $scope.showList();
+    }, function (err) {
+      console.log('err:\n', err);
+    });
+  }
 
   // bussiness
   $scope.setStatus = function (status) {
@@ -124,6 +137,14 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
       console.log('error:', err)
     })
   };
+  $scope.paramsForDelete = 'removed';
+  $scope.params['status'] = JSON.stringify({
+    $ne: 'removed'
+  });
+  $scope.countQs['status'] = JSON.stringify({
+    $ne: 'removed'
+  });
+  
   $scope.params['merchant.merchantID'] = $scope.currentMerchant.merchant.id;
   $scope.countQs['merchant.merchantID'] = $scope.currentMerchant.merchant.id;
   $scope.defaultString = "name";

@@ -43,6 +43,18 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
       }
     }, hide:true, createHide: true}
   ]
+  // delete a Employes
+  $scope.remove = function (entity) {
+    var obj = {
+      id: entity.id,
+      status: 'removed'
+    }
+    Employes.update(obj, function (result) {
+      $scope.showList();
+    }, function (err) {
+      console.log('err:\n', err);
+    });
+  }
 
   //Formatting date
   $scope.valueOfKeyString = function (entity, keyString) {
@@ -108,6 +120,13 @@ function EmployeesController($scope, Employes, Users, Shops, Pagination, $timeou
     $scope.entity = entity;
     $scope.activeView = "views/Analysis/employeeAnalysis.html"
   }
+  $scope.paramsForDelete = 'removed';
+  $scope.params['status'] = JSON.stringify({
+	  $ne: 'removed'
+  });
+  $scope.countQs['status'] = JSON.stringify({
+	  $ne: 'removed'
+  })
   $scope.$watch('currentShowShop.shop', function () {
     $scope.params['shopID'] = $scope.currentShowShop.shop.id;// default use the first shop of the currentMerchant
     $scope.countQs['shopID'] = $scope.currentShowShop.shop.id;
