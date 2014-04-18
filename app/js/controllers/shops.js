@@ -13,6 +13,9 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
 		,	{name: "name", title: "店名", required: true, hide: true, createHide: true}
     , {name: "merchantID", title: "商户ID", listHide:true, hide: true, isProfileHide: true, createHide: true}
 		, {name: "address", title: "地址", required: true, hide: true, createHide: true}
+		, {name: "printers", title: "打印机", required: true, hide: true, listHide:true, value:function(entity){
+      return entity.printers || '';
+    }}
 		, {name: "telephone", title: "电话号码", hide: true, createHide: true}
 		,	{name: "createdAt", title: "注册日期", readonly:true, createHide: true}
 		,	{name: "closedAt", title: "关闭日期", listHide:true, readonly:true, createHide: true, isProfileHide: true}
@@ -56,6 +59,17 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
   $scope.resetPassword = function(entity) {
     entity.password = "654321"
     $scope.update(entity)
+  }
+  $scope.update = function (entity) {
+    var obj = entity;
+    var printers = $scope.entity.printers.split(',') || [];
+    obj.printers = printers;
+    var resource = new $scope.resource(obj);
+    resource.$update(function (err) {
+      $scope.showList()
+    }, function (err) {
+      console.log('update error:', err, entity)
+    })
   }
   $scope.params['merchantID'] = $scope.currentMerchant.merchant.id; // find all shops that just belong to the currentMerchant
   $scope.countQs['merchantID'] = $scope.currentMerchant.merchant.id;

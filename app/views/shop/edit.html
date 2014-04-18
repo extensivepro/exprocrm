@@ -30,11 +30,21 @@
     <div class="col-lg-6">
         <div class="input-group">
             <input class="form-control" name="telephone" type="text" ng-model="entity.telephone" ng-pattern="patternForTelephone">
-            <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
         </div>
     </div>
     <div class="col-lg-4" ng-if="editForm.telephone.$error.pattern">
         <span class="label label-warning">电话号码格式不正确！</span>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-lg-2 control-label">打印机</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="printers" type="text" ng-model="entity.printers">
+            <span class="input-group-addon" style="cursor: pointer;" ng-click="addPrinter()"><i class="fa fa-plus"></i></span>
+        </div>
     </div>
 </div>
 <div class="form-group">
