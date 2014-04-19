@@ -13,7 +13,8 @@ function MainController($scope, $modal, Users, Merchants, Shops) {
     {name: "营业流水", icon: "fa fa-bars", path: "views/deals/index.html", submenus: [
       {name: "销售流水", icon: "fa fa-shopping-cart", path: "views/deals/index.html"},
       {name: "退货流水", icon: "fa fa-exchange", path: "views/returns/index.html"},
-      {name: "储值流水", icon: "fa fa-rmb", path: "views/bills/index.html"}
+      {name: "储值流水", icon: "fa fa-rmb", path: "views/bills/index.html"},
+      {name: "订单流水", icon: "fa fa-pencil-square", path: "views/orders/index.html"}
     ]},
     {name: "商户管理", icon: "fa fa-building-o", path: "views/shop/index.html", submenus:[
       {name: "商店管理", icon: "fa fa-home", path: "views/shop/index.html"},
@@ -25,14 +26,15 @@ function MainController($scope, $modal, Users, Merchants, Shops) {
       {name: "当前商户", icon: "fa fa-cog", path: "views/merchant/index.html"}
     ]}
   ];
-
+  $scope.trackListPage = {};
   $scope.currentView = $scope.views[0];
 
   $scope.selectView = function (view) {
     if (view.name == '营业流水' || view.name == '商户管理') {
       return;
     }
-    $scope.currentView = view
+    $scope.currentView = view;
+    $scope.trackListPage.activeView = 'views/basicList.html';
   };
 
   $scope.selectViewByPath = function (path) {

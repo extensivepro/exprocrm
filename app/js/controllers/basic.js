@@ -14,11 +14,13 @@ function BasicController($scope, Pagination, $modal, $log) {
   // route
   $scope.showEdit = function (entity) {
     $scope.entity = entity || $scope.entity
-    $scope.activeView = "views/basicEdit.html"
+    $scope.activeView = "views/basicEdit.html";
+    $scope.trackListPage.activeView = '';
   }
 
   $scope.showCreate = function () {
-    $scope.showEdit({createdAt: Date()})
+    $scope.showEdit({createdAt: Date()});
+    $scope.trackListPage.activeView = '';
   }
 
   $scope.showCreateBasic = function (entity) {
@@ -33,7 +35,8 @@ function BasicController($scope, Pagination, $modal, $log) {
 
   $scope.showProfile = function (entity) {
     $scope.entity = entity || $scope.entity
-    $scope.activeView = "views/basicProfile.html"
+    $scope.activeView = "views/basicProfile.html";
+    $scope.trackListPage.activeView = '';
   }
 
   $scope.cancelEdit = function () {
@@ -81,7 +84,7 @@ function BasicController($scope, Pagination, $modal, $log) {
   $scope.countQs = {};
   $scope.search = {};
   $scope.refreshList = function () {
-    if ($scope.countQs.hasOwnProperty('merchantID') || $scope.countQs.hasOwnProperty('$or') || $scope.countQs.hasOwnProperty('shopID') || $scope.countQs.hasOwnProperty('merchant.merchantID') || $scope.countQs.hasOwnProperty('owner.id')) {
+    if ($scope.countQs.hasOwnProperty('merchantID') || $scope.countQs.hasOwnProperty('$or') || $scope.countQs.hasOwnProperty('shopID') || $scope.countQs.hasOwnProperty('merchant.merchantID') || $scope.countQs.hasOwnProperty('owner.id') || $scope.countQs.hasOwnProperty('shop.id')) {
       // query for getting count
       $scope.resource.count($scope.countQs, function (result) {
         $scope.pagination.paginate(result.count)
@@ -112,6 +115,12 @@ function BasicController($scope, Pagination, $modal, $log) {
       })
       $scope.params.$or = JSON.stringify($scope.filters);
       $scope.countQs.$or = JSON.stringify($scope.filters);
+    }
+  });
+  $scope.$watch('trackListPage.activeView', function () {
+    var page = $scope.trackListPage.activeView;
+    if (page == 'views/basicList.html') {
+      $scope.activeView = page;
     }
   });
   $scope.create = function (entity) {
