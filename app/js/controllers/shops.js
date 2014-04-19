@@ -14,7 +14,11 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
     , {name: "merchantID", title: "商户ID", listHide:true, hide: true, isProfileHide: true, createHide: true}
 		, {name: "address", title: "地址", required: true, hide: true, createHide: true}
 		, {name: "printers", title: "打印机", required: true, hide: true, listHide:true, value:function(entity){
-      return entity.printers || '';
+      if (entity.hasOwnProperty('printers')) {
+        return entity.printers.toString() || '';
+      } else {
+        return '尚未配置打印机';
+      }
     }}
 		, {name: "telephone", title: "电话号码", hide: true, createHide: true}
 		,	{name: "createdAt", title: "注册日期", readonly:true, createHide: true}
