@@ -119,7 +119,7 @@ function BasicController($scope, Pagination, $modal, $log) {
   });
   $scope.$watch('trackListPage.activeView', function () {
     var page = $scope.trackListPage.activeView;
-    if (page == 'views/basicList.html') {
+    if (page == 'views/basicList.html' && $scope.activeView.indexOf('views/merchant') != 0) {
       $scope.activeView = page;
     }
   });
