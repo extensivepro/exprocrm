@@ -10,8 +10,25 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
   $scope.searchOptions.tooltip = "请输入订单状态"
   $scope.profileAvatar = "img/avatar.jpg"
   $scope.profileFields = [
-    {name: "type", title: "类型"},
-    {name: "status", title: "状态"},
+    {name: "type", title: "类型", value: function (entity) {
+      if (entity.type == 'booking') {
+        return '预订';
+      } else if (entity.type == 'deliver') {
+        return '外送';
+      } else {
+        return '';
+      }
+    }},
+    {name: "status", title: "状态", value: function (entity) {
+      switch (entity.status) {
+        case 'placed':return '下单';
+        case 'accepted':return '接受';
+        case 'rejected':return '拒绝';
+        case 'executed':return '履行';
+        case 'canceled':return '取消';
+        default:return '';
+      }
+    }},
     {name: "memo", title: "备注", listHide: true, isArray:true},
     {name: "items", title: "商品", listHide: true, isArray:true},
     {name: "agent", title: "经手人", listHide: true, isObject: true},
