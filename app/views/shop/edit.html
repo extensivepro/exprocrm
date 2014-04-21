@@ -48,6 +48,76 @@
     </div>
 </div>
 <div class="form-group">
+    <label class="col-lg-2 control-label">开业资源</label>
+    <div class="col-lg-8">
+        <div class="row">
+            <div class="col-lg-2">名称</div>
+            <div class="col-lg-2">类型</div>
+            <div class="col-lg-2">服务能力</div>
+            <div class="col-lg-2">代号</div>
+            <div class="col-lg-2">代号名</div>
+        </div>
+        <div class="row" ng-repeat="obj in entity.openRes">
+            <div class="col-lg-2">
+                <input class="form-control"  type="text" ng-model="obj.name">
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control"  type="text" ng-model="obj.type">
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control"  type="text" ng-model="obj.serviceability">
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control" type="text" ng-model="obj.code">
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control"  type="text" ng-model="obj.codename">
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <div class="col-lg-2"><button class="btn btn-info" ng-click="editAddRes()">新增</button></div>
+    </div>
+</div>
+<!--<div class="form-group">
+    <label class="col-lg-2 control-label"></label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" tooltip="类型" type="text" ng-model="entity.openRes.type">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label"></label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control"  tooltip="服务能力" type="text" ng-model="entity.openRes.serviceability">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label"></label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control"  tooltip="代号" type="text" ng-model="entity.openRes.code">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label"></label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" tooltip="代号名" type="text" ng-model="entity.openRes.codename">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
+    </div>
+</div>-->
+
+
+<div class="form-group">
 	<label class="col-lg-2 control-label">状态</label>
 	<div class="col-lg-10">
 		<div class="btn-group">

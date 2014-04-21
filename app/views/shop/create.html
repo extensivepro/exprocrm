@@ -1,0 +1,30 @@
+<div class="box-header">
+    <h2><i ng-class="currentView.icon"></i><span class="break"></span>
+        <span ng-show='!entity.id'>新增{{currentView.name}}</span>
+    </h2>
+    <div class="box-icon">
+        <a ng-click="cancelEdit()" class="btn-close"><i class="fa fa-times"></i></a>
+    </div>
+</div>
+<div class="box-content">
+    <form class="form-horizontal" role="form" name="editForm">
+        <div class="form-group">
+            <label class="col-lg-2 control-label"></label>
+        </div>
+        <div class="form-group" ng-repeat="field in profileFields" ng-if="!field.createHide">
+            <label class="col-lg-2 control-label">{{field.title}}</label>
+            <div class="col-lg-6">
+                <input class="form-control" type="text" ng-model="entityForCreate[field.name]" required>
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-6">
+                <button ng-disabled="editForm.$error.required" ng-click="create()" class="btn btn-primary btn-lg"><i class="fa fa-plus fa-lg"></i> 创建
+                </button>
+                <button ng-click="cancelEdit()" class="btn btn-warning btn-lg"><i class="fa fa-arrows-alt fa-lg"></i> 取消
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

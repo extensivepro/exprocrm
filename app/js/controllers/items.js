@@ -81,6 +81,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
     entity.price = (entity.price/100).toFixed(2);
     $scope.entity = entity;
     $scope.activeView = "views/item/edit.html";
+    $scope.trackListPage.activeView = '';
     $scope.showChangePic = false
   }
 
@@ -142,6 +143,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
     Items.get({id:entity.id}, function (result) {
       $scope.entity = result;
       $scope.activeView = "views/item/itemProfile.html";
+      $scope.trackListPage.activeView = '';
       $scope.imgs = ($scope.entity.images).map(function (img) {
         return window.restful.baseImgSrcURL + img;
       });
@@ -159,6 +161,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
     $scope.alert = '';
     $scope.msg = '';
     $scope.activeView = "views/item/create.html";
+    $scope.trackListPage.activeView = '';
     var uploader = $scope.uploader = $fileUploader.create({
       scope: $scope,
       url: window.restful.baseURL + '/upload?subdir=' + subdir + '&comments=' + comments + '&uniqueFilename=' + uniqueFilename
