@@ -9,18 +9,19 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
 	
 	// profile 
 	$scope.profileFields = [
-    {name: "code", title: "店面编码", required: true, listHide: true, hide: true, createHide: true}
-		,	{name: "name", title: "店名", required: true, hide: true, createHide: true}
+    {name: "code", title: "店面编码", required: true, listHide: true, hide: true}
+		,	{name: "name", title: "店名", required: true, hide: true}
     , {name: "merchantID", title: "商户ID", listHide:true, hide: true, isProfileHide: true, createHide: true}
-		, {name: "address", title: "地址", required: true, hide: true, createHide: true}
-		, {name: "printers", title: "打印机", required: true, hide: true, listHide:true, value:function(entity){
-      if (entity.hasOwnProperty('printers')) {
-        return entity.printers.toString() || '';
+		, {name: "address", title: "地址", required: true, hide: true}
+		, {name: "printers", title: "打印机", required: true, hide: true, listHide:true, createHide:true, value:function(entity){
+      if (entity.printers) {
+        return entity.printers;
       } else {
         return '尚未配置打印机';
       }
     }}
-		, {name: "telephone", title: "电话号码", hide: true, createHide: true}
+    , {name:"openRes", title:"开业资源", listHide:true, hide:true, createHide:true}
+		, {name: "telephone", title: "电话号码", hide: true}
 		,	{name: "createdAt", title: "注册日期", readonly:true, createHide: true}
 		,	{name: "closedAt", title: "关闭日期", listHide:true, readonly:true, createHide: true, isProfileHide: true}
     ,	{name: "updateAt", title: "更新日期", listHide:true, readonly:true, createHide: true, isProfileHide: true}
@@ -66,13 +67,59 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
   }
   $scope.update = function (entity) {
     var obj = entity;
-    var printers = $scope.entity.printers.split(',') || [];
+    console.log('entity:\n', entity);
+    var printers = entity.printers.split(',') || [];
     obj.printers = printers;
     var resource = new $scope.resource(obj);
     resource.$update(function (err) {
       $scope.showList()
     }, function (err) {
       console.log('update error:', err, entity)
+    })
+  };
+  $scope.showProfile = function (entity) {
+    if (entity.hasOwnProperty('printers')) {
+      entity.printers = entity.printers.toString();
+    } else {
+      entity.printers = '';
+    }
+    $scope.entity = entity || $scope.entity;
+    $scope.activeView = "views/shop/profile.html";
+    $scope.trackListPage.activeView = '';
+  }
+  $scope.editAddRes = function () {
+    var obj = {
+      "name": "桌子",
+      "type": "table",
+      "serviceability": 1,
+      "code": "16",
+      "codename": "桌号"
+    };
+    $scope.entity.openRes = $scope.entity.openRes || [];
+    $scope.entity.openRes.push(obj);
+  };
+  $scope.showCreate = function () {
+    $scope.entityForCreate = {};
+    $scope.activeView = "views/shop/create.html";
+    $scope.trackListPage.activeView = '';
+  };
+  $scope.create = function () {
+    var obj = {
+      code:$scope.entityForCreate.code,
+      name:$scope.entityForCreate.name,
+      address:$scope.entityForCreate.address,
+      telephone: $scope.entityForCreate.telephone,
+      merchantID:$scope.currentMerchant.merchant.id,
+      status:'open',
+      openRes:[],
+      location:{},
+      createdAt:Math.round(new Date().getTime() / 1000)
+    }
+    var newOne = new $scope.resource(obj);
+    newOne.$save(function (result) {
+      $scope.showList()
+    }, function (err) {
+      console.log('error:', err)
     })
   }
   $scope.params['merchantID'] = $scope.currentMerchant.merchant.id; // find all shops that just belong to the currentMerchant
