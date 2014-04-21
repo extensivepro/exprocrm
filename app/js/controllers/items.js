@@ -65,6 +65,8 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
     var tags = [];
     tags.push(entity.tags);
     var obj = entity;
+    var price = parseFloat(entity.price*100);
+    obj.price = price;
     obj.tags = tags;
     var resource = new $scope.resource(obj);
     resource.$update(function (err) {
@@ -76,7 +78,8 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
 
   // init for edit page
   $scope.showEdit = function (entity) {
-    $scope.entity = entity
+    entity.price = (entity.price/100).toFixed(2);
+    $scope.entity = entity;
     $scope.activeView = "views/item/edit.html";
     $scope.showChangePic = false
   }
@@ -196,7 +199,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       code: $scope.entity.code,
       mnemonicCode:'',
       name: $scope.entity.name,
-      price: $scope.entity.price,
+      price: parseFloat($scope.entity.price*100),
       desc: $scope.entity.desc,
       model: $scope.entity.model,
       tags: [],
