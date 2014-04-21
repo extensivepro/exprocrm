@@ -87,5 +87,6 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
     })
   }
   $scope.defaultString = "name";
+  $scope.trackListPage.activeView = 'views/merchant/profile.html';
   widthFunctions();
 }
