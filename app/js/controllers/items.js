@@ -15,7 +15,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       return (entity.price/100).toFixed(2)}, hide:false},
     {name: "mnemonicCode", title: "助记码", listHide: true, createHide:true, hide:true, isProfileHide:true},
     {name: "tags", title: "类别", createHide: true, listHide: true, hide: false, isProfileHide:false, value: function (entity) {
-      if(entity.tags = " ") {
+      if(!entity.tags.length) {
         return "未分类"
       } else {
         return entity.tags.toString();
