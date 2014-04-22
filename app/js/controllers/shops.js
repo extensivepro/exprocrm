@@ -36,30 +36,11 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
       } else {
         return "状态错误"
       }
-    }, hide:true, createHide: true}
+    }, hide:true, createHide: true},
+    {name:"location", title:"地理位置", listHide:true, createHide:true, hide:true}
   ]
 
-  // route
-  $scope.showCreate = function() {
-    var d = new Date();
-    $scope.showEdit({createdAt: Math.round(d.getTime()/1000)})
-  }
 
-  $scope.create = function(entity) {
-    $scope.entity.merchantID = $scope.currentMerchant.merchant.id;
-    var newOne = new $scope.resource(entity);
-    console.log("#####"+JSON.stringify(newOne));
-    newOne.$save(function(user) {
-      console.log("success",user)
-      $scope.showList()
-      Shops.get({id:newOne.id}, function(shop) {
-        $scope.allShop.push(shop);
-        console.log(shop)
-      })
-    },function(err){
-      console.log('error:', err)
-    })
-  }
   // bussiness
   $scope.resetPassword = function(entity) {
     entity.password = "654321"
@@ -70,6 +51,8 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
     console.log('entity:\n', entity);
     var printers = entity.printers.split(',') || [];
     obj.printers = printers;
+    obj.location.latitude = parseFloat($("#jindu").val());
+    obj.location.longitude = parseFloat($("#weidu").val());
     var resource = new $scope.resource(obj);
     resource.$update(function (err) {
       $scope.showList()
@@ -82,6 +65,9 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
       entity.printers = entity.printers.toString();
     } else {
       entity.printers = '';
+    }
+    if (!$scope.entity.hasOwnProperty('location')) {
+      $scope.entity.location = {};
     }
     $scope.entity = entity || $scope.entity;
     $scope.activeView = "views/shop/profile.html";
@@ -112,7 +98,11 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
       merchantID:$scope.currentMerchant.merchant.id,
       status:'open',
       openRes:[],
-      location:{},
+      location:{
+        latitude:0,
+        longitude:0,
+        precision:0
+      },
       createdAt:Math.round(new Date().getTime() / 1000)
     }
     var newOne = new $scope.resource(obj);
@@ -121,6 +111,61 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
     }, function (err) {
       console.log('error:', err)
     })
+  };
+
+  $scope.initMap = function () {
+    var longitude = 116.404;//默认经度
+    var latitude = 39.915;//默认纬度
+    if (!$scope.entity.hasOwnProperty('location')) {
+      $scope.entity.location = {};
+    }
+    var location = $scope.entity.location;
+    if (location.latitude && location.longitude) {
+      generateMap(location.latitude, location.longitude); //之前已经编辑过
+    } else {
+      newMap(); //第一次编辑
+    }
+    // 第一次编辑时，使用navigator
+    function newMap() {
+      if (navigator.geolocation) {
+        var timeoutVal = 10 * 1000 * 1000;
+        navigator.geolocation.getCurrentPosition(
+          displayPosition,
+          displayError,
+          { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
+        );
+      }
+      else {
+        generateMap(longitude, latitude); //若浏览器不支持navigator，则使用默认的经纬度。
+      }
+    }
+    //第一次编辑经纬度时，先根据navigator重写默认经纬度，确认用户的大致范围
+    function displayPosition(position) {
+      latitude = parseFloat(position.coords.latitude);
+      longitude = parseFloat(position.coords.longitude);
+      accuracy = parseFloat(position.coords.accuracy);
+      generateMap(longitude, latitude);
+    }
+    //发生错误则使用默认的经纬度
+    function displayError() {
+      generateMap(longitude, latitude);
+    }
+    function generateMap(longitude, latitude) {
+      var map = new BMap.Map("map");          // 创建地图实例
+      var point = new BMap.Point(longitude, latitude);  // 创建点坐标
+      map.centerAndZoom(point, 15);                 // 初始化地图，设置中心点坐标和地图级别
+      map.addControl(new BMap.NavigationControl());
+      map.addControl(new BMap.ScaleControl());
+      map.addControl(new BMap.OverviewMapControl());
+      map.addControl(new BMap.MapTypeControl());
+      var marker = new BMap.Marker(point);        // 创建标注
+      map.addOverlay(marker);
+      marker.enableDragging();
+      marker.addEventListener("dragend", function(e){
+        $("#jindu").val(e.point.lng);
+        $("#weidu").val(e.point.lat);
+      });
+    }
   }
   $scope.params['merchantID'] = $scope.currentMerchant.merchant.id; // find all shops that just belong to the currentMerchant
   $scope.countQs['merchantID'] = $scope.currentMerchant.merchant.id;

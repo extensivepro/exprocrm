@@ -79,44 +79,6 @@
         <div class="col-lg-2"><button class="btn btn-info" ng-click="editAddRes()">新增</button></div>
     </div>
 </div>
-<!--<div class="form-group">
-    <label class="col-lg-2 control-label"></label>
-    <div class="col-lg-6">
-        <div class="input-group">
-            <input class="form-control" tooltip="类型" type="text" ng-model="entity.openRes.type">
-            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
-        </div>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-lg-2 control-label"></label>
-    <div class="col-lg-6">
-        <div class="input-group">
-            <input class="form-control"  tooltip="服务能力" type="text" ng-model="entity.openRes.serviceability">
-            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
-        </div>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-lg-2 control-label"></label>
-    <div class="col-lg-6">
-        <div class="input-group">
-            <input class="form-control"  tooltip="代号" type="text" ng-model="entity.openRes.code">
-            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
-        </div>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-lg-2 control-label"></label>
-    <div class="col-lg-6">
-        <div class="input-group">
-            <input class="form-control" tooltip="代号名" type="text" ng-model="entity.openRes.codename">
-            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
-        </div>
-    </div>
-</div>-->
-
-
 <div class="form-group">
 	<label class="col-lg-2 control-label">状态</label>
 	<div class="col-lg-10">
@@ -126,3 +88,30 @@
 		</div>
 	</div>
 </div>
+<div class="form-group">
+	<label class="col-lg-2 control-label">地理位置</label>
+    <div class="col-lg-6">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                经度：<input type="text" class="form-control" id="jindu" ng-model="entity.location.longitude">
+            </div>
+            <div class="form-group">
+                纬度：<input type="text" class="form-control" id="weidu" ng-model="entity.location.latitude">
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-4"></div>
+</div>
+<div class="form-group">
+    <div class="col-lg-2 control-label"></div>
+    <div class="col-lg-3">
+         <div class="alert alert-info" style="text-align: center;">拖动小红点，来确定商店位置</div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-10">
+        <div id="map" style="height: 500px; width: 800px;"></div>
+    </div>
+</div>
+<div ng-init="initMap()"></div>
