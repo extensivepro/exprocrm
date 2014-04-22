@@ -147,7 +147,7 @@ var ChooseShopModalInstanceCtrl = function ($scope, Shops, $modalInstance, shop,
     $modalInstance.dismiss('cancel');
   };
 
-  Shops.query({"merchantID": merchant.id}, function (shops) {
+  Shops.query({merchantID: merchant.merchant.id, $limit:100}, function (shops) {
     $scope.shops = shops;
   })
 };

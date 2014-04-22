@@ -79,7 +79,7 @@ function MainController($scope, $modal, Users, Merchants, Shops) {
   };
   $scope.$watch('currentMerchant.merchant', function () {
     if ($scope.currentMerchant.merchant['id']) {
-      Shops.query({merchantID:$scope.currentMerchant.merchant.id}, function (shops) {
+      Shops.query({merchantID:$scope.currentMerchant.merchant.id, $limit:100}, function (shops) {
         $scope.currentShowShop.shop = shops[2] || shops[0];
         $scope.allShop = shops;
       });
