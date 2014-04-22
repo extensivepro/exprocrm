@@ -40,13 +40,23 @@
                             <div class="col-lg-2"><h4>{{item.codename}}</h4></div>
                         </div>
                     </td>
-                    <td class="center" ng-if="field.name != 'openRes'">
+                    <td class="center" ng-if="field.name=='location' && (!entity.location.latitude||!entity.location.longitude)">
+                        <h4>尚未设置地理位置</h4>
+                    </td>
+                    <td class="center" ng-if="field.name!='openRes' && field.name!='location'">
                         <h4 ng-if="field.value">{{field.value(entity)}}</h4>
                         <h4 ng-if="!field.value">{{valueOfKeyString(entity, field.name)}}</h4>
                     </td>
                 </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="row" ng-if="entity.location.latitude&&entity.location.longitude">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <div id="map" style="height: 500px; width: 800px;"></div>
+            <div ng-init="initMap()"></div>
         </div>
     </div>
     <div class="clearfix"></div>
