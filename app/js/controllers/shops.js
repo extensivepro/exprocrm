@@ -113,7 +113,7 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
     })
   };
 
-  $scope.initMap = function () {
+  $scope.initMap = function (flag) {
     var longitude = 116.404;//默认经度
     var latitude = 39.915;//默认纬度
     if (!$scope.entity.hasOwnProperty('location')) {
@@ -160,11 +160,15 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
       map.addControl(new BMap.MapTypeControl());
       var marker = new BMap.Marker(point);        // 创建标注
       map.addOverlay(marker);
-      marker.enableDragging();
-      marker.addEventListener("dragend", function(e){
-        $("#jindu").val(e.point.lng);
-        $("#weidu").val(e.point.lat);
-      });
+      if (flag == 'no') {
+        marker.disableDragging();
+      } else {
+        marker.enableDragging();
+        marker.addEventListener("dragend", function(e){
+          $("#jindu").val(e.point.lng);
+          $("#weidu").val(e.point.lat);
+        });
+      }
     }
   }
   $scope.params['merchantID'] = $scope.currentMerchant.merchant.id; // find all shops that just belong to the currentMerchant
