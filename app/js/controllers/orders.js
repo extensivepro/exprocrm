@@ -46,6 +46,36 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
     $scope.activeView = "views/orders/profile.html";
     $scope.trackListPage.activeView = '';
   };
+  $scope.isBtnGroup = true; //
+  $scope.btns = [
+    {
+      key:'placed',
+      value:'下单'
+    },
+    {
+      key:'accepted',
+      value:'接受'
+    },
+    {
+      key:'rejected',
+      value:'拒绝'
+    },
+    {
+      key:'executed',
+      value:'履行'
+    },
+    {
+      key:'canceled',
+      value:'取消'
+    }
+  ];
+  $scope.search = {};
+  $scope.filter = function (key) {
+    $scope.search.text = key;
+    $timeout(function () {
+      $scope.refreshList();
+    }, 10)
+  }
   $scope.isHide = true; //隐藏新增按钮
   $scope.params['shop.id'] = JSON.stringify({"$in":$scope.currentMerchant.merchant.shopIDs});
   $scope.countQs['shop.id'] = JSON.stringify({"$in":$scope.currentMerchant.merchant.shopIDs});
