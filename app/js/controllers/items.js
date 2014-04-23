@@ -15,10 +15,10 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       return (entity.price/100).toFixed(2)}, hide:false},
     {name: "mnemonicCode", title: "助记码", listHide: true, createHide:true, hide:true, isProfileHide:true},
     {name: "tags", title: "类别", createHide: true, listHide: true, hide: false, isProfileHide:false, value: function (entity) {
-      if(!entity.tags.length) {
-        return "未分类"
-      } else {
+      if(entity.hasOwnProperty('tags') && entity.tags.length) {
         return entity.tags.toString();
+      } else {
+        return "未分类"
       }
     }},
     {name: "desc", title: "描述", listHide: true, hide:false},
@@ -36,7 +36,11 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       }
     }, hide:true, createHide: true},
     {name: "images", title: "照片", createHide: false, listHide: true, hide: true, isProfileHide:false, isImg:true, value:function (entity) {
-      return entity.images.toString();
+      if (entity.hasOwnProperty('images')) {
+        return entity.images.toString();
+      } else {
+        return '尚未上传照片';
+      }
     }},
     {name: "updatedAt", title: "更新日期", createHide: false, listHide: true, hide: true, isProfileHide:true}
   ];
@@ -144,9 +148,13 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       $scope.entity = result;
       $scope.activeView = "views/item/itemProfile.html";
       $scope.trackListPage.activeView = '';
-      $scope.imgs = ($scope.entity.images).map(function (img) {
-        return window.restful.baseImgSrcURL + img;
-      });
+      if (result.hasOwnProperty('images') && result.images.length) {
+        $scope.imgs = ($scope.entity.images).map(function (img) {
+          return window.restful.baseImgSrcURL + img;
+        });
+      } else {
+        $scope.imgs = [];
+      }
     }, function (err) {
       console.log('err:\n', err);
     });
