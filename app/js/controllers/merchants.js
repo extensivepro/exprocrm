@@ -61,6 +61,13 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
       console.log('error:', err)
     })
   }
+  
+  $scope.refreshMerchants = function () {
+    Merchants.query({'owner.id':$scope.me.id}, function (merchants) {
+      $scope.allMerchant = merchants
+    })
+  }
+  
   // bussiness
   $scope.resetPassword = function(entity) {
     entity.password = "654321"

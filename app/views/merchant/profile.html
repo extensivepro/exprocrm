@@ -22,7 +22,7 @@
   			<i ng-class="shortcut.icon" />
   			<p>{{shortcut.text}}</p>
   		</a>
-      <div class="row">
+      <div class="row" ng-init="refreshMerchants()">
           <div class="col-lg-2"></div>
           <div class="col-lg-1" style="position: relative; top: 30px">
               <h4>当前商户</h4>

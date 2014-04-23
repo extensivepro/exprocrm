@@ -1,4 +1,4 @@
-function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injector, $log, DeviceRegister){
+function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injector, $log, DeviceRegister, Merchants){
 	$injector.invoke(BasicController, this, {$scope: $scope})
 	$scope.resource = Devices
   $scope.defaultParams = {"shop.merchant.id": $scope.currentMerchant.id}
@@ -25,8 +25,8 @@ function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injec
     }
     $scope.registerFields = [
         {key: "udid", title: "设备的序列号", iPrepend:"fa-hdd-o", iStatus:"fa-circle"}
-      , {key: "idcard", title: "设备的店长身份证", iPrepend:"fa-user", iStatus:"fa-circle"}
-      , {key: "password", title: "设备的店长密码", iPrepend:"fa-key", iStatus:"fa-circle"}
+      // , {key: "idcard", title: "设备的店长身份证", iPrepend:"fa-user", iStatus:"fa-circle"}
+      // , {key: "password", title: "设备的店长密码", iPrepend:"fa-key", iStatus:"fa-circle"}
     ]
     $scope.activeView = "views/devices/register.html"
   }
@@ -62,20 +62,20 @@ function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injec
             $scope.registerOptions.alerts.push({type:'danger', msg: "系统没找到您提供的设备序列号，请确认输入是正确的序列号！"})
           }
         })
-      } else if (field.key === 'idcard') {
-        if($scope.entity.idcard.length === 18 || $scope.entity.idcard.length === 15) {
-          field.iStatus = "fa fa-check-circle fa-lg"
-        } else {
-          field.iStatus = "fa fa-times-circle fa-lg"
-          $scope.registerOptions.alerts.push({type:'danger', msg: "您提供的身份证位数不正确，请确认输入是正确的身份证号码！"})
-        }
-      } else if (field.key === 'password') {
-        if($scope.entity.password.length === 6) {
-          field.iStatus = "fa fa-check-circle fa-lg"
-        } else {
-          field.iStatus = "fa fa-times-circle fa-lg"
-          $scope.registerOptions.alerts.push({type:'danger', msg: "店长的密码是长度为六位的数字，请重新输入正确密码!"})
-        }
+      // } else if (field.key === 'idcard') {
+      //   if($scope.entity.idcard.length === 18 || $scope.entity.idcard.length === 15) {
+      //     field.iStatus = "fa fa-check-circle fa-lg"
+      //   } else {
+      //     field.iStatus = "fa fa-times-circle fa-lg"
+      //     $scope.registerOptions.alerts.push({type:'danger', msg: "您提供的身份证位数不正确，请确认输入是正确的身份证号码！"})
+      //   }
+      // } else if (field.key === 'password') {
+      //   if($scope.entity.password.length === 6) {
+      //     field.iStatus = "fa fa-check-circle fa-lg"
+      //   } else {
+      //     field.iStatus = "fa fa-times-circle fa-lg"
+      //     $scope.registerOptions.alerts.push({type:'danger', msg: "店长的密码是长度为六位的数字，请重新输入正确密码!"})
+      //   }
       }
     }
   }
@@ -86,21 +86,14 @@ function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injec
   
   $scope.register = function () {
     $scope.registerOptions.alerts = []
-    if (!$scope.entity.shop) {
-      return $scope.registerOptions.alerts = [{type:'danger', msg: "请选择注册设备的归属商店！"}]
-    }
+    // if (!$scope.entity.shop) {
+    //   return $scope.registerOptions.alerts = [{type:'danger', msg: "请选择注册设备的归属商店！"}]
+    // }
     $scope.registerOptions.icon = "fa fa-spinner fa-spin"
     var device = {
       udid: $scope.entity.udid,
       code: $scope.entity.code,
       name: $scope.entity.name,
-      originShop: {
-        manager: {
-          idcard: $scope.entity.idcard,
-          password: $scope.entity.password
-        }
-      },
-      registerShopID: $scope.entity.shop.id
     }
     DeviceRegister.save(device, function () {
       $scope.registerOptions.icon = "fa fa-pencil"
