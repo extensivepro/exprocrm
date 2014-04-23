@@ -67,7 +67,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
   // update a item
   $scope.update = function (entity) {
     var tags = [];
-    tags.push(entity.tags);
+    tags.push(entity.tags[0]);
     var obj = entity;
     var price = parseFloat(entity.price*100);
     obj.price = price;
@@ -120,26 +120,31 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
 
   // method for change the item's pic
   $scope.uploadForEdit = function () {
-    var qsItem = {
-      "id": $scope.entity.id,
-      "images": {$pullAll: $scope.entity.images},
-      "imagesID": {$pullAll: $scope.entity.imagesID}
+    if ($scope.entity.hasOwnProperty('images') && $scope.entity.images.length) {
+      var qsItem = {
+        "id": $scope.entity.id,
+        "images": {$pullAll: $scope.entity.images},
+        "imagesID": {$pullAll: $scope.entity.imagesID}
+      }
+      Items.update(JSON.stringify(qsItem), function (result) {
+        var Upload = $resource(window.restful.baseURL+'/upload/:id', {id:'@id'});
+        var arr = $scope.entity.imagesID || [];
+        var jici = 0;
+        arr.forEach(function (id) {
+          Upload.delete({id: id}, function () {
+            jici++;
+            if (jici == arr.length) {
+              $scope.uploaderForEdit.uploadAll();
+            }
+          });
+        })
+      }, function (err) {
+        console.log('err:\n', err);
+      });
+    } else {
+      $scope.uploaderForEdit.uploadAll();
     }
-    Items.update(JSON.stringify(qsItem), function (result) {
-      var Upload = $resource(window.restful.baseURL+'/upload/:id', {id:'@id'});
-      var arr = $scope.entity.imagesID || [];
-      var jici = 0;
-      arr.forEach(function (id) {
-        Upload.delete({id: id}, function () {
-          jici++;
-          if (jici == arr.length) {
-            $scope.uploaderForEdit.uploadAll();
-          }
-        });
-      })
-    }, function (err) {
-      console.log('err:\n', err);
-    })
+
   }
 
   // init for profile page
