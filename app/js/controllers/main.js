@@ -16,10 +16,13 @@ function MainController($scope, $modal, Users, Merchants, Shops) {
       {name: "储值流水", icon: "fa fa-rmb", path: "views/bills/index.html"},
       {name: "订单流水", icon: "fa fa-pencil-square", path: "views/orders/index.html"}
     ]},
+    {name: "品类管理", icon: "fa fa-building-o", path: "views/item/index.html", submenus: [
+      {name: "商品管理", icon: "fa fa-barcode", path: "views/item/index.html"},
+      {name: "标签管理", icon: "fa fa-tags", path: "views/tags/index.html"}
+    ]},
     {name: "商户管理", icon: "fa fa-building-o", path: "views/shop/index.html", submenus:[
       {name: "商店管理", icon: "fa fa-home", path: "views/shop/index.html"},
       {name: "员工管理", icon: "fa fa-users", path: "views/employee/index.html"},
-      {name: "商品管理", icon: "fa fa-barcode", path: "views/item/index.html"},
       {name: "库存记录", icon: "fa fa-truck", path: "views/skus/index.html"},
       {name: "会员管理", icon: "fa fa-user", path: "views/members/index.html"},
       {name: "积分管理", icon: "fa fa-gift", path: "views/points/index.html"},
@@ -30,7 +33,7 @@ function MainController($scope, $modal, Users, Merchants, Shops) {
   $scope.currentView = $scope.views[0];
 
   $scope.selectView = function (view) {
-    if (view.name == '营业流水' || view.name == '商户管理') {
+    if (view.name == '营业流水' || view.name == '商户管理'|| view.name == '品类管理') {
       return;
     }
     $scope.currentView = view;
