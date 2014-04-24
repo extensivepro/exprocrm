@@ -120,6 +120,10 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
 
   // method for change the item's pic
   $scope.uploadForEdit = function () {
+    if ($scope.uploaderForEdit.queue.length > 3) {
+      alert('上传图片不能超过3张！');
+      return;
+    }
     if ($scope.entity.hasOwnProperty('images') && $scope.entity.images.length) {
       var qsItem = {
         "id": $scope.entity.id,
@@ -204,7 +208,13 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       console.log('err:\n', err);
     })
   }
-
+  $scope.uploadInCreate = function () {
+    if ($scope.uploader.queue.length > 3) {
+      alert('上传图片不能超过3张！');
+    }else{
+      $scope.uploader.uploadAll();
+    }
+  }
   // method for create a item
   $scope.create = function (entity) {
     entity.createdAt = Math.round(new Date().getTime() / 1000);
