@@ -13,7 +13,8 @@ var app = angular.module('exproRMS', [
   'exproRMS.services',
   'exproRMS.directives',
   'ngAnimate',
-  'angularFileUpload'
+  'angularFileUpload',
+  'LocalStorageModule'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/home', {templateUrl: 'views/home.html', controller: 'SignController'});

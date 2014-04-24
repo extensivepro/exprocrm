@@ -22,7 +22,7 @@
   			<i ng-class="shortcut.icon" />
   			<p>{{shortcut.text}}</p>
   		</a>
-      <div class="row" ng-init="refreshMerchants()">
+      <div class="row">
           <div class="col-lg-2"></div>
           <div class="col-lg-1" style="position: relative; top: 30px">
               <h4>当前商户</h4>
@@ -31,6 +31,13 @@
               <select class="form-control" ng-model="currentMerchant.merchant" ng-options="option as option.name for option in allMerchant">
                   <option value="">-- 选择商户 --</option>
               </select>
+          </div>
+          <div class="col-lg-2" style="position: relative; top: 30px">
+              <div class="checkbox" ng-init="local.cbx=false">
+                  <label>
+                      <input type="checkbox" ng-model="local.cbx"> 记住我的选择
+                  </label>
+              </div>
           </div>
       </div>
   	</div>
