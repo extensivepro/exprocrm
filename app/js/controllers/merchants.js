@@ -1,4 +1,4 @@
-function MerchantsController($scope, Merchants, Pagination, $timeout, $injector){
+function MerchantsController($scope, Merchants, Pagination, $timeout, $injector,localStorageService){
   $injector.invoke(BasicController, this, {$scope: $scope});
   $scope.activeView = "views/merchant/profile.html"
   $scope.resource = Merchants
@@ -8,9 +8,8 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
   $scope.profileFields = [
     {name: "id", title: "商户ID", unlist: true, hide:true, createHide: true, isProfileHide:true}
     , {name: "owner", title: "商户业主", value:function(entity) {
-      entity.fieldClass = entity.fieldClass || {}
       return entity.owner.displayName
-    }, hide: true, createHide: true, unlist: true, isProfileHide:true}
+    }, hide: true, createHide: true, unlist: true}
     , {name: "name", title: "商户简称", required: true, hide: true}
     , {name: "fullName", title: "商户全名", required: true, unlist: true, hide: true}
     , {name: "telephone", title: "电话", required: true}
@@ -61,13 +60,6 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
       console.log('error:', err)
     })
   }
-  
-  $scope.refreshMerchants = function () {
-    Merchants.query({'owner.id':$scope.me.id}, function (merchants) {
-      $scope.allMerchant = merchants
-    })
-  }
-  
   // bussiness
   $scope.resetPassword = function(entity) {
     entity.password = "654321"
@@ -93,6 +85,20 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector)
       console.log('update error:', err, entity)
     })
   }
+
+  $scope.storageType = 'Local storage';
+  if (localStorageService.getStorageType().indexOf('session') >= 0) {
+    $scope.storageType = 'Session storage'
+  }
+  if (!localStorageService.isSupported) {
+    $scope.storageType = 'Cookie';
+  }
+  $scope.local = {};
+  $scope.$watch('local.cbx', function () {
+    if ($scope.local.cbx===true) {
+      localStorageService.set('localStorageCurrentMerchant',$scope.currentMerchant.merchant);
+    }
+  })
   $scope.defaultString = "name";
   $scope.trackListPage.activeView = 'views/merchant/profile.html';
   widthFunctions();

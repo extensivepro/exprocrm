@@ -1,4 +1,4 @@
-function MainController($scope, $modal, Users, Merchants, Shops) {
+function MainController($scope, $modal, Users, Merchants, Shops, localStorageService) {
   if (!$scope.me) $scope.me = {displayName: '未登录'};
   $scope.hideMainMenu = false;
   $scope.switchMainMenu = function () {
@@ -70,7 +70,17 @@ function MainController($scope, $modal, Users, Merchants, Shops) {
     Users.me(function (me) {
       $scope.me = me;
       Merchants.query({'owner.id':me.id}, function (merchants) {
-        $scope.currentMerchant.merchant = merchants[8] || merchants[0]; // the default merchant('吉林省梅河口中联商业广场') is in merchants[8]
+        var localID = localStorageService.get('localStorageCurrentMerchant').id || '';
+        var index = 0;
+        if (localID) {
+          merchants.forEach(function (merchant, i) {
+            if (merchant.id == localID) {
+              index = i;
+              return;
+            }
+          })
+        }
+        $scope.currentMerchant.merchant = merchants[index];
         $scope.allMerchant = merchants;
       });
     }, function () {
@@ -91,7 +101,7 @@ function MainController($scope, $modal, Users, Merchants, Shops) {
   
   $scope.showTwoDimensionalCode = function () {
     $modal.open({
-      templateUrl: 'TwoDimensionalCode.html',
+      templateUrl: 'TwoDimensionalCode.html'
     })
   }
 
