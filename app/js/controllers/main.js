@@ -70,15 +70,18 @@ function MainController($scope, $modal, Users, Merchants, Shops, localStorageSer
     Users.me(function (me) {
       $scope.me = me;
       Merchants.query({'owner.id':me.id}, function (merchants) {
-        var localID = localStorageService.get('localStorageCurrentMerchant').id || '';
         var index = 0;
-        if (localID) {
-          merchants.forEach(function (merchant, i) {
-            if (merchant.id == localID) {
-              index = i;
-              return;
-            }
-          })
+        var localStrage = localStorageService.get('localStorageCurrentMerchant');
+        if (localStrage && localStrage.id) {
+          var localID = localStrage.id || '';
+          if (localID) {
+            merchants.forEach(function (merchant, i) {
+              if (merchant.id == localID) {
+                index = i;
+                return;
+              }
+            })
+          }
         }
         $scope.currentMerchant.merchant = merchants[index];
         $scope.allMerchant = merchants;
