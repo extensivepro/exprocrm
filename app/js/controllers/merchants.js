@@ -1,4 +1,4 @@
-function MerchantsController($scope, Merchants, Pagination, $timeout, $injector,localStorageService){
+function MerchantsController($scope, Merchants, Pagination, $timeout, $injector,localStorageService, $fileUploader,$resource){
   $injector.invoke(BasicController, this, {$scope: $scope});
   $scope.activeView = "views/merchant/profile.html"
   $scope.resource = Merchants
@@ -48,7 +48,6 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector,
   $scope.create = function(entity) {
     entity["owner"] = $scope.me;
     var newOne = new $scope.resource(entity);
-    console.log("#####"+JSON.stringify(newOne));
     newOne.$save(function(user) {
       console.log("success",user)
       Merchants.get({id:newOne.id}, function(merchant) {
@@ -60,11 +59,6 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector,
       console.log('error:', err)
     })
   }
-  // bussiness
-  $scope.resetPassword = function(entity) {
-    entity.password = "654321"
-    $scope.update(entity)
-  }
 
   $scope.editMerchant = function (entity) {
     $scope.entity = entity
@@ -75,15 +69,23 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector,
     $scope.activeView = "views/merchant/profile.html"
   }
   $scope.update = function (entity) {
-    var resource = new $scope.resource(entity)
-    resource.$update(function (err) {
-      Merchants.query({id:entity.id}, function (merchant) {
+    Merchants.update(entity, function (result) {
+      Merchants.get({id:result.id}, function (merchant) {
+        var allMerchants = $scope.allMerchant;
+        for (var i = 0; i < allMerchants.length; i++) {
+          if (allMerchants[i].id == merchant.id) {
+            $scope.allMerchant[i] = merchant;
+            break;
+          }
+        }
         $scope.currentMerchant.merchant = merchant;
-        $scope.activeView = "views/merchant/profile.html"
+        $scope.activeView = "views/merchant/profile.html";
+      }, function (err) {
+        console.log('err:\n', err);
       })
     }, function (err) {
-      console.log('update error:', err, entity)
-    })
+      console.log('err:\n', err);
+    });
   }
 
   $scope.storageType = 'Local storage';
@@ -101,5 +103,72 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector,
   })
   $scope.defaultString = "name";
   $scope.trackListPage.activeView = 'views/merchant/profile.html';
+
+  $scope.initUpload = function () {
+    var subdir = 'logos';
+    var comments = '';
+    var uniqueFilename = true;
+    uploader = $scope.uploader = {};
+    var uploader = $scope.uploader = $fileUploader.create({
+      scope: $scope,
+      url: window.restful.baseURL + '/upload?subdir=' + subdir + '&comments=' + comments + '&uniqueFilename=' + uniqueFilename
+    });
+    uploader.bind('success', function(event, xhr, item, res) {
+      var obj = {
+        id: $scope.currentMerchant.merchant.id,
+        logo: {
+          image: res[0].filename,
+          imageID:res[0].id
+        }
+      };
+      $scope.currentMerchant.merchant.logo = obj.logo;
+      Merchants.update(obj, function (result) {
+      }, function (err) {
+        console.log('err:\n', err);
+      })
+    });
+    uploader.bind('completeall', function(event, items) {
+      $scope.showProfile();
+    });
+  }
+
+  $scope.uploadInEdit = function () {
+    if ($scope.uploader.queue.length > 1) {
+      alert('上传图片不能超过1张！');
+      $scope.uploader.clearQueue();
+    } else if(($scope.uploader.queue[0].file.size/1000000)>2){
+      alert('照片大小不能大于2M');
+      $scope.uploader.clearQueue();
+    }else{
+      if ($scope.currentMerchant.merchant.logo) {
+        var Upload = $resource(window.restful.baseURL+'/upload/:id', {id:'@id'});
+        console.log('id:\n', $scope.currentMerchant.merchant.logo.imageID);
+        Upload.delete({id: $scope.currentMerchant.merchant.logo.imageID}, function () {
+          $scope.uploader.uploadAll();
+        }, function (err) {
+          var obj = {
+            id: $scope.currentMerchant.merchant.id,
+            logo: {}
+          };
+          Merchants.update(obj, function (result) {
+            console.log('result:\n', result);
+          }, function (err) {
+            console.log('err:\n', err);
+          });
+        });
+      } else {
+        $scope.uploader.uploadAll();
+      }
+    }
+  }
+  $scope.showProfile = function () {
+    $scope.activeView = "views/merchant/profile.html";
+  };
+  $scope.$watch('currentMerchant.merchant.logo', function () {
+    var logo = $scope.currentMerchant.merchant.logo;
+    if (logo) {
+      $scope.logoImg = window.restful.baseLogoSrcURL + logo.image;
+    }
+  })
   widthFunctions();
 }

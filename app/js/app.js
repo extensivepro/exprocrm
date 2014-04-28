@@ -28,5 +28,6 @@ config(['$httpProvider', function($httpProvider) {
 //Setting up Restful Server
 window.restful = {
 	baseURL: "http://service.fankahui.com:2403",
-  baseImgSrcURL: "http://service.fankahui.com:2403/uploadImg/images/"
+  baseImgSrcURL: "http://service.fankahui.com:2403/uploadImg/images/",
+  baseLogoSrcURL: "http://service.fankahui.com:2403/uploadImg/logos/"
 };
