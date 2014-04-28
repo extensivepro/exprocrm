@@ -15,7 +15,6 @@
     </div>
   </div>
 </div>
-
 <div class="box-content">
   	<div class="col-lg-12">
   		<a ng-repeat="shortcut in profileShortcuts" ng-class="shortcut.class" ng-click="editMerchant(currentMerchant.merchant)">
@@ -45,8 +44,11 @@
     <div class="row">
         <div class="col-lg-1"></div>
         <div class="col-lg-1">
-            <div ng-show="profileAvatar">
+            <div ng-if="!currentMerchant.merchant.logo">
                 <img ng-src={{profileAvatar}} alt="Avatar" class="img-circle">
+            </div>
+            <div ng-if="currentMerchant.merchant.logo">
+                <img ng-src={{logoImg}} alt="Avatar" title="商户logo" style="height: 80px; width: 80px;" class="img-circle">
             </div>
         </div>
         <div class="col-lg-8">
