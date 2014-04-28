@@ -10,6 +10,7 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
   $scope.searchOptions.tooltip = "请输入订单状态"
   $scope.profileAvatar = "img/avatar.jpg"
   $scope.profileFields = [
+    {name: "sequenceNumber", title: "订单号"},
     {name: "type", title: "类型", value: function (entity) {
       if (entity.type == 'booking') {
         return '预订';
@@ -19,26 +20,38 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
         return '';
       }
     }},
-    {name: "status", title: "状态", value: function (entity) {
-      switch (entity.status) {
-        case 'placed':return '下单';
-        case 'accepted':return '接受';
-        case 'rejected':return '拒绝';
-        case 'executed':return '履行';
-        case 'canceled':return '取消';
-        default:return '';
-      }
-    }},
     {name: "memo", title: "备注", listHide: true, isArray:true},
     {name: "items", title: "商品", listHide: true, isArray:true},
     {name: "agent", title: "经手人", listHide: true, isObject: true},
     {name: "shop", title: "商店", listHide: true, isObject:true},
-    {name: "customer", title: "顾客", listHide: true, isObject: true},
-    {name: "fee", title: "费用", value: function (entity) {
+    {name: "customer", title: "顾客", isObject: true, value: function(entity) {
+      return entity.customer.name;
+    }},
+    {name: "fee", title: "费用/元", value: function (entity) {
       return (entity.fee / 100).toFixed(2);
     }},
     {name: "quantity", title: "数量"},
-    {name: "sequenceNumber", title: "序列号", listHide: true},
+    {name: "status", title: "状态", value: function (entity) {
+      entity.fieldClass = entity.fieldClass || {}
+      if (entity.status === 'placed') {
+          entity.fieldClass.status = "label label-info"
+          return '下单'
+      } else if (entity.status === 'accepted') {
+          entity.fieldClass.status = "label label-primary"
+          return  '接受'
+      } else if (entity.status === 'rejected') {
+          entity.fieldClass.status = "label label-danger"
+          return '退款'
+      } else if (entity.status === 'executed') {
+        entity.fieldClass.status = "label label-success"
+        return '履行'
+      } else if (entity.status === 'canceled') {
+        entity.fieldClass.status = "label label-default"
+        return '取消'
+      } else {
+        return ''
+      }
+    }},
     {name: "createdAt", title: "创建时间"}
   ];
   $scope.showProfile = function (entity) {
