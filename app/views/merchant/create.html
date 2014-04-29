@@ -6,13 +6,17 @@
         <a ng-click="cancelEdit()" class="btn-close"><i class="fa fa-times"></i></a>
     </div>
 </div>
-<div class="box-content">
+<div class="box-content" style="height: 550px;">
     <form class="form-horizontal" role="form" name="editForm">
-        <div class="form-group">
+        <div class="form-group" style="height: 60px;" ng-init="initErrContent()">
             <label class="col-lg-2 control-label"></label>
-            <span class="help-block"><i class="fa fa-circle"> 标记的项目不能为空</i></span>
+            <div class="col-lg-6" ng-if="errContent.msg" >
+                <div class="alert alert-danger" style="text-align: center;">
+                    <span ng-bind="errContent.msg"></span>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" style="">
             <label class="col-lg-2 control-label">商户简称</label>
             <div class="col-lg-6">
                 <div class="input-group">
@@ -31,63 +35,21 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-lg-2 control-label">电话</label>
+            <label class="col-lg-2 control-label">商户电话</label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <input class="form-control" name="telephone" type="text" ng-model="entity.telephone" ng-pattern="patternForTelephone">
+                    <input class="form-control" name="telephone" type="text" ng-model="entity.telephone">
                     <span class="input-group-addon"><i class="fa fa-circle"></i></span>
-                </div>
-            </div>
-            <div class="col-lg-4" ng-if="editForm.telephone.$error.pattern">
-                <span class="label label-warning">电话号码格式不正确！</span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-2 control-label">电子邮箱</label>
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <input class="form-control" name="email" type="text" ng-model="entity.email" ng-pattern="patternForEmail">
-                    <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
-                </div>
-            </div>
-            <div class="col-lg-4" ng-if="editForm.email.$error.pattern">
-                <span class="label label-warning">电子邮箱格式不正确！</span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-2 control-label">地址</label>
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <input class="form-control" name="address" type="text" ng-model="entity.address">
-                    <span class="input-group-addon"><i class="fa fa-circle"></i></span>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-2 control-label">邮编</label>
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <input class="form-control" name="zip" type="text" ng-model="entity.zip">
-                    <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-2 control-label">商户网站</label>
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <input class="form-control" name="url" type="text" ng-model="entity.url">
-                    <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
                 </div>
             </div>
         </div>
         <hr>
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-6">
-                <button ng-disabled="editForm.$error.required" ng-click="create(entity)" class="btn btn-primary btn-lg">
+                <button ng-click="create(entity)" class="btn btn-primary btn-lg">
                   <i class="fa fa-plus fa-lg"></i> 创建
                 </button>
-                <button ng-click="cancelEdit()" class="btn btn-warning btn-lg"><i class="fa fa-arrows-alt fa-lg"></i> 取消
+                <button ng-click="cancel()" class="btn btn-warning btn-lg"><i class="fa fa-arrows-alt fa-lg"></i> 取消
                 </button>
             </div>
         </div>
