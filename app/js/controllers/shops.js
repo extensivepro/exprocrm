@@ -107,7 +107,12 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
     }
     var newOne = new $scope.resource(obj);
     newOne.$save(function (result) {
-      $scope.showList()
+      Shops.get({id:result.id}, function (result) {
+        $scope.allShop.push(result);
+      }, function (err) {
+        console.log('err:\n', err);
+      })
+      $scope.showList();
     }, function (err) {
       console.log('error:', err)
     })
