@@ -11,7 +11,7 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
 		,	{name: "name", title: "店名", required: true, hide: true}
     , {name: "merchantID", title: "商户ID", listHide:true, hide: true, isProfileHide: true, createHide: true}
 		, {name: "address", title: "地址", required: true, hide: true}
-		, {name: "printers", title: "打印机", required: true, hide: true, listHide:true, createHide:true, value:function(entity){
+		, {name: "printers", title: "打印机", hide: true, listHide:true, createHide:true, value:function(entity){
       if (entity.printers) {
         return entity.printers;
       } else {
@@ -19,7 +19,7 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
       }
     }}
     , {name:"openRes", title:"开业资源", listHide:true, hide:true, createHide:true}
-		, {name: "telephone", title: "电话号码", hide: true}
+		, {name: "telephone", title: "电话号码", hide: true, createHide:true}
 		,	{name: "createdAt", title: "注册日期", readonly:true, createHide: true}
 		,	{name: "closedAt", title: "关闭日期", listHide:true, readonly:true, createHide: true, isProfileHide: true}
     ,	{name: "updateAt", title: "更新日期", listHide:true, readonly:true, createHide: true, isProfileHide: true}
