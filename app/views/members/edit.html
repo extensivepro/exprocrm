@@ -53,6 +53,36 @@
     </div>
 </div>
 <div class="form-group">
+    <label class="col-lg-2 control-label">收货地址</label>
+    <div class="col-lg-8">
+        <div class="row" ng-if="entity.deliveryAddress.length">
+            <div class="col-lg-2">地址
+            <input style="margin-top: 10px" class="form-control"  type="text" ng-model="obj.address" ng-repeat="obj in entity.deliveryAddress">
+            </div>
+            <div class="col-lg-2">收货人
+            <input style="margin-top: 10px" class="form-control"  type="text" ng-model="obj.name" ng-repeat="obj in entity.deliveryAddress">
+            </div>
+            <div class="col-lg-2">电话
+            <input style="margin-top: 10px" class="form-control"  type="text" ng-model="obj.phone" ng-repeat="obj in entity.deliveryAddress">
+            </div>
+        </div>
+        <div class="row" ng-if="!entity.deliveryAddress.length">
+            <div class="col-lg-2">地址
+            <input style="margin-top: 10px" class="form-control"  type="text" ng-model="obj.address" ng-repeat="obj in entity.deliveryAddress">
+            </div>
+            <div class="col-lg-2">收货人
+            <input style="margin-top: 10px" class="form-control"  type="text" ng-model="obj.name" ng-repeat="obj in entity.deliveryAddress">
+            </div>
+            <div class="col-lg-2">电话
+            <input style="margin-top: 10px" class="form-control"  type="text" ng-model="obj.phone" ng-repeat="obj in entity.deliveryAddress">
+            </div>
+        </div>
+        <div style="margin-top: 10px" ng-if="entity.deliveryAddress.length != 3">
+            <div class="col-lg-2"><button class="btn btn-default" ng-click="editAddress()">添加地址</button></div>
+        </div>
+    </div>
+</div>
+<div class="form-group">
     <label class="col-lg-2 control-label">状态</label>
     <div class="col-lg-10">
         <div class="btn-group">
