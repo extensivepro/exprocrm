@@ -35,7 +35,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
         return entity.status
       }
     }, hide:true, createHide: true},
-    {name: "images", title: "照片", createHide: false, listHide: true, hide: true, isProfileHide:false, isImg:true, value:function (entity) {
+    {name: "images", title: "照片", createHide: false, listHide: true, hide: true, isProfileHide:true, isImg:true, value:function (entity) {
       if (entity.hasOwnProperty('images')) {
         return entity.images.toString();
       } else {
@@ -61,7 +61,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
   // three params for upload img
   var subdir = 'images';
   var comments = '';
-  var uniqueFilename = false;
+  var uniqueFilename = true;
 
 
   // update a item
@@ -101,7 +101,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       var obj = {
         id: $scope.entity.id,
         images: {
-          $push: item.file.name
+          $push: res[0].filename
         },
         imagesID:{
           $push: res[0].id
@@ -120,9 +120,16 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
 
   // method for change the item's pic
   $scope.uploadForEdit = function () {
-    if ($scope.uploaderForEdit.queue.length > 3) {
+    var queue = $scope.uploaderForEdit.queue;
+    if (queue.length > 3) {
       alert('上传图片不能超过3张！');
       return;
+    }
+    for (var i = 0; i < queue.length; i++) {
+      if ((queue[i].file.size/1000000)>2) {
+        alert('图片大小必须小于2M');
+        return;
+      }
     }
     if ($scope.entity.hasOwnProperty('images') && $scope.entity.images.length) {
       var qsItem = {
@@ -187,7 +194,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       var obj = {
         id: $window.item.id,
         images: {
-          $push: item.file.name
+          $push: res[0].filename
         },
         imagesID:{
           $push: res[0].id
@@ -209,11 +216,19 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
     })
   }
   $scope.uploadInCreate = function () {
-    if ($scope.uploader.queue.length > 3) {
+    var queue = $scope.uploader.queue;
+    if (queue.length > 3) {
       alert('上传图片不能超过3张！');
-    }else{
-      $scope.uploader.uploadAll();
+      return;
     }
+    for (var i = 0; i < queue.length; i++) {
+      if ((queue[i].file.size/1000000)>2) {
+        alert('图片大小必须小于2M');
+        return;
+      }
+    }
+    $scope.uploader.uploadAll();
+
   }
   // method for create a item
   $scope.create = function (entity) {

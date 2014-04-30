@@ -142,7 +142,6 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector,
         }
       };
       $scope.currentMerchant.merchant.logo = obj.logo;
-      console.log('obj***:\n', obj);
       Merchants.update(obj, function (result) {
       }, function (err) {
         console.log('err:\n', err);
