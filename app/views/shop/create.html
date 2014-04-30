@@ -1,6 +1,6 @@
 <div class="box-header">
     <h2><i ng-class="currentView.icon"></i><span class="break"></span>
-        <span ng-show='!entity.id'>新增{{currentView.name}}</span>
+        <span>新增商店</span>
     </h2>
     <div class="box-icon">
         <a ng-click="cancelEdit()" class="btn-close"><i class="fa fa-times"></i></a>
@@ -15,6 +15,15 @@
             <label class="col-lg-2 control-label">{{field.title}}</label>
             <div class="col-lg-6">
                 <input class="form-control" type="text" ng-model="entityForCreate[field.name]" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">电话号码</label>
+            <div class="col-lg-6">
+                    <input class="form-control" type="text" ng-model="entityForCreate.telephone" ng-pattern="patternForTelephone">
+            </div>
+            <div class="col-lg-4" ng-if="editForm.telephone.$error.pattern">
+                <span class="label label-warning">电话号码格式不正确！</span>
             </div>
         </div>
         <hr>
