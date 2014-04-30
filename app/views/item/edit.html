@@ -132,6 +132,9 @@
                             ng-disabled="!uploaderForEdit.getNotUploadedItems().length">
                         <i class="fa fa-cloud-upload"></i>上传
                     </button>
+                    <button type="button" class="btn btn-danger btn-s" ng-click="uploaderForEdit.clearQueue()" ng-disabled="!uploaderForEdit.queue.length">
+                        <span class="fa fa-trash-o"></span>重选
+                    </button>
                 </div>
 
             </div>
