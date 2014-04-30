@@ -1,13 +1,4 @@
 <div class="form-group">
-    <label class="col-lg-2 control-label">编码</label>
-    <div class="col-lg-6">
-        <div class="input-group">
-            <input class="form-control" name="code" type="text" ng-model="entity.code">
-            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
-        </div>
-    </div>
-</div>
-<div class="form-group">
     <label class="col-lg-2 control-label">姓名</label>
     <div class="col-lg-6">
         <div class="input-group">
@@ -41,20 +32,8 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="col-lg-2 control-label">身份证</label>
-    <div class="col-lg-6">
-        <div class="input-group">
-            <input class="form-control" name="idcard" type="text" ng-model="entity.idcard" ng-pattern="patternForIdcard">
-            <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
-        </div>
-    </div>
-    <div class="col-lg-4" ng-if="editForm.idcard.$error.pattern">
-        <span class="label label-warning">身份证号码格式不正确！</span>
-    </div>
-</div>
-<div class="form-group">
     <label class="col-lg-2 control-label">收货地址</label>
-    <div class="col-lg-8">
+    <div class="col-lg-8" style="margin-top: 6.5px;">
         <div class="row" ng-if="entity.deliveryAddress.length">
             <div class="col-lg-2">地址
             <input style="margin-top: 10px" class="form-control"  type="text" ng-model="obj.address" ng-repeat="obj in entity.deliveryAddress">
@@ -77,8 +56,9 @@
             <input style="margin-top: 10px" class="form-control"  type="text" ng-model="obj.phone" ng-repeat="obj in entity.deliveryAddress">
             </div>
         </div>
-        <div style="margin-top: 10px" ng-if="entity.deliveryAddress.length != 3">
-            <div class="col-lg-2"><button class="btn btn-default" ng-click="editAddress()">添加地址</button></div>
+        <div style="margin-top: 10px">
+            <div class="col-lg-2" style="padding-left: 0px;"><button ng-disabled="entity.deliveryAddress.length == 3" class="btn btn-primary" ng-click="editAddress()">添加地址</button></div>
+            <div class="col-lg-2" style="padding-left: 0px;"><button class="btn btn-danger" ng-disabled="entity.deliveryAddress.length == 0 || $scope.entity.deliveryAddress" ng-click="removeAddress()">减少地址</button></div>
         </div>
     </div>
 </div>

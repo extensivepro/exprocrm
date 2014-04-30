@@ -33,7 +33,6 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
     {name: "postTotalPoint", title: "累计积分", listHide: true, hide: true, createHide: true },
     {name: "phone", title: "手机", hide: true , createHide: true},
     {name: "email", title: "邮箱", listHide: true,  hide: true, createHide: true},
-    {name: "idcard", title: "身份证", listHide: true, hide:true, createHide: true},
     {name: "level", title: "等级", createHide: true, listHide: true, hide: true },
     {name: "deliveryAddress", title: "收货地址", listHide: true, createHide: true, hide: true},
     {name: "sinceAt", title: "加入时间", hide: true, createHide: true},
@@ -79,15 +78,15 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
     $scope.entity.status = status
     $scope.update(true)
   };
-  $scope.update = function (entity) {
-    console.log('update=', entity);
+  $scope.update = function (obj) {
+    var entity = angular.copy(obj);
     delete entity.merchant;
     delete entity.code;
     delete entity.shop;
     delete entity.createdAt;
     delete entity.userID;
+    console.log('entity:\n', entity);
     var resource = new $scope.resource(entity);
-    console.log('update=' + JSON.stringify(resource));
     resource.$update(function (err) {
       $scope.showList()
     }, function (err) {
@@ -133,7 +132,7 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
     };
     entity.account = {
       "balance": 0,
-      "name": entity.name,
+      "name": entity.name
     };
     console.log("entity:" + JSON.stringify(entity));
     var newOne = new $scope.resource(entity)
@@ -151,15 +150,28 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
   $scope.countQs['status'] = JSON.stringify({
     $ne: 'removed'
   });
-  
+
+  var obj = {
+    "deliveryAddress": '',
+    "name": '',
+    "phone": ''
+  };
+
   $scope.editAddress = function () {
-    var obj = {
-      "deliveryAddress": '',
-      "name": '',
-      "phone": '',
-    };
-    $scope.entity.deliveryAddress = $scope.entity.deliveryAddress || [];
+    if (!$scope.entity.hasOwnProperty('deliveryAddress')) {
+      $scope.entity.deliveryAddress = [];
+    }
+    if ($scope.entity.deliveryAddress.length) {
+      var s = $scope.entity.deliveryAddress[$scope.entity.deliveryAddress.length-1]; // the last one
+      if (!s.deliveryAddress || !s.name || !s.phone) {
+        alert('信息填写不全');
+        return;
+      }
+    }
     $scope.entity.deliveryAddress.push(obj);
+  };
+  $scope.removeAddress = function () {
+    $scope.entity.deliveryAddress.pop();
   };
   
   $scope.params['merchant.merchantID'] = $scope.currentMerchant.merchant.id;
