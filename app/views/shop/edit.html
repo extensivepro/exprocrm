@@ -1,3 +1,15 @@
+
+<div class="box-header">
+    <h2><i ng-class="currentView.icon"></i><span class="break"></span>
+        <span ng-show='!!entity.id'>编辑{{currentView.name}}</span>
+    </h2>
+    <div class="box-icon">
+        <a ng-click="cancelEdit()" class="btn-close"><i class="fa fa-times"></i></a>
+    </div>
+</div>
+<div class="box-content">
+    <form class="form-horizontal" role="form" name="editForm">
+<div>
 <div class="form-group">
     <label class="col-lg-2 control-label">店面编码</label>
     <div class="col-lg-6">
@@ -29,12 +41,9 @@
     <label class="col-lg-2 control-label">电话号码</label>
     <div class="col-lg-6">
         <div class="input-group">
-            <input class="form-control" name="telephone" type="text" ng-model="entity.telephone" ng-pattern="patternForTelephone">
+            <input class="form-control" name="telephone" type="text" ng-model="entity.telephone">
             <span class="input-group-addon"><i class="fa fa-circle"></i></span>
         </div>
-    </div>
-    <div class="col-lg-4" ng-if="editForm.telephone.$error.pattern">
-        <span class="label label-warning">电话号码格式不正确！</span>
     </div>
 </div>
 
@@ -43,12 +52,16 @@
     <div class="col-lg-6">
         <div class="input-group">
             <input class="form-control" name="printers" type="text" ng-model="entity.printers" tooltip="多个打印机号，填写时请以英文逗号分隔">
-            <span class="input-group-addon" style="cursor: pointer;" ng-click="addPrinter()"><i class="fa fa-plus"></i></span>
+            <span class="input-group-addon" style="cursor: pointer;" ng-click="addPrinter()"><i class="fa fa-circle-o"></i></span>
         </div>
     </div>
 </div>
 <div class="form-group">
     <label class="col-lg-2 control-label">开业资源</label>
+    <div class="col-lg-2" style="margin-top: 7px;"><a class="" style="cursor: pointer; color: #36a9e1" ng-click="editAddRes()"><i class="fa fa-plus"></i>新增</a></div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label"></label>
     <div class="col-lg-8">
         <div class="row">
             <div class="col-lg-2">名称</div>
@@ -74,9 +87,6 @@
                 <input class="form-control"  type="text" ng-model="obj.codename">
             </div>
         </div>
-    </div>
-    <div class="col-lg-2">
-        <div class="col-lg-2"><button class="btn btn-info" ng-click="editAddRes()">新增</button></div>
     </div>
 </div>
 <div class="form-group">
@@ -115,3 +125,19 @@
     </div>
 </div>
 <div ng-init="initMap()"></div>
+</div>
+<hr>
+<div class="form-group">
+    <div class="col-lg-offset-2 col-lg-6">
+        <button ng-disabled="editForm.$error.required" ng-click="create(entity)" class="btn btn-primary btn-lg"
+                ng-if="!entity.id"><i class="fa fa-plus fa-lg"></i> 创建
+        </button>
+        <button ng-disabled="editForm.$error.required" ng-click="update(entity)" class="btn btn-primary btn-lg"
+                ng-if="!!entity.id"><i class="fa fa-save fa-lg"></i> 保存
+        </button>
+        <button ng-click="cancelEdit()" class="btn btn-warning btn-lg"><i class="fa fa-arrows-alt fa-lg"></i> 取消
+        </button>
+    </div>
+</div>
+</form>
+</div>

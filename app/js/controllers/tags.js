@@ -59,6 +59,9 @@ function TagsController($scope, $timeout, Merchants, $modal, $log){
       templateUrl: 'modalAddTag.html',
       controller: ModaCreateTagCtrl,
       resolve: {
+        itemTags: function () {
+          return $scope.itemTags;
+        }
       }
     });
     modalInstance.result.then(function (newTag) {
@@ -77,12 +80,22 @@ function TagsController($scope, $timeout, Merchants, $modal, $log){
   }
 }
 
-var ModaCreateTagCtrl = function ($scope, $modalInstance) {
+var ModaCreateTagCtrl = function ($scope, $modalInstance,itemTags) {
   $scope.tag = {
     name:''
-  }
+  };
   $scope.ok = function () {
-    if ($scope.tag.name) {
+    var flag = true;
+    itemTags.forEach(function (tag) {
+      if (tag == $scope.tag.name) {
+        flag = false;
+        alert('创建失败，标签名重复');
+        return;
+      }
+    });
+    if (!$scope.tag.name) {
+      alert('标签名不能为空');
+    } else if(flag) {
       $modalInstance.close($scope.tag.name);
     }
   };
