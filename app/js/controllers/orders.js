@@ -41,7 +41,7 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
           return  '接受'
       } else if (entity.status === 'rejected') {
           entity.fieldClass.status = "label label-danger"
-          return '退款'
+          return '拒绝'
       } else if (entity.status === 'executed') {
         entity.fieldClass.status = "label label-success"
         return '履行'

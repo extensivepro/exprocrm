@@ -35,6 +35,7 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
     {name: "email", title: "邮箱", listHide: true,  hide: true, createHide: true},
     {name: "idcard", title: "身份证", listHide: true, hide:true, createHide: true},
     {name: "level", title: "等级", createHide: true, listHide: true, hide: true },
+    {name: "deliveryAddress", title: "收货地址", listHide: true, createHide: true, hide: true},
     {name: "sinceAt", title: "加入时间", hide: true, createHide: true},
     {name: "dueAt", title: "有效期至", createHide: true, listHide: true, hide: true},
     {name: "createdAt", title: "创建日期", createHide: true, listHide: true, hide: true, isProfileHide: true},
@@ -53,6 +54,12 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
 
 
   ];
+  
+  $scope.showProfile = function (entity) {
+    $scope.entity = entity || $scope.entity
+    $scope.activeView = "views/members/profile.html";
+    $scope.trackListPage.activeView = '';
+  }
   
   // delete a member
   $scope.remove = function (entity) {
@@ -144,6 +151,16 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
   $scope.countQs['status'] = JSON.stringify({
     $ne: 'removed'
   });
+  
+  $scope.editAddress = function () {
+    var obj = {
+      "deliveryAddress": '',
+      "name": '',
+      "phone": '',
+    };
+    $scope.entity.deliveryAddress = $scope.entity.deliveryAddress || [];
+    $scope.entity.deliveryAddress.push(obj);
+  };
   
   $scope.params['merchant.merchantID'] = $scope.currentMerchant.merchant.id;
   $scope.countQs['merchant.merchantID'] = $scope.currentMerchant.merchant.id;
