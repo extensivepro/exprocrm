@@ -5,8 +5,6 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
 	$scope.searchOptions.fields = ['name', 'telephone']
   $scope.searchOptions.tooltip = "请输入商店名称或手机号码"
 
-	$scope.editView ="views/shop/edit.html"
-	
 	// profile 
 	$scope.profileFields = [
     {name: "code", title: "店面编码", required: true, listHide: true, hide: true}
@@ -41,10 +39,10 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
   ]
 
 
-  // bussiness
-  $scope.resetPassword = function(entity) {
-    entity.password = "654321"
-    $scope.update(entity)
+  $scope.showEdit = function (entity) {
+    $scope.entity = entity || $scope.entity
+    $scope.activeView = "views/shop/edit.html";
+    $scope.trackListPage.activeView = '';
   }
   $scope.update = function (entity) {
     var obj = entity;
