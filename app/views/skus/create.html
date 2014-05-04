@@ -8,7 +8,15 @@
 </div>
 <div class="box-content" ng-init="checkShopManger()">
     <form class="form-horizontal" role="form" name="editForm">
-        <div class="form-group" style="height: 30px;">
+        <div class="form-group" style="height: 60px;">
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-6">
+                    <div ng-if="errContent.msg" class="alert alert-danger" style="text-align: center;">
+                        <span ng-bind="errContent.msg"></span>
+                    </div>
+                </div>
+            </div>
         </div>
         <!--START:just use for create-->
         <div class="form-group">
@@ -78,7 +86,7 @@
         <hr>
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-6">
-                <button ng-disabled="editForm.$error.required" ng-click="create()" class="btn btn-primary btn-lg"><i class="fa fa-plus fa-lg"></i> 创建
+                <button  ng-click="create()" class="btn btn-primary btn-lg"><i class="fa fa-plus fa-lg"></i> 创建
                 </button>
                 <button ng-click="cancelEdit()" class="btn btn-warning btn-lg"><i class="fa fa-arrows-alt fa-lg"></i> 取消
                 </button>

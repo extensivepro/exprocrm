@@ -2,7 +2,7 @@
  * Created by expro on 14-1-10.
  * 库存管理
  */
-function SkusController($scope, Skus, Items, Employes, Pagination, $timeout, $injector, $modal) {
+function SkusController($scope, Skus, Items, Employes, Pagination, $timeout, $injector, $modal,$log) {
   $injector.invoke(BasicController, this, {$scope: $scope});
   $scope.resource = Skus;
   $scope.searchOptions.fields = ['operator.name']
@@ -63,8 +63,14 @@ function SkusController($scope, Skus, Items, Employes, Pagination, $timeout, $in
     $scope.update(true)
   };
   $scope.create = function () {
+    if (!$scope.checkInCreate()) {
+      return;
+    }
     if (!$scope.operator.name) {
       alert('您尚未创建店长');
+      $scope.openModal();
+        $timeout(function () {
+      }, 1000);
       return;
     }
     var skus = {
@@ -115,7 +121,43 @@ function SkusController($scope, Skus, Items, Employes, Pagination, $timeout, $in
       $scope.isNewItem = false;
     })
   }
-
+  $scope.checkInCreate = function () { //创建库存前的校验
+    var v = $scope.entity;
+    var i = $scope.item;
+    var m = $scope.errContent;
+    if (!v.itemCode) {
+      m.msg = '商品编码不能为空';
+      return $scope.showAlert();
+    } else if (!v.itemName) {
+      m.msg = '商品名称不能为空';
+      return $scope.showAlert();
+    } else if (isNaN(parseInt(v.quantity))) {
+      m.msg = '商品数量输入有误';
+      return $scope.showAlert();
+    } else if (isNaN(parseFloat(v.price))) {
+      m.msg = '进货单价输入有误';
+      return $scope.showAlert();
+    } else if (!$scope.isNewItem) {
+      return true;
+    } else if (isNaN(parseFloat(i.itemPrice))) {
+      m.msg = '商品售价输入有误';
+      return $scope.showAlert();
+    } else if (!i.itemDesc) {
+      m.msg = '商品描述不能为空';
+      return $scope.showAlert();
+    } else if (!i.itemModel) {
+      m.msg = '商品型号不能为空';
+      return $scope.showAlert();
+    } else {
+      return true;
+    }
+  };
+  $scope.showAlert = function () {
+    $timeout(function () {
+      $scope.errContent.msg = '';
+    }, 2000);
+    return false;
+  };
   $scope.$watch('currentShowShop.shop', function () {
     $scope.params['shopID'] = $scope.currentShowShop.shop.id; // default use the first shop of the currentMerchant
     $scope.countQs['shopID'] = $scope.currentShowShop.shop.id;
@@ -157,6 +199,7 @@ function SkusController($scope, Skus, Items, Employes, Pagination, $timeout, $in
     $scope.item = {}; //when create a skus, if the item is a newer,then use the $scope.item object to save the new item。
     $scope.flagForShopManger = false; // 该店已经有店长了
     $scope.operator = {}; // 店长
+    $scope.errContent = {msg:''};
   };
   $scope.checkShopManger = function () {
     Employes.query({"shopID":$scope.currentShowShop.shop.id, "role":"shopManager"}, function (result) {
