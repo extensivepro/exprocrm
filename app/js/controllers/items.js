@@ -82,6 +82,9 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
 
   // init for edit page
   $scope.showEdit = function (entity) {
+    if (!entity.hasOwnProperty('tags')) {
+      entity.tags = [''];
+    }
     entity.price = (entity.price/100).toFixed(2);
     $scope.entity = entity;
     $scope.activeView = "views/item/edit.html";
