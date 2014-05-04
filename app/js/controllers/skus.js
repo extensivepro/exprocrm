@@ -2,7 +2,7 @@
  * Created by expro on 14-1-10.
  * 库存管理
  */
-function SkusController($scope, Skus, Items, Pagination, $timeout, $injector) {
+function SkusController($scope, Skus, Items, Employes, Pagination, $timeout, $injector, $modal) {
   $injector.invoke(BasicController, this, {$scope: $scope});
   $scope.resource = Skus;
   $scope.searchOptions.fields = ['operator.name']
@@ -65,6 +65,10 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector) {
     $scope.update(true)
   };
   $scope.create = function () {
+    if (!$scope.operator.name) {
+      alert('您尚未创建店长');
+      return;
+    }
     var skus = {
       shopID: $scope.currentShowShop.shop.id,
       merchantID: $scope.currentMerchant.merchant.id,
@@ -72,10 +76,7 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector) {
       itemName: $scope.entity.itemName,
       quantity: parseInt($scope.entity.quantity, 10),
       sumPrice: parseInt($scope.entity.quantity, 10) * parseFloat($scope.entity.price, 10) * 100,
-      operator: {
-        employeeID: "6d97c241f56a8873",
-        name: "老板"
-      }
+      operator: $scope.operator
     }
     skus['type'] = $scope.entity.selection.value;
     if ($scope.isNewItem) {
@@ -128,7 +129,16 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector) {
     $scope.entity.selection = $scope.types[0];
     $scope.activeView = "views/skus/create.html"
   };
-
+  $scope.types = [
+    {
+      label: '进货',
+      value: 'add'
+    },
+    {
+      label: '核销',
+      value: 'sub'
+    }
+  ];
   $scope.getInfo = function (itemCode) {
     Items.query({code: itemCode, merchantID: $scope.currentMerchant.merchant.id}, function (res) {
       if (res[0]) {
@@ -147,16 +157,100 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector) {
   $scope.initSkus = function () {
     $scope.isNewItem = false;
     $scope.item = {}; //when create a skus, if the item is a newer,then use the $scope.item object to save the new item。
-  }
-  $scope.types = [
-    {
-      label: '进货',
-      value: 'add'
-    },
-    {
-      label: '核销',
-      value: 'sub'
+    $scope.flagForShopManger = false; // 该店已经有店长了
+    $scope.operator = {}; // 店长
+  };
+  $scope.checkShopManger = function () {
+    Employes.query({"shopID":$scope.currentShowShop.shop.id, "role":"shopManager"}, function (result) {
+      console.log('result:\n', result);
+      if (!result.length) {
+        $scope.flagForShopManger = true; // 该店没有查到店长
+      } else {
+        $scope.operator = {
+          employeeID:result[0].id,
+          name: result[0].name
+        }
+      }
+    }, function (err) {
+      console.log('err:\n', err);
+    })
+  };
+  $scope.$watch('flagForShopManger', function () {
+    if ($scope.flagForShopManger) {
+      $scope.openModal();
     }
-  ];
-
+  });
+  $scope.openModal = function () {
+    var modalInstance = $modal.open({
+      templateUrl: 'createShopManger.html',
+      controller: CreateShopMangerCtrl,
+      resolve: {
+        shopID: function () {
+          return $scope.currentShowShop.shop.id;
+        }
+      }
+    });
+    modalInstance.result.then(function (employee) {
+      $scope.operator = employee;
+      alert('店长创建成功，请继续您的操作');
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  }
 }
+
+var CreateShopMangerCtrl = function ($scope, $modalInstance, $timeout, Employes, shopID) {
+  $scope.employee = {};
+  $scope.errContent = {msg:''};
+  $scope.ok = function () {
+    if (check()) {
+      var v = $scope.employee;
+      var obj = {
+        shopID:shopID,
+        name: v.name,
+        role: "shopManager",
+        jobNumber: v.jobNumber,
+        phone: v.phone,
+        idcard: v.idcard,
+        createdAt: Math.round(new Date().getTime() / 1000)
+      };
+      Employes.save(obj, function (result) {
+        var o = {
+          employeeID:result.id,
+          name: result.name
+        };
+        $modalInstance.close(o);
+      }, function (err) {
+        console.log('err:\n', err);
+      });
+    }
+  };
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+  function check() {
+    var v = $scope.employee;
+    var m = $scope.errContent;
+    if (!v.name) {
+      m.msg = '姓名不能为空';
+      return showAlert();
+    } else if(isNaN(parseInt(v.jobNumber))){
+      m.msg = '工号必须由数字组成';
+      return showAlert();
+    } else if (!(/^1\d{10}$/.test(v.phone))) {
+      m.msg = '手机号格式不正确';
+      return showAlert();
+    } else if (!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(v.idcard))) {
+      m.msg = '身份证号码格式不对';
+      return showAlert();
+    } else {
+      return true;
+    }
+  }
+  function showAlert() { // 2秒后错误消息消失，并返回false
+    $timeout(function () {
+      $scope.errContent.msg = '';
+    }, 2000);
+    return false;
+  }
+};
