@@ -9,18 +9,11 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector) {
   $scope.searchOptions.tooltip = "请输入经手人名称";
   $scope.editView = "views/skus/edit.html"
   $scope.profileAvatar = "img/avatar.jpg"
-  //$scope.fieldOperations = [
-  //  {class: "btn btn-success", icon: "fa fa-file", op: "showProfile", title: '详情'}
-  //  ,
-  //  {class: "btn btn-danger", icon: "fa fa-trash-o", op: "remove", title: '删除'}
-  //]
   $scope.profileShortcuts = [
       {class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-trash-o", text: "删除", op:"remove"}
   ];
-//    $scope.isHide = true;
-  // profile
+
   $scope.profileFields = [
-//        {name: "id", title: "id"},
     {name: "shopID", title: "商店ID", required: true, listHide: true, createHide: true, isProfileHide:true},
     {name: "itemCode", title: "商品编码", required: true},
     {name: "itemName", title: "商品", required: true},
@@ -71,8 +64,6 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector) {
     $scope.entity.status = status
     $scope.update(true)
   };
-
-  $scope.item = {}; //when create a skus, if the item is a newer,then use the $scope.item object to save the new item。
   $scope.create = function () {
     var skus = {
       shopID: $scope.currentShowShop.shop.id,
@@ -101,23 +92,19 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector) {
       console.log('item:', item);
       var newItem = new Items(item);
       newItem.$save(function (item) {
-        console.log('新增商品成功：', item);
         skus['itemID'] = item.id;
-        console.log('保存之前的skus:', skus);
         saveSkus(skus);
       }, function (err) {
         console.log('新增商品失败:', err);
       });
     } else {
       skus['itemID'] = $scope.entity.itemID;
-      console.log('保存之前的skus:', skus);
       saveSkus(skus);
     }
   }
   function saveSkus(skus) {
     var newSkus = new $scope.resource(skus);
     newSkus.$save(function (skus) {
-      console.log('新增库存成功：', skus);
       $scope.showList();
       $scope.entity = {};
       $scope.item = {};
@@ -130,12 +117,6 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector) {
     })
   }
 
-  if ($scope.currentMerchant.merchant.hasOwnProperty('shopIDs')) {
-    $scope.params['shopID'] = $scope.currentMerchant.merchant.shopIDs[0]; // default use the first shop of the currentMerchant
-    $scope.countQs['shopID'] = $scope.currentMerchant.merchant.shopIDs[0];
-  }
-  $scope.defaultString = "operator.name";
-
   $scope.$watch('currentShowShop.shop', function () {
     $scope.params['shopID'] = $scope.currentShowShop.shop.id; // default use the first shop of the currentMerchant
     $scope.countQs['shopID'] = $scope.currentShowShop.shop.id;
@@ -143,9 +124,9 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector) {
   })
   $scope.showOptions = true;
   $scope.showEdit = function (entity) {
-    $scope.entity = entity || $scope.entity
+    $scope.entity = {};
     $scope.entity.selection = $scope.types[0];
-    $scope.activeView = "views/skus/profile.html"
+    $scope.activeView = "views/skus/create.html"
   };
 
   $scope.getInfo = function (itemCode) {
@@ -157,10 +138,16 @@ function SkusController($scope, Skus, Items, Pagination, $timeout, $injector) {
         $scope.entity.itemID = res[0].id;
       } else {
         $scope.isNewItem = true;
+        $scope.entity.itemName = '';
+        $scope.entity.quantity = '';
+        $scope.entity.itemID = '';
       }
     });
   };
-
+  $scope.initSkus = function () {
+    $scope.isNewItem = false;
+    $scope.item = {}; //when create a skus, if the item is a newer,then use the $scope.item object to save the new item。
+  }
   $scope.types = [
     {
       label: '进货',
