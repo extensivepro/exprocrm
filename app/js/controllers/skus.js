@@ -9,9 +9,7 @@ function SkusController($scope, Skus, Items, Employes, Pagination, $timeout, $in
   $scope.searchOptions.tooltip = "请输入经手人名称";
   $scope.editView = "views/skus/edit.html"
   $scope.profileAvatar = "img/avatar.jpg"
-  $scope.profileShortcuts = [
-      {class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-trash-o", text: "删除", op:"remove"}
-  ];
+  $scope.profileShortcuts = [];
 
   $scope.profileFields = [
     {name: "shopID", title: "商店ID", required: true, listHide: true, createHide: true, isProfileHide:true},
@@ -58,7 +56,7 @@ function SkusController($scope, Skus, Items, Employes, Pagination, $timeout, $in
       }
     }}
   ];
-
+  $scope.hideManyDel = true; //隐藏批量删除按钮
   // bussiness
   $scope.setStatus = function (status) {
     $scope.entity.status = status
