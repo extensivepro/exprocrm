@@ -30,14 +30,18 @@
                             <div class="col-lg-2"><h4>服务能力</h4></div>
                             <div class="col-lg-2"><h4>代号</h4></div>
                             <div class="col-lg-2"><h4>代号名</h4></div>
+                            <div class="col-lg-2"><h4>微信编号</h4></div>
                         </div>
                         <h4 ng-if="!entity.openRes.length">当前商店还没有添加过开业资源！</h4>
                         <div class="row" ng-repeat="item in entity.openRes">
+                          <a href="" ng-click="showSecne2DimensionalCode(item)" alt="微信二维码编号">
                             <div class="col-lg-2"><h4>{{item.name}}</h4></div>
                             <div class="col-lg-2"><h4>{{item.type}}</h4></div>
                             <div class="col-lg-2"><h4>{{item.serviceability}}</h4></div>
                             <div class="col-lg-2"><h4>{{item.code}}</h4></div>
                             <div class="col-lg-2"><h4>{{item.codename}}</h4></div>
+                            <div class="col-lg-2"><h4>{{item.sceneID}}</h4></div>
+                          </a>
                         </div>
                     </td>
                     <td class="center" ng-if="field.name=='location' && (!entity.location.latitude||!entity.location.longitude)">
@@ -61,3 +65,8 @@
     </div>
     <div class="clearfix"></div>
 </div>
+
+
+<script type="text/ng-template" id="Secne2DimensionalCode.html">
+  <img ng-src="{{imageUrl}}" style="display: block;clear: both;margin:auto" />
+</script>

@@ -9,25 +9,25 @@ function MainController($scope, $modal, Users, Merchants, Shops, localStorageSer
     {name: "控制面板", icon: "fa fa-dashboard", path: "views/analysis/dashboard.html"},
     {name: "销售统计", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html"},
     {name: "进货统计", icon: "fa fa-truck", path: "views/analysis/skusAnalysis.html"},
-    {name: "设备管理", icon: "fa fa-tablet", path: "views/devices/index.html"},
     {name: "营业流水", icon: "fa fa-bars", path: "views/deals/index.html", submenus: [
       {name: "销售流水", icon: "fa fa-shopping-cart", path: "views/deals/index.html"},
       {name: "退货流水", icon: "fa fa-exchange", path: "views/returns/index.html"},
       {name: "储值流水", icon: "fa fa-rmb", path: "views/bills/index.html"},
       {name: "订单流水", icon: "fa fa-pencil-square", path: "views/orders/index.html"}
     ]},
-    {name: "品类管理", icon: "fa fa-building-o", path: "views/item/index.html", submenus: [
+    {name: "品类管理", icon: "fa fa-barcode", path: "views/item/index.html", submenus: [
       {name: "商品管理", icon: "fa fa-barcode", path: "views/item/index.html"},
       {name: "标签管理", icon: "fa fa-tags", path: "views/tags/index.html"}
     ]},
     {name: "商户管理", icon: "fa fa-building-o", path: "views/shop/index.html", submenus:[
-      {name: "商店管理", icon: "fa fa-home", path: "views/shop/index.html"},
+      {name: "门店管理", icon: "fa fa-home", path: "views/shop/index.html"},
       {name: "员工管理", icon: "fa fa-users", path: "views/employee/index.html"},
       {name: "库存记录", icon: "fa fa-truck", path: "views/skus/index.html"},
       {name: "会员管理", icon: "fa fa-user", path: "views/members/index.html"},
       {name: "积分管理", icon: "fa fa-gift", path: "views/points/index.html"},
       {name: "当前商户", icon: "fa fa-cog", path: "views/merchant/index.html"}
-    ]}
+    ]},
+    {name: "设备管理", icon: "fa fa-tablet", path: "views/devices/index.html"}
   ];
   $scope.trackListPage = {};
   $scope.currentView = $scope.views[0];

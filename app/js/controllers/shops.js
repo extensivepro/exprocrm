@@ -1,4 +1,4 @@
-function ShopsController($scope, Shops, Pagination, $timeout, $injector){
+function ShopsController($scope, Shops, Pagination, $timeout, $injector, $modal){
 	$injector.invoke(BasicController, this, {$scope: $scope});
 	$scope.resource = Shops
 
@@ -114,7 +114,16 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector){
     }, function (err) {
       console.log('error:', err)
     })
-  };
+  }
+  
+  $scope.showSecne2DimensionalCode = function (openRes) {
+    console.log(openRes)
+    $scope.imageUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket="+openRes.ticket
+    $modal.open({
+      templateUrl: 'Secne2DimensionalCode.html',
+      scope: $scope
+    })
+  }
 
   $scope.initMap = function (flag) {
     var longitude = 116.404;//默认经度
