@@ -110,6 +110,6 @@ function MainController($scope, $modal, Users, Merchants, Shops, localStorageSer
 
   $scope.patternForIdcard = /(^\d{15}$)|(^\d{17}([0-9]|X)$)/;
   $scope.patternForTelephone = /^(([0\+]\d{2,3})?(0\d{2,3}))?(\d{7,8})((\d{3,}))?$/;
-  $scope.patternForphone = /^(?:13\d|15[89])-?\d{5}(\d{3}|\*{3})$/;
+  $scope.patternForPhone = /^1\d{10}$/;
   $scope.patternForEmail = /^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!\.)){0,61}[a-zA-Z0-9]?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!$)){0,61}[a-zA-Z0-9]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/;
 };

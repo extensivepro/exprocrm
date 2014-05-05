@@ -151,22 +151,14 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
     $ne: 'removed'
   });
 
-  var obj = {
-    "deliveryAddress": '',
-    "name": '',
-    "phone": ''
-  };
-
   $scope.editAddress = function () {
+    var obj = {
+      "address": '',
+      "recipient": '',
+      "phone": ''
+    };
     if (!$scope.entity.hasOwnProperty('deliveryAddress')) {
       $scope.entity.deliveryAddress = [];
-    }
-    if ($scope.entity.deliveryAddress.length) {
-      var s = $scope.entity.deliveryAddress[$scope.entity.deliveryAddress.length-1]; // the last one
-      if (!s.deliveryAddress || !s.name || !s.phone) {
-        alert('信息填写不全');
-        return;
-      }
     }
     $scope.entity.deliveryAddress.push(obj);
   };
