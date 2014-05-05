@@ -37,7 +37,18 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector, $modal)
     }, hide:true, createHide: true},
     {name:"location", title:"地理位置", listHide:true, createHide:true, hide:true}
   ]
-
+  //delete a shop 
+    $scope.remove = function (entity) {
+  	  var obj = {
+  		  id: entity.id,
+  		  status: 'removed'
+  	  }
+  	  Shops.update(obj, function (result){
+  		  $scope.showList();
+  	  }, function(err){
+  		  console.log('err: \n' , err);
+  	  });
+    }
 
   $scope.showEdit = function (entity) {
     $scope.entity = entity || $scope.entity
@@ -125,6 +136,14 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector, $modal)
     })
   }
 
+  $scope.paramsForDelete = 'removed';
+  $scope.params['status'] = JSON.stringify({
+ 	  $ne: 'removed'
+  });
+  $scope.countQs['status'] = JSON.stringify({
+ 	  $ne: 'removed'
+  });
+ 
   $scope.initMap = function (flag) {
     var longitude = 116.404;//默认经度
     var latitude = 39.915;//默认纬度
@@ -183,6 +202,7 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector, $modal)
       }
     }
   }
+ 
   $scope.params['merchantID'] = $scope.currentMerchant.merchant.id; // find all shops that just belong to the currentMerchant
   $scope.countQs['merchantID'] = $scope.currentMerchant.merchant.id;
   widthFunctions();
