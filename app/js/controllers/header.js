@@ -106,7 +106,20 @@ function UserSettingController($scope, Users, $modalInstance, me) {
     , {name: "idcard", title: "身份证", required: true, type: "text"}
     , {name: "phone", title: "手机号", required: true, type: "text"}
     ,	{name: "email", title: "电子邮箱", type: "email"}
+    ,	{name: "male", title: "性别", value:function(me){
+      if(me.male) {
+        return "男"
+      } else if(me.male == false) {
+        return "女"
+      } else {
+        return "保密"
+      }
+    }, hide: true}
   ]
+  
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  }
 
   $scope.userSettingSave = function() {
     if ($scope.me["idcard"].length != 18)
