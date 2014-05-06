@@ -9,11 +9,11 @@
         </div>
         <div class="box-content">
             <div class="container" style="height: 500px; overflow: auto">
-                <div class=" col-xs-6 col-sm-4 col-md-3 col-lg-2" style="margin-bottom: 5px" ng-repeat="tag in itemTags">
+                <div class=" col-xs-6 col-sm-4 col-md-4 col-lg-2" style="margin-bottom: 5px" ng-repeat="tag in itemTags">
                     <div>
                         <div class="btn-group">
-                            <button class="btn btn-primary btn-lg" style="display: inline-block; width: 150px;">{{tag}}</button>
-                            <button class="btn btn-primary btn-lg" style="display: inline-block; width: 20px;" data-toggle="dropdown"><span class="caret"></span></button>
+                            <button class="btn btn-primary btn-lg">{{tag}}</button>
+                            <button class="btn btn-primary btn-lg" data-toggle="dropdown"><span class="caret"></span></button>
                             <ul class="dropdown-menu">
                                 <!--<li><a href=""  ng-click="editTag(tag)"><i class="fa fa-pencil fa-fw"></i> 编辑</a></li>-->
                                 <li><a href=""  ng-click="deleteTag(tag)"><i class="fa fa-trash-o fa-fw"></i> 删除</a></li>
