@@ -100,25 +100,36 @@
 </script>
 <!-- End: Setting UserProfile -->
 <script type="text/ng-template" id="userSettingDialog.html">
-    <div class="modal-header btn-primary">
-
-        <div class="row ">
-            <div class="col-xs-12" style="text-align: center"><h1>用户设定</h1></div>
-        </div>
-    </div>
-    <div class="modal-body">
-        <form role="form" >
-            <div class="form-group col-lg-6" ng-repeat="field in profileFields" >
-                <label ng-if="field.required" ng-hide="field.hide">{{field.title}}*</label>
-                <label ng-if="!field.required" ng-hide="field.hide">{{field.title}}</label>
-                <input ng-hide="field.hide" type="{{field.type}}" ng-model="me[field.name]" class="form-control" required="true">
+  
+	<div class="modal-header">
+		<h3>用户设定</h3>
+	</div>
+	<div class="modal-body">
+        <form class="form-horizontal" style="margin-right:15%">
+            <div class="form-group" ng-repeat="field in profileFields" ng-hide="field.hide">
+                <label ng-if="field.required" class="col-sm-4 control-label">
+                    * {{field.title}}
+                </label>
+                <label ng-if="!field.required" class="col-sm-4 control-label">
+                    {{field.title}}
+                </label>
+                <div class="col-lg-8">
+                    <input ng-hide="field.hide" type="{{field.type}}" ng-model="me[field.name]" class="form-control" required="true">
+                </div>
+            </div>
+            <div class="form-group" style="margin-left:95px">
+               <label class="col-lg-2 control-label">性别</label>
+               <div class="btn-group" style="padding-left: 15px">
+                   <button type="button" class="btn btn-success" ng-model="me.male" btn-radio="true">男</button>
+                   <button type="button" class="btn btn-warning" ng-model="me.male" btn-radio="false">女</button>
+               </div>
             </div>
             <alert type="alert.type" ng-hide="!alert" close="closeAlert()">{{alert.msg}}</alert>
-        </form>
-        <br>
-        <p style="padding-left: 15px">* 标注为必填项 </p>
-    </div>
-    <div class="modal-footer" style="text-align: center">
-        <button class="btn btn-primary" style="width: 20%" ng-click="userSettingSave()">保存</button>
-    </div>
+	</div>
+	<div class="modal-footer">
+    <a class="btn btn-success" ng-click="cancel()">取消</a>
+		<a class="btn btn-primary" ng-click="userSettingSave()">保存</a>
+	</div>
+    
+ 
 </script>
