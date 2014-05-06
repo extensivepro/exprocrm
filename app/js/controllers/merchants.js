@@ -14,9 +14,23 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector,
     , {name: "address", title: "地址", required: true}
     , {name: "zip", title: "邮编", unlist: true}
     , {name: "url", title: "商户网站", unlist: true}
-    , {name: "weixin", title: "微信公众号", unlist: true, value: function (entity) {
+    , {name: "weixinOriginID", title: "微信公众号原始ID", unlist: true, value: function (entity) {
       if (entity.hasOwnProperty('weixin')) {
         return entity.weixin.originID;
+      } else {
+        return '';
+      }
+    }}
+    , {name: "weixinAppid", title: "微信公众号应用ID", unlist: true, value: function (entity) {
+      if (entity.weixin && entity.weixin.devToken && entity.weixin.devToken.appid) {
+        return entity.weixin.devToken.appid;
+      } else {
+        return '';
+      }
+    }}
+    , {name: "weixinSecret", title: "微信公众号秘钥", unlist: true, value: function (entity) {
+      if (entity.weixin && entity.weixin.devToken && entity.weixin.devToken.appid) {
+        return entity.weixin.devToken.secret;
       } else {
         return '';
       }
@@ -38,7 +52,7 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector,
     }, hide:true, createHide: true}
   ];
   $scope.profileShortcuts = [
-      {class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-edit fa-5x", text: "编辑", op:"edit"}
+      {"class": "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-edit fa-5x", text: "编辑", op:"edit"}
   ];
   $scope.valueOfKeyString = function (entity, keyString) {
     var v = entity

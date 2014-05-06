@@ -76,10 +76,28 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-lg-2 control-label">微信公众号</label>
+            <label class="col-lg-2 control-label">微信公众号原始ID</label>
             <div class="col-lg-6">
                 <div class="input-group">
                     <input class="form-control" type="text" ng-model="entity.weixin.originID">
+                    <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">微信公众号应用ID</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" type="text" ng-model="entity.weixin.devToken.appid">
+                    <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">微信公众号秘钥</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" type="text" ng-model="entity.weixin.devToken.secret">
                     <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
                 </div>
             </div>
