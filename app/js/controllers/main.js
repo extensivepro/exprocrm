@@ -95,8 +95,13 @@ function MainController($scope, $modal, Users, Merchants, Shops, localStorageSer
   };
   $scope.$watch('currentMerchant.merchant', function () {
     if ($scope.currentMerchant.merchant['id']) {
-      Shops.query({merchantID:$scope.currentMerchant.merchant.id, $limit:100}, function (shops) {
-        $scope.currentShowShop.shop = shops[2] || shops[0];
+      var obj = {
+        merchantID:$scope.currentMerchant.merchant.id,
+        $limit:100
+      };
+      obj.status = JSON.stringify({$ne: 'removed'})
+      Shops.query(obj, function (shops) {
+        $scope.currentShowShop.shop = shops[0];
         $scope.allShop = shops;
       });
     }
