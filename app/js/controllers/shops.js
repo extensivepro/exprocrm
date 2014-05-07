@@ -44,6 +44,19 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector, $modal)
   		  status: 'removed'
   	  }
   	  Shops.update(obj, function (result){
+        var allShop = $scope.allShop;
+        var id = obj.id;
+        var i = undefined;
+        for (var v = 0; v < allShop.length; v++) {
+          if (id == allShop[v].id) {
+            i = v;
+            break;
+          }
+        }
+        $scope.allShop.splice(i, 1);
+        if ($scope.currentShowShop.shop.id == id) {
+          $scope.currentShowShop.shop = $scope.allShop[0] || {id:'0'};
+        }
   		  $scope.showList();
   	  }, function(err){
   		  console.log('err: \n' , err);
