@@ -62,6 +62,10 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
   $scope.isBtnGroup = true; //
   $scope.btns = [
     {
+      key:'',
+      value: '全部'
+    },
+    {
       key:'placed',
       value:'下单'
     },
@@ -82,13 +86,16 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
       value:'取消'
     }
   ];
+  $scope.currentBtn = {};
+  $scope.currentBtn.btn = $scope.btns[0];
   $scope.search = {};
-  $scope.filter = function (key) {
+  $scope.$watch('currentBtn.btn', function () {
+    var key = $scope.currentBtn.btn.key;
     $scope.search.text = key;
     $timeout(function () {
       $scope.refreshList();
     }, 10)
-  }
+  });
   $scope.isHide = true; //隐藏新增按钮
   $scope.params['shop.id'] = JSON.stringify({"$in":$scope.currentMerchant.merchant.shopIDs});
   $scope.countQs['shop.id'] = JSON.stringify({"$in":$scope.currentMerchant.merchant.shopIDs});
