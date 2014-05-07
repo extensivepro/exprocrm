@@ -10,7 +10,7 @@ function TagsController($scope, $timeout, Merchants, $modal, $log){
       id: $scope.currentMerchant.merchant.id
     }
     Merchants.get(obj, function (result) {
-      $scope.itemTags = result.itemTags;
+      $scope.itemTags = result.itemTags || [];
     }, function (err) {
       console.log('err:\n', err);
     })
