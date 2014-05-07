@@ -43,10 +43,11 @@
         <div class="form-group">
             <label class="col-lg-2 control-label">类别</label>
             <div class="col-lg-6">
-                <div class="input-group">
-                    <input class="form-control" name="tags" type="text" ng-model="entity.tags[0]">
-                    <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
-                </div>
+                <select class="form-control" ng-model="entity.tags"
+                        ng-options="tag for tag in merchantItemTags"></select>
+            </div>
+            <div class="col-lg-2">
+                <button class="btn btn-info" ng-click="open()" title="新建标签"><i class="fa fa-plus"></i>新建</button>
             </div>
         </div>
         <div class="form-group">
@@ -143,3 +144,20 @@
 </div>
 
 
+<div class="row">
+    <script type="text/ng-template" id="modalAddTagInItem.html">
+        <div class="modal-header">
+            <h3 style="text-align: center; color: #3c763d;">新增商品标签</h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-group has-success has-feedback">
+                <label class="control-label" for="inputSuccess2">请输入标签名</label>
+                <input type="text" class="form-control" id="inputSuccess2" ng-model="tag.name">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">保存</button>
+            <button class="btn btn-warning" ng-click="cancel()">取消</button>
+        </div>
+    </script>
+</div>
