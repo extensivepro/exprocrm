@@ -14,9 +14,9 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       entity.fieldClass = entity.fieldClass || {}
       return (entity.price/100).toFixed(2)}, hide:false},
     {name: "mnemonicCode", title: "助记码", listHide: true, createHide:true, hide:true, isProfileHide:true},
-    {name: "tags", title: "类别", createHide: true, listHide: true, hide: false, isProfileHide:false, value: function (entity) {
-      if(entity.hasOwnProperty('tags') && entity.tags.length) {
-        return entity.tags.toString();
+    {name: "tags", title: "类别", createHide: true, listHide: false, hide: false, isProfileHide:false, value: function (entity) {
+      if(entity.tags && entity.tags.length > 0) {
+        return entity.tags.join(',');
       } else {
         return "未分类"
       }
