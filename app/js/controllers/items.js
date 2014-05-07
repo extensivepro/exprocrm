@@ -1,4 +1,4 @@
-function ItemsController($scope, Items, Pagination, $timeout, $injector, $window, $fileUploader, Merchants, $resource){
+function ItemsController($scope, Items, Pagination, $timeout, $injector, $window, $fileUploader, Merchants, $resource, $modal, $log){
   $injector.invoke(BasicController, this, {$scope: $scope});
   $scope.resource = Items
   $scope.searchOptions.fields = ['name']
@@ -65,14 +65,14 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
 
 
   // update a item
-  $scope.update = function (entity) {
+  $scope.update = function (obj) {
+    var entity = angular.copy(obj);
     var tags = [];
-    tags.push(entity.tags[0]);
-    var obj = entity;
-    var price = parseFloat(entity.price*100);
-    obj.price = price;
-    obj.tags = tags;
-    var resource = new $scope.resource(obj);
+    tags[0] = entity.tags;
+    delete entity.tags;
+    entity.tags = tags;
+    entity.price = parseFloat(entity.price*100);
+    var resource = new $scope.resource(entity);
     resource.$update(function (err) {
       $scope.showList()
     }, function (err) {
@@ -82,14 +82,23 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
 
   // init for edit page
   $scope.showEdit = function (entity) {
-    if (!entity.hasOwnProperty('tags')) {
-      entity.tags = [''];
-    }
-    entity.price = (entity.price/100).toFixed(2);
-    $scope.entity = entity;
-    $scope.activeView = "views/item/edit.html";
-    $scope.trackListPage.activeView = '';
-    $scope.showChangePic = false
+    Merchants.get({id:$scope.currentMerchant.merchant.id}, function (result) {
+      $scope.merchantItemTags = result.itemTags || [];
+      if (!entity.hasOwnProperty('tags')) {
+        entity.tags = [''];
+      }
+      entity.price = (entity.price/100).toFixed(2);
+      var tag = entity.tags[0];
+      delete  entity.tags;
+      entity.tags = tag;
+      $scope.entity = entity;
+      $scope.activeView = "views/item/edit.html";
+      $scope.trackListPage.activeView = '';
+      $scope.showChangePic = false
+    }, function (err) {
+      console.log('err:\n', err);
+    });
+
   }
 
   // in edit page we can change the pic of the item
@@ -214,9 +223,10 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
     });
     Merchants.get({id:$scope.currentMerchant.merchant.id}, function (result) {
       $scope.merchantItemTags = result.itemTags || [];
+      $scope.entity.tags = $scope.merchantItemTags[0] || '';
     }, function (err) {
       console.log('err:\n', err);
-    })
+    });
   }
   $scope.uploadInCreate = function () {
     var queue = $scope.uploader.queue;
@@ -251,22 +261,6 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       imagesID:[]
     };
     obj.tags.push($scope.entity.tags);
-    var tempArr = [];
-    obj.tags.forEach(function (tag) {
-      if ($scope.merchantItemTags.indexOf(tag) == -1) {
-        tempArr.push(tag);
-      }
-    });
-    if (tempArr.length) {
-      var qsMerchant = {
-        "id": $scope.currentMerchant.merchant.id,
-        "itemTags": {$pushAll: tempArr}
-      }
-      Merchants.update(JSON.stringify(qsMerchant), function (result) {
-      }, function (err) {
-        console.log('err:\n', err);
-      })
-    }
     Items.save(obj, function (result) {
       $window.item = {};
       $window.item.id = result.id;
@@ -299,5 +293,53 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
   $scope.params['merchantID'] = $scope.currentMerchant.merchant.id;
   $scope.countQs['merchantID'] = $scope.currentMerchant.merchant.id;
   $scope.defaultString = "name";
+  $scope.open = function () {
+    var modalInstance = $modal.open({
+      templateUrl: 'modalAddTagInItem.html',
+      controller: ModaCreateTagInItemCtrl,
+      resolve: {
+        itemTags: function () {
+          return $scope.merchantItemTags;
+        }
+      }
+    });
+    modalInstance.result.then(function (newTag) {
+      var obj = {
+        "id": $scope.currentMerchant.merchant.id,
+        "itemTags": {$push: newTag}
+      };
+      Merchants.update(JSON.stringify(obj), function (result) {
+        $scope.merchantItemTags = result.itemTags;
+        $scope.entity.tags = newTag;
+      }, function (err) {
+        console.log('err:\n', err);
+      });
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  }
   widthFunctions();
 }
+var ModaCreateTagInItemCtrl = function ($scope, $modalInstance,itemTags) {
+  $scope.tag = {
+    name:''
+  };
+  $scope.ok = function () {
+    var flag = true;
+    itemTags.forEach(function (tag) {
+      if (tag == $scope.tag.name) {
+        flag = false;
+        alert('创建失败，标签名重复');
+        return;
+      }
+    });
+    if (!$scope.tag.name) {
+      alert('标签名不能为空');
+    } else if(flag) {
+      $modalInstance.close($scope.tag.name);
+    }
+  };
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+};
