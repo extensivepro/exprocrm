@@ -25,7 +25,7 @@ function MainController($scope, $modal, Users, Merchants, Shops, localStorageSer
       {name: "商品管理", icon: "fa fa-barcode", path: "views/item/index.html"},
       {name: "标签管理", icon: "fa fa-tags", path: "views/tags/index.html"}
     ]},
-    {name: "商户管理", icon: "fa fa-building-o", path: "views/shop/index.html", submenus:[
+    {name: "商户管理", icon: "fa fa-building-o", path: "views/merchant/index.html", submenus:[
       {name: "当前商户", icon: "fa fa-cog", path: "views/merchant/index.html"},
       {name: "门店管理", icon: "fa fa-home", path: "views/shop/index.html"},
       {name: "员工管理", icon: "fa fa-users", path: "views/employee/index.html"},

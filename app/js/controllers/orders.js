@@ -35,19 +35,22 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
       entity.fieldClass = entity.fieldClass || {}
       if (entity.status === 'placed') {
           entity.fieldClass.status = "label label-info"
-          return '下单'
+          return '已下单'
       } else if (entity.status === 'accepted') {
           entity.fieldClass.status = "label label-primary"
-          return  '接受'
+          return  '已接受'
       } else if (entity.status === 'rejected') {
           entity.fieldClass.status = "label label-danger"
-          return '拒绝'
+          return '已拒绝'
       } else if (entity.status === 'executed') {
         entity.fieldClass.status = "label label-success"
-        return '履行'
+        return '已履行'
       } else if (entity.status === 'canceled') {
         entity.fieldClass.status = "label label-default"
-        return '取消'
+        return '已取消'
+      } else if (entity.status === 'paid') {
+        entity.fieldClass.status = "label label-default"
+        return '已结账'
       } else {
         return ''
       }
@@ -67,23 +70,27 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
     },
     {
       key:'placed',
-      value:'下单'
+      value:'已下单'
     },
     {
       key:'accepted',
-      value:'接受'
+      value:'已接受'
     },
     {
       key:'rejected',
-      value:'拒绝'
+      value:'已拒绝'
     },
     {
       key:'executed',
-      value:'履行'
+      value:'已履行'
     },
     {
       key:'canceled',
-      value:'取消'
+      value:'已取消'
+    },
+    {
+      key:'paid',
+      value:'已结账'
     }
   ];
   $scope.currentBtn = {};
