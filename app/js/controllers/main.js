@@ -1,4 +1,4 @@
-function MainController($scope, $modal, Users, Merchants, Shops, localStorageService) {
+function MainController($scope, $modal, Users, Merchants, Shops, localStorageService, $location) {
   if (!$scope.me) $scope.me = {displayName: '未登录'};
   $scope.hideMainMenu = false;
   $scope.switchMainMenu = function () {
@@ -68,6 +68,10 @@ function MainController($scope, $modal, Users, Merchants, Shops, localStorageSer
   $scope.allMerchant = [];
   $scope.init = function () {
     Users.me(function (me) {
+      if (!me.id) { // 用户会话不存在则重定向到登录界面
+        $location.path('/home');
+        return;
+      }
       $scope.me = me;
       Merchants.query({'owner.id':me.id}, function (merchants) {
         var index = 0;
@@ -101,8 +105,8 @@ function MainController($scope, $modal, Users, Merchants, Shops, localStorageSer
       };
       obj.status = JSON.stringify({$ne: 'removed'})
       Shops.query(obj, function (shops) {
-        $scope.currentShowShop.shop = shops[0];
-        $scope.allShop = shops;
+        $scope.currentShowShop.shop = shops[0] || {id:'0'};
+        $scope.allShop = shops || [{id:'0'}];
       });
     }
   })

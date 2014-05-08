@@ -129,6 +129,7 @@ function UserSettingController($scope, Users, $modalInstance, me) {
     else if ($scope.me["name"].length == 0)
       $scope.alert = { type: 'danger', msg: "姓名不能为空" };
     else {
+      $scope.me.displayName = $scope.me.name;
       Users.save({userID:$scope.me.id}, $scope.me, function() {
         $scope.alert = { type: 'success', msg: "用户设定成功" };
         setTimeout(function(){$modalInstance.close();}, 500);
