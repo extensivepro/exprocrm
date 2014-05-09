@@ -57,6 +57,12 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
     }},
     {name: "createdAt", title: "创建时间"}
   ];
+  
+  // profile
+  $scope.profileShortcuts = [
+    {"class": "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-print", text: "打印", op:"print"}
+  ];
+  
   $scope.showProfile = function (entity) {
     $scope.entity = entity || $scope.entity
     $scope.activeView = "views/orders/profile.html";
@@ -103,6 +109,59 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
       $scope.refreshList();
     }, 10)
   });
+  
+  var now = function (order) {    
+    var d = new Date(order.updateAt*1000);    
+    return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes();
+  }
+  var destination = function (order) {    
+    var str = "";    
+    if(order.type === 'booking' && order.openRes) {        
+      str += "桌号："+order.openRes.code+"<br>"        
+      str += "\n"    
+    } else if( order.type === 'deliver' && order.receipt) {        
+      if(!order.receipt.name) order.receipt.name = "未提供";        
+      if(!order.receipt.phone) order.receipt.phone = "未提供";        
+      if(!order.receipt.address) order.receipt.address = "未提供";        
+      str += "客户："+order.receipt.name+"<br>电话："+order.receipt.phone+"<br>地址："+order.receipt.address+"<br><br>"    
+    }    
+    return str;
+  }
+  
+  var formatExecuted = function (order) {    
+    var str ="<big>出品单</big><br><p>序号："+order.sequenceNumber+"<br>"+order.shop.merchant.name+"-"+order.shop.name+"<br>"
+    str += "时间："+now(order)+"<br><br>"
+    str += destination(order)
+    str += "<table rules=\"groups\"><thead><tr><th>品名</th><th>数量</th><th>金额</th></tr></thead><tbody>"
+    order.items.forEach(function (item) {
+      str += "<tr><td>"+item.item.name+"</td><td>"+item.quantity+"</td><td>"+item.dealPrice*item.quantity/100+"</td></tr>"
+    });
+    str += "</tbody><tfoot><tr><td>总计:</td><td>"+order.quantity+"件</td><td>"+order.fee/100+"</td></tr></tfoot></table>"
+    str += "<strong>"
+    if(order.payment.status === 'paid') {
+      str += "已付清"
+    }else {
+      str += "未付款"
+    }
+    str += "</strong><br><br>备注：<br>"
+    order.memo.forEach(function (m) {    
+      if(m.message) str += m.message+"<br>"
+    })
+    str +="<br><br><br></p>"
+    return str
+  }
+  
+  $scope.print = function (entity) {
+    var mywindow = window.open('', 'print preview', 'height=600,width=600');
+    mywindow.document.write('<html><head><title>打印预览</title>');
+    mywindow.document.write('<STYLE TYPE="text/css">p{font-size: 6pt} TD{font-size: 6pt;} th{font-size: 6pt}</STYLE></head><body >');
+    mywindow.document.write(formatExecuted(entity));
+    mywindow.document.write('</body></html>');
+
+    mywindow.print();
+    mywindow.close();
+  }
+  
   $scope.isHide = true; //隐藏新增按钮
   $scope.params['shop.id'] = JSON.stringify({"$in":$scope.currentMerchant.merchant.shopIDs});
   $scope.countQs['shop.id'] = JSON.stringify({"$in":$scope.currentMerchant.merchant.shopIDs});
