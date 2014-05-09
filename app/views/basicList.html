@@ -4,15 +4,10 @@
       <div class="col-xs-4">
         <ol class="breadcrumb"
             style="background-color: #36a9e1; margin: 0px; padding: 0px; padding-left: 0px; margin-bottom: 0px; margin-top: 8px; margin-left: 15px;">
-          <li ng-if="currentView.name == '销售流水' || currentView.name == '退货流水' || currentView.name == '储值流水' || currentView.name == '订单流水'"><a
-                  style="color: #fff">营业流水</a></li>
-          <li ng-if="currentView.name == '商品管理' || currentView.name == '标签管理'"><a
-                  style="color: #fff">品类管理</a></li>
-          <li ng-if="currentView.name == '商店管理' || currentView.name == '员工管理' || currentView.name == '库存记录' || currentView.name == '会员管理' || currentView.name == '积分管理' || currentView.name == '当前商户'">
-            <a style="color: #fff">商户管理</a></li>
-          <li><a style="color: #fff">{{currentView.name}}</a></li>
+          <li><a style="color: #fff"><span ng-bind="currentViewParentName"></span></a></li>
+
+          <li><a style="color: #fff"> <span ng-bind="currentView.name"></span></a></li>
         </ol>
-        <!--<h2><i ng-class="currentView.icon"></i><span class="break"></span>{{currentView.name}}</h2>-->
       </div>
       <div class="col-xs-6"></div>
       <div class="col-xs-2">

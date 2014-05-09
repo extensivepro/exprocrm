@@ -1,10 +1,22 @@
 <div class="row" ng-controller="TagsController" ng-init="init()">
     <div class="box col-lg-12">
         <div class="box-header">
-            <h2><i ng-class="currentView.icon"></i><span class="break"></span>品类管理/{{currentView.name}}</h2>
-            <div class="box-icon">
-                <a ng-click="createTag()" title="新增标签" href=""><i class="fa fa-plus"/></a>
-                <a ng-click="showList()" class="btn-close" href=""><i class="fa fa-times"></i></a>
+            <div class="row">
+                <div class="col-xs-4">
+                    <ol class="breadcrumb"
+                        style="background-color: #36a9e1; margin: 0px; padding: 0px; padding-left: 0px; margin-bottom: 0px; margin-top: 8px; margin-left: 15px;">
+                        <li><a style="color: #fff"><span>品类管理</span></a></li>
+
+                        <li><a style="color: #fff"> <span>标签管理</span></a></li>
+                    </ol>
+                </div>
+                <div class="col-xs-6"></div>
+                <div class="col-xs-2">
+                    <div class="box-icon">
+                        <a ng-click="createTag()" title="新增标签" href=""><i class="fa fa-plus"/></a>
+                        <a ng-click="showList()" class="btn-close" href=""><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="box-content">

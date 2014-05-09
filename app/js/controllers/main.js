@@ -35,10 +35,36 @@ function MainController($scope, $modal, Users, Merchants, Shops, localStorageSer
   ];
   $scope.trackListPage = {};
   $scope.currentView = $scope.views[0];
+  $scope.mapCurrentView = function () { // 获得父节点与子节点的map，用于导航栏使用
+    var views = $scope.views;
+    $scope.mapForViewName = [];
+    for (var v = 0; v < views.length; v++) {
+      if (views[v].submenus) {
+        var c = views[v];
+        c.submenus.forEach(function (i) {
+          var obj = {};
+          obj[c.name] = i.name;
+          $scope.mapForViewName.push(obj);
+        });
+      }
+    }
+  };
+  $scope.mapCurrentView();
 
   $scope.selectView = function (view) {
+    if (view.submenus) {
+      return;
+    }
     $scope.currentView = view;
     $scope.trackListPage.activeView = 'views/basicList.html';
+    for (var v = 0; v < $scope.mapForViewName.length; v++) {
+      var i = $scope.mapForViewName[v];
+      var key = Object.keys(i)[0];
+      if (i[key] == $scope.currentView.name) {
+        $scope.currentViewParentName = key; // 获得currentView的父节点
+        return;
+      }
+    }
   };
 
   $scope.selectViewByPath = function (path) {
