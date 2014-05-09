@@ -7,6 +7,7 @@ function MainController($scope, $modal, Users, Merchants, Shops, localStorageSer
   
   $scope.views = [
     {name: "控制面板", icon: "fa fa-dashboard", path: "views/analysis/dashboard.html"},
+    {name: "营业日报", icon: "fa fa-bullseye", path: "views/analysis/dayBillReportAnalysis.html"},
     {name: "统计分析", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html", submenus: [
       {name: "销售统计", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html"},
       {name: "进货统计", icon: "fa fa-truck", path: "views/analysis/skusAnalysis.html"}
