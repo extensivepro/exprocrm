@@ -71,10 +71,19 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector, $modal)
   $scope.update = function (entity) {
     var obj = entity;
     console.log('entity:\n', entity);
-    var printers = entity.printers.split(',') || [];
-    obj.printers = printers;
-    obj.location.latitude = parseFloat($("#jindu").val());
-    obj.location.longitude = parseFloat($("#weidu").val());
+    if (entity.printers) {
+      if (entity.printers.indexOf(',') == -1) {
+        obj.printers = [entity.printers];
+      } else {
+        var printers = entity.printers.split(',') || [];
+        obj.printers = printers;
+      }
+    } else {
+      obj.printers = [];
+    }
+
+    obj.location.longitude = parseFloat($("#jindu").val());
+    obj.location.latitude = parseFloat($("#weidu").val());
     var resource = new $scope.resource(obj);
     resource.$update(function (err) {
       $scope.showList()
@@ -101,11 +110,17 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector, $modal)
       "type": "table",
       "serviceability": 1,
       "code": "16",
-      "codename": "桌号"
+      "codename": "桌号",
+      "sceneID":"001"
     };
     $scope.entity.openRes = $scope.entity.openRes || [];
     $scope.entity.openRes.push(obj);
   };
+  $scope.minusAddRes = function () {
+    if ($scope.entity.openRes.length) {
+      $scope.entity.openRes.pop();
+    }
+  }
   $scope.showCreate = function () {
     $scope.entityForCreate = {};
     $scope.activeView = "views/shop/create.html";
@@ -165,7 +180,7 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector, $modal)
     }
     var location = $scope.entity.location;
     if (location.latitude && location.longitude) {
-      generateMap(location.latitude, location.longitude); //之前已经编辑过
+      generateMap(location.longitude, location.latitude); //之前已经编辑过
     } else {
       newMap(); //第一次编辑
     }
