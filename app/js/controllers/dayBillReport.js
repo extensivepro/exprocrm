@@ -38,22 +38,14 @@ function DayBillReportController($scope, Bills, Statistics, Pagination, $timeout
       var year = d.getFullYear();
       var month = d.getMonth();
       var date = d.getDate();
-      console.log('year:\n', year);
-      console.log('month:\n', month);
-      console.log('date:\n', date);
       var startDate = new Date(year, month, date);
       var endDate = new Date(year, month, date+1);
-      console.log('startDate.getTime():\n', startDate.getTime());
-      console.log('endDate.getTime():\n', endDate.getTime());
       $scope.start = Math.round(startDate.getTime() / 1000);
       $scope.end = Math.round(endDate.getTime() / 1000);
-      console.log('$scope.start:\n', $scope.start);
-      console.log('$scope.end:\n', $scope.end);
       var obj = JSON.stringify({
         '$gt':$scope.start+28800,
         '$lt':$scope.end+28800
       });
-      console.log('obj:\n', obj);
       $scope.params['merchantID'] = $scope.currentMerchant.merchant.id;
       $scope.countQs['merchantID'] = $scope.currentMerchant.merchant.id;
       $scope.params['createdAt'] = obj;
