@@ -269,14 +269,14 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       $scope.isHideButton = true;
       $scope.info = true;
       $scope.alert = 'alert alert-success';
-      $scope.msg = '菜品信息创建成功，请上传菜品照片，完成最后的创建';
+      $scope.msg = '商品信息创建成功，请上传商品照片，完成最后的创建';
       $timeout(function () {
         $scope.info = false;
       }, 2000);
     }, function (err) {
       $scope.info = true;
       $scope.alert = 'alert alert-danger';
-      $scope.msg = '菜品信息创建失败';
+      $scope.msg = '商品信息创建失败';
       $timeout(function () {
         $scope.info = false;
       }, 4000);

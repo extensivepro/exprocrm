@@ -3,7 +3,7 @@
  * @author tsq <1530234656@qq.com>.
  * @date 14-5-9
  */
-function DayBillReportController($scope, Bills, Statistics, Pagination, $timeout, $injector) {
+function DayBillReportController($scope, Bills, Deals, Items, Statistics, Pagination, $timeout, $injector) {
   $injector.invoke(BasicController, this, {$scope: $scope});
   $scope.resource = Bills;
   $scope.initDate = function () {
@@ -32,8 +32,19 @@ function DayBillReportController($scope, Bills, Statistics, Pagination, $timeout
   };
   $scope.$watch('dt', function () {
     if ($scope.dt) {
-      $scope.sales = {};
-      $scope.cash = {};
+      $scope.sales = {
+        total:0,
+        count:0
+      };
+      $scope.returns = {
+        total:0,
+        count:0
+      };
+      $scope.cash = {
+        cash:0,
+        weixin:0
+      }
+      $scope.profit = 0;
       var d = $scope.dt;
       var year = d.getFullYear();
       var month = d.getMonth();
@@ -64,6 +75,7 @@ function DayBillReportController($scope, Bills, Statistics, Pagination, $timeout
       paramForCash.target = 'cashes';
       var paramProfit = angular.copy(param);
       paramProfit.target = 'profits';
+      // 获得营业额数据
       Statistics.query(paramForBill, function(result){
         if (result.length) {
           $scope.sales = result[0].value.sale;
@@ -71,6 +83,7 @@ function DayBillReportController($scope, Bills, Statistics, Pagination, $timeout
           $scope.returns = result[0].value['return'];
         }
       });
+      // 获得现金流数据
       Statistics.query(paramForCash, function(result){
         if (result.length) {
           $scope.cash  = {
@@ -79,6 +92,45 @@ function DayBillReportController($scope, Bills, Statistics, Pagination, $timeout
           };
         }
       });
+      // 获得利润数据
+      var shopIDs = JSON.stringify({
+        "$in": $scope.currentMerchant.merchant.shopIDs||[]
+      });
+      var paramForProfit = {
+        shopID: shopIDs,
+        createdAt: obj
+      };
+      Deals.query(paramForProfit, function (results) {
+        var itemArr = [];
+        for (var v = 0; v < results.length; v++) {
+            itemArr.push(results[v].items);
+        }
+        var allItem = []; //当天交易的所有商品信息
+        for (var x = 0; x < itemArr.length; x++) {
+          var items = itemArr[x];
+          for (var y = 0; y < items.length; y++) {
+            allItem.push(items[y]);
+          }
+        }
+        console.log('allItem:\n', allItem);
+        if (allItem.length) {
+          var totalProfit = 0;
+          var jici = 0;
+          allItem.forEach(function (item, index) {
+            Items.get({id:item.item.id}, function (result) {
+              jici++;
+              var fold = result.itemSkus.fold;
+              var perProfit = ((parseFloat(item.dealPrice) - parseFloat(fold))/100).toFixed(2);
+              totalProfit += (item.quantity * perProfit);
+              if (jici = allItem.length) {
+                $scope.profit = totalProfit;
+              }
+            });
+          })
+        }
+      }, function (err) {
+        console.log('err:\n', err);
+      })
     }
   });
 
