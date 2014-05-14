@@ -146,6 +146,7 @@ function ShopsController($scope, Shops, Pagination, $timeout, $injector, $modal)
     newOne.$save(function (result) {
       Shops.get({id:result.id}, function (result) {
         $scope.allShop.push(result);
+        $scope.currentMerchant.merchant.shopIDs.push(result.id);
       }, function (err) {
         console.log('err:\n', err);
       })
