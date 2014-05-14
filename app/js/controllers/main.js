@@ -105,7 +105,7 @@ function MainController($scope, $modal, Users, Merchants, Shops, localStorageSer
         return;
       }
       $scope.me = me;
-      Merchants.query({'owner.id':me.id}, function (merchants) {
+      Merchants.query({'owner.id':me.id, '$limit':100}, function (merchants) {
         var index = 0;
         var localStrage = localStorageService.get('localStorageCurrentMerchant');
         if (localStrage && localStrage.id) {
