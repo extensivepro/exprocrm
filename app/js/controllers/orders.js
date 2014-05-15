@@ -30,8 +30,8 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
     {name: "fee", title: "费用/元", value: function (entity) {
       return (entity.fee / 100).toFixed(2);
     }},
-    {name: "quantity", title: "数量"},
-    {name: "status", title: "状态", value: function (entity) {
+    {name: "quantity", title: "数量"},/*
+    {name: "status", title: "订单状态", value: function (entity) {
       entity.fieldClass = entity.fieldClass || {}
       if (entity.status === 'placed') {
           entity.fieldClass.status = "label label-info"
@@ -53,6 +53,23 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
         return '已结账'
       } else {
         return ''
+      }
+    }},*/
+    {name: "status", title: "付款状态", value: function (entity) {
+      if (!entity.payment) {
+        entity.payment = {
+
+        }
+      }
+      entity.fieldClass = entity.fieldClass || {}
+      if (entity.payment.status === 'paid') {
+        entity.fieldClass.status = "label label-info"
+          return '已付款'
+      } else if (entity.payment.status === 'unpaid'){
+        entity.fieldClass.status = "label label-danger"
+        return '未付款'
+      } else {
+        return '';
       }
     }},
     {name: "createdAt", title: "创建时间"}
@@ -109,7 +126,42 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
       $scope.refreshList();
     }, 10)
   });
-  
+  $scope.onlyUnpaid = true;
+  $scope.filterByPaid = function (flag) {
+    $scope.onlyUnpaid = !$scope.onlyUnpaid;
+    if (flag) {
+      $scope.params['payment.status'] = "unpaid"
+      $scope.countQs['payment.status'] = "unpaid";
+    } else {
+      delete $scope.params['payment.status'];
+      delete $scope.countQs['payment.status']
+    }
+    $timeout(function () {
+      $scope.refreshList();
+    }, 20)
+  }
+  $scope.checkPaidStatus = function (entity) {
+    $scope.unchecked = false;
+    if (entity.payment&& (entity.payment.status == 'unpaid')) {
+      $scope.unchecked = true;
+    }
+  };
+  $scope.paid = function () {
+    var obj = {
+      id : $scope.entity.id,
+      payment: {
+        type: "cash",
+        status: "paid"
+      }
+    };
+    if (confirm("确认已付款吗?")) {
+      Orders.update(obj, function (result) {
+        $scope.showList()
+      }, function (err) {
+        console.log('err:\n', err);
+      })
+    }
+  }
   var now = function (order) {    
     var d = new Date(order.updateAt*1000);    
     return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes();

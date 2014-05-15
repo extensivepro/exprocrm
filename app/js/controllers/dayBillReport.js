@@ -140,6 +140,15 @@ function DayBillReportController($scope, Bills, Deals, Items, Statistics, Pagina
             "$in": ids
         });
         Items.query(paramForItem, function (result) { // 从items中获得当天所卖所有商品的信息
+          var result = result.map(function (r) {
+            if (!r.itemSkus) {
+              r.itemSkus = {
+                totalQuantity:0,
+                fold: 0
+              }
+            }
+            return r;
+          })
           var uniqueItem = []; // 重构result，将其拆分成一个数组。
           result.forEach(function (r) {
             var obj = {}; // 数组的元素是对象，对象的key是商品的id，对象的value是商品的itemSkus属性
@@ -172,7 +181,9 @@ function DayBillReportController($scope, Bills, Deals, Items, Statistics, Pagina
 
 
   $scope.fields = [
-    {name: "billNumber", title: "账单号"},
+    {name: "billNumber", title: "账单号", value: function (entity) {
+      return parseInt(entity.billNumber, 10);
+    }},
     {name: "discountAmount", title: "折扣金额", value: function (entity) {
       return (entity.discountAmount/100).toFixed(2);
     }},

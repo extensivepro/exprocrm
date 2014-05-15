@@ -8,9 +8,9 @@ function MainController($scope, $modal, Users, Merchants, Shops, localStorageSer
   $scope.views = [
     {name: "控制面板", icon: "fa fa-dashboard", path: "views/analysis/dashboard.html"},
     {name: "营业报表", icon: "fa fa-bullseye", path: "views/analysis/dailyReport/dayBillReportAnalysis.html", submenus: [
-      {name: "日报", icon: "fa fa-cny", path: "views/analysis/dailyReport/dayBillReportAnalysis.html"},
+      {name: "日报", icon: "fa fa-cny", path: "views/analysis/dailyReport/dayBillReportAnalysis.html"}/*,
       {name: "周报", icon: "fa fa-dollar", path: "views/analysis/dailyReport/dayBillReportAnalysis.html"},
-      {name: "月报", icon: "fa fa-gbp", path: "views/analysis/dailyReport/dayBillReportAnalysis.html"}
+      {name: "月报", icon: "fa fa-gbp", path: "views/analysis/dailyReport/dayBillReportAnalysis.html"}*/
     ]},
     {name: "统计分析", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html", submenus: [
       {name: "销售统计", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html"},

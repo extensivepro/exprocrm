@@ -6,14 +6,17 @@
     </div>
 </div>
 <div class="box-content">
-    <div class="col-lg-12">
+    <div class="col-lg-12" ng-init="checkPaidStatus(entity)">
        
-       <a ng-repeat="shortcut in profileShortcuts" ng-class="shortcut.class"
+       <a ng-repeat="shortcut in profileShortcuts"  ng-class="shortcut.class"
            ng-click="operateFunc(entity, shortcut.op)">
             <i ng-class="shortcut.icon"/>
             <p>{{shortcut.text}}</p>
         </a>
-       
+       <a style="margin-right: 5px" ng-if="unchecked" class="box quick-button-small col-lg-1 col-md-2 col-xs-6" ng-click="paid()">
+           <i class="fa fa-check"></i>
+           <p>确认</p>
+       </a>
 
     </div>
 
