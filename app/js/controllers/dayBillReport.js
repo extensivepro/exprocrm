@@ -172,26 +172,27 @@ function DayBillReportController($scope, Bills, Deals, Items, Statistics, Pagina
 
   $scope.fields = [
     {name: "billNumber", title: "账单号"},
-    {name: "discountAmount", title: "折扣数", value: function (entity) {
+    {name: "discountAmount", title: "折扣金额", value: function (entity) {
       return (entity.discountAmount/100).toFixed(2);
     }},
     {name: "memberSettlement", title: "顾客", value:function(entity) {
-      if (!entity.hasOwnProperty('memberSettlement')) {
-        return "";
-      } else if (entity.memberSettlement.hasOwnProperty('payeeAccount'))  {
-        return entity.memberSettlement.payeeAccount.name;
-      } else if (entity.memberSettlement.hasOwnProperty('payerAccount')){
-        return entity.memberSettlement.payerAccount.name;
+      if (entity.memberSettlement) {
+        var m = entity.memberSettlement;
+        var p = m.payerAccount || m.payeeAccount;
+        return p.name;
       } else {
-        return "";
+        return '走入顾客';
       }
     }},
     {name: "amount", title: "消费金额", value:function(entity) {
-      if (entity.dealType == 'deal' || entity.dealType == 'writedown') {
-        return parseInt(entity.amount)/100*(-1).toFixed(2);
+      var type = entity.dealType;
+      if (type == 'prepay' || type == 'deal') {
+        return ('+') + ((parseInt(entity.amount)- parseInt(entity.discountAmount))/100).toFixed(2);
       }
-      else {
-        return '+' + (entity.amount/100).toFixed(2);
+      else if(type == 'return'){
+        return '-' + ((parseInt(entity.amount)- parseInt(entity.discountAmount))/100).toFixed(2);
+      } else {
+        return (entity.amount/100).toFixed(2);
       }
     }},
     {name: "agentName", title: "经手人"},
