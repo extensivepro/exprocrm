@@ -258,7 +258,11 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       model: $scope.entity.model,
       tags: [],
       images:[],
-      imagesID:[]
+      imagesID:[],
+      itemSkus: {
+        fold: 0,
+        totalQuantity: 0
+      }
     };
     obj.tags.push($scope.entity.tags);
     Items.save(obj, function (result) {
