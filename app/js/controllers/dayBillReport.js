@@ -81,6 +81,7 @@ function DayBillReportController($scope, Bills, Deals, Items, Statistics, Pagina
           $scope.sales = result[0].value.sale;
           $scope.sales.total = $scope.sales.total/100;
           $scope.returns = result[0].value['return'];
+          $scope.returns.total = $scope.returns.total/100;
         }
       });
       // 获得现金流数据
@@ -189,10 +190,8 @@ function DayBillReportController($scope, Bills, Deals, Items, Statistics, Pagina
       if (type == 'prepay' || type == 'deal') {
         return ('+') + ((parseInt(entity.amount)- parseInt(entity.discountAmount))/100).toFixed(2);
       }
-      else if(type == 'return'){
+      else if(type == 'return' || type == 'writedown'){
         return '-' + ((parseInt(entity.amount)- parseInt(entity.discountAmount))/100).toFixed(2);
-      } else {
-        return (entity.amount/100).toFixed(2);
       }
     }},
     {name: "agentName", title: "经手人"},
