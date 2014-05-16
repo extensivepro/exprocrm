@@ -10,6 +10,13 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
     {name: "code", title: "编码", required: true, hide: true, createHide:true},
     {name: "name", title: "品名", required: true, hide:false},
     {name: "model", title: "型号", createHide:true, hide:false},
+    {name: "itemSkus", title: "成本", createHide:true, hide:true, value: function (entity) {
+      if (entity.itemSkus) {
+        return (entity.itemSkus.fold / 100).toFixed(2);
+      } else {
+        return '0.00';
+      }
+    }},
     {name: "price", title: "售价", required: true, value:function(entity) {
       entity.fieldClass = entity.fieldClass || {}
       return (entity.price/100).toFixed(2)}, hide:false},
