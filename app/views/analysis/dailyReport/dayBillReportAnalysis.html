@@ -147,7 +147,7 @@
                                   </tr>
                                   </thead>
                                   <tbody>
-                                  <tr class="tr" style="" ng-repeat="entity in entities">
+                                  <tr class="tr" ng-repeat="entity in entities" style="cursor: pointer" ng-click="showProfile(entity)">
                                       <td class="center" ng-repeat="field in fields">
                   <span ng-class="entity.fieldClass[field.name]" ng-if="field.value">{{field.value(entity)}}
                   </span>
@@ -182,3 +182,36 @@
     </div>
 </div>
 </div>
+
+
+<script type="text/ng-template" id="dealModal.html">
+    <div class="modal-header">
+
+        <div class="row">
+            <div class="col-xs-8"><h2>商品清单- <span ng-bind="deal.buyer.name"></span></h2></div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td class="center"><h3>名称</h3></td>
+                        <td class="center"><h3>单价</h3></td>
+                        <td class="center"><h3>数量</h3></td>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in deal.items">
+                    <td class="center"><h3><span ng-bind="item.item.name"></span></h3></td>
+                    <td class="center"><h3><span ng-bind="(item.dealPrice/100).toFixed(2)"></span></h3></td>
+                    <td class="center"><h3><span ng-bind="item.quantity"></span></h3></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-primary" ng-click="cancel()">关闭</a>
+    </div>
+</script>

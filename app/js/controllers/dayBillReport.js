@@ -3,7 +3,7 @@
  * @author tsq <1530234656@qq.com>.
  * @date 14-5-9
  */
-function DayBillReportController($scope, Bills, Deals, Items, Statistics, Pagination, $timeout, $injector) {
+function DayBillReportController($scope, Bills, Deals, $modal, $log,  Items, Statistics, Pagination, $timeout, $injector) {
   $injector.invoke(BasicController, this, {$scope: $scope});
   $scope.resource = Bills;
   $scope.initDate = function () {
@@ -177,8 +177,28 @@ function DayBillReportController($scope, Bills, Deals, Items, Statistics, Pagina
     }
   });
 
-
-
+  $scope.showProfile = function (entity) {
+    Deals.get({id: entity.dealID}, function (deal) {
+      $scope.openRegModal(deal);
+    }, function (err) {
+      console.log('err:\n', err);
+    });
+  }
+  $scope.openRegModal = function (deal) {
+    var modalInstance = $modal.open({
+      templateUrl: 'dealModal.html',
+      controller: ModalShowDealsCtrl,
+      resolve: {
+        Deal: function () {
+          return deal;
+        }
+      }
+    });
+    modalInstance.result.then(function (me) {
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
 
   $scope.fields = [
     {name: "billNumber", title: "账单号", value: function (entity) {
@@ -186,7 +206,7 @@ function DayBillReportController($scope, Bills, Deals, Items, Statistics, Pagina
     }},
     {name: "discountAmount", title: "折扣金额", value: function (entity) {
       return (entity.discountAmount/100).toFixed(2);
-    }},
+    }},/*
     {name: "memberSettlement", title: "顾客", value:function(entity) {
       if (entity.memberSettlement) {
         var m = entity.memberSettlement;
@@ -195,7 +215,7 @@ function DayBillReportController($scope, Bills, Deals, Items, Statistics, Pagina
       } else {
         return '走入顾客';
       }
-    }},
+    }},*/
     {name: "amount", title: "消费金额", value:function(entity) {
       var type = entity.dealType;
       if (type == 'prepay' || type == 'deal') {
@@ -226,3 +246,10 @@ function DayBillReportController($scope, Bills, Deals, Items, Statistics, Pagina
     }}
   ];
 }
+var ModalShowDealsCtrl = function ($scope, $modalInstance, Deal) {
+  $scope.deal = Deal;
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+};

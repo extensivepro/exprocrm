@@ -162,7 +162,7 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
   });
   $scope.checkPaidStatus = function (entity) {
     $scope.unchecked = false;
-    if (entity.payment&& (entity.payment.status == 'unpaid')) {
+    if (entity.payment&& (entity.payment.status == 'unpaid'&& entity.status != 'canceled')) {
       $scope.unchecked = true;
     }
   };

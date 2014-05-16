@@ -19,7 +19,7 @@ function MainController($scope, $modal, Users, Merchants, Shops, localStorageSer
     {name: "营业流水", icon: "fa fa-bars", path: "views/deals/index.html", submenus: [
       {name: "销售流水", icon: "fa fa-shopping-cart", path: "views/deals/index.html"},
       {name: "退货流水", icon: "fa fa-exchange", path: "views/returns/index.html"},
-      {name: "储值流水", icon: "fa fa-rmb", path: "views/bills/index.html"},
+      {name: "账单流水", icon: "fa fa-rmb", path: "views/bills/index.html"},
       {name: "订单流水", icon: "fa fa-pencil-square", path: "views/orders/index.html"}
     ]},
     {name: "会员管理", icon: "fa fa-group", path: "views/members/index.html", submenus: [
