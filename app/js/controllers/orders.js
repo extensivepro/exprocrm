@@ -24,7 +24,7 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
     {name: "items", title: "商品", listHide: true, isArray:true},
     {name: "agent", title: "经手人", listHide: true, isObject: true},
     {name: "shop", title: "商店", listHide: true, isObject:true},
-    {name: "customer", title: "顾客", isObject: true, isProfileHide: true, value: function(entity) {
+    {name: "customer", title: "顾客姓名", isObject: true,  value: function(entity) {
       return entity.customer.name;
     }},
     {name: "fee", title: "费用/元", value: function (entity) {
