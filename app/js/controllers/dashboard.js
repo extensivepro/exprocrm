@@ -239,6 +239,30 @@ function DashboardController($scope, Statistics, Shops, Items) {
     skusParamInit($scope.currentMerchant.merchant.id);
     $scope.cashFlowNum = numberWithCommas($scope.saleParam.end);
     $scope.cashFlowBlk = true;
+    var d = new Date();
+    var year = d.getFullYear();
+    var month = d.getMonth();
+    var date = d.getDate();
+    var startDate = new Date(year, month, date);
+    var endDate = new Date(year, month, date+1);
+    $scope.start = Math.round(startDate.getTime() / 1000);
+    $scope.end = Math.round(endDate.getTime() / 1000);
+    var param = {
+      keyID: $scope.currentMerchant.merchant.id,
+      end: $scope.end*1000/86400000,
+      start: $scope.start*1000/86400000,
+      limit: 10000,
+      period: 'daily'
+    };
+    var paramForCash = angular.copy(param);
+    paramForCash.target = 'cashes';
+    // 获得现金流数据
+    $scope.totalCash = 0;
+    Statistics.query(paramForCash, function(result){
+      if (result.length) {
+        $scope.totalCash = ((result[0].value.cash/100) + (result[0].value.weixin/100)).toFixed(1);
+      }
+    });
     widthFunctions();
   }
 }
