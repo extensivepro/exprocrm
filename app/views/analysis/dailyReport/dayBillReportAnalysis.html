@@ -19,18 +19,16 @@
 
             </div>
             <div class="box-content">
-                    <div class="row" ng-init="initDate()">
-                        <div class="col-lg-4"></div>
-                        <div class="col-lg-4">
-                            <p class="input-group">
-                                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions"  close-text="关闭" />
-                                  <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                  </span>
-                            </p>
-                        </div>
-                        <div class="col-lg-4"></div>
-                    </div>
+              <div class="row" ng-init="initDate()">
+                  <div class="col-lg-3 col-lg-push-1">
+                      <p class="input-group">
+                          <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions"  close-text="关闭" />
+                            <span class="input-group-btn">
+                              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                      </p>
+                  </div>
+              </div>
             </div>
             <div class="box-content" ng-init="getData()">
                 <div class="row">
