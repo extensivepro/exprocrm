@@ -19,7 +19,7 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
         {name: "dealID", title: "dealID",  listHide:true, isProfileHide:true},
         {name: "discountAmount", title: "折扣数", listHide:true, isProfileHide:true, value: function (entity) {
           return (entity.discountAmount/100).toFixed(2);
-        }},
+        }},/*
         {name: "memberSettlement", title: "顾客", value:function(entity) {
             if (!entity.hasOwnProperty('memberSettlement')) {
                 return "";
@@ -30,7 +30,7 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
             } else {
                 return "";
             }
-        }},
+        }},*/
         {name: "amount", title: "账户金额", value:function(entity) {
           if (entity.dealType == 'deal' || entity.dealType == 'writedown') {
             return parseInt(entity.amount)/100*(-1).toFixed(2);
