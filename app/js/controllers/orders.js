@@ -20,17 +20,17 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
         return '';
       }
     }},
-    {name: "memo", title: "备注", listHide: true, isArray:true},
+    {name: "memo", title: "备注", listHide: true, isProfileHide: true, isArray:true},
     {name: "items", title: "商品", listHide: true, isArray:true},
     {name: "agent", title: "经手人", listHide: true, isObject: true},
     {name: "shop", title: "商店", listHide: true, isObject:true},
-    {name: "customer", title: "顾客", isObject: true, value: function(entity) {
+    {name: "customer", title: "顾客", isObject: true, isProfileHide: true, value: function(entity) {
       return entity.customer.name;
     }},
     {name: "fee", title: "费用/元", value: function (entity) {
       return (entity.fee / 100).toFixed(2);
     }},
-    {name: "quantity", title: "数量"},/*
+    {name: "quantity", title: "数量"},
     {name: "status", title: "订单状态", value: function (entity) {
       entity.fieldClass = entity.fieldClass || {}
       if (entity.status === 'placed') {
@@ -40,22 +40,22 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
           entity.fieldClass.status = "label label-primary"
           return  '已接受'
       } else if (entity.status === 'rejected') {
-          entity.fieldClass.status = "label label-danger"
+          entity.fieldClass.status = "label label-default"
           return '已拒绝'
       } else if (entity.status === 'executed') {
         entity.fieldClass.status = "label label-success"
         return '已履行'
-      } else if (entity.status === 'canceled') {
-        entity.fieldClass.status = "label label-default"
+      } else if (entity.status == 'canceled' || entity.status == 'cancel') {
+        entity.fieldClass.status = "label label-danger"
         return '已取消'
       } else if (entity.status === 'paid') {
-        entity.fieldClass.status = "label label-default"
+        entity.fieldClass.status = "label label-success"
         return '已结账'
       } else {
         return ''
       }
-    }},*/
-    {name: "status", title: "付款状态", value: function (entity) {
+    }},
+    {name: "payment", title: "付款状态", value: function (entity) {
       if (!entity.payment) {
         entity.payment = {
 
@@ -63,15 +63,16 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
       }
       entity.fieldClass = entity.fieldClass || {}
       if (entity.payment.status === 'paid') {
-        entity.fieldClass.status = "label label-info"
+        entity.fieldClass.payment = "label label-info"
           return '已付款'
       } else if (entity.payment.status === 'unpaid'){
-        entity.fieldClass.status = "label label-danger"
+        entity.fieldClass.payment = "label label-danger"
         return '未付款'
       } else {
         return '';
       }
     }},
+    {name: "receipt", title: "收获信息", listHide: true, isObject: true},
     {name: "createdAt", title: "创建时间"}
   ];
   
@@ -118,6 +119,23 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
   ];
   $scope.currentBtn = {};
   $scope.currentBtn.btn = $scope.btns[0];
+
+  $scope.btnsForOrder = [
+    {
+      key:'',
+      value: '全部'
+    },
+    {
+      key:'paid',
+      value:'已付款'
+    },
+    {
+      key:'unpaid',
+      value:'未付款'
+    }
+  ];
+  $scope.currentBtnForOrder = {};
+  $scope.currentBtnForOrder.btn = $scope.btnsForOrder[0];
   $scope.search = {};
   $scope.$watch('currentBtn.btn', function () {
     var key = $scope.currentBtn.btn.key;
@@ -126,20 +144,22 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
       $scope.refreshList();
     }, 10)
   });
-  $scope.onlyUnpaid = true;
-  $scope.filterByPaid = function (flag) {
-    $scope.onlyUnpaid = !$scope.onlyUnpaid;
-    if (flag) {
+  $scope.$watch('currentBtnForOrder.btn', function () {
+    var key = $scope.currentBtnForOrder.btn.key;
+    if (key == 'unpaid') {
       $scope.params['payment.status'] = "unpaid"
       $scope.countQs['payment.status'] = "unpaid";
+    } else if(key == 'paid'){
+      $scope.params['payment.status'] = "paid"
+      $scope.countQs['payment.status'] = "paid";
     } else {
       delete $scope.params['payment.status'];
-      delete $scope.countQs['payment.status']
+      delete $scope.countQs['payment.status'];
     }
     $timeout(function () {
       $scope.refreshList();
-    }, 20)
-  }
+    }, 20);
+  });
   $scope.checkPaidStatus = function (entity) {
     $scope.unchecked = false;
     if (entity.payment&& (entity.payment.status == 'unpaid')) {
@@ -155,6 +175,19 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
       }
     };
     if (confirm("确认已付款吗?")) {
+      Orders.update(obj, function (result) {
+        $scope.showList()
+      }, function (err) {
+        console.log('err:\n', err);
+      })
+    }
+  };
+  $scope.cancel = function () {
+    var obj = {
+      id : $scope.entity.id,
+      status: 'canceled'
+    };
+    if (confirm("确认取消订单吗?")) {
       Orders.update(obj, function (result) {
         $scope.showList()
       }, function (err) {

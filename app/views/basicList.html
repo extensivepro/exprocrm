@@ -80,15 +80,24 @@
       <!--END:operator for switch shops-->
       <div class="col-lg-3">
           <div style="display: inline" ng-if="isBtnGroup">
-              <button class="btn btn-info" style="display: inline; border-radius: 8px;" ng-click="filterByPaid(onlyUnpaid)">只查看未付款订单</button>
+              <div class="row">
+                  <div class="col-lg-6" style="font-size: 15px;margin-top: 5px;">订单状态：</div>
+                  <div class="col-lg-4">
+                      <select  class="form-control" ng-model="currentBtn.btn"
+                               ng-options="btn as btn.value for btn in btns"></select>
+                  </div>
+              </div>
           </div>
       </div>
       <!--START: operator for search-->
       <div class="col-lg-3">
-      <div class="btn-group" ng-if="isBtnGroup">
-          <div style="display: inline">
-              <select  class="form-control" ng-model="currentBtn.btn"
-                      ng-options="btn as btn.value for btn in btns"></select>
+      <div class="" ng-if="isBtnGroup">
+          <div class="row">
+              <div class="col-lg-6" style="font-size: 15px;margin-top: 5px;">付款状态：</div>
+              <div class="col-lg-4">
+                  <select  class="form-control" ng-model="currentBtnForOrder.btn"
+                           ng-options="btn as btn.value for btn in btnsForOrder"></select>
+              </div>
           </div>
       </div>
         <form class="form-search" ng-if="!isBtnGroup">
