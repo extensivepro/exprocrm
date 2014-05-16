@@ -13,10 +13,16 @@
             <i ng-class="shortcut.icon"/>
             <p>{{shortcut.text}}</p>
         </a>
-       <a style="margin-right: 5px" ng-if="unchecked" class="box quick-button-small col-lg-1 col-md-2 col-xs-6" ng-click="paid()">
+       <span ng-if="unchecked">
+       <a style="margin-left: 5px"  class="box quick-button-small col-lg-1 col-md-2 col-xs-6" ng-click="paid()">
            <i class="fa fa-check"></i>
-           <p>确认</p>
+           <p>完成</p>
        </a>
+       <a style="margin-left: 5px"  class="box quick-button-small col-lg-1 col-md-2 col-xs-6" ng-click="cancel()">
+           <i class="fa fa-trash-o"></i>
+           <p>取消</p>
+       </a>
+       </span>
 
     </div>
 
@@ -33,7 +39,7 @@
                         <h4 ng-if="field.value" ng-class="entity.fieldClass[field.name]">{{field.value(entity)}}</h4>
                         <h4 ng-if="!field.value"  ng-class="!entity.fieldClass[field.name]">{{valueOfKeyString(entity, field.name)}}</h4>
                     </td>
-                    <td class="center" ng-if="field.name == 'memo'">
+<!--                    <td class="center" ng-if="field.name == 'memo'">
                         <div class="row">
                             <div class="col-lg-3"><h4>顾客姓名</h4></div>
                             <div class="col-lg-3"><h4>创建时间</h4></div>
@@ -44,7 +50,7 @@
                             <div class="col-lg-3"><h4>{{obj.createdAt*1000|date:'yyyy-MM-dd HH:mm:ss' }}</h4></div>
                             <div class="col-lg-3"><h4>{{obj.message}}</h4></div>
                         </div>
-                    </td>
+                    </td>-->
                     <td class="center" ng-if="field.name == 'items'">
                         <div class="row">
                             <div class="col-lg-3"><h4>商品名称</h4></div>
@@ -75,16 +81,28 @@
                             <div class="col-lg-3"><h4>{{entity.agent.name}}</h4></div>
                         </div>
                     </td>
+                    <td class="center" ng-if="field.name == 'receipt'">
+                        <div class="row">
+                            <div class="col-lg-3"><h4>收获地址</h4></div>
+                            <div class="col-lg-3"><h4>联系人</h4></div>
+                            <div class="col-lg-3"><h4>联系人电话</h4></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3"><h4>{{entity.receipt.address}}</h4></div>
+                            <div class="col-lg-3"><h4>{{entity.receipt.name}}</h4></div>
+                            <div class="col-lg-3"><h4>{{entity.receipt.phone}}</h4></div>
+                        </div>
+                    </td>
                     <td class="center" ng-if="field.name == 'shop'">
                         <div class="row">
                             <div class="col-lg-3"><h4>商店名称</h4></div>
                             <div class="col-lg-3"><h4>商店地址</h4></div>
-                            <div class="col-lg-3"><h4>商店联系电话</h4></div>
+                            <div class="col-lg-3"><h4>商店电话</h4></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-3"><h4>{{entity.shop.name}}</h4></div>
                             <div class="col-lg-3"><h4>{{entity.shop.address}}</h4></div>
-                            <div class="col-lg-3"><h4>{{entity.shop.phone}}</h4></div>
+                            <div class="col-lg-3"><h4>{{entity.shop.telephone}}</h4></div>
                         </div>
                     </td>
                 </tr>
