@@ -31,16 +31,10 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
                 return "";
             }
         }},*/
-        {name: "amount", title: "账户金额", value:function(entity) {
-          if (entity.dealType == 'deal' || entity.dealType == 'writedown') {
-            return parseInt(entity.amount)/100*(-1).toFixed(2);
-          }
-          else {
-            return '+' + (entity.amount/100).toFixed(2);
-          }
+        {name: "amount", title: "金额", value:function(entity) {
+            return (entity.amount/100).toFixed(2);
         }},
         {name: "agentName", title: "经手人"},
-        {name: "createdAt", title: "日期"},
         {name: "dealType", title: "交易类型",value:function(entity) {
             var type = entity.dealType;
             entity.fieldClass = entity.fieldClass || {}
@@ -58,6 +52,7 @@ function BillsController($scope, Bills, Employes, Pagination, $timeout, $injecto
               return '冲减';
             }
         }},
+        {name: "createdAt", title: "日期"},
         {name: "memo", title: "memo",listHide:true, isProfileHide:true},
         {name: "shopID", title: "shopID",listHide:true, isProfileHide:true}
 
