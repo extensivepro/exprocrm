@@ -179,7 +179,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
 
   // init for profile page
   $scope.showProfile = function (entity) {
-    Items.get({id:entity.id}, function (result) {
+    Items.get({itemID:entity.id}, function (result) {
       $scope.entity = result;
       $scope.activeView = "views/item/itemProfile.html";
       $scope.trackListPage.activeView = '';
