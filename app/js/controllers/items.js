@@ -89,6 +89,8 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
 
   // init for edit page
   $scope.showEdit = function (entity) {
+    $scope.activeView = "views/item/edit.html";
+
     Merchants.get({id:$scope.currentMerchant.merchant.id}, function (result) {
       $scope.merchantItemTags = result.itemTags || [];
       if (!entity.hasOwnProperty('tags')) {
@@ -99,7 +101,6 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       delete  entity.tags;
       entity.tags = tag;
       $scope.entity = entity;
-      $scope.activeView = "views/item/edit.html";
       $scope.trackListPage.activeView = '';
       $scope.showChangePic = false
     }, function (err) {
@@ -273,7 +274,8 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
     };
     obj.tags.push($scope.entity.tags);
     Items.save(obj, function (result) {
-      $window.item = {};
+      $scope.showList();
+/*      $window.item = {};
       $window.item.id = result.id;
       $window.item.tags = result.tags;
       $scope.isShowUpload = true;
@@ -283,14 +285,14 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       $scope.msg = '商品信息创建成功，请上传商品照片，完成最后的创建';
       $timeout(function () {
         $scope.info = false;
-      }, 2000);
+      }, 2000);*/
     }, function (err) {
-      $scope.info = true;
+/*      $scope.info = true;
       $scope.alert = 'alert alert-danger';
       $scope.msg = '商品信息创建失败';
       $timeout(function () {
         $scope.info = false;
-      }, 4000);
+      }, 4000);*/
     });
   }
   $scope.paramsForDelete = 'removed';
@@ -327,6 +329,95 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       });
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
+    });
+  }
+
+  $scope.delImgs = function () {
+      var qsItem = {
+        "id": $scope.entity.id,
+        "images": {$pullAll: $scope.entity.images},
+        "imagesID": {$pullAll: $scope.entity.imagesID}
+      }
+      Items.update(JSON.stringify(qsItem), function (result) {
+        var Upload = $resource('http://localhost:2403'+'/upload/:id', {id:'@id'});
+        var arr = $scope.entity.imagesID || [];
+        var jici = 0;
+        arr.forEach(function (id) {
+          Upload.delete({id: id}, function () {
+            jici++;
+            if (jici == arr.length) {
+              $scope.showList();
+            }
+          });
+        })
+      }, function (err) {
+        console.log('err:\n', err);
+      });
+
+  }
+  $scope.initForCrop = function () {
+    var examples = [];
+    examples.push(function () {
+      $('#userpic').fileapi({
+        url: 'http://localhost:2403/upload?subdir=images&comments=&uniqueFilename=true',
+        accept: 'image/*',
+        imageSize: { minWidth: 400, minHeight: 400/*, maxWidth: 500, maxHeight: 500  */},
+        elements: {
+          active: { show: '.js-upload', hide: '.js-browse' },
+          preview: {
+            el: '.js-preview',
+            width: 200,
+            height: 200
+          },
+          progress: '.js-progress'
+        },
+        onSelect: function (evt, ui) {
+          var file = ui.files[0];
+
+          if (file) {
+            $('#popup').modal({
+              closeOnEsc: true,
+              closeOnOverlayClick: false,
+              onOpen: function (overlay) {
+                $(overlay).on('click', '.js-upload', function () {
+                  $.modal().close();
+                  $('#userpic').fileapi('upload');
+                });
+                $('.js-img', overlay).cropper({
+                  file: file,
+                  bgColor: '#fff',
+                  maxSize: [1280, 1280],
+                  minSize: [400, 200],
+                  selection: '50%',
+                  onSelect: function (coords) {
+                    $('#userpic').fileapi('crop', file, coords);
+                  }
+                });
+              }
+            }).open();
+          }
+        },
+        onFileComplete: function (evt, uiEvt) {
+          var obj = {
+            id: $scope.entity.id,
+            images: {
+              $push: uiEvt.result[0].filename
+            },
+            imagesID:{
+              $push: uiEvt.result[0].id
+            }
+          }
+          Items.update(JSON.stringify(obj), function (result) {
+            $scope.showList();
+          }, function (err) {
+            console.log('err:\n', err);
+          })
+
+        }
+      });
+    });
+    FileAPI.each(examples, function (fn) {
+      fn();
     });
   }
   widthFunctions();
