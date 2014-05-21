@@ -73,7 +73,8 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
       }
     }},
     {name: "receipt", title: "收获信息", listHide: true, isObject: true},
-    {name: "createdAt", title: "创建时间"}
+    {name: "createdAt", title: "创建时间"},
+    {name: "updateAt", title: "更新时间", listHide: true}
   ];
   
   // profile
