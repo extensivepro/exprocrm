@@ -341,7 +341,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
         "imagesID": {$pullAll: $scope.entity.imagesID}
       }
       Items.update(JSON.stringify(qsItem), function (result) {
-        var Upload = $resource('http://localhost:2403'+'/upload/:id', {id:'@id'});
+        var Upload = $resource(window.restful.baseURL+'/upload/:id', {id:'@id'});
         var arr = $scope.entity.imagesID || [];
         var jici = 0;
         arr.forEach(function (id) {
@@ -361,7 +361,7 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
     var examples = [];
     examples.push(function () {
       $('#userpic').fileapi({
-        url: 'http://localhost:2403/upload?subdir=images&comments=&uniqueFilename=true',
+        url: window.restful.baseURL+'/upload?subdir=images&comments=&uniqueFilename=true',
         accept: 'image/*',
         imageSize: { minWidth: 400, minHeight: 400/*, maxWidth: 500, maxHeight: 500  */},
         elements: {
