@@ -305,6 +305,8 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
   });
   $scope.params['merchantID'] = $scope.currentMerchant.merchant.id;
   $scope.countQs['merchantID'] = $scope.currentMerchant.merchant.id;
+  $scope.params['withall'] = 'none';
+  $scope.countQs['withall'] = 'none';
   $scope.defaultString = "name";
   $scope.open = function () {
     var modalInstance = $modal.open({
