@@ -73,8 +73,8 @@ function DayBillReportController($scope, Bills, Deals, $modal, $log,  Items, Sta
       paramForBill.target = 'bills';
       var paramForCash = angular.copy(param);
       paramForCash.target = 'cashes';
-      var paramProfit = angular.copy(param);
-      paramProfit.target = 'profits';
+      var paramForProfit = angular.copy(param);
+      paramForProfit.target = 'deals';
       // 获得营业额数据
       Statistics.query(paramForBill, function(result){
         if (result.length) {
@@ -94,7 +94,18 @@ function DayBillReportController($scope, Bills, Deals, $modal, $log,  Items, Sta
         }
       });
       // 获得利润数据
-      var shopIDs = JSON.stringify({
+      Statistics.query(paramForProfit, function(result){
+        if (result.length) {
+          var totalProfit = 0;
+          result.forEach(function (i) {
+            if (i.profit) {
+              totalProfit += i.profit;
+            }
+          });
+          $scope.profit = totalProfit/100;
+        }
+      });
+/*      var shopIDs = JSON.stringify({
         "$in": $scope.currentMerchant.merchant.shopIDs||[]
       });
       var paramForProfit = {
@@ -173,7 +184,7 @@ function DayBillReportController($scope, Bills, Deals, $modal, $log,  Items, Sta
         });
       }, function (err) {
         console.log('err:\n', err);
-      })
+      })*/
     }
   });
 
