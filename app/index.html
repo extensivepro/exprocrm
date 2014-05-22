@@ -2,67 +2,92 @@
 <html lang="en" ng-app="exproRMS">
 <head>
   
-  
+  <!-- start: Meta -->
   <meta charset="utf-8">
   <title>泛商汇RMS - 零售管理系统</title>
-	<meta name="description" content="泛商汇RMS - 零售管理系统">
-	<meta name="author" content="Extensivepro">
-	<meta name="keyword" content="泛商汇 零售管理系统 Retail Management System">
-	<!-- end: Meta -->
+  <meta name="description" content="泛商汇RMS - 零售管理系统">
+  <meta name="author" content="Extensivepro">
+  <meta name="keyword" content="泛商汇 零售管理系统 Retail Management System">
+  <!-- end: Meta -->
 	
-	<!-- start: Mobile Specific -->
+  <!-- start: Mobile Specific -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- end: Mobile Specific -->
+  <!-- end: Mobile Specific -->
 	
-	<!-- start: CSS -->
+  <!-- start: CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/style.min.css" rel="stylesheet">
   <link href="css/retina.min.css" rel="stylesheet">
   <link href="css/animation.css" rel="stylesheet">
   <link href="lib/ionicons/css/ionicons.min.css" rel="stylesheet">
   <link href="lib/bootstrap-daterangepicker/daterangepicker-bs2.css" rel="stylesheet">
+  <!-- end: CSS -->
 
-    <!-- end: CSS -->
-
-	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
-	<!--[if lt IE 9]>
+  <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
 	
-	  	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<script src="assets/js/respond.min.js"></script>
-		<script src="assets/css/ie6-8.css"></script>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <script src="js/respond.min.js"></script>
+  <script src="css/ie6-8.css"></script>
 		
-	<![endif]-->
+  <![endif]-->
 	
-	<!-- start: Favicon and Touch Icons -->
-	<link rel="shortcut icon" href="img/favicon.ico">
-	<!-- end: Favicon and Touch Icons -->	
+  <!-- start: Favicon and Touch Icons -->
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <!-- end: Favicon and Touch Icons -->
 </head>
 <body>
   <div ng-view></div>
 
-	<script src="lib/jquery/dist/jquery.min.js"></script>
-	<script src="lib/jquery-migrate/jquery-migrate.min.js"></script>
+
+  <!-- start: JavaScript-->
+  <!--[if !IE]>-->
+
+  <script src="js/jquery-2.1.0.min.js"></script>
+
+  <!--<![endif]-->
+
+  <!--[if IE]>
+
+  <script src="js/jquery-1.11.0.min.js"></script>
+
+  <![endif]-->
+
+  <!--[if !IE]>-->
+
+  <script type="text/javascript">
+      window.jQuery || document.write("<script src='js/jquery-2.1.0.min.js'>" + "<" + "/script>");
+  </script>
+
+  <!--<![endif]-->
+
+  <!--[if IE]>
+
+  <script type="text/javascript">
+      window.jQuery || document.write("<script src='js/jquery-1.11.0.min.js'>" + "<" + "/script>");
+  </script>
+
+  <![endif]-->
+  <script src="lib/jquery-migrate/jquery-migrate.min.js"></script>
   <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
 
-	<!-- page scripts -->
-	<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
-	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="assets/js/excanvas.min.js"></script><![endif]-->
-  <!-- // <script src="lib/jquery.cookie/jquery.cookie.js"></script> -->
-  <!-- // <script src="js/jquery.autosize.min.js"></script> -->
-  <!-- // <script src="js/jquery.placeholder.min.js"></script> -->
-	<script src="lib/autofill-event/src/autofill-event.js"></script>
+  <!-- page scripts -->
+  <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+  <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="assets/js/excanvas.min.js"></script><![endif]-->
+  <script src="lib/autofill-event/src/autofill-event.js"></script>
 
-	<!-- theme scripts -->
-  <!-- // <script src="js/custom.min.js"></script> -->
-	<script src="js/core.min.js"></script>
+  <!-- theme scripts -->
+  <script src="js/custom.min.js"></script>
+  <script src="js/core.min.js"></script>
 
+  <!-- start: angularjs-->
   <script src="lib/angular/angular.min.js"></script>
-	<script src="lib/angular-route/angular-route.min.js"></script>
-	<script src="lib/angular-cookies/angular-cookies.min.js"></script>
-	<script src="lib/angular-resource/angular-resource.min.js"></script>
-	<script src="lib/angular-ui-utils/ui-utils.min.js"></script>
-	<script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-	<script src="lib/angular-google-chart/ng-google-chart.js"></script>
+  <script src="lib/angular-route/angular-route.min.js"></script>
+  <script src="lib/angular-cookies/angular-cookies.min.js"></script>
+  <script src="lib/angular-resource/angular-resource.min.js"></script>
+  <script src="lib/angular-ui-utils/ui-utils.min.js"></script>
+  <script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script src="lib/angular-google-chart/ng-google-chart.js"></script>
   <script src="lib/angular-animate/angular-animate.js"></script>
   <script src="lib/moment/moment.js"></script>
   <script src="lib/bootstrap-daterangepicker/daterangepicker.js"></script>
@@ -122,6 +147,9 @@
   <script src="js/controllers/orders.js"></script>
   <script src="js/controllers/tags.js"></script>
   <script src="js/controllers/dayBillReport.js"></script>
+  <!--end: angularjs -->
+
+  <!-- start: pic crop -->
   <script>
       var FileAPI = {
           debug: true, media: true, staticPath: './FileAPI/'
@@ -132,11 +160,17 @@
   <script src="js/crop/jquery.fileapi.js"></script>
   <script src="js/crop/jquery.Jcrop.min.js"></script>
   <script src="js/crop/jquery.modal.js"></script>
+  <!--end: pic crop-->
 
+  <!-- start: tongji -->
   <script type="text/javascript">
   var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
   document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F0dcdd04100b9090c3c58fa6c5f33e427' type='text/javascript'%3E%3C/script%3E"));
   </script>
+  <!--end: tongji -->
+
+  <!-- start: baidu map -->
   <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&amp;ak=N7UZXn7zNIOqrQUuGq2C9X74"></script>
+  <!-- end: baidu map -->
 </body>
 </html>

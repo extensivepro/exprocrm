@@ -1,75 +1,28 @@
 <div ng-controller="MainController">
   <!-- start: Header -->
-  <div class="navbar-fixed-top" ng-include="'views/header.html'">
-  </div>
+  <header ng-include="'views/header.html'">
+  </header>
   <!-- end: Header -->
+
   <div class="container">
-    <!-- start: Main Menu && Content-->
     <div class="row">
-      <!-- start: Main Menu -->
-      <div style="margin-top:40px" id="sidebar-left" class="col-lg-2 col-sm-1" ng-hide="hideMainMenu">
-        <div class="nav-collapse sidebar-nav collapse navbar-collapse bs-navbar-collapse">
-          <ul class="nav nav-tabs nav-stacked main-menu">
-            <li ng-repeat="view in views" ng-class="{active:view == currentView && !view.submenus}">
-              <a ng-click="selectView(view)" data-toggle="collapse" data-target="#collapse{{$index}}" data-parent="#sidebar-left" href="" ng-class="{dropmenu:view.submenus.length > 0}">
-                  <div class="row">
-                      <div class="col-lg-10">
-                          <i class={{view.icon}}></i>
-                          <span class="hidden-tablet"> {{view.name}}</span>
-                      </div>
-                      <div class="col-lg-2">
-                          <span class="badge" style="margin-top: 2px" ng-if="view.submenus.length">{{view.submenus.length}}</span>
-                      </div>
-                  </div>
-
-              </a>
-              <div id="collapse{{$index}}" class="collapse" style="margin: 0px; padding: 0px">
-              <ul style="margin-left:10px;display: block;list-style-type: none ">
-                <li ng-repeat="subview in view.submenus" ng-class="{active:subview == currentView}" style="margin: 15px 0px">
-                  <a class="submenu" href ng-click="selectView(subview)" style="color:#fff; ">
-                      <div class="row">
-                          <div class="col-lg-1"><i class={{subview.icon}}></i>
-                          </div>
-                          <div class="col-lg-3"><span class="hidden-tablet"> {{subview.name}}</span>
-                          </div>
-                          <div class="col-lg-8"></div>
-                      </div>
-                  </a>
-                </li>
-              </ul>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <!-- end: Main Menu -->
-
-
-      <!-- start: Content -->
-      <div id="content" class="col-lg-10 col-sm-11" ng-class="hideMainMenu? 'full': ''">
-        <div style="margin-top:30px; padding-left: 5px; padding-right: 5px" ng-include="currentView.path" />
-      </div>
-      <!-- end: Content -->
+        <div ng-include="'views/menu.html'"></div>
+        <div ng-include="'views/content.html'"></div>
     </div>
-    <!-- end: Main Menu && Content-->
-    
-    <div class="clearfix"></div>
+  </div>
 
-    <footer class="navbar-fixed-bottom">
-      <p>
-        <span style="color:#cccccc;text-align:left;float:left">
-          &copy; 2014 泛盈科技
-        </span>
-        <span class="hidden-phone" style="color:#cccccc;text-align:right;float:right">
+  <div class="clearfix"></div>
+
+  <footer class="row">
+      <div class="col-sm-12 text-right">
           <a href="" ng-click="showTwoDimensionalCode()" alt="关注微信">关注微信</a>
-           | <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=2339672843&amp;site=qq&amp;menu=yes" alt="联系我们">联系我们</a>
-           | <a href="http://fankahui.com" alt="常见问题">常见问题</a>
-           | <a href="http://extensivepro.com" alt="技术支持">技术支持</a>
-        </span>
-      </p>
+          | <a  target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=2339672843&amp;site=qq&amp;menu=yes" alt="联系我们">联系我们</a>
+          | <a href="http://fankahui.com" alt="常见问题"  target="_blank">常见问题</a>
+          | <a href="http://extensivepro.com" alt="技术支持"  target="_blank">技术支持</a>
+      </div>
+      <!--/.col-->
     </footer>
-    
-  </div><!--/.fluid-container-->
+
 </div>
 
 <!-- Start: Weixin Two-dimensional code -->
