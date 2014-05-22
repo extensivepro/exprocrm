@@ -31,3 +31,12 @@ window.restful = {
   baseImgSrcURL: "http://service.fankahui.com:2403/uploadImg/images/",
   baseLogoSrcURL: "http://service.fankahui.com:2403/uploadImg/logos/"
 };
+app.filter('changeName', function () {
+  return function (key) {
+    switch (key) {
+      case 'newMember': return '新会员积分';
+      case 'referrer': return '推荐积分';
+      case 'consumption': return '消费积分比例';
+    }
+  }
+});
