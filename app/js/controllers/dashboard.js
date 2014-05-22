@@ -3,6 +3,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
   $scope.$watch('currentMerchant.merchant', function () {
     if ($scope.currentMerchant.merchant['address']) {
       $scope.init();
+      $scope.getCash();
     }
   })
 
@@ -239,6 +240,9 @@ function DashboardController($scope, Statistics, Shops, Items) {
     skusParamInit($scope.currentMerchant.merchant.id);
     $scope.cashFlowNum = numberWithCommas($scope.saleParam.end);
     $scope.cashFlowBlk = true;
+    widthFunctions();
+  };
+  $scope.getCash = function () {
     var d = new Date();
     var year = d.getFullYear();
     var month = d.getMonth();
@@ -263,6 +267,5 @@ function DashboardController($scope, Statistics, Shops, Items) {
         $scope.totalCash = ((result[0].value.cash/100) + (result[0].value.weixin/100)).toFixed(1);
       }
     });
-    widthFunctions();
   }
 }
