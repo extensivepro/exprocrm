@@ -24,7 +24,8 @@ function MainController($scope, $modal, Users, Merchants, Shops, localStorageSer
     ]},
     {name: "会员管理", icon: "fa fa-group", path: "views/members/index.html", submenus: [
       {name: "会员清单", icon: "fa fa-group", path: "views/members/index.html"},
-      {name: "积分记录", icon: "fa fa-gift", path: "views/points/index.html"}
+      {name: "积分记录", icon: "fa fa-gift", path: "views/points/index.html"},
+      {name: "积分规则", icon: "fa fa-sitemap", path: "views/points/rule.html"}
     ]},
     {name: "品类管理", icon: "fa fa-barcode", path: "views/item/index.html", submenus: [
       {name: "商品管理", icon: "fa fa-barcode", path: "views/item/index.html"},
