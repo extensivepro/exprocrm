@@ -79,17 +79,17 @@ function DayBillReportController($scope, Bills, Deals, $modal, $log,  Items, Sta
       Statistics.query(paramForBill, function(result){
         if (result.length) {
           $scope.sales = result[0].value.sale;
-          $scope.sales.total = $scope.sales.total/100;
+          $scope.sales.total = ($scope.sales.total/100).toFixed(2);
           $scope.returns = result[0].value['return'];
-          $scope.returns.total = $scope.returns.total/100;
+          $scope.returns.total = ($scope.returns.total/100).toFixed(2);
         }
       });
       // 获得现金流数据
       Statistics.query(paramForCash, function(result){
         if (result.length) {
           $scope.cash  = {
-            cash: result[0].value.cash/100,
-            weixin: result[0].value.weixin/100
+            cash: (result[0].value.cash/100).toFixed(2),
+            weixin: (result[0].value.weixin/100).toFixed(2)
           };
         }
       });
@@ -102,7 +102,7 @@ function DayBillReportController($scope, Bills, Deals, $modal, $log,  Items, Sta
               totalProfit += i.profit;
             }
           });
-          $scope.profit = totalProfit/100;
+          $scope.profit = (11001/100).toFixed(2);
         }
       });
 /*      var shopIDs = JSON.stringify({
