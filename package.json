@@ -11,7 +11,9 @@
     "gulp-concat": "~2.1.7",
     "gulp-livereload": "~0.1.1",
     "tiny-lr": "0.0.5",
-    "gulp-styl": "~0.1.2"
+    "gulp-styl": "~0.1.2",
+    "gulp-rename": "^1.2.0",
+    "gulp-minify-css": "^0.3.4"
   },
   "bugs": {
     "url": "https://github.com/extensivepro/exprocrm/issues"

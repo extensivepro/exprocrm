@@ -19,6 +19,8 @@
     "bootstrap-daterangepicker": "https://github.com/leonardean/bootstrap-daterangepicker.git#12d862268fe5eab643dc6314511671b4fa19deb6",
     "angular-animate": "~1.2.15",
     "file-saver": "*",
-    "ionicons": "*"
+    "ionicons": "*",
+    "angular-local-storage": "~0.0.5",
+    "angular-file-upload": "~0.5.7"
   }
 }
