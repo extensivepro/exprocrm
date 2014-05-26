@@ -100,7 +100,17 @@
               </div>
           </div>
       </div>
-        <form class="form-search" ng-if="!isBtnGroup">
+      <div class="" ng-if="isGroup">
+          <div class="row">
+              <div class="col-lg-6" style="font-size: 15px;margin-top: 5px;">活动状态：</div>
+              <div class="col-lg-4">
+                  <select  class="form-control" ng-model="currentStatus.status"
+                           ng-options="btn as btn.value for btn in statusForGroup"></select>
+              </div>
+          </div>
+      </div>
+
+        <form class="form-search" ng-if="!isBtnGroup&&!isGroup">
           <div class="input-group">
             <input class="form-control" type="search" ng-model="search.text" tooltip="{{searchOptions.tooltip}}"
                    tooltip-trigger="focus">

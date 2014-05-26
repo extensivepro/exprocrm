@@ -1,5 +1,5 @@
 function BasicController($scope, Pagination, $modal, $log) {
-  $scope.activeView = "views/basicList.html"
+  $scope.activeView = "views/groups/create.html"
   $scope.resource = undefined
   $scope.searchFields = []
   $scope.editView = undefined
