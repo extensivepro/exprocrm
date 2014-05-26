@@ -14,10 +14,12 @@
 	</div>
 	
 	<div class="col-lg-12">
-    <div class="col-lg-1 col-md-2 col-xs-6" />
-		<div class="col-lg-1 col-md-2 col-xs-6" ng-show="profileAvatar">
+		<div class="col-lg-4 col-md-12 col-xs-12" ng-show="imgs.length">
+            <img ng-src="{{img}}" ng-repeat="img in imgs" style="display: block; width: 300px; height: 200px;">
 		</div>
-		<div class="col-lg-8 col-md-10 col-xs-12">
+        <div class="col-lg-2 col-md-12 col-xs-12" ng-show="!imgs.length">
+        </div>
+		<div class="col-lg-8 col-md-12 col-xs-12">
 			<table class="table table-striped">
 			  <tbody>
 					<tr ng-repeat="field in profileFields" ng-hide="field.isProfileHide || field.leaverNoHide(entity)">
@@ -27,22 +29,22 @@
 							<h4 ng-if="!field.value" ng-class="entity.fieldClass[field.name]">{{valueOfKeyString(entity, field.name)}}</h4>
 						</td>
 					</tr>
-                    <tr>
+                    <tr  ng-if="!imgs.length">
                         <td>图片：</td>
-                        <td><span ng-if="!imgs.length">该商品暂无图片</span></td>
+                        <td><span>该商品暂无图片</span></td>
                     </tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
-    <div class="row">
+<!--    <div class="row">
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
             <div style="margin-left: 20px;">
                 <img  ng-src="{{img}}" ng-repeat="img in imgs" style="display: inline-block; width: 200px; height: 200px;">
             </div>
         </div>
-    </div>
+    </div>-->
 	<div class="clearfix"></div>
 </div>
 </div>
