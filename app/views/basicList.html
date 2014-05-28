@@ -195,14 +195,14 @@
           </td>
           <td class="center" ng-repeat="field in fields" ng-show="!field.listHide"
               style="vertical-align: middle;width: {{percent}}%">
-            <span ng-class="entity.fieldClass[field.name]" ng-if="field.value">{{field.value(entity) | limitTo:20}}
-                <span ng-if="(entity[field.name]).length>20">
+            <span ng-class="entity.fieldClass[field.name]" ng-if="field.value">{{field.value(entity) | limitTo:22}}
+                <span ng-if="(entity[field.name]).length>22">
                     ...
                 </span>
             </span>
             <span ng-class="entity.fieldClass[field.name]"
-                  ng-if="!field.value">{{valueOfKeyString(entity, field.name) | limitTo:20}}
-                <span ng-if="(entity[field.name]).length>20">
+                  ng-if="!field.value">{{valueOfKeyString(entity, field.name) | limitTo:22}}
+                <span ng-if="(entity[field.name]).length>22">
                     ...
                 </span>
             </span>
