@@ -14,11 +14,12 @@
 	</div>
 	
 	<div class="col-lg-12">
-		<div class="col-lg-4 col-md-12 col-xs-12" ng-show="imgs.length">
-            <img ng-src="{{img}}" ng-repeat="img in imgs" style="margin: 0 auto; display: block; width: 300px; height: 200px;">
+		<div class="col-lg-3 col-md-12 col-xs-12" ng-show="imgs.length">
+            <img ng-src="{{img}}" ng-repeat="img in imgs" style="margin-top: 7px; display: block; width: 300px; height: 200px;">
 		</div>
-        <div class="col-lg-2 col-md-12 col-xs-12" ng-show="!imgs.length">
-        </div>
+    <div class="col-lg-3 col-md-12 col-xs-12" ng-show="!imgs.length">
+            <img ng-src="../app/img/nopicture.jpg" style="margin-top: 7px; display: block; width: 300px; height: 200px;">
+    </div>
 		<div class="col-lg-8 col-md-12 col-xs-12">
 			<table class="table table-striped">
 			  <tbody>
@@ -28,11 +29,6 @@
 							<h4 ng-if="field.value" ng-class="entity.fieldClass[field.name]">{{field.value(entity)}}</h4>
 							<h4 ng-if="!field.value" ng-class="entity.fieldClass[field.name]">{{valueOfKeyString(entity, field.name)}}</h4>
 						</td>
-					</tr>
-                    <tr  ng-if="!imgs.length">
-                        <td>图片：</td>
-                        <td><span>该商品暂无图片</span></td>
-                    </tr>
 				</tbody>
 			</table>
 		</div>
