@@ -2,7 +2,7 @@
  * Created by expro on 14-1-10.
  * 会员管理
  */
-function MembersController($scope, Members, Pagination, $timeout, $injector) {
+function MembersController($scope, Members, Pagination, $timeout, $injector, Bills) {
 
   $injector.invoke(BasicController, this, {$scope: $scope});
   $scope.resource = Members;
@@ -54,12 +54,80 @@ function MembersController($scope, Members, Pagination, $timeout, $injector) {
 
   ];
   
-  $scope.showProfile = function (entity) {
-    $scope.entity = entity || $scope.entity
-    $scope.activeView = "views/members/profile.html";
-    $scope.trackListPage.activeView = '';
+  $scope.profileShortcuts = [
+      {"class": "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-edit fa-5x", text: "编辑", op:"showEdit"},
+      {"class": "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-trash-o", text: "删除", op:"remove"},
+      {"class": "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-star", text: "充值", op:"showRecharge"}
+  ];
+  
+  $scope.operateFunc = function (entity, op) {
+    $scope[op](entity);
   }
   
+  $scope.showRecharge = function (entity) {
+    console.log(entity)
+    $scope.entity = {};
+    $scope.entity.selection = $scope.types[0];
+    $scope.activeView = "views/bills/recharge.html";
+  	$scope.recharge = function(bill) {
+  		var newOne = new $scope.resource(entity);
+      var now = parseInt(Date.now()/1000);
+      var sequenceNumber = now*1000+now;
+      newOne.billNumber = sequenceNumber;
+      newOne.deviceID = '00000000';
+      newOne.dealType = $scope.entity.selection.value;
+      newOne.amount = $scope.entity.amount*100;
+      newOne.discountAmount = 0;
+      newOne.cashSettlement = {
+        serialNumber: sequenceNumber,
+        amount: $scope.entity.amount*100,
+        payType: 'cash',
+        status: 'closed'
+      };
+      newOne.memberSettlement = {
+        serialNumber: sequenceNumber,
+        amount: $scope.entity.amount*100,
+        payType: $scope.entity.selection.value,
+        payeeAccount: {
+          name: entity.account.name,
+          id: entity.account.id,
+          balance: entity.account.balance
+        },
+      };
+      newOne.createdAt = now;
+      delete newOne.name;
+      delete newOne.merchant;
+      delete newOne.dueAt;
+      delete newOne.fieldClass;
+      delete newOne.id;
+      delete newOne.level;
+      delete newOne.postPoint;
+      delete newOne.postTotalPoint;
+      delete newOne.shop;
+      delete newOne.sinceAt;
+      delete newOne.status;
+      delete newOne.updateAt;
+      delete newOne.weixin;
+  		Bills.save(newOne, function(one) {
+  			console.log("success",one)
+  			$scope.showList()
+  		},function(err){
+  			console.log('error:', err)
+  		})
+  	}
+  }
+  
+  $scope.types = [
+    {
+      label: '充值',
+      value: 'prepay'
+    },
+    {
+      label: '冲减',
+      value: 'writedown'
+    }
+  ];
+
   // delete a member
   $scope.remove = function (entity) {
     var obj = {
