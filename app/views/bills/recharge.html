@@ -1,0 +1,49 @@
+<div class="box">
+    <div class="box-header">
+        <h2><i class="fa fa-star"></i><span class="break"></span>
+            <span ng-show='!entity.id'>会员充值</span>
+        </h2>
+        <div class="box-icon">
+            <a ng-click="cancelEdit()" class="btn-close"><i class="fa fa-times"></i></a>
+        </div>
+    </div>
+    <div class="box-content">
+        <form class="form-horizontal" role="form" name="editForm">
+            <div class="form-group" style="height: 60px;">
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-6">
+                        <div ng-if="errContent.msg" class="alert alert-danger" style="text-align: center;">
+                            <span ng-bind="errContent.msg"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-group"  >
+                    <label class="col-lg-2 control-label">金额：</label>
+                
+                    <div class="col-lg-6">
+                        <input  class="form-control" type="text" ng-model="entity.amount" required>
+                    </div>
+                </div>
+                <div class="form-group"  >
+                    <label class="col-lg-2 control-label">类型：</label>
+                    <div class="col-lg-6">
+                        <select ng-model="entity.selection" ng-options="bill.label for bill in types" class="form-control">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-6">
+                    <button  ng-click="recharge()" class="btn btn-primary btn-lg"><i class="fa fa-plus fa-lg"></i> 确认
+                    </button>
+                    <button ng-click="cancelEdit()" class="btn btn-warning btn-lg"><i class="fa fa-arrows-alt fa-lg"></i> 取消
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
