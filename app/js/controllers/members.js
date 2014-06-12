@@ -65,11 +65,10 @@ function MembersController($scope, Members, Pagination, $timeout, $injector, Bil
   }
   
   $scope.showRecharge = function (entity) {
-    console.log(entity)
     $scope.entity = {};
     $scope.entity.selection = $scope.types[0];
     $scope.activeView = "views/bills/recharge.html";
-  	$scope.recharge = function(bill) {
+  	$scope.recharge = function() {
   		var newOne = new $scope.resource(entity);
       var now = parseInt(Date.now()/1000);
       var sequenceNumber = now*1000+now;
@@ -84,19 +83,32 @@ function MembersController($scope, Members, Pagination, $timeout, $injector, Bil
         payType: 'cash',
         status: 'closed'
       };
-      newOne.memberSettlement = {
-        serialNumber: sequenceNumber,
-        amount: $scope.entity.amount*100,
-        payType: $scope.entity.selection.value,
-        payeeAccount: {
-          name: entity.account.name,
-          id: entity.account.id,
-          balance: entity.account.balance
-        },
+      if(newOne.dealType === 'prepay'){
+        newOne.memberSettlement = {
+          serialNumber: sequenceNumber,
+          amount: $scope.entity.amount*100,
+          payType: 'prepay',
+          payeeAccount: {
+            name: entity.account.name,
+            id: entity.account.id,
+            balance: entity.account.balance
+          }
+        }
+      } else if(newOne.dealType === 'writedown'){
+        newOne.memberSettlement = {
+          serialNumber: sequenceNumber,
+          amount: $scope.entity.amount*100,
+          payType: 'prepay',
+          payerAccount: {
+            name: entity.account.name,
+            id: entity.account.id,
+            balance: entity.account.balance
+          }
+        } 
       };
       newOne.createdAt = now;
+      newOne.merchantID = entity.merchantID;
       delete newOne.name;
-      delete newOne.merchant;
       delete newOne.dueAt;
       delete newOne.fieldClass;
       delete newOne.id;
