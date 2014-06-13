@@ -51,6 +51,29 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
     }},
     {name: "updatedAt", title: "更新日期", createHide: false, listHide: true, hide: true, isProfileHide:true}
   ];
+  
+  $scope.showImport = true;
+  $scope.importExcel = function() {
+    $scope.activeView = "views/item/import.html";
+  }
+  $scope.downExcel = function(){
+    $scope.loading = true;
+    var param = {$sort: $scope.sortOptions,
+    shopID: $scope.currentShowShop.shop.id};
+    Items.query(param, function(result){
+      $scope.loading = false;
+      $scope.entitiesWh = result;
+      if ($scope.entitiesWh != undefined){
+        setTimeout(function(){
+          var blob = new Blob([document.getElementById('itemtable').innerHTML], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+          });
+          saveAs(blob, "商品表单.xls");
+        }, 1)
+      }
+      console.log(result);
+    })
+  }
 
   // delete a item
   $scope.remove = function (entity) {
