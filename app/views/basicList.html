@@ -78,6 +78,14 @@
         </table>
       </div>
       <!--END:operator for switch shops-->
+      <div class="col-lg-3" ng-if="showImport">
+        <button class="btn btn-primary" ng-click="importExcel()" style="width: 100px">
+          <span data-ng-show="!loading">批量导入</span>
+          <span data-ng-show="loading">导入中 
+            <i style="font-size: 15px" data-ng-show="loading" class="icon ion-loading-c"></i>
+          </span>
+        </button>
+      </div>
       <div class="col-lg-3">
           <div style="display: inline" ng-if="isBtnGroup">
               <div class="row">
