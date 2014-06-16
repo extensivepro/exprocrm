@@ -38,7 +38,12 @@ var paths = {
   'app/js/services.js', 
   'app/js/services/**/*.js',
   'app/js/controllers/**/*.js',
-  'app/js/directives/**/*.js'
+  'app/js/directives/**/*.js',
+  'app/js/crop/FileAPI.min.js',
+  'app/js/crop/FileAPI.exif.js',
+  'app/js/crop/jquery.fileapi.js',
+  'app/js/crop/jquery.Jcrop.min.js',
+  'app/js/crop/jquery.modal.js'
   ],
   css: [
   'app/css/*.css', 
@@ -93,6 +98,18 @@ gulp.task('lr-server', function() {
     })
   });
 })
+
+//本地测试build版本
+gulp.task('lr-server-build', function() {
+  require('./scripts/web-server.js')
+  server.listen(35792, function(err) {
+    if (err) return console.log(err);
+
+    gulp.watch(['build/js/**/*.js', 'build/**/*.html', 'build/css/**/*.css'], function(event) {
+      gulp.src('build/index.html').pipe(refresh(server))
+    })
+  });
+});
 
 gulp.task('default', ['lr-server'], function() {
 })
