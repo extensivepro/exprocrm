@@ -102,89 +102,8 @@ function DayBillReportController($scope, Bills, Deals, $modal, $log,  Items, Sta
               totalProfit += i.profit;
             }
           });
-          $scope.profit = (11001/100).toFixed(2);
         }
       });
-/*      var shopIDs = JSON.stringify({
-        "$in": $scope.currentMerchant.merchant.shopIDs||[]
-      });
-      var paramForProfit = {
-        shopID: shopIDs,
-        createdAt: obj
-      };
-      Deals.query(paramForProfit, function (results) {
-        if (!results.length) {
-          return;
-        }
-        var itemArr = [];
-        for (var v = 0; v < results.length; v++) {
-            itemArr.push(results[v].items);
-        }
-        var allItem = []; //当天交易的所有商品信息
-        for (var x = 0; x < itemArr.length; x++) {
-          var items = itemArr[x];
-          for (var y = 0; y < items.length; y++) {
-            allItem.push(items[y]);
-          }
-        }
-        var ids = []; // 找出所有商品的id
-        allItem.forEach(function (item, index) {
-          if (ids.indexOf(item.item.id) == -1) {
-            ids.push(item.item.id);
-          }
-        });
-        var allItemObj = {}; // 重构当天卖的所有商品为一个对象，key是商品的‘id’，value是个数组，存放着所有商品id为‘id’的商品
-        for(var a = 0; a < ids.length; a++) {
-          var c = ids[a];
-          allItemObj[c] = [];
-          allItem.forEach(function (item) {
-            if (c == item.item.id) {
-              allItemObj[c].push(item);
-            }
-          });
-        };
-
-        var paramForItem = { // 用于查商品的参数
-          '$limit': 1000000 // dpd端做了限制，如果不加limit参数，dpd最多返回10条记录
-        };
-        paramForItem['id'] = JSON.stringify({
-            "$in": ids
-        });
-        Items.query(paramForItem, function (result) { // 从items中获得当天所卖所有商品的信息
-          var result = result.map(function (r) {
-            if (!r.itemSkus) {
-              r.itemSkus = {
-                totalQuantity:0,
-                fold: 0
-              }
-            }
-            return r;
-          })
-          var uniqueItem = []; // 重构result，将其拆分成一个数组。
-          result.forEach(function (r) {
-            var obj = {}; // 数组的元素是对象，对象的key是商品的id，对象的value是商品的itemSkus属性
-            obj[r.id] = {
-              itemSkus: r.itemSkus
-            };
-            uniqueItem.push(obj);
-          });
-          var totalProfit = 0; // 初始化当天的总利润
-          for (var c = 0; c < uniqueItem.length; c++) {  //遍历重构后的所有商品
-            var d = uniqueItem[c];
-            var fold = d[Object.keys(d)[0]].itemSkus.fold; // 取出当前商品的成本价(fold)
-            var id =  Object.keys(d)[0]; // 取出当前商品的id
-            var currItemArrs = allItemObj[id]; // 根据上面的id找到当天销售的商品
-            currItemArrs.forEach(function (currItemArr) {
-              totalProfit += (((currItemArr.dealPrice - fold)/100)*currItemArr.quantity); //单笔交易的利润=该商品数量*该商品的利润
-            });
-          }
-          $scope.profit = totalProfit;
-        }, function (err) {
-          console.log('err:\n', err);
-        });
-      }, function (err) {
-        console.log('err:\n', err);
-      })*/
     }
   });
 
