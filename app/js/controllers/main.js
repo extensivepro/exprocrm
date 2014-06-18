@@ -12,10 +12,10 @@ function MainController($scope, $modal, Users, Merchants, Shops, localStorageSer
       {name: "周报", icon: "fa fa-file-o", path: "views/analysis/dailyReport/dayBillReportAnalysis.html"},
       {name: "月报", icon: "fa fa-file-text", path: "views/analysis/dailyReport/dayBillReportAnalysis.html"}*/
     ]},
-    {name: "统计分析", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html", submenus: [
-      {name: "销售统计", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html"},
-      {name: "进货统计", icon: "fa fa-truck", path: "views/analysis/skusAnalysis.html"}
-    ]},
+    // {name: "统计分析", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html", submenus: [
+    //   {name: "销售统计", icon: "fa fa-bar-chart-o", path: "views/analysis/salesAnalysis.html"},
+    //   {name: "进货统计", icon: "fa fa-truck", path: "views/analysis/skusAnalysis.html"}
+    // ]},
     {name: "营业流水", icon: "fa fa-bars", path: "views/deals/index.html", submenus: [
       {name: "销售流水", icon: "fa fa-shopping-cart", path: "views/deals/index.html"},
       {name: "退货流水", icon: "fa fa-exchange", path: "views/returns/index.html"},
@@ -31,9 +31,9 @@ function MainController($scope, $modal, Users, Merchants, Shops, localStorageSer
       {name: "商品管理", icon: "fa fa-barcode", path: "views/item/index.html"},
       {name: "标签管理", icon: "fa fa-tags", path: "views/tags/index.html"}
     ]},
-    {name: "营销管理", icon: "fa fa-globe", path: "views/groups/index.html", submenus: [
-      {name: "团购管理", icon: "fa fa-sitemap", path: "views/groups/index.html"}
-    ]},
+    // {name: "营销管理", icon: "fa fa-globe", path: "views/groups/index.html", submenus: [
+    //   {name: "团购管理", icon: "fa fa-sitemap", path: "views/groups/index.html"}
+    // ]},
     {name: "商户管理", icon: "fa fa-building-o", path: "views/merchant/index.html", submenus:[
       {name: "当前商户", icon: "fa fa-cog", path: "views/merchant/index.html"},
       {name: "门店管理", icon: "fa fa-home", path: "views/shop/index.html"},
