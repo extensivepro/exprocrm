@@ -58,9 +58,9 @@ var paths = {
 gulp.task('css', function () {
   gulp.src(paths.css)
     .pipe(concat('style.css'))
-    .pipe(minifyCss({
-      keepSpecialComments: 0
-    }))
+    // .pipe(minifyCss({
+    //   keepSpecialComments: 0
+    // }))
     .pipe(gulp.dest('build/css/'));
   
   gulp.src(paths.fonts)
