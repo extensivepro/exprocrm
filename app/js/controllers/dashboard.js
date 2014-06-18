@@ -78,7 +78,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
         period: 'daily'
       }
       Statistics.query(param, function(result){
-       console.log(result);
+       // console.log(result);
         var itemData = [];
         var rows = [];
         result.forEach(function(item){
