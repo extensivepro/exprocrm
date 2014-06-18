@@ -208,11 +208,8 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector,
   if (!localStorageService.isSupported) {
     $scope.storageType = 'Cookie';
   }
-  $scope.local = {};
-  $scope.$watch('local.cbx', function () {
-    if ($scope.local.cbx===true) {
-      localStorageService.set('localStorageCurrentMerchant',$scope.currentMerchant.merchant);
-    }
+  $scope.$watch('currentMerchant.merchant', function () {
+    localStorageService.set('localStorageCurrentMerchant',$scope.currentMerchant.merchant);
   });
   //end: localstorage
 
