@@ -4,11 +4,11 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector,
   $scope.profileAvatar = "img/avatar.jpg"
   $scope.profileFields = [
     {name: "id", title: "商户ID", unlist: true, hide:true, createHide: true, isProfileHide:true}
+    , {name: "name", title: "商户简称", required: true, hide: true, isProfileHide:true}
+    , {name: "fullName", title: "商户全名", required: true, unlist: true, hide: true}
     , {name: "owner", title: "商户业主", value:function(entity) {
       return entity.owner.displayName
     }, hide: true, createHide: true, unlist: true}
-    , {name: "name", title: "商户简称", required: true, hide: true}
-    , {name: "fullName", title: "商户全名", required: true, unlist: true, hide: true}
     , {name: "telephone", title: "电话", required: true}
     , {name: "email", title: "电子邮箱", unlist: true}
     , {name: "address", title: "地址", required: true}
@@ -69,7 +69,7 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector,
   };
   $scope.cancel = function () {
     $scope.activeView = "views/merchant/profile.html"
-  };
+  }
   //end: basic
 
 
@@ -270,7 +270,6 @@ function MerchantsController($scope, Merchants, Pagination, $timeout, $injector,
     return false;
   }
   //end: msg
-
-
+  
   widthFunctions();
 }

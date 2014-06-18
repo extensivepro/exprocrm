@@ -1,4 +1,8 @@
 function DashboardController($scope, Statistics, Shops, Items) {
+  $scope.saleNum = 0.0
+  $scope.totalCash = 0.0
+  $scope.skusNum = 0.0
+
   //controller initialization
   $scope.$watch('currentMerchant.merchant', function () {
     if ($scope.currentMerchant.merchant['address']) {
@@ -58,7 +62,6 @@ function DashboardController($scope, Statistics, Shops, Items) {
 
   function itemSaleFetch(){
     Items.query({merchantID: $scope.currentMerchant.merchant.id, '$fields': {id: 1, merchantID: 1, name: 1}}, function (result){
-//      console.log(result);
       var chart = basicChartInit();
       var itemIDs = [];
       result.forEach(function (item) {
@@ -75,7 +78,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
         period: 'daily'
       }
       Statistics.query(param, function(result){
-//        console.log(result);
+       console.log(result);
         var itemData = [];
         var rows = [];
         result.forEach(function(item){
@@ -147,14 +150,11 @@ function DashboardController($scope, Statistics, Shops, Items) {
 
   function saleFetch(){
     Statistics.query($scope.saleParam, function (result) {
-
-      console.log(result)
       if (result.length == 2){
         $scope.saleNum = numberWithCommas(Number(result[0].value.sale.total / 100).toFixed(1));
         $scope.saleNumPrv = numberWithCommas(Number(result[1].value.sale.total / 100).toFixed(1));
         $scope.saleDiffSign = (100 * ($scope.saleNum - $scope.saleNumPrv) / $scope.saleNumPrv).toFixed(1);
         $scope.saleDiff = Math.abs($scope.saleDiffSign);
-//        console.log(result[0])
       } else if (result.length == 1) {
         if (result[0].value.statAt == $scope.saleParam.start) {
           $scope.saleNum = numberWithCommas(Number(result[0].value.sale.total / 100).toFixed(1));
@@ -240,6 +240,8 @@ function DashboardController($scope, Statistics, Shops, Items) {
     skusParamInit($scope.currentMerchant.merchant.id);
     $scope.cashFlowNum = numberWithCommas($scope.saleParam.end);
     $scope.cashFlowBlk = true;
+    $scope.shopChart = basicChartInit()
+    $scope.itemChart = basicChartInit()
     widthFunctions();
   };
   $scope.getCash = function () {
