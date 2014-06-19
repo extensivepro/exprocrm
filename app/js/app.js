@@ -8,6 +8,7 @@ var app = angular.module('exproRMS', [
   'ui.utils',
   'ui.bootstrap',
   'ngBootstrap',
+  'ngCsv',
   'googlechart',
   'exproRMS.filters',
   'exproRMS.services',

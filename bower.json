@@ -21,6 +21,7 @@
     "file-saver": "*",
     "ionicons": "*",
     "angular-local-storage": "~0.0.5",
-    "angular-file-upload": "~0.5.7"
+    "angular-file-upload": "~0.5.7",
+    "ng-csv": "~0.2.1"
   }
 }

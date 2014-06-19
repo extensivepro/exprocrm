@@ -52,28 +52,9 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
     {name: "updatedAt", title: "更新日期", createHide: false, listHide: true, hide: true, isProfileHide:true}
   ];
   
-  $scope.showImport = true;
-  $scope.importExcel = function() {
-    $scope.activeView = "views/item/import.html";
-  }
-  $scope.downExcel = function(){
-    $scope.loading = true;
-    var param = {$sort: $scope.sortOptions,
-    shopID: $scope.currentShowShop.shop.id};
-    Items.query(param, function(result){
-      $scope.loading = false;
-      $scope.entitiesWh = result;
-      if ($scope.entitiesWh != undefined){
-        setTimeout(function(){
-          var blob = new Blob([document.getElementById('itemtable').innerHTML], {
-            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
-          });
-          saveAs(blob, "商品表单.xls");
-        }, 1)
-      }
-      console.log(result);
-    })
-  }
+  $scope.listToolbarView = "views/item/listToolbar.html";
+  $scope.importHeaders = ["编码", "品名", "型号", "售价", "助记码", "类别", "描述"]
+  $scope.importSampleCsv = [{"编码":'12341234一维码或者自定义编号，选填', "品名":'儿童上衣', "型号":'110cm', "售价":78.00, "助记码":'自己定义的帮助记忆的短码例如：1234', "类别":'童装', "描述":'示例商品'}]
 
   // delete a item
   $scope.remove = function (entity) {

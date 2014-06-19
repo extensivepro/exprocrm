@@ -38,59 +38,51 @@
         </div>
       </div>
       <!--END:operator for switch page's length-->
-      <!--START:operator for switch shops-->
-      <div class="col-lg-3 col-md-3">
-        <div class="row" ng-if="showOptions">
-          <select class="form-control" ng-model="currentShowShop.shop"
-                  ng-options="option as option.name for option in allShop">
-            <option value="">-- 选择商店 --</option>
-          </select>
+      <div class="col-lg-6 col-md-6">
+        <div ng-include="listToolbarView" />
+        <div class="col-lg-3 col-md-3">
+          <div class="row" ng-if="showOptions">
+            <select class="form-control" ng-model="currentShowShop.shop"
+                    ng-options="option as option.name for option in allShop">
+              <option value="">-- 选择商店 --</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: inline" ng-if="isBtnGroup">
+            <div class="row">
+                <div class="col-lg-6" style="font-size: 15px;margin-top: 5px;">订单状态：</div>
+                <div class="col-lg-4">
+                    <select  class="form-control" ng-model="currentBtn.btn"
+                             ng-options="btn as btn.value for btn in btns"></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3" ng-if="showExport">
+          <button class="btn btn-primary" ng-click="exportExcel()" style="width: 100px"><span data-ng-show="!loading">导出Excel</span><span
+                  data-ng-show="loading">导出中 <i style="font-size: 15px" data-ng-show="loading"
+                                                class="icon ion-loading-c"></i></span></button>
+        </div>
+        <div id="exportable" data-ng-show="">
+          <table class="table">
+            <thead>
+            <tr>
+              <th ng-repeat="field in fields" ng-if="!field.listHide">
+                {{field.title}}
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-ng-repeat="entity in entitiesWh">
+              <td class="center" ng-repeat="field in fields" ng-show="!field.listHide">
+                <span ng-class="entity.fieldClass[field.name]" ng-if="field.value">{{field.value(entity)}}</span>
+                <span ng-class="entity.fieldClass[field.name]" ng-if="!field.value">{{valueOfKeyString(entity, field.name)}}</span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="col-lg-3 col-md-3" ng-if="showExport">
-        <button class="btn btn-primary" ng-click="exportExcel()" style="width: 100px"><span data-ng-show="!loading">导出Excel</span><span
-                data-ng-show="loading">导出中 <i style="font-size: 15px" data-ng-show="loading"
-                                              class="icon ion-loading-c"></i></span></button>
-      </div>
-      <div id="exportable" data-ng-show="">
-        <table class="table">
-          <thead>
-          <tr>
-            <th ng-repeat="field in fields" ng-if="!field.listHide">
-              {{field.title}}
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr data-ng-repeat="entity in entitiesWh">
-            <td class="center" ng-repeat="field in fields" ng-show="!field.listHide">
-              <span ng-class="entity.fieldClass[field.name]" ng-if="field.value">{{field.value(entity)}}</span>
-              <span ng-class="entity.fieldClass[field.name]" ng-if="!field.value">{{valueOfKeyString(entity, field.name)}}</span>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
       <!--END:operator for switch shops-->
-      <div class="col-lg-3 col-md-3" ng-if="showImport">
-        <button class="btn btn-primary" ng-click="importExcel()" style="width: 100px">
-          <span data-ng-show="!loading">批量导入</span>
-          <span data-ng-show="loading">导入中 
-            <i style="font-size: 15px" data-ng-show="loading" class="icon ion-loading-c"></i>
-          </span>
-        </button>
-      </div>
-      <div class="col-lg-3 col-md-3">
-          <div style="display: inline" ng-if="isBtnGroup">
-              <div class="row">
-                  <div class="col-lg-6" style="font-size: 15px;margin-top: 5px;">订单状态：</div>
-                  <div class="col-lg-4">
-                      <select  class="form-control" ng-model="currentBtn.btn"
-                               ng-options="btn as btn.value for btn in btns"></select>
-                  </div>
-              </div>
-          </div>
-      </div>
       <!--START: operator for search-->
       <div class="col-lg-3 col-md-3">
         <div class="" ng-if="isBtnGroup">

@@ -25,6 +25,8 @@ var paths = {
   'app/lib/angular-bootstrap/ui-bootstrap-tpls.min.js', 
   'app/lib/angular-google-chart/ng-google-chart.js', 
   'app/lib/angular-animate/angular-animate.min.js', 
+  'app/lib/angular-sanitize/angular-sanitize.min.js', 
+  'app/lib/ng-csv/build/ng-csv.min.js', 
   'app/lib/moment/min/moment.min.js', 
   'app/lib/bootstrap-daterangepicker/daterangepicker.js', 
   'app/lib/ng-bs-daterangepicker/dist/ng-bs-daterangepicker.min.js', 

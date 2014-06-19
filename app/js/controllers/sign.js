@@ -7,7 +7,7 @@ function SignController($scope, Users, $location, $modal, $cookies, $log, $timeo
     $('input').checkAndTriggerAutoFillEvent();
 		var user = $scope.loginUser;
 		if(!user.username || user.username.length === 0 || !user.password || user.password.length === 0) {
-      $scope.alert = { class: 'alert alert-danger', msg: "用户名或密码不能为空！" };
+      $scope.alert = { "class": 'alert alert-danger', msg: "用户名或密码不能为空！" };
       $timeout(function () {
         $scope.alert = {};
       }, 2000);
@@ -23,7 +23,7 @@ function SignController($scope, Users, $location, $modal, $cookies, $log, $timeo
         }
       });
 		},function(){
-      $scope.alert = { class: 'alert alert-danger', msg: "用户名或密码不正确！" };
+      $scope.alert = { "class": 'alert alert-danger', msg: "用户名或密码不正确！" };
       $timeout(function () {
         $scope.alert = {};
       }, 2000);
@@ -102,7 +102,7 @@ function SignController($scope, Users, $location, $modal, $cookies, $log, $timeo
 var ModalRegCtrl = function ($scope, $modalInstance, $timeout, Users) {
   $scope.regUser = {};
   $scope.alertReg = {
-    class:'alert-danger',
+    "class":'alert-danger',
     msg:''
   };
   var idcardRex = /(^\d{15}$)|(^\d{17}([0-9]|X)$)/;

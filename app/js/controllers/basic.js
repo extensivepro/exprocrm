@@ -10,6 +10,7 @@ function BasicController($scope, Pagination, $modal, $log) {
     fields: []
   }
   $scope.sortOptions = {createdAt:-1}
+  $scope.listToolbarView = undefined
 
   // route
   $scope.showEdit = function (entity) {

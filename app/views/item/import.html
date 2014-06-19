@@ -9,8 +9,8 @@
         <form class="form-horizontal" role="form">
             <div class="form-group" style="height: 60px; margin-top: 60px">
                 <div class="col-lg-offset-2 col-lg-6">
-                    <button  ng-click="downExcel()" class="btn btn-primary btn-lg">
-                      <i class="fa fa-download green"></i> 下载Excel
+                    <button type="button" ng-csv="[]" csv-header="['h1','h2','h3']" filename="商品批量导入模板.csv" class="btn btn-primary btn-lg">
+                      <i class="fa fa-download green"></i> 下载批量导入模板
                     </button>
                     <button style="margin-left: 60px" ng-click="" class="btn btn-warning btn-lg">
                       <i class="fa fa-upload green"></i> 导入商品
