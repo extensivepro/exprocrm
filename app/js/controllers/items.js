@@ -426,6 +426,23 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       fn();
     });
   }
+  
+  //Upload Import CSV
+  $scope.openFileDialog = function () {
+    $("#_uploadImportCsv").click()
+  }
+  $scope.uploadImportCsv = function (element) {
+    $scope.$apply(function(scope) {
+      var csvfile = element.files[0];
+      var reader = new FileReader();
+      reader.onload = function(evt) {
+        var csvObjects = CSV.parse(reader.result)
+        console.log(csvObjects, evt)
+      };
+      reader.readAsText(csvfile);
+    });
+  }
+  
   widthFunctions();
 }
 var ModaCreateTagInItemCtrl = function ($scope, $modalInstance,itemTags) {

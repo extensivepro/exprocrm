@@ -1,4 +1,17 @@
-<button class="btn btn-primary" ng-csv="importSampleCsv" csv-header="importHeaders" filename="商品导入模板.csv">
-  <i class="fa fa-download fa-fw"></i>下载导入模板
-</button>
-        
+<div class="col-md-6">
+  <button class="btn btn-primary" ng-csv="importSampleCsv" csv-header="importHeaders" filename="商品导入模板.csv">
+    <i class="fa fa-download fa-fw"></i>下载模板
+  </button>  
+</div>
+<div class="col-md-6">
+  <!-- <form> -->
+    <button class="btn btn-primary" ng-click="openFileDialog()">
+      <i class="fa fa-upload fa-fw"></i>导入数据
+    </button>
+    <!-- <input type="file" accept="text/csv" id="_uploadImportCsv" name="_uploadImportCsv" style="display: none" /> -->
+    <input ng-model="importCsv" id="_uploadImportCsv" name="_uploadImportCsv"
+           onchange="angular.element(this).scope().uploadImportCsv(this)"
+           type="file" accept="text/csv" style="display: none"/>
+    
+  <!-- </form> -->
+</div>
