@@ -437,35 +437,33 @@ function ItemsController($scope, Items, ImportItems, Pagination, $timeout, $inje
     $("#_uploadImportCsv").click()
   }
   $scope.uploadImportCsv = function (element) {
-    $scope.$apply(function(scope) {
-      var csvfile = element.files[0]
-      if(csvfile) {
-        var reader = new FileReader()
-        reader.onload = function(evt) {
-          var csvObjects = CSV.parse(reader.result)
-          var now = Date.now()
-          var items = csvObjects.map(function (importItem) {
-            var item = {
-              createdAt: now,
-              merchantID: $scope.currentMerchant.merchant.id
-            }
-            for(var i=0; i< $scope.csvProfiles.length; i++) {
-              item[$scope.csvProfiles[i].name] = importItem[i]
-            }
-            item.tags = item.tags.split(',')
-            return item
-          })
-          // console.log(items, evt)
-          ImportItems.batchImport(items, function (results) {
-            // console.log('Import items success:', results[0])
-            $scope.refreshList()
-          }, function (err) {
-            console.log('Import items error:',err)
-          })
-        }
-        reader.readAsText(csvfile)
+    var csvfile = element.files[0]
+    if(csvfile) {
+      var reader = new FileReader()
+      reader.onload = function(evt) {
+        var csvObjects = CSV.parse(reader.result)
+        var now = parseInt(Date.now()/1000, 10)
+        var items = csvObjects.map(function (importItem) {
+          var item = {
+            createdAt: now,
+            merchantID: $scope.currentMerchant.merchant.id
+          }
+          for(var i=0; i< $scope.csvProfiles.length; i++) {
+            item[$scope.csvProfiles[i].name] = importItem[i]
+          }
+          item.tags = item.tags.split(',')
+          item.price *= 100
+          return item
+        })
+        ImportItems.batchImport(items, function (results) {
+          // console.log('Import items success:', results[0])
+          $scope.refreshList()
+        }, function (err) {
+          console.log('Import items error:',err)
+        })
       }
-    })
+      reader.readAsText(csvfile)
+    }
   }
   
   widthFunctions();
