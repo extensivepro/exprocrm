@@ -22,7 +22,7 @@
     "ionicons": "*",
     "angular-local-storage": "~0.0.5",
     "angular-file-upload": "~0.5.7",
-    "ng-csv": "https://github.com/guanbo/ng-csv.git#87d8cf3562cfeb854a0652354dfcaed6202a0f77",
+    "ng-csv": "https://github.com/guanbo/ng-csv.git#932e75d305f4ca470c9610dda7a5e35f6099ad8d",
     "csv-js": "*"
   }
 }
