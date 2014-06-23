@@ -53,11 +53,9 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
   ];
   
   $scope.listToolbarView = "views/item/listToolbar.html"
-  $scope.importHeaders = []
   var sample = {}
-  $scope.cvsProfiles = $scope.profileFields.filter(function (item) {
+  $scope.csvProfiles = $scope.profileFields.filter(function (item) {
     if(item.csv) {
-      $scope.importHeaders.push(item.title)
       sample[item.title] = item.csv
     }
     return item.csv
@@ -118,7 +116,6 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
     }, function (err) {
       console.log('err:\n', err);
     });
-
   }
 
   // in edit page we can change the pic of the item
@@ -445,7 +442,18 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
       var reader = new FileReader();
       reader.onload = function(evt) {
         var csvObjects = CSV.parse(reader.result)
-        console.log(csvObjects, evt)
+        var now = Date.now()
+        var items = csvObjects.map(function (importItem) {
+          var item = {
+            createdAt: now,
+            merchant: $scope.currentMerchant.merchant.id
+          }
+          for(var i=0; i< $scope.csvProfiles.length; i++) {
+            item[$scope.csvProfiles[i].name] = importItem[i]
+          }
+          return item
+        })
+        console.log(items, evt)
       };
       reader.readAsText(csvfile);
     });
