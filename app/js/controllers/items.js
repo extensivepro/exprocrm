@@ -457,7 +457,7 @@ function ItemsController($scope, Items, ImportItems, Pagination, $timeout, $inje
           })
           // console.log(items, evt)
           ImportItems.batchImport(items, function (results) {
-            console.log('Import items success:', results[0])
+            // console.log('Import items success:', results[0])
             $scope.refreshList()
           }, function (err) {
             console.log('Import items error:',err)
