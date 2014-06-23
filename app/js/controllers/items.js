@@ -7,9 +7,9 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
   $scope.profileAvatar = "img/avatar.jpg"
   $scope.profileFields = [
     {name: "merchantID", title: "业主ID", required: true, listHide: true, hide: true, isProfileHide:true, createHide: true},
-    {name: "code", title: "编码", required: true, hide: true, createHide:true},
-    {name: "name", title: "品名", required: true, hide:false},
-    {name: "model", title: "型号", createHide:true, hide:false},
+    {name: "code", title: "编码", required: true, hide: true, createHide:true, csv:'商品的一维码或者自定义编号，例如：690012341234'},
+    {name: "name", title: "品名", required: true, hide:false, csv:'商品的名称，例如儿童上衣'},
+    {name: "model", title: "型号", createHide:true, hide:false, csv:'110cm 白色'},
     {name: "itemSkus", title: "成本", createHide:true, hide:true, value: function (entity) {
       if (entity.itemSkus) {
         return (entity.itemSkus.fold / 100).toFixed(2);
@@ -19,16 +19,16 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
     }},
     {name: "price", title: "售价", required: true, value:function(entity) {
       entity.fieldClass = entity.fieldClass || {}
-      return (entity.price/100).toFixed(2)}, hide:false},
-    {name: "mnemonicCode", title: "助记码", listHide: true, createHide:true, hide:true, isProfileHide:true},
+      return (entity.price/100).toFixed(2)}, hide:false, csv:78.00},
+    {name: "mnemonicCode", title: "助记码", listHide: true, createHide:true, hide:true, isProfileHide:true, csv:'自己定义的帮助记忆的短码例如：1234'},
     {name: "tags", title: "类别", createHide: true, listHide: false, hide: false, isProfileHide:false, value: function (entity) {
       if(entity.tags && entity.tags.length > 0) {
         return entity.tags.join(',');
       } else {
         return "未分类"
       }
-    }},
-    {name: "desc", title: "描述", listHide: true, hide:false},
+    }, csv:'童装'},
+    {name: "desc", title: "描述", listHide: true, hide:false, csv:'对商品的详细描述，例如：夏季新款'},
     {name: "createdAt", title: "创建日期", createHide: true, hide: true, createHide:true},
     {name: "status", title: "状态", value:function(entity){
       entity.fieldClass = entity.fieldClass || {}
@@ -52,9 +52,17 @@ function ItemsController($scope, Items, Pagination, $timeout, $injector, $window
     {name: "updatedAt", title: "更新日期", createHide: false, listHide: true, hide: true, isProfileHide:true}
   ];
   
-  $scope.listToolbarView = "views/item/listToolbar.html";
-  $scope.importHeaders = ["编码", "品名", "型号", "售价", "助记码", "类别", "描述"]
-  $scope.importSampleCsv = [{"编码":'12341234一维码或者自定义编号，选填', "品名":'儿童上衣', "型号":'110cm', "售价":78.00, "助记码":'自己定义的帮助记忆的短码例如：1234', "类别":'童装', "描述":'示例商品'}]
+  $scope.listToolbarView = "views/item/listToolbar.html"
+  $scope.importHeaders = []
+  var sample = {}
+  $scope.cvsProfiles = $scope.profileFields.filter(function (item) {
+    if(item.csv) {
+      $scope.importHeaders.push(item.title)
+      sample[item.title] = item.csv
+    }
+    return item.csv
+  })
+  $scope.importSampleCsv = [sample]
 
   // delete a item
   $scope.remove = function (entity) {
