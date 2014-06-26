@@ -48,15 +48,6 @@
             </select>
           </div>
         </div>
-        <div style="display: inline" ng-if="isBtnGroup">
-            <div class="row">
-                <div class="col-lg-6" style="font-size: 15px;margin-top: 5px;">订单状态：</div>
-                <div class="col-lg-4">
-                    <select  class="form-control" ng-model="currentBtn.btn"
-                             ng-options="btn as btn.value for btn in btns"></select>
-                </div>
-            </div>
-        </div>
         <div class="col-lg-3 col-md-3" ng-if="showExport">
           <button class="btn btn-primary" ng-click="exportExcel()" style="width: 100px"><span data-ng-show="!loading">导出Excel</span><span
                   data-ng-show="loading">导出中 <i style="font-size: 15px" data-ng-show="loading"
@@ -85,15 +76,6 @@
       <!--END:operator for switch shops-->
       <!--START: operator for search-->
       <div class="col-lg-3 col-md-3">
-        <div class="" ng-if="isBtnGroup">
-            <div class="row">
-                <div class="col-lg-6" style="font-size: 15px;margin-top: 5px;">付款状态：</div>
-                <div class="col-lg-4">
-                    <select  class="form-control" ng-model="currentBtnForOrder.btn"
-                             ng-options="btn as btn.value for btn in btnsForOrder"></select>
-                </div>
-            </div>
-        </div>
         <div class="" ng-if="isGroup">
             <div class="row">
                 <div class="col-lg-6" style="font-size: 15px;margin-top: 5px;">活动状态：</div>

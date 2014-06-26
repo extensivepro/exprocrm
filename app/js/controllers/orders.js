@@ -6,8 +6,8 @@
 function OrdersController($scope, Orders, Pagination, $timeout, $injector){
   $injector.invoke(BasicController, this, {$scope: $scope});
   $scope.resource = Orders;
-  $scope.searchOptions.fields = ['status']
-  $scope.searchOptions.tooltip = "请输入订单状态"
+  $scope.searchOptions.fields = ['customer.name']
+  $scope.searchOptions.tooltip = "请输入顾客姓名"
   $scope.profileAvatar = "img/avatar.jpg"
   $scope.profileFields = [
     {name: "sequenceNumber", title: "订单号"},
@@ -76,6 +76,7 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
     {name: "createdAt", title: "创建时间"},
     {name: "updateAt", title: "更新时间", listHide: true}
   ];
+  $scope.listToolbarView = "views/orders/listToolbar.html";
   
   // profile
   $scope.profileShortcuts = [
@@ -87,80 +88,37 @@ function OrdersController($scope, Orders, Pagination, $timeout, $injector){
     $scope.activeView = "views/orders/profile.html";
     $scope.trackListPage.activeView = '';
   };
-  $scope.isBtnGroup = true; //
   $scope.btns = [
-    {
-      key:'',
-      value: '全部'
-    },
-    {
-      key:'placed',
-      value:'已下单'
-    },
-    {
-      key:'accepted',
-      value:'已接受'
-    },
-    {
-      key:'rejected',
-      value:'已拒绝'
-    },
-    {
-      key:'executed',
-      value:'已履行'
-    },
-    {
-      key:'canceled',
-      value:'已取消'
-    },
-    {
-      key:'paid',
-      value:'已结账'
-    }
+    { key:'status', value:'', desc: '全部状态' },
+    { key:'status', value:'placed', desc:'已下单' },
+    { key:'status', value:'accepted', desc:'已接受' },
+    { key:'status', value:'rejected', desc:'已拒绝' },
+    { key:'status', value:'executed', desc:'已履行' },
+    { key:'status', value:'canceled', desc:'已取消' },
+    { key:'status', value:'paid', desc:'已结账' }
   ];
   $scope.currentBtn = {};
   $scope.currentBtn.btn = $scope.btns[0];
 
   $scope.btnsForOrder = [
-    {
-      key:'',
-      value: '全部'
-    },
-    {
-      key:'paid',
-      value:'已付款'
-    },
-    {
-      key:'unpaid',
-      value:'未付款'
-    }
+    { key:'payment.status', value:'', desc: '全部付款情况' },
+    { key:'payment.status', value:'paid', desc:'已付款' },
+    { key:'payment.status', value:'unpaid', desc:'未付款' }
   ];
   $scope.currentBtnForOrder = {};
   $scope.currentBtnForOrder.btn = $scope.btnsForOrder[0];
-  $scope.search = {};
-  $scope.$watch('currentBtn.btn', function () {
-    var key = $scope.currentBtn.btn.key;
-    $scope.search.text = key;
-    $timeout(function () {
-      $scope.refreshList();
-    }, 10)
-  });
-  $scope.$watch('currentBtnForOrder.btn', function () {
-    var key = $scope.currentBtnForOrder.btn.key;
-    if (key == 'unpaid') {
-      $scope.params['payment.status'] = "unpaid"
-      $scope.countQs['payment.status'] = "unpaid";
-    } else if(key == 'paid'){
-      $scope.params['payment.status'] = "paid"
-      $scope.countQs['payment.status'] = "paid";
+  function watchFilterHandler(newValue) {
+    if(newValue.value === '') {
+      delete $scope.params[newValue.key]
+      delete $scope.countQs[newValue.key]
     } else {
-      delete $scope.params['payment.status'];
-      delete $scope.countQs['payment.status'];
+      $scope.params[newValue.key] = newValue.value
+      $scope.countQs[newValue.key] = newValue.value
     }
-    $timeout(function () {
-      $scope.refreshList();
-    }, 20);
-  });
+    $scope.refreshList()
+  }
+  $scope.$watch('currentBtn.btn', watchFilterHandler)
+  $scope.$watch('currentBtnForOrder.btn', watchFilterHandler)
   $scope.checkPaidStatus = function (entity) {
     $scope.unchecked = false;
     if (entity.payment&& (entity.payment.status == 'unpaid'&& entity.status != 'canceled')) {

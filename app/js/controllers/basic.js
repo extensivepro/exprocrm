@@ -60,9 +60,9 @@ function BasicController($scope, Pagination, $modal, $log) {
 
   // profile
   $scope.profileShortcuts = [
-    {class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-edit", text: "编辑", op: "showEdit"}
+    {"class": "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-edit", text: "编辑", op: "showEdit"}
     ,
-    {class: "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-trash-o", text: "删除", op: "remove"}
+    {"class": "box quick-button-small col-lg-1 col-md-2 col-xs-6", icon: "fa fa-trash-o", text: "删除", op: "remove"}
   ]
   $scope.profileFields = []
 
