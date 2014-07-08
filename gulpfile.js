@@ -14,7 +14,6 @@ var paths = {
   'app/lib/jquery/dist/jquery.min.js',
   'app/lib/jquery-migrate/jquery-migrate.min.js',
   'app/lib/bootstrap/dist/js/bootstrap.min.js',
-  // 'app/js/jquery-ui-1.10.3.custom.min.js',
   'app/lib/autofill-event/src/autofill-event.js', 
   'app/js/core.min.js',
   'app/lib/angular/angular.js', 
