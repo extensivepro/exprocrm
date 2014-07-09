@@ -47,7 +47,7 @@ function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injec
         Devices.query({udid:$scope.entity.udid}, function (devices) {
           if(devices.length > 0 ) {
             var device = devices[0]
-            console.log(device, $scope.currentMerchant)
+            // console.log(device, $scope.currentMerchant)
             if(device.shop && device.shop.merchant.id === $scope.currentMerchant.id) {
               field.iStatus = "fa fa-times-circle fa-lg"
               $scope.registerOptions.alerts.push({type:'danger', msg: "您已经注册过该设备，不需要重复注册！"})

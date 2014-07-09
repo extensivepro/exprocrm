@@ -13,26 +13,23 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user fa-lg"></i></span>
                                 <input class="form-control" ng-model="loginUser.username" name="username" type="text"
-                                       placeholder="用户名" style="color: #000000!important;margin-top: 0px; margin-bottom: 0px" required/>
+                                       placeholder="用户名" style="" required/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-lock fa-lg" style="width: 15px"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-lock fa-lg"></i></span>
                                 <input class="form-control" ng-model="loginUser.password" name="password"
-                                       type="password" placeholder="密码" style="color: #000000!important;margin-top: 0px; margin-bottom: 0px" required/>
+                                       type="password" placeholder="密码" required/>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6" style="text-align: center">
-                                <button type="submit" class="btn btn-primary btn-lg"  style="display: inline-block;;width: 100%;padding-top: 8px!important; padding-bottom: 8px!important;">登录</button>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fa fa-lg fa-sign-in"></i>  登录</button>
                             </div>
-                            <div class="col-lg-6" style="text-align: center">
-                                <button type="button" class="btn btn-success btn-lg" ng-click="openRegModal()"  style="display: inline-block;width: 100%;padding-top: 8px!important; padding-bottom: 8px!important;">注册</button>
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-success btn-lg btn-block" ng-click="goRegister()"><i class="fa fa-lg fa-pencil-square-o"></i>  注册</button>
                             </div>
-                            <!--<div class="col-lg-6" style="text-align: center">-->
-                                <!--<a href="/reg" class="btn btn-success btn-lg" >注册</a>-->
-                            <!--</div>-->
                         </div>
                         <hr>
                         <div class="row" ng-show="alert">
@@ -68,8 +65,7 @@
 
                     <div class="col-lg-9">
                         <input class="form-control" type="text" placeholder="请输入您的手机号"
-                               name="name" ng-model="regUser.username" style="color: #555!important;"
-                               required/>
+                               name="name" ng-model="regUser.username" required/>
                     </div>
                 </div>
                 <div class="form-group">

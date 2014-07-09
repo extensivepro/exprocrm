@@ -30,6 +30,10 @@ function SignController($scope, Users, $location, $modal, $cookies, $log, $timeo
 		});
 	};
 
+  $scope.goRegister = function () {
+    $location.path('/register')
+  }
+  
   $scope.openRegModal = function () {
     var modalInstance = $modal.open({
       templateUrl: 'regModal.html',
@@ -97,84 +101,6 @@ function SignController($scope, Users, $location, $modal, $cookies, $log, $timeo
   };
 
 }
-
-// 注册界面模态框控制器
-var ModalRegCtrl = function ($scope, $modalInstance, $timeout, Users) {
-  $scope.regUser = {};
-  $scope.alertReg = {
-    "class":'alert-danger',
-    msg:''
-  };
-  var idcardRex = /(^\d{15}$)|(^\d{17}([0-9]|X)$)/;
-  var phoneRex = /^1\d{10}$/;
-  $scope.ok = function () {
-    if ($scope.check()) {
-      var obj = {
-        username: $scope.regUser.username,
-        password: $scope.regUser.password,
-        idcard: $scope.regUser.idcard,
-        name: $scope.regUser.username,
-        displayName: $scope.regUser.username,
-        phone:$scope.regUser.username,
-        male: true
-      };
-      Users.save(obj, function (me) {
-        me.password = obj.password;
-        $modalInstance.close(me);
-      }, function (err) {
-        console.log('err:\n', err);
-        if (err.data && err.data.errors && (err.data.errors.username == 'is already in use')) {
-          $scope.alertReg.msg = '用户名已经被占用！';
-          showAlert();
-        } else {
-
-        }
-      });
-      return;
-    } else {
-      return;
-    }
-  };
-  $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
-  };
-  $scope.check = function () {
-    var user = $scope.regUser;
-    var alert = $scope.alertReg;
-    if (!user.username) {
-      alert.msg = '用户名不能为空！';
-      showAlert();
-      return false;
-    } else if (!user.idcard) {
-      alert.msg = '身份证号不能为空！';
-      showAlert();
-      return false;
-    } else if (!user.password || !user['password_r']) {
-      alert.msg = '密码不能为空！';
-      showAlert();
-      return false;
-    } else if (user.password != user['password_r']) {
-      alert.msg = '两次密码输入不一致！';
-      showAlert();
-      return false;
-    } else if (!phoneRex.test(user.username)) {
-      alert.msg = '用户名必须是手机号码！';
-      showAlert();
-      return false;
-    }else if (!idcardRex.test(user.idcard)) {
-      alert.msg = '身份证号码填写有误！';
-      showAlert();
-      return false;
-    } else {
-      return true;
-    }
-  }
-  function showAlert () {
-    $timeout(function () {
-      $scope.alertReg.msg = '';
-    }, 2000);
-  }
-};
 
 // 新建商户模态框控制器
 var ModalCreateMerchantCtrl = function ($scope, $modalInstance, $timeout, Merchants, msg) {
