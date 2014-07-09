@@ -2,50 +2,46 @@
     <div class="row">
         <div class="row">
             <div class="page-header" >
-                <h1 class="text-center text-primary"><img src="img/logo.png" alt="泛商汇RMS">  <small>零售管理系统</small></h1>
+                <h1 class="text-center text-primary"><img src="img/logo.png" alt="泛商汇RMS">  零售管理系统</h1>
             </div>
-            <div class="container" style="margin-top: 50px">
-                <div class="row">
-                    <div class="row">
-                        <div class="login-box">
-                            <h2 style="font-size: 24px; color: #008000">登录</h2>
-                            <hr/>
-                            <form novalidate method="post" name="login_form" class="form-horizontal wt-form" id="form" ng-submit="Login()"  ui-keypress="{13:'Login($event)'}" form-autofill-fix>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-user fa-lg"></i></span>
-                                        <input class="form-control" ng-model="loginUser.username" name="username" type="text"
-                                               placeholder="用户名" style="color: #000000!important;margin-top: 0px; margin-bottom: 0px" required/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-lock fa-lg" style="width: 15px"></i></span>
-                                        <input class="form-control" ng-model="loginUser.password" name="password"
-                                               type="password" placeholder="密码" style="color: #000000!important;margin-top: 0px; margin-bottom: 0px" required/>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6" style="text-align: center">
-                                        <button type="submit" class="btn btn-primary btn-lg"  style="display: inline-block;;width: 100%;padding-top: 8px!important; padding-bottom: 8px!important;">登录</button>
-                                    </div>
-                                    <div class="col-lg-6" style="text-align: center">
-                                        <button type="button" class="btn btn-success btn-lg" ng-click="openRegModal()"  style="display: inline-block;width: 100%;padding-top: 8px!important; padding-bottom: 8px!important;">注册</button>
-                                    </div>
-                                    <!--<div class="col-lg-6" style="text-align: center">-->
-                                        <!--<a href="/reg" class="btn btn-success btn-lg" >注册</a>-->
-                                    <!--</div>-->
-                                </div>
-                                <hr>
-                                <div class="row" ng-show="alert">
-                                    <div class="col-lg-12" style="text-align: center;">
-                                        <div ng-class="alert.class"><span ng-bind="alert.msg"></span></div>
-                                    </div>
-                                </div>
-                                <p class="text-center"> 泛盈科技 @2013</p>
-                            </form>
+            <div class="row">
+                <div class="login-box">
+                    <h2 style="font-size: 24px; color: #008000">登录</h2>
+                    <hr/>
+                    <form novalidate method="post" name="login_form" class="form-horizontal wt-form" id="form" ng-submit="Login()"  ui-keypress="{13:'Login($event)'}" form-autofill-fix>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user fa-lg"></i></span>
+                                <input class="form-control" ng-model="loginUser.username" name="username" type="text"
+                                       placeholder="用户名" style="color: #000000!important;margin-top: 0px; margin-bottom: 0px" required/>
+                            </div>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock fa-lg" style="width: 15px"></i></span>
+                                <input class="form-control" ng-model="loginUser.password" name="password"
+                                       type="password" placeholder="密码" style="color: #000000!important;margin-top: 0px; margin-bottom: 0px" required/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6" style="text-align: center">
+                                <button type="submit" class="btn btn-primary btn-lg"  style="display: inline-block;;width: 100%;padding-top: 8px!important; padding-bottom: 8px!important;">登录</button>
+                            </div>
+                            <div class="col-lg-6" style="text-align: center">
+                                <button type="button" class="btn btn-success btn-lg" ng-click="openRegModal()"  style="display: inline-block;width: 100%;padding-top: 8px!important; padding-bottom: 8px!important;">注册</button>
+                            </div>
+                            <!--<div class="col-lg-6" style="text-align: center">-->
+                                <!--<a href="/reg" class="btn btn-success btn-lg" >注册</a>-->
+                            <!--</div>-->
+                        </div>
+                        <hr>
+                        <div class="row" ng-show="alert">
+                            <div class="col-lg-12" style="text-align: center;">
+                                <div ng-class="alert.class"><span ng-bind="alert.msg"></span></div>
+                            </div>
+                        </div>
+                        <p class="text-center"> 泛盈科技 @2013</p>
+                    </form>
                 </div>
             </div>
         </div>
@@ -105,13 +101,6 @@
                         <button type="button" class="btn btn-warning btn-lg" style="border-radius:10px;" ng-click="cancel()">取消</button>
                     </div>
                 </div>
-                <!--START: div for alert-->
-<!--                <div class="row" ng-show="alertReg.msg">
-                    <div class="col-lg-12" style="text-align: center;">
-                        <div ng-class="alertReg.class"><span ng-bind="alertReg.msg"></span></div>
-                    </div>
-                </div>-->
-                <!--END: div for alert-->
             </form>
         </div>
     </div>

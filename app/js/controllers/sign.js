@@ -98,19 +98,6 @@ function SignController($scope, Users, $location, $modal, $cookies, $log, $timeo
 
 }
 
-function AuthController($scope, $http, Users, $location) {
-  $scope.init = function () {
-    console.log('==========',$location.search())
-    // $location.search({})
-    // $http.defaults.headers.common['cookies']= 'sid=413bd4800e15714dd387a57cfd9d554f6ea8eabb65597308423721fca2a995e6293b79f5d077b757807f18a8648a2a324e43780c2161f3fdfa4897d0fb398a71'
-    Users.me(function () {
-      $location.path('/main')
-    }, function (httpResponse) {
-      console.log('Error:', httpResponse)
-    })
-  }
-}
-
 // 注册界面模态框控制器
 var ModalRegCtrl = function ($scope, $modalInstance, $timeout, Users) {
   $scope.regUser = {};

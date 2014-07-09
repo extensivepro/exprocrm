@@ -19,7 +19,6 @@ var app = angular.module('exproRMS', [
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/home', {templateUrl: 'views/home.html', controller: 'SignController'});
-  $routeProvider.when('/auth', {templateUrl: 'views/user/auth.html', controller: 'AuthController'});
   $routeProvider.when('/main', {templateUrl: 'views/main.html'});
   $routeProvider.otherwise({redirectTo: '/home'});
 }]).
