@@ -23,6 +23,7 @@
     "angular-local-storage": "~0.0.5",
     "angular-file-upload": "~0.5.7",
     "ng-csv": "https://github.com/guanbo/ng-csv.git#932e75d305f4ca470c9610dda7a5e35f6099ad8d",
-    "csv-js": "*"
+    "csv-js": "*",
+    "angular-charts": "~0.2.4"
   }
 }

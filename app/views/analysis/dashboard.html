@@ -31,24 +31,10 @@
   </div>
   <div class="row">
     <div class="col-lg-6 col-md-12">
-      <div class="box">
-        <div class="box-header">
-          <h2>商店排行</h2>
-        </div>
-        <div class="box-content">
-          <div google-chart="" chart="shopChart" style="{{shopChart.cssStyle}}" on-ready="chartReady()"></div>
-        </div>
-      </div>
+      <div ac-chart="'bar'" ac-data="shopChartData" ac-config="shopChartConfig" id='shopChart' class='main-chart'></div>
     </div>
     <div class="col-lg-6 col-md-12">
-      <div class="box">
-        <div class="box-header">
-          <h2>单品排行</h2>
-        </div>
-        <div class="box-content">
-          <div google-chart="" chart="itemChart" style="{{shopChart.cssStyle}}" on-ready="chartReady()"></div>
-        </div>
-      </div>
+      <div ac-chart="'bar'" ac-data="itemChartData" ac-config="itemChartConfig" id='shopChart' class='main-chart'></div>
     </div>
   </div>
 </div>

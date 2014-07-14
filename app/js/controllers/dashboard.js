@@ -3,6 +3,39 @@ function DashboardController($scope, Statistics, Shops, Items) {
   $scope.totalCash = 0.0
   $scope.skusNum = 0.0
 
+  $scope.shopChartConfig = {
+    title: '门店销售排行',
+    tooltips: true,
+    labels: true,
+    // mouseover: function() {},
+    // mouseout: function() {},
+    // click: function() {},
+    legend: {
+      display: true,
+      position: 'right'
+    }
+  }
+
+  $scope.shopChartData = {
+    series: ['销量', '退单', '储值'],
+    data: []
+  }
+
+  $scope.itemChartConfig = {
+    title: '单品销售排行',
+    tooltips: true,
+    labels: true,
+    legend: {
+      display: true,
+      position: 'right'
+    }
+  }
+
+  $scope.itemChartData = {
+    series: ['销售额'],
+    data: []
+  }
+  
   //controller initialization
   $scope.$watch('currentMerchant.merchant', function () {
     if ($scope.currentMerchant.merchant['address']) {
@@ -21,38 +54,6 @@ function DashboardController($scope, Statistics, Shops, Items) {
       skusFetch();
   })
 
-  function basicChartInit() {
-    var chart = {};
-    chart.type = 'BarChart';
-    chart.displayed = true;
-    chart.cssStyle = "height:350px; width:100%;text-align: right;";
-    chart.data = {"cols": [
-      {id: "shopName", label: "店名", type: "string"},
-      {id: "sales", label: "销售", type: "number"}
-    ], "rows": []};
-    chart.options = {
-      "legend": 'none',
-      "isStacked": "false",
-      "fill": 50,
-      "displayExactValues": true,
-      "vAxis": {
-        "title": "商店名称",
-        "maxAlternation": 1,
-        "slantedText": false,
-        "titleTextStyle": {italic: false, bold: true}
-      },
-      "hAxis": {
-        "title": "销售额(元)",
-        "gridlines": {"count": 10},
-        "maxAlternation": 1,
-        "slantedText": false,
-        "baseline": 0,
-        "titleTextStyle": {italic: false, bold: true}
-      }
-    };
-    return chart
-  }
-
   function sortByKey(array, key) {
     return array.sort(function(a, b) {
       var x = a[key]; var y = b[key];
@@ -62,11 +63,9 @@ function DashboardController($scope, Statistics, Shops, Items) {
 
   function itemSaleFetch(){
     Items.query({merchantID: $scope.currentMerchant.merchant.id, '$fields': {id: 1, merchantID: 1, name: 1}}, function (result){
-      var chart = basicChartInit();
-      var itemIDs = [];
-      result.forEach(function (item) {
-        itemIDs.push(item.id);
-        $scope.itemHashMap.Set(item.id, item.name);
+      var itemIDs = result.map(function (item) {
+        $scope.itemHashMap.Set(item.id, item.name)
+        return item.id
       })
       var param = {
         keyID: $scope.currentMerchant.merchant.id,
@@ -74,42 +73,28 @@ function DashboardController($scope, Statistics, Shops, Items) {
         end: Statistics.until(new Date(), 'daily'),
         start: Statistics.until(new Date(), 'daily') - 2,
         target: 'deals',
-        limit: 10000,
+        sort: { "value.sumPrice": -1 },
+        limit: 3,
         period: 'daily'
       }
       Statistics.query(param, function(result){
-       // console.log(result);
-        var itemData = [];
-        var rows = [];
+        // console.log(result);
         result.forEach(function(item){
           var itemDatium = {
-            name: $scope.itemHashMap.Get(item.value.itemID),
-            sumPrice: Number((item.value.sumPrice / 100).toFixed(1))
-          };
-          itemData.push(itemDatium);
+            x: $scope.itemHashMap.Get(item.value.itemID),
+            y: [Number((item.value.sumPrice / 100).toFixed(1))]
+          }
+          $scope.itemChartData.data.push(itemDatium);
         })
-        itemData = sortByKey(itemData, 'sumPrice');
-        var limit = itemData.length >=5 ? 5 : itemData.length;
-        for (var i = 0; i < limit; i ++){
-          rows.push({
-            'c': [
-              {'v': itemData[i].name},
-              {'v': itemData[i].sumPrice, 'f': itemData[i].sumPrice+ ' 元'}
-            ]
-          });
-        }
-        chart.data.rows = rows;
-        $scope.itemChart = chart;
       })
     })
   }
 
   function shopSaleFetch(){
-    Shops.query({merchantID: $scope.currentMerchant.merchant.id, '$fields': {id: 1, merchantID: 1, name: 1}}, function (result){
-//      console.log(result);
-      var chart = basicChartInit();
+    Shops.query({merchantID: $scope.currentMerchant.merchant.id, '$fields': {id: 1, merchantID: 1, name: 1}}, function (shops){
+      // console.log(shops);
       var keyIDs = [];
-      result.forEach(function(item){
+      shops.forEach(function(item){
         $scope.shopHashMap.Set(item.id, item.name);
         keyIDs.push(item.id);
       })
@@ -119,31 +104,22 @@ function DashboardController($scope, Statistics, Shops, Items) {
         end: Statistics.until(new Date(), 'daily'),
         start: Statistics.until(new Date(), 'daily') - 1,
         target: 'bills',
-        limit: 2
+        sort: {"value.sale.total": -1},
+        limit: 5
       }
       Statistics.query(param, function (result) {
-//        console.log(result);
-        var shopData = []
-        var rows = [];
+        // console.log(result);
         result.forEach(function (item) {
           var shopDatium = {
-            name: $scope.shopHashMap.Get(item.value.keyID),
-            total: Number((item.value.sale.total / 100).toFixed(1))
+            x: $scope.shopHashMap.Get(item.value.keyID),
+            y: [
+              parseInt(item.value.sale.total/100, 10), 
+              parseInt(item.value.return.total/100, 10), 
+              parseInt(item.value.prepay.total/100, 10)
+            ]
           };
-          shopData.push(shopDatium);
+          $scope.shopChartData.data.push(shopDatium);
         })
-        shopData = sortByKey(shopData, 'total');
-        var limit = shopData.length >= 5 ? 5 : shopData.length;
-          for (var i = 0; i < limit; i ++) {
-            rows.push({
-              'c': [
-                {'v': shopData[i].name},
-                {'v': shopData[i].total, 'f': shopData[i].total + ' 元'}
-              ]
-            });
-          }
-          chart.data.rows = rows;
-          $scope.shopChart = chart;
       })
     })
   }
@@ -214,15 +190,12 @@ function DashboardController($scope, Statistics, Shops, Items) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  $scope.chartReady = function () {
-    fixGoogleChartsBarsBootstrap();
-  }
-  function fixGoogleChartsBarsBootstrap() {
-    $(".google-visualization-table-table img[width]").each(function (index, img) {
-      $(img).css("width", $(img).attr("width")).css("height", $(img).attr("height"));
-    });
-  }
-
+  //event
+  $scope.$on('currentMerchantReady', function (event, data) {
+    shopSaleFetch()
+    itemSaleFetch()
+  })
+  
   $scope.init = function () {
     $scope.shopHashMap = {
       Set : function(key,value){this[key] = value},
@@ -240,8 +213,6 @@ function DashboardController($scope, Statistics, Shops, Items) {
     skusParamInit($scope.currentMerchant.merchant.id);
     $scope.cashFlowNum = numberWithCommas($scope.saleParam.end);
     $scope.cashFlowBlk = true;
-    $scope.shopChart = basicChartInit()
-    $scope.itemChart = basicChartInit()
     widthFunctions();
   };
   $scope.getCash = function () {

@@ -135,6 +135,7 @@ function MainController($scope, $modal, Users, Merchants, Shops, localStorageSer
   };
   $scope.$watch('currentMerchant.merchant', function () {
     if ($scope.currentMerchant.merchant['id']) {
+      $scope.$broadcast('currentMerchantReady', $scope.currentMerchant.merchant)
       var obj = {
         merchantID:$scope.currentMerchant.merchant.id,
         $limit:100
