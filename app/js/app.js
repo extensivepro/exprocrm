@@ -18,8 +18,8 @@ var app = angular.module('exproRMS', [
   'LocalStorageModule'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/home', {templateUrl: 'views/home.html', controller: 'SignController'});
-  $routeProvider.when('/register', {templateUrl: 'views/user/register.html', controller: 'RegisterController'});
+  $routeProvider.when('/home', {templateUrl: 'views/home.html', controller: 'SigninController'});
+  $routeProvider.when('/register', {templateUrl: 'views/register.html'});
   $routeProvider.when('/main', {templateUrl: 'views/main.html'});
   $routeProvider.otherwise({redirectTo: '/home'});
 }]).

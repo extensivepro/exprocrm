@@ -1,4 +1,4 @@
-function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injector, $log, DeviceRegister, Merchants){
+function DevicesController($scope, Devices, Pagination, $injector){
 	$injector.invoke(BasicController, this, {$scope: $scope})
 	$scope.resource = Devices
   $scope.defaultParams = {"shop.merchant.id": $scope.currentMerchant.id}
@@ -17,24 +17,32 @@ function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injec
   ]
   // route
   $scope.showCreate = function() {
-    var d = new Date()
-    $scope.entity = {createdAt: Math.round(d.getTime()/1000)}
-    $scope.registerOptions = {
-      icon: "fa fa-pencil",
-      alerts: []
-    }
-    $scope.registerFields = [
-        {key: "udid", title: "设备的序列号", iPrepend:"fa-hdd-o", iStatus:"fa-circle"}
-      // , {key: "idcard", title: "设备的店长身份证", iPrepend:"fa-user", iStatus:"fa-circle"}
-      // , {key: "password", title: "设备的店长密码", iPrepend:"fa-key", iStatus:"fa-circle"}
-    ]
-    $scope.activeView = "views/devices/register.html"
+    $scope.activeView = "views/devices/create.html"
+  }
+  
+  // after done register device
+  $scope.nextStep = function () {
+    $scope.cancelEdit()
   }
 
   $scope.params['merchantID'] = $scope.currentMerchant.id;
   $scope.countQs['merchantID'] = $scope.currentMerchant.id;
   $scope.defaultString = "name";
-  // model
+}
+
+function DeviceRegisterController($scope, Devices, $modal, $timeout, $log, DeviceRegister, $location) {
+  var d = new Date()
+  $scope.entity = {createdAt: Math.round(d.getTime()/1000)}
+  $scope.registerOptions = {
+    icon: "fa fa-pencil",
+    alerts: []
+  }
+  $scope.registerFields = [
+      {key: "udid", title: "设备序列号", iStatus:"fa-circle"}
+    // , {key: "idcard", title: "设备的店长身份证", iPrepend:"fa-user", iStatus:"fa-circle"}
+    // , {key: "password", title: "设备的店长密码", iPrepend:"fa-key", iStatus:"fa-circle"}
+  ]
+
   $scope.validate = function (index) {
     var field = $scope.registerFields[index]
     $scope.registerOptions.alerts = []
@@ -48,15 +56,10 @@ function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injec
           if(devices.length > 0 ) {
             var device = devices[0]
             // console.log(device, $scope.currentMerchant)
-            if(device.shop && device.shop.merchant.id === $scope.currentMerchant.id) {
-              field.iStatus = "fa fa-times-circle fa-lg"
-              $scope.registerOptions.alerts.push({type:'danger', msg: "您已经注册过该设备，不需要重复注册！"})
-            } else {
-              field.iStatus = "fa fa-check-circle fa-lg"
-              $scope.registerOptions.device = devices[0]
-              $scope.entity.code = devices[0].code
-              $scope.entity.name = devices[0].name
-            }
+            field.iStatus = "fa fa-check-circle fa-lg"
+            $scope.registerOptions.device = devices[0]
+            $scope.entity.code = devices[0].code
+            $scope.entity.name = devices[0].name
           } else {
             field.iStatus = "fa fa-times-circle fa-lg"
             $scope.registerOptions.alerts.push({type:'danger', msg: "系统没找到您提供的设备序列号，请确认输入是正确的序列号！"})
@@ -98,12 +101,21 @@ function DevicesController($scope, Devices, Pagination, $modal, $timeout, $injec
     DeviceRegister.save(device, function () {
       $scope.registerOptions.icon = "fa fa-pencil"
       $scope.registerOptions.alerts.push({type:'success', msg: "已经注册成功!"})
+      $timeout(function () {
+        $scope.nextStep()
+      }, 2000)
     }, function (err) {
       $scope.registerOptions.icon = "fa fa-pencil"
       $scope.registerOptions.alerts.push({type:'danger', msg: "注册失败，店长身份证和密码不正确!"})
     })
   }
   
+  $scope.init = function () {
+    var querystring = $location.search()
+    $scope.entity.udid = querystring.serialnumber || ''
+    if($scope.entity.udid) $scope.validate(0)
+  }
+
   $scope.chooseShop = function () {
     var modalInstance = $modal.open({
       templateUrl: 'chooseShopModalContent.html',

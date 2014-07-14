@@ -1,0 +1,24 @@
+<div ng-controller="SignupController" ng-init='init()'>
+  <form ng-model="regUser" novalidate method="post" name="register_form" class="form-horizontal wt-form" ng-submit="register()"  ui-keypress="{13:'ok($event)'}" id="form">
+    <div class="form-group" ng-repeat="field in registerFields">
+      <label class="col-md-3 control-label">{{field.title}}</label>
+      <div class="col-md-9">
+        <div class="input-group">
+          <input class="form-control focused" type="{{field.type}}" ng-model="regUser[field.key]" ui-event="{ blur: 'validate($index)' }"  placeholder="{{field.placeholder}}" required>
+          <span class="input-group-addon"><i class="fa {{field.iStatus}}"></i></span>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <alert type="alert.type" ng-show="alert.msg !==''">{{alert.msg}}</alert>
+    <div class="form-group">
+      <div class="col-md-4 col-md-offset-6">
+        <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fa {{registerButtonIcon}}"></i> 注册</button>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-warning btn-lg btn-block" ng-click="cancelEdit()"><i class="fa fa-arrow-circle-o-left"></i> 取消</button>
+      </div>
+    </div>
+  </form>
+</div>
+  

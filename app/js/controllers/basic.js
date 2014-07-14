@@ -51,11 +51,11 @@ function BasicController($scope, Pagination, $modal, $log) {
   // list
   $scope.fields = []
   $scope.fieldOperations = [
-    {class: "btn btn-success", icon: "fa fa-file fa-5x", op: "showProfile", title:'详情'}
+    {"class": "btn btn-success", icon: "fa fa-file fa-5x", op: "showProfile", title:'详情'}
     ,
-    {class: "btn btn-info", icon: "fa fa-edit fa-5x", op: "showEdit",title:'编辑'}
+    {"class": "btn btn-info", icon: "fa fa-edit fa-5x", op: "showEdit",title:'编辑'}
     ,
-    {class: "btn btn-danger", icon: "fa fa-trash-o fa-5x", op: "remove", title:'删除'}
+    {"class": "btn btn-danger", icon: "fa fa-trash-o fa-5x", op: "remove", title:'删除'}
   ]
 
   // profile

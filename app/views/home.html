@@ -51,58 +51,6 @@
         margin-top: 185px;
     }
 </style>
-<!--Start: Modal for reg-->
-<script type="text/ng-template" id="regModal.html">
-    <div style="">
-    <div class="modal-header" style="">
-        <h2 style="font-size: 24px; color: #008000">注册<span ng-show="alertReg.msg" style="margin-left: 30px;"><span style="background-color: transparent" ng-class="alertReg.class" ng-bind="alertReg.msg"></span></span></h2>
-    </div>
-    <div class="modal-body" style="margin: 0px;padding: 0px;">
-        <div class="login-box" style="width: 550px;margin: 0 auto;padding: 0px;">
-            <form ng-model="regUser" novalidate method="post" name="register_form" class="form-horizontal wt-form" ng-submit="ok()"  ui-keypress="{13:'ok($event)'}" id="form">
-                <div class="form-group">
-                    <label class="col-lg-3 control-label" style="font-size: 16px;">用户名：</label>
-
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" placeholder="请输入您的手机号"
-                               name="name" ng-model="regUser.username" required/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label" style="font-size: 16px;">身份证号码：</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" ng-model="regUser.idcard" style="color: #555!important;" type="text" placeholder="请输入您的身份证号码"
-                                 required/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label" style="font-size: 16px;">密码：</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" style="color: #555!important;" type="password" placeholder="请输入密码"
-                               name="password"  id="p1" ng-model="regUser.password"
-                               required/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label" style="font-size: 16px;">重复密码：</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" style="color: #555!important;" type="password" placeholder="再输入一次"
-                               name="password-repeat" id="p2"
-                               ng-model="regUser.password_r" required/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="" style="margin: 0 auto; text-align: center;">
-                        <button type="submit" class="btn btn-primary btn-lg" style="border-radius:10px;" ng-click="">确定</button>
-                        <button type="button" class="btn btn-warning btn-lg" style="border-radius:10px;" ng-click="cancel()">取消</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    </div>
-</script>
-<!--End: Modal for reg-->
 
 <!--START: Modal for createMerchant-->
 <script type="text/ng-template" id="createMerchantModal.html">

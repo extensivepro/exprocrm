@@ -1,0 +1,13 @@
+<div class="container" ng-controller="RegisterController" ng-init="init()">
+  <div class="row">
+    <div class="login-box" style="width: 800px;">
+      <span ng-repeat="step in steps" class="step-follow">
+        <span ng-class="{active: step.active}">{{step.title}}</span>
+        <i class="fa fa-arrow-circle-o-right blue"></i>
+      </span>
+      <span class="step-follow">完成</span>
+      <hr>
+      <div ng-include="activeStepView">
+    </div>
+  </div>
+</div>

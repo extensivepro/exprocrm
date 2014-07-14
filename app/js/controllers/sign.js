@@ -1,4 +1,4 @@
-function SignController($scope, Users, $location, $modal, $cookies, $log, $timeout, Merchants){
+function SigninController($scope, Users, $location, $modal, $cookies, $log, $timeout, Merchants){
 	$scope.loginUser = {
 		username:"", password:""
 	}
@@ -15,11 +15,12 @@ function SignController($scope, Users, $location, $modal, $cookies, $log, $timeo
     }
 		Users.login(user, function(data){
       Merchants.query({'owner.id':data.uid}, function (merchants) {
-        if (!merchants.length) { // 检测出该用户还未创建过商户，则禁止进入主页面，转而显示新建商户modal。
-          $scope.meLogin = user; // 将当前登录的用户名和密码保存起来，用以创建完商户和商店后登录使用
-          $scope.showCreateMerchantModal(data, true); //data：登录后服务器返回的用户详情；true:用于标识‘新建商户模态框’是因为登录时检测出这个用户还没有商户。
+        if (!merchants.length) {
+          var qs = $location.search()
+          qs.step = 1
+          $location.path('/register').search(qs)
         } else {
-          $location.path('/main'); // 已经有商户则直接进入主页面
+          $location.path('/main')
         }
       });
 		},function(){
@@ -31,32 +32,10 @@ function SignController($scope, Users, $location, $modal, $cookies, $log, $timeo
 	};
 
   $scope.goRegister = function () {
-    $location.path('/register')
+    var qs = $location.search()
+    qs.step = 0
+    $location.path('/register').search(qs)
   }
-  
-  $scope.openRegModal = function () {
-    var modalInstance = $modal.open({
-      templateUrl: 'regModal.html',
-      controller: ModalRegCtrl,
-      resolve: {
-      }
-    });
-    modalInstance.result.then(function (me) {
-      $scope.meLogin = { // 登录所需的用户名和密码
-        username: me.username,
-        password: me.password
-      };
-      delete me.password;
-      $scope.meProfile = me; // 创建商户时的owner
-      Users.login($scope.meLogin, function(data){
-        $scope.showCreateMerchantModal($scope.meProfile);
-      },function(){
-        console.log('err:\n', err);
-      });
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
-  };
 
   $scope.showCreateMerchantModal = function (Me, flag) {
     var modalInstance = $modal.open({
@@ -99,6 +78,114 @@ function SignController($scope, Users, $location, $modal, $cookies, $log, $timeo
       $log.info('Modal dismissed at: ' + new Date());
     });
   };
+
+}
+
+function SignupController($scope, $location, $timeout, Devices, DeviceRegister, Users) {
+  $scope.regUser = {
+    username:"13357828347",
+    password:"123456",
+    password2: "123456",
+    idcard: "320103197912162012"
+  }
+  $scope.alert = {
+    type: 'danger',
+    msg:''
+  }
+  $scope.registerFields = [
+    {key: "username", title: "用户名", placeholder:"请输入您的手机号", type:"text", iStatus:"fa-question"}
+    , {key: "password", title: "密码", placeholder:"请输入密码", type:"password", iStatus:"fa-question"}
+    , {key: "password2", title: "确认密码", placeholder:"请输入与上面相同的密码", type:"password", iStatus:"fa-question"}
+  ]
+  $scope.registerButtonIcon = "fa-pencil"
+  
+  $scope.register = function (callback) {
+    $scope.registerButtonIcon = "fa-spinner fa-spin"
+    if ($scope.check()) {
+      var obj = {
+        username: $scope.regUser.username,
+        password: $scope.regUser.password,
+        idcard: '320103197912162012',
+        name: $scope.regUser.username,
+        displayName: $scope.regUser.username,
+        phone: $scope.regUser.username,
+        male: true
+      };
+      Users.save(obj, function (me) {
+        me.password = obj.password;
+        Users.login(me, function () {
+          $scope.registerButtonIcon = "fa-pencil"
+          $scope.nextStep()
+        }, function (err) {
+          console.log(err)
+          showAlert('用户登录失败，请重新登录后再尝试！')
+          $timeout(function () {
+            $location.path('/home')
+          }, 3000)
+        })
+      }, function (err) {
+        console.log('err:\n', err);
+        if (err.data && err.data.errors && (err.data.errors.username == 'is already in use')) {
+          showAlert('用户已经被注册过，请点击右下角返回登录界面登录！')
+        } else {
+          showAlert(err.data.errors)
+        }
+      })
+    }
+  }
+  
+  function validateResult(field, msg) {
+    if(msg) {
+      field.iStatus = "fa-times-circle"
+      showAlert(msg)
+      return false
+    } else {
+      field.iStatus = "fa-check-circle"
+      return true
+    }
+  }
+  
+  $scope.validate = function (index) {
+    var field = $scope.registerFields[index]
+    if(!$scope.regUser[field.key] || $scope.regUser[field.key] === '') {
+      return validateResult(field, field.title + "不能为空！")
+    } else {
+      if (field.key === 'username') {
+        var phoneRex = /^1\d{10}$/
+        if(!phoneRex.test($scope.regUser.username)) {
+          return validateResult(field, '用户名必须是正确的手机号码！')
+        }
+      } else if (field.key === 'password2') {
+        if($scope.regUser.password !== $scope.regUser.password2) {
+          return validateResult(field, '两次密码输入不一致！')
+        }
+      // } else if (field.key === 'idcard') {
+      //   var idcardRex = /(^\d{15}$)|(^\d{17}([0-9]|X)$)/
+      //   if (!idcardRex.test($scope.regUser.idcard)) {
+      //     return validateResult(field, '身份证号码填写不正确！')
+      //   }
+      }
+      return validateResult(field)
+    }
+  }
+  
+  $scope.check = function () {
+    var validated = true
+    for (var i = $scope.registerFields.length - 1; i >= 0; i--) {
+      var field = $scope.registerFields[i]
+      if(field.iStatus !== 'fa-check-circle' && !$scope.validate(i)) {
+        validated = false
+      }
+    }
+    return validated
+  }
+  
+  function showAlert (msg, type) {
+    $scope.registerButtonIcon = "fa-pencil"
+    $scope.alert.type = type || 'danger'
+    $scope.alert.msg = msg
+    return false
+  }
 
 }
 

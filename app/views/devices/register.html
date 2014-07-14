@@ -1,56 +1,45 @@
-<div class="box">
-<div class="box-header">
-	<h2><i ng-class="currentView.icon"></i><span class="break"></span><span>注册{{currentView.name}}</span></h2>
-	<div class="box-icon">
-		<a ng-click="cancelEdit()" class="btn-close"><i class="fa fa-times"></i></a>
-	</div>
-</div>
-<div class="box-content">
-  <form class="form-horizontal" ng-model="entity" name="registerForm">
+<div ng-controller="DeviceRegisterController" ng-init="init()">
+  <form class="form-horizontal wt-form" ng-model="entity" name="registerForm" ng-submit="register()" ui-keypress="{13:'ok($event)'}">
 		<div class="form-group">
-			<label class="col-lg-2 control-label"></label>
-      <span class="help-block"><i class="fa fa-circle"> 标记的项目不能为空</i></span>
+      <span class="col-md-offset-3"><i class="fa fa-circle"> 标记的项目必须填写</i></span>
 		</div>
     <div class="form-group" ng-repeat="field in registerFields">
-      <label class="col-lg-2 control-label">{{field.title}}</label>
-      <div class="col-lg-6">
+      <label class="col-md-3 control-label">{{field.title}}</label>
+      <div class="col-md-9">
         <div class="input-group">
-          <span class="input-group-addon"><i class="fa {{field.iPrepend}} fa-lg"></i></span>
           <input class="form-control focused" type="text" ng-model="entity[field.key]" ui-event="{ blur: 'validate($index)' }" required>
           <span class="input-group-addon"><i class="fa {{field.iStatus}}"></i></span>
         </div>
       </div>
     </div>
     <hr>
-    <!-- <div ng-include="editView" /> -->
     <div class="form-group">
-      <label class="col-lg-2 control-label">新编号</label>
-      <div class="col-lg-6">
+      <label class="col-md-3 control-label">新编号</label>
+      <div class="col-md-9">
         <div class="input-group">
-          <span class="input-group-addon"><i class="fa fa-barcode fa-lg"></i></span>
-          <input class="form-control focused" type="text" ng-model="entity.code">
+          <input class="form-control" type="text" ng-model="entity.code">
+          <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
         </div>
       </div>
     </div>
     <div class="form-group">
-      <label class="col-lg-2 control-label">新名字</label>
-      <div class="col-lg-6">
+      <label class="col-md-3 control-label">新名字</label>
+      <div class="col-md-9">
         <div class="input-group">
-          <span class="input-group-addon"><i class="fa fa-flag fa-lg"></i></span>
-          <input class="form-control focused" type="text" ng-model="entity.name">
+          <input class="form-control" type="text" ng-model="entity.name">
+          <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
         </div>
       </div>
     </div>
     <hr>
+    <alert ng-repeat="alert in registerOptions.alerts" type="alert.type">{{alert.msg}}</alert>
     <div class="form-group">
-      <alert ng-repeat="alert in registerOptions.alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-      <div class="col-lg-offset-2 col-lg-10">
-        <button ng-disabled="registerForm.$error.required" ng-click="register()" class="btn btn-primary btn-lg">
-          <i class="{{registerOptions.icon}}"></i>  注册设备
-        </button>
-        <button ng-click="cancelEdit()" class="btn btn-lg">  取消</button>
+      <div class="col-md-4 col-md-offset-6">
+        <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fa {{registerOptions.icon}}"></i> 登记</button>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-warning btn-lg btn-block" ng-click="cancelEdit()"><i class="fa fa-arrow-circle-o-left"></i> 取消</button>
       </div>
     </div>
   </form>
-</div>
 </div>
