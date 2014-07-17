@@ -82,12 +82,7 @@ function SigninController($scope, Users, $location, $modal, $cookies, $log, $tim
 }
 
 function SignupController($scope, $location, $timeout, Devices, DeviceRegister, Users) {
-  $scope.regUser = {
-    username:"13357828347",
-    password:"123456",
-    password2: "123456",
-    idcard: "320103197912162012"
-  }
+  $scope.regUser = {}
   $scope.alert = {
     type: 'danger',
     msg:''
