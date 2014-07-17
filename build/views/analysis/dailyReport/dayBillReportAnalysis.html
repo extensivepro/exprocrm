@@ -1,186 +1,179 @@
 <div class="row" ng-controller="DayBillReportController">
-    <div class="row" style="padding-left: 15px; padding-right: 15px">
-        <div class="box">
-            <div class="box-header">
-                <div class="row">
-                    <div class="col-xs-4" style="line-height: 30px;">
-                        <ol class="breadcrumb"
-                            style="background-color: #36a9e1; margin: 0px; padding: 0px; padding-left: 0px; margin-bottom: 0px; margin-top: 8px; margin-left: 15px;">
-                            <li><a style="color: #fff"><span ng-bind="currentViewParentName"></span></a></li>
+  <div class="box">
+    <div class="box-header">
+        <div class="row">
+            <div class="col-xs-4" style="line-height: 30px;">
+                <ol class="breadcrumb"
+                    style="background-color: #36a9e1; margin: 0px; padding: 0px; padding-left: 0px; margin-bottom: 0px; margin-top: 8px; margin-left: 15px;">
+                    <li><a style="color: #fff"><span ng-bind="currentViewParentName"></span></a></li>
 
-                            <li><a style="color: #fff"> <span ng-bind="currentView.name"></span></a></li>
-                        </ol>
-                    </div>
-                    <div class="col-xs-6"></div>
-                    <div class="col-xs-2">
-
-                    </div>
-                </div>
+                    <li><a style="color: #fff"> <span ng-bind="currentView.name"></span></a></li>
+                </ol>
+            </div>
+            <div class="col-xs-6"></div>
+            <div class="col-xs-2">
 
             </div>
-            <div class="box-content">
-              <div class="row" ng-init="initDate()">
-                  <div class="col-lg-3 col-md-3 col-lg-push-1 col-md-push-1">
-                      <p class="input-group">
-                          <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions"  close-text="关闭" />
-                            <span class="input-group-btn">
-                              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                            </span>
-                      </p>
-                  </div>
-              </div>
-            </div>
-            <div class="box-content" ng-init="getData()">
-                <div class="row">
-                    <div class="col-lg-1">
-                    </div>
-                    <div class="col-lg-10">
-                        <div class="row">
-                            <div class="col-lg-4 col-sm-4">
-                                <div class="smallchart darkGreen box mobileHalf">
-                                    <div class="title" style="font-size: 30px;">营业额</div>
-                                    <div class="content" style="padding: 30px;">
-                                        <div class="chart-stat">
-                                            <div class="chart white" style="height: 40px;">
-                                                <div class="row">
-                                                    <div class="col-lg-3 col-md-3">
-                                                        <span class="label label-primary" style="font-size: 15px;">销售额:</span>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3">
-                                                        <span class="label label-info" style="font-size: 15px;" ng-bind="sales.total"></span>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3">
-                                                        <span class="label label-primary" style="font-size: 15px;">销售数:</span>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3">
-                                                        <span class="label label-info" style="font-size: 15px;" ng-bind="sales.count"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="row" style="margin-top: 10px;">
-                                                    <div class="col-lg-3 col-md-3">
-                                                        <span class="label label-primary" style="font-size: 15px;">退单额:</span>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3">
-                                                        <span class="label label-info" style="font-size: 15px;" ng-bind="returns.total"></span>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3">
-                                                        <span class="label label-primary" style="font-size: 15px;">退单数:</span>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3">
-                                                        <span class="label label-info" style="font-size: 15px;" ng-bind="returns.count"></span>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-sm-4">
-                                <div class="smallchart red box mobileHalf">
-                                    <div class="title" style="font-size: 30px;">现金流</div>
-                                    <div class="content" style="padding: 30px;">
-                                        <div class="chart-stat">
-                                            <div class="chart white" style="height: 40px;">
-                                                <div class="row">
-                                                    <div class="col-lg-6 col-md-6">
-                                                        <span class="label label-primary" style="font-size: 15px;">现金:</span>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6">
-                                                        <span class="label label-info" style="font-size: 15px;" ng-bind="cash.cash"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="row" style="margin-top: 10px;">
-                                                    <div class="col-lg-6 col-md-6">
-                                                        <span class="label label-primary" style="font-size: 15px;">微信:</span>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6">
-                                                        <span class="label label-info" style="font-size: 15px;" ng-bind="cash.weixin"></span>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-sm-4">
-                                <div class="smallchart blue box mobileHalf">
-                                    <div class="title" style="font-size: 30px;">利润</div>
-                                    <div class="content" style="padding: 30px;">
-                                        <div class="chart-stat">
-                                            <div class="chart white" style="height: 40px;">
-                                                <div class="row">
-                                                    <div class="col-lg-6 col-md-6">
-                                                        <span class="label label-primary" style="font-size: 15px;">毛利润:</span>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6">
-                                                        <span class="label label-info" style="font-size: 15px;" ng-bind="profit"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-1"></div>
-                </div>
-            </div>
-        </div>
-        <div class="box">
-          <div class="box-header">
-              <h2>当日交易详情</h2>
-          </div>
-          <div class="box-content">
-              <div class="row">
-                  <div class="col-md-10 col-md-offset-1">
-                      <div class="row" style="height: 430px;">
-                          <div style="">
-                              <table class="table table-striped table-bordered bootstrap-datatable datatable table-hover">
-                                  <thead>
-                                  <tr>
-                                      <th ng-repeat="field in fields">
-                                          {{field.title}}
-                                      </th>
-                                  </tr>
-                                  </thead>
-                                  <tbody>
-                                  <tr class="tr" ng-repeat="entity in entities" style="cursor: pointer" ng-click="showProfile(entity)">
-                                      <td class="center" ng-repeat="field in fields">
-                  <span ng-class="entity.fieldClass[field.name]" ng-if="field.value">{{field.value(entity)}}
-                  </span>
-                  <span ng-class="entity.fieldClass[field.name]" ng-if="!field.value">{{valueOfKeyString(entity, field.name)}}
-                  </span>
-                                      </td>
-                                  </tr>
-                                  </tbody>
-                              </table>
-                          </div>
-                      </div>
-                      <div class="row">
-                          <div class="col-lg-12">
-                              显示 {{pagination.iStart}} ~ {{pagination.iEnd}} / {{pagination.iTotal}} 条
-                          </div>
-                          <div class="col-lg-12 center">
-                              <style>
-                                  div.col-lg-12 ul > li {
-                                      cursor: pointer;
-                                  }
-                              </style>
-                              <pagination total-items="pagination.iTotal" items-per-page="pagination.iLength"
-                                          page="pagination.iPage"
-                                          max-size="pagination.maxSize" rotate="false" previous-text="上一页"
-                                          next-text="下一页"></pagination>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
         </div>
     </div>
-</div>
+    <div class="box-content">
+      <div class="row" ng-init="initDate()">
+        <div class="col-md-3 col-md-push-1">
+          <p class="input-group">
+            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions"  close-text="关闭" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="box-content" ng-init="getData()">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="row">
+            <div class="col-sm-4">
+                        <div class="smallchart darkGreen box mobileHalf">
+                              <div class="title" style="font-size: 30px;">营业额</div>
+                              <div class="content" style="padding: 30px;">
+                                  <div class="chart-stat">
+                                      <div class="chart white" style="height: 40px;">
+                                          <div class="row">
+                                              <div class="col-lg-3 col-md-3">
+                                                  <span class="label label-primary" style="font-size: 15px;">销售额:</span>
+                                              </div>
+                                              <div class="col-lg-3 col-md-3">
+                                                  <span class="label label-info" style="font-size: 15px;" ng-bind="sales.total"></span>
+                                              </div>
+                                              <div class="col-lg-3 col-md-3">
+                                                  <span class="label label-primary" style="font-size: 15px;">销售数:</span>
+                                              </div>
+                                              <div class="col-lg-3 col-md-3">
+                                                  <span class="label label-info" style="font-size: 15px;" ng-bind="sales.count"></span>
+                                              </div>
+                                          </div>
+                                          <div class="row" style="margin-top: 10px;">
+                                              <div class="col-lg-3 col-md-3">
+                                                  <span class="label label-primary" style="font-size: 15px;">退单额:</span>
+                                              </div>
+                                              <div class="col-lg-3 col-md-3">
+                                                  <span class="label label-info" style="font-size: 15px;" ng-bind="returns.total"></span>
+                                              </div>
+                                              <div class="col-lg-3 col-md-3">
+                                                  <span class="label label-primary" style="font-size: 15px;">退单数:</span>
+                                              </div>
+                                              <div class="col-lg-3 col-md-3">
+                                                  <span class="label label-info" style="font-size: 15px;" ng-bind="returns.count"></span>
+                                              </div>
+                                          </div>
+
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                    </div>
+            <div class="col-sm-4">
+                        <div class="smallchart red box mobileHalf">
+                              <div class="title" style="font-size: 30px;">现金流</div>
+                              <div class="content" style="padding: 30px;">
+                                  <div class="chart-stat">
+                                      <div class="chart white" style="height: 40px;">
+                                          <div class="row">
+                                              <div class="col-lg-6 col-md-6">
+                                                  <span class="label label-primary" style="font-size: 15px;">现金:</span>
+                                              </div>
+                                              <div class="col-lg-6 col-md-6">
+                                                  <span class="label label-info" style="font-size: 15px;" ng-bind="cash.cash"></span>
+                                              </div>
+                                          </div>
+                                          <div class="row" style="margin-top: 10px;">
+                                              <div class="col-lg-6 col-md-6">
+                                                  <span class="label label-primary" style="font-size: 15px;">微信:</span>
+                                              </div>
+                                              <div class="col-lg-6 col-md-6">
+                                                  <span class="label label-info" style="font-size: 15px;" ng-bind="cash.weixin"></span>
+                                              </div>
+                                          </div>
+
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="smallchart blue box mobileHalf">
+                <div class="title" style="font-size: 30px;">利润</div>
+                <div class="content" style="padding: 30px;">
+                  <div class="chart-stat">
+                    <div class="chart white" style="height: 40px;">
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                                    <span class="label label-primary" style="font-size: 15px;">毛利润:</span>
+                                </div>
+                        <div class="col-lg-6 col-md-6">
+                          <span class="label label-info" style="font-size: 15px;" ng-bind="profit"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>    
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="box">
+    <div class="box-header">
+        <h2>当日交易详情</h2>
+    </div>
+    <div class="box-content">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="row" style="height: 430px;">
+                    <div style="">
+                        <table class="table table-striped table-bordered bootstrap-datatable datatable table-hover">
+                            <thead>
+                            <tr>
+                                <th ng-repeat="field in fields">
+                                    {{field.title}}
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="tr" ng-repeat="entity in entities" style="cursor: pointer" ng-click="showProfile(entity)">
+                                <td class="center" ng-repeat="field in fields">
+            <span ng-class="entity.fieldClass[field.name]" ng-if="field.value">{{field.value(entity)}}
+            </span>
+            <span ng-class="entity.fieldClass[field.name]" ng-if="!field.value">{{valueOfKeyString(entity, field.name)}}
+            </span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        显示 {{pagination.iStart}} ~ {{pagination.iEnd}} / {{pagination.iTotal}} 条
+                    </div>
+                    <div class="col-lg-12 center">
+                        <style>
+                            div.col-lg-12 ul > li {
+                                cursor: pointer;
+                            }
+                        </style>
+                        <pagination total-items="pagination.iTotal" items-per-page="pagination.iLength"
+                                    page="pagination.iPage"
+                                    max-size="pagination.maxSize" rotate="false" previous-text="上一页"
+                                    next-text="下一页"></pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
 </div>
 
 

@@ -4,37 +4,45 @@
   		<div class="smallstat box">
         <i class="fa fa-money fa-4x blue"></i>
   			<span class="title">销售额(元)</span>
-  			<span class="value">{{saleNum}}</span>
+  			<span class="value">￥{{saleNum}}</span>
   		</div>
   	</div>
     <div class="col-lg-3 col-sm-6 col-xs-6 col-xxs-12">
   		<div class="smallstat box">
         <i class="fa fa-exchange fa-4x green"></i>
   			<span class="title">现金流(元)</span>
-  			<span class="value">{{totalCash}}</span>
+  			<span class="value">￥{{totalCash}}</span>
   		</div>
   	</div>
     <div class="col-lg-3 col-sm-6 col-xs-6 col-xxs-12">
   		<div class="smallstat box">
         <i class="fa fa-truck fa-4x red"></i>
   			<span class="title">进货支出(元)</span>
-  			<span class="value">{{skusNum}}</span>
+  			<span class="value">￥{{skusNum}}</span>
   		</div>
   	</div>
     <div class="col-lg-3 col-sm-6 col-xs-6 col-xxs-12">
   		<div class="smallstat box">
         <i class="fa fa-download fa-4x yellow"></i>
   			<span class="title">毛利润(元)</span>
-  			<span class="value">{{skusNum}}</span>
+  			<span class="value">￥{{profit}}</span>
   		</div>
   	</div>
   </div>
   <div class="row">
     <div class="col-lg-6 col-md-12">
-      <div ac-chart="'bar'" ac-data="shopChartData" ac-config="shopChartConfig" id='shopChart' class='main-chart'></div>
+      <div ac-chart="'bar'" ac-data="shopChartData" ac-config="shopChartConfig" class='main-chart'></div>
     </div>
     <div class="col-lg-6 col-md-12">
-      <div ac-chart="'bar'" ac-data="itemChartData" ac-config="itemChartConfig" id='shopChart' class='main-chart'></div>
+      <div ac-chart="'bar'" ac-data="shopChartData2" ac-config="shopChartConfig2" class='main-chart'></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 col-md-12">
+      <div ac-chart="'bar'" ac-data="itemChartData" ac-config="itemChartConfig" class='main-chart'></div>
+    </div>
+    <div class="col-lg-6 col-md-12">
+      <div ac-chart="'bar'" ac-data="itemChartData2" ac-config="itemChartConfig2" class='main-chart'></div>
     </div>
   </div>
 </div>
