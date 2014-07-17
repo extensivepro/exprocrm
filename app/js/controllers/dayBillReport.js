@@ -1,8 +1,3 @@
-/**
- * @description
- * @author tsq <1530234656@qq.com>.
- * @date 14-5-9
- */
 function DayBillReportController($scope, Bills, Deals, $modal, $log,  Items, Statistics, Pagination, $timeout, $injector) {
   $injector.invoke(BasicController, this, {$scope: $scope});
   $scope.resource = Bills;
@@ -64,9 +59,8 @@ function DayBillReportController($scope, Bills, Deals, $modal, $log,  Items, Sta
       $scope.refreshList();
       var param = {
         keyID: $scope.currentMerchant.merchant.id,
-        end: $scope.end*1000/86400000,
-        start: $scope.start*1000/86400000,
-        limit: 10000,
+        end: parseInt($scope.end*1000/86400000, 10),
+        start: parseInt($scope.start*1000/86400000, 10),
         period: 'daily'
       };
       var paramForBill = angular.copy(param);
@@ -102,6 +96,7 @@ function DayBillReportController($scope, Bills, Deals, $modal, $log,  Items, Sta
               totalProfit += i.profit;
             }
           });
+          $scope.profit = (totalProfit/100).toFixed(2)
         }
       });
     }
