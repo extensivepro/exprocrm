@@ -2,6 +2,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
   $scope.saleNum = 0.0
   $scope.totalCash = 0.0
   $scope.skusNum = 0.0
+  $scope.profit = 0.0
 
   $scope.shopChartConfig = {
     title: '当日门店销售额排行',
@@ -72,16 +73,6 @@ function DashboardController($scope, Statistics, Shops, Items) {
       $scope.init();
       $scope.getCash();
     }
-  })
-
-  $scope.$watch('saleParam.keyID', function () {
-    if ($scope.saleParam.keyID != undefined) {
-      saleFetch();
-      shopSaleFetch();
-      itemSaleFetch();
-    }
-    if ($scope.skusParam.keyID != undefined)
-      skusFetch();
   })
 
   function sortByKey(array, key) {
@@ -178,65 +169,68 @@ function DashboardController($scope, Statistics, Shops, Items) {
     })
   }
 
-  function saleFetch(){
-    Statistics.query($scope.saleParam, function (result) {
-      if (result.length == 2){
-        $scope.saleNum = numberWithCommas(Number(result[0].value.sale.total / 100).toFixed(1));
-        $scope.saleNumPrv = numberWithCommas(Number(result[1].value.sale.total / 100).toFixed(1));
-        $scope.saleDiffSign = (100 * ($scope.saleNum - $scope.saleNumPrv) / $scope.saleNumPrv).toFixed(1);
-        $scope.saleDiff = Math.abs($scope.saleDiffSign);
-      } else if (result.length == 1) {
-        if (result[0].value.statAt == $scope.saleParam.start) {
-          $scope.saleNum = numberWithCommas(Number(result[0].value.sale.total / 100).toFixed(1));
-          $scope.saleDiffSign = 'na';
-          $scope.saleDiff = '好的开始是成功的一半'
-        }else if (result[0].value.statAt == $scope.saleParam.end) {
-          $scope.saleNum = 0;
-          $scope.saleDiffSign = -100;
-          $scope.saleDiff = 100;
-        }
-      }else if (result.length == 0){
-        $scope.saleNum = 0;
-        $scope.saleDiffSign = -100;
-        $scope.saleDiff = 100;
-      }
+  var statParam = {
+    period: 'daily',
+    end: Statistics.until(new Date(), 'daily') ,
+    start: Statistics.until(new Date(), 'daily') - 1,
+    limit: 1
+  }
+  
+  function statMerchantSale(){
+    var saleParam = angular.copy(statParam)
+    saleParam.target = 'bills'
+    Statistics.query(saleParam, function (result) {
+      $scope.saleNum = numberWithCommas(Number(result[0].value.sale.total / 100).toFixed(0))
     })
   }
 
-  function skusFetch() {
-    Statistics.query($scope.skusParam, function(result) {
-      if (result.length != 0) {
-        var skusTotal = 0;
-        result.forEach(function (item) {
-          skusTotal += item.value.sumPrice;
-        })
-        $scope.skusNum = numberWithCommas((skusTotal / 100).toFixed(1));
-      } else if (result.length == 0) {
-        $scope.skusNum = 0;
-      }
+  function statMerchantSku() {
+    var skusParam = angular.copy(statParam)
+    skusParam.target = 'skus'
+    skusParam.type = 'add'
+    delete skusParam.limit
+    Statistics.query(skusParam, function(result) {
+      var skusTotal = 0;
+      result.forEach(function (item) {
+        skusTotal += item.value.sumPrice;
+      })
+      $scope.skusNum = numberWithCommas((skusTotal / 100).toFixed(0));
     })
   }
 
-  function saleParamInit(keyID) {
-    $scope.saleParam = {
-      keyID: keyID,
-      period: 'daily',
-      end: Statistics.until(new Date(), 'daily') ,
-      start: Statistics.until(new Date(), 'daily') - 2,
-      target: 'bills',
-      limit: 2
-    }
+  function statMerchantCash() {
+    var paramForCash = angular.copy(statParam);
+    paramForCash.target = 'cashes';
+    $scope.totalCash = 0;
+    Statistics.query(paramForCash, function(result){
+      if (result.length) {
+        $scope.totalCash = ((result[0].value.cash/100) + (result[0].value.weixin/100)).toFixed(0);
+      }
+    });
+  }
+  
+  function statMerchantProfit() {
+    var profitParam = angular.copy(statParam)
+    profitParam.target = 'deals'
+    delete profitParam.limit
+    Statistics.query(profitParam, function(result) {
+      var total = 0;
+      result.forEach(function (item) {
+        total += item.profit;
+      })
+      $scope.profit = numberWithCommas((total / 100).toFixed(0));
+    })
   }
 
-  function skusParamInit(keyID) {
-    $scope.skusParam = {
-      keyID: keyID,
-      period: 'daily',
-      end: Statistics.until(new Date(), 'daily') ,
-      start: Statistics.until(new Date(), 'daily') - 2,
-      target: 'skus',
-      type: 'add',
-      limit: 10000
+  function stat() {
+    if($scope.currentMerchant.merchant.id) {
+      statParam.keyID = $scope.currentMerchant.merchant.id
+      statMerchantSale()
+      statMerchantCash()
+      statMerchantSku()
+      statMerchantProfit()
+      shopSaleFetch()
+      itemSaleFetch()
     }
   }
 
@@ -246,8 +240,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
 
   //event
   $scope.$on('currentMerchantReady', function (event, data) {
-    shopSaleFetch()
-    itemSaleFetch()
+    stat()
   })
   
   $scope.init = function () {
@@ -263,36 +256,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
       Contains : function(key){return this.Get(key) == null?false:true},
       Remove : function(key){delete this[key]}
     };
-    saleParamInit($scope.currentMerchant.merchant.id);
-    skusParamInit($scope.currentMerchant.merchant.id);
-    $scope.cashFlowNum = numberWithCommas($scope.saleParam.end);
-    $scope.cashFlowBlk = true;
+    stat()
     widthFunctions();
   };
-  $scope.getCash = function () {
-    var d = new Date();
-    var year = d.getFullYear();
-    var month = d.getMonth();
-    var date = d.getDate();
-    var startDate = new Date(year, month, date);
-    var endDate = new Date(year, month, date+1);
-    $scope.start = Math.round(startDate.getTime() / 1000);
-    $scope.end = Math.round(endDate.getTime() / 1000);
-    var param = {
-      keyID: $scope.currentMerchant.merchant.id,
-      end: $scope.end*1000/86400000,
-      start: $scope.start*1000/86400000,
-      limit: 10000,
-      period: 'daily'
-    };
-    var paramForCash = angular.copy(param);
-    paramForCash.target = 'cashes';
-    // 获得现金流数据
-    $scope.totalCash = 0;
-    Statistics.query(paramForCash, function(result){
-      if (result.length) {
-        $scope.totalCash = ((result[0].value.cash/100) + (result[0].value.weixin/100)).toFixed(1);
-      }
-    });
-  }
 }
