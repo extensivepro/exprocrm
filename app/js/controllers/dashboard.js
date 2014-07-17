@@ -4,7 +4,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
   $scope.skusNum = 0.0
 
   $scope.shopChartConfig = {
-    title: '门店销售排行',
+    title: '当日门店销售额排行',
     tooltips: true,
     labels: true,
     // mouseover: function() {},
@@ -17,12 +17,27 @@ function DashboardController($scope, Statistics, Shops, Items) {
   }
 
   $scope.shopChartData = {
-    series: ['销量', '退单', '储值'],
+    series: ['销售额', '退单额', '储值额'],
+    data: []
+  }
+
+  $scope.shopChartConfig2 = {
+    title: '当日门店销量售排行',
+    tooltips: true,
+    labels: true,
+    legend: {
+      display: true,
+      position: 'right'
+    }
+  }
+
+  $scope.shopChartData2 = {
+    series: ['销量', '退单量', '储值次数'],
     data: []
   }
 
   $scope.itemChartConfig = {
-    title: '单品销售排行',
+    title: '当日单品销售额排行',
     tooltips: true,
     labels: true,
     legend: {
@@ -32,7 +47,22 @@ function DashboardController($scope, Statistics, Shops, Items) {
   }
 
   $scope.itemChartData = {
-    series: ['销售额'],
+    series: ['销售额', '毛利润'],
+    data: []
+  }
+  
+  $scope.itemChartConfig2 = {
+    title: '当日单品销量排行',
+    tooltips: true,
+    labels: true,
+    legend: {
+      display: true,
+      position: 'right'
+    }
+  }
+
+  $scope.itemChartData2 = {
+    series: ['销量', '销售单数'],
     data: []
   }
   
@@ -71,7 +101,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
         keyID: $scope.currentMerchant.merchant.id,
         itemID: itemIDs,
         end: Statistics.until(new Date(), 'daily'),
-        start: Statistics.until(new Date(), 'daily') - 2,
+        start: Statistics.until(new Date(), 'daily') - 1,
         target: 'deals',
         sort: { "value.sumPrice": -1 },
         limit: 5,
@@ -82,9 +112,24 @@ function DashboardController($scope, Statistics, Shops, Items) {
         result.forEach(function(item){
           var itemDatium = {
             x: $scope.itemHashMap.Get(item.value.itemID),
-            y: [Number((item.value.sumPrice / 100).toFixed(1))]
+            y: [
+              Number((item.value.sumPrice / 100).toFixed(1)),
+              parseInt(item.profit/100, 10)
+            ]
           }
           $scope.itemChartData.data.push(itemDatium);
+        })
+      })
+      var param2 = angular.copy(param)
+      param2.sort = { "value.quantity": -1}
+      Statistics.query(param2, function(result){
+        // console.log(result);
+        result.forEach(function(item){
+          var itemCount = {
+            x: $scope.itemHashMap.Get(item.value.itemID),
+            y: [item.value.quantity, item.value.count]
+          }
+          $scope.itemChartData2.data.push(itemCount);
         })
       })
     })
@@ -117,8 +162,17 @@ function DashboardController($scope, Statistics, Shops, Items) {
               parseInt(item.value.return.total/100, 10), 
               parseInt(item.value.prepay.total/100, 10)
             ]
-          };
-          $scope.shopChartData.data.push(shopDatium);
+          }
+          $scope.shopChartData.data.push(shopDatium)
+          var shopCount = {
+            x: $scope.shopHashMap.Get(item.value.keyID),
+            y: [
+              item.value.sale.count, 
+              item.value.return.count, 
+              item.value.prepay.count
+            ]
+          }
+          $scope.shopChartData2.data.push(shopCount)
         })
       })
     })
