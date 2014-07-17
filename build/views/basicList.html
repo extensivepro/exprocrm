@@ -1,0 +1,211 @@
+<div class="box" style="margin-bottom: -5px; margin-left: -15px; margin-right: -15px">
+  <div class="box-header">
+    <div class="row">
+      <div class="col-xs-4">
+        <ol class="breadcrumb"
+            style="background-color: #36a9e1; margin: 0px; padding: 0px; padding-left: 0px; margin-bottom: 0px; margin-top: 8px; margin-left: 15px;">
+          <li><a style="color: #fff"><span ng-bind="currentViewParentName"></span></a></li>
+
+          <li><a style="color: #fff"> <span ng-bind="currentView.name"></span></a></li>
+        </ol>
+      </div>
+      <div class="col-xs-4"></div>
+      <div class="col-xs-4">
+        <div class="box-icon">
+          <!--START:operator for deletes-->
+          <a href="" ng-click="showCheckbox()" title="批量删除" ng-hide="hideManyDel">
+            <i class="fa fa-trash-o"></i>
+          </a>
+          <!--END:operator for deletes-->
+          <a ng-click="showCreate()" class="btn-puls" ng-hide="isHide"><i class="fa fa-plus"/></a>
+          <a ng-click="refreshList()" class="btn-refresh"><i class="fa fa-refresh"/></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="box-content">
+    <div class="row">
+      <!--START:operator for switch page's length-->
+      <div class="col-lg-3 col-md-3">
+        <div class="row">
+          <div class="col-md-6">
+            <select class="form-control" ng-model="pagination.iLength" ng-options="option for option in pagination.iLengthOptions"></select>
+          </div>
+          <div class="col-md-6">
+            <h4>条/页</h4>
+          </div>
+        </div>
+      </div>
+      <!--END:operator for switch page's length-->
+      <div class="col-lg-6 col-md-6">
+        <div ng-include="listToolbarView" />
+        <div class="col-lg-3 col-md-3">
+          <div class="row" ng-if="showOptions">
+            <select class="form-control" ng-model="currentShowShop.shop"
+                    ng-options="option as option.name for option in allShop">
+              <option value="">-- 选择商店 --</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3" ng-if="showExport">
+          <button class="btn btn-primary" ng-click="exportExcel()" style="width: 100px"><span data-ng-show="!loading">导出Excel</span><span
+                  data-ng-show="loading">导出中 <i style="font-size: 15px" data-ng-show="loading"
+                                                class="icon ion-loading-c"></i></span></button>
+        </div>
+        <div id="exportable" data-ng-show="">
+          <table class="table">
+            <thead>
+            <tr>
+              <th ng-repeat="field in fields" ng-if="!field.listHide">
+                {{field.title}}
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-ng-repeat="entity in entitiesWh">
+              <td class="center" ng-repeat="field in fields" ng-show="!field.listHide">
+                <span ng-class="entity.fieldClass[field.name]" ng-if="field.value">{{field.value(entity)}}</span>
+                <span ng-class="entity.fieldClass[field.name]" ng-if="!field.value">{{valueOfKeyString(entity, field.name)}}</span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!--END:operator for switch shops-->
+      <!--START: operator for search-->
+      <div class="col-lg-3 col-md-3">
+        <div class="" ng-if="isGroup">
+            <div class="row">
+                <div class="col-lg-6" style="font-size: 15px;margin-top: 5px;">活动状态：</div>
+                <div class="col-lg-4">
+                    <select  class="form-control" ng-model="currentStatus.status"
+                             ng-options="btn as btn.value for btn in statusForGroup"></select>
+                </div>
+            </div>
+        </div>
+        <form class="form-search" ng-if="!isBtnGroup&&!isGroup">
+          <div class="input-group">
+            <input class="form-control" type="search" ng-model="search.text" tooltip="{{searchOptions.tooltip}}"
+                   tooltip-trigger="focus">
+                    <span class="input-group-btn">
+                      <button class="btn btn-primary" ng-click="refreshList()" ui-keypress="{13:'refreshList($event)'}">
+                        搜索
+                      </button>
+                    </span>
+          </div>
+        </form>
+      </div>
+      <!--END: operator for search-->
+    </div>
+
+    <!--just for generate margin between the operator column and table-->
+    <div class="row" style="height: 10px"></div>
+    <div>
+      <table class="table table-striped table-bordered bootstrap-datatable datatable table-hover"
+             style="margin-bottom:-7px!important;width: 100%">
+        <thead>
+        <tr>
+          <th ng-show="showCbx" style="width: {{percent/3}}%">
+            <input type="checkbox" ng-model="checked" title="全选">&nbsp;&nbsp;&nbsp;
+            <button ng-click="deleteByIds()" class="btn btn-default btn-success" style="margin: 0px; padding: 0px">删除
+            </button>
+          </th>
+          <th ng-repeat="field in fields" ng-show="!field.listHide" style="width: {{percent}}%">
+            {{field.title}} <a href="" ng-click="sortByMoney(-flag)"><i style="padding: 2px" class="{{field.sort}}"></i></a>
+          </th>
+        </tr>
+        </thead>
+      </table>
+    </div>
+    <!--START:temp css for scroll bar-->
+    <style>
+      ::-webkit-scrollbar {
+        width: 0px;
+      }
+    </style>
+    <!--END: temp css for scroll bar-->
+    <div style="overflow-x: auto; overflow-y: auto; height:550px;">
+      <!--START: table for showing datas-->
+      <table class="table table-striped table-bordered bootstrap-datatable datatable table-hover" style="width: 100%">
+
+        <tbody>
+        <!--START: modal for operation-->
+        <div>
+          <script type="text/ng-template" id="myModalContent.html">
+            <div class="modal-body">
+              <div class="container">
+                <div class="row">
+                  <div ng-class="cols" ng-repeat="op in fieldOperations" style="text-align:center;">
+                    <a ng-class="op.class" title="{{op.title}}" ng-click="operateFun(op.op)">
+                      <i ng-class="op.icon"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </script>
+        </div>
+        <!--END: modal for operation-->
+        <!--START: temp css for tr-->
+        <style>
+          tbody>tr:hover,
+          tbody>tr:focus {
+            color: #2a6496;
+          }
+
+          tbody>tr:focus {
+            outline: thin dotted #333;
+            outline: 5px auto -webkit-focus-ring-color;
+            outline-offset: -2px;
+          }
+        </style>
+        <!--END: temp css for tr -->
+        <!--START: list all datas for table-->
+        <tr class="tr" style="cursor: pointer; height: 50px" ng-click="showProfile(entity)"
+            ng-repeat="entity in entities | limitTo: pagination.iLength">
+          <td ng-show="showCbx" ng-click="doNothing($event)" style="vertical-align: middle; width:{{percent/3}}%">
+            <input type="checkbox" ng-model="none" name="chbox" value="{{entity.id}}" ng-checked="checked">
+          </td>
+          <td class="center" ng-repeat="field in fields" ng-show="!field.listHide"
+              style="vertical-align: middle;width: {{percent}}%">
+            <span ng-class="entity.fieldClass[field.name]" ng-if="field.value">{{field.value(entity) | limitTo:22}}
+                <span ng-if="(entity[field.name]).length>22">
+                    ...
+                </span>
+            </span>
+            <span ng-class="entity.fieldClass[field.name]"
+                  ng-if="!field.value">{{valueOfKeyString(entity, field.name) | limitTo:22}}
+                <span ng-if="(entity[field.name]).length>22">
+                    ...
+                </span>
+            </span>
+          </td>
+        </tr>
+        <!--END: list all datas for table-->
+        </tbody>
+      </table>
+      <!--END: table for showing datas-->
+    </div>
+    <!--START: pagination-->
+    <div class="row">
+      <div class="col-lg-12">
+        显示 {{pagination.iStart}} ~ {{pagination.iEnd}} / {{pagination.iTotal}} 条
+      </div>
+      <div class="col-lg-12 center">
+        <!--START:temp css for pagination-->
+        <style>
+          div.col-lg-12 ul>li {
+            cursor: pointer;
+          }
+        </style>
+        <!--START:temp css for pagination-->
+        <pagination total-items="pagination.iTotal" items-per-page="pagination.iLength" page="pagination.iPage"
+                    max-size="pagination.maxSize" rotate="false" previous-text="上一页" next-text="下一页"></pagination>
+      </div>
+    </div>
+    <!--END: pagination-->
+  </div>
+</div>
+

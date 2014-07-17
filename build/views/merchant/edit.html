@@ -1,0 +1,174 @@
+<div class="box">
+<div class="box-header">
+    <h2><i ng-class="currentView.icon"></i><span class="break"></span>
+        <span ng-show='!!entity.id'>{{currentView.name}} - 设置</span>
+    </h2>
+    <div class="box-icon">
+        <a ng-click="cancel()" class="btn-close"><i class="fa fa-times"></i></a>
+    </div>
+</div>
+<div class="box-content">
+    <form class="form-horizontal" role="form" name="editForm">
+        <div class="form-group" style="height: 40px;" ng-init="initErrContent()">
+            <label class="col-lg-2 control-label"></label>
+            <div class="col-lg-6" ng-if="errContent.msg" >
+                <div class="alert alert-danger" style="text-align: center; padding-top: 5px; padding-bottom: 5px;">
+                    <span ng-bind="errContent.msg"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label"></label>
+            <span class="help-block"><i class="fa fa-circle"> 标记的项目不能为空</i></span>
+        </div>
+        <!--START:just use for edit-->
+        <div class="form-group">
+            <label class="col-lg-2 control-label">商户简称</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="name" type="text" ng-model="entity.name">
+                    <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">商户全称</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="fullName" type="text" ng-model="entity.fullName">
+                    <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">电话</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="telephone" type="text" ng-model="entity.telephone">
+                    <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">电子邮箱</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="email" type="text" ng-model="entity.email">
+                    <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">地址</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="address" type="text" ng-model="entity.address">
+                    <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">邮编</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="zip" type="text" ng-model="entity.zip">
+                    <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">微信公众号原始ID</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" type="text" ng-model="entity.weixin.originID">
+                    <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">微信公众号应用ID</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" type="text" ng-model="entity.weixin.devToken.appid">
+                    <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">微信公众号秘钥</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" type="text" ng-model="entity.weixin.devToken.secret">
+                    <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">商户网站</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="url" type="text" ng-model="entity.url">
+                    <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-6">
+                <button ng-click="edit(entity)" class="btn btn-primary btn-lg"
+                        ng-if="!!entity.id"><i class="fa fa-save fa-lg"></i> 保存
+                </button>
+                <button ng-click="cancel()" class="btn btn-warning btn-lg"><i class="fa fa-arrows-alt fa-lg"></i> 取消
+                </button>
+            </div>
+        </div>
+        <hr/>
+        <div ng-init="initUpload()">
+            <div class="form-group">
+                <label class="col-lg-2 control-label">商户Logo</label>
+
+                <div class="col-lg-2">
+                    <input ng-file-select="" type="file" multiple ng-model="none">
+                </div>
+                <div class="col-lg-8">
+                    <table class="table">
+                        <tbody>
+                        <tr ng-repeat="item in uploader.queue" class="ng-scope">
+                            <td>
+                                <strong>{{ item.file.name }}</strong>
+                                <div ng-show="uploader.isHTML5" ng-thumb="{ file: item.file, height: 100 }"></div>
+                            </td>
+                            <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                            <td ng-show="uploader.isHTML5">
+                                <div class="progress" style="margin-bottom: 0;">
+                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                                <span ng-show="item.isError"><i class="fa fa-times"></i></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-6" style="text-align: center;">
+                    <div class="alert alert-danger">您可以上传一张图片作为自家logo,logo文件的大小不能超过2M</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-6">
+                    <button type="button" class="btn btn-success btn-s" ng-click="uploadInEdit()" ng-disabled="!uploader.getNotUploadedItems().length">
+                        <i class="fa fa-cloud-upload"></i>上传
+                    </button>
+                    <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                        <span class="fa fa-trash-o"></span>重选
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</div>

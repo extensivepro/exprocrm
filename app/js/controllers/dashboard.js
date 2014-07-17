@@ -74,7 +74,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
         start: Statistics.until(new Date(), 'daily') - 2,
         target: 'deals',
         sort: { "value.sumPrice": -1 },
-        limit: 3,
+        limit: 5,
         period: 'daily'
       }
       Statistics.query(param, function(result){

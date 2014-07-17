@@ -7,7 +7,10 @@ var lr = require('tiny-lr');
 var server = lr();
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
-// var uglify = require('gulp-uglify');
+var uglify = require('gulp-uglify');
+var sourcemaps = require('gulp-sourcemaps');
+var ngAnnotate = require('gulp-ng-annotate')
+
 
 var paths = {
   scripts: [
@@ -16,7 +19,7 @@ var paths = {
   'app/lib/bootstrap/dist/js/bootstrap.min.js',
   'app/lib/autofill-event/src/autofill-event.js', 
   'app/js/core.min.js',
-  'app/lib/angular/angular.js', 
+  'app/lib/angular/angular.min.js', 
   'app/lib/angular-resource/angular-resource.min.js', 
   'app/lib/angular-route/angular-route.min.js', 
   'app/lib/angular-cookies/angular-cookies.min.js', 
@@ -75,8 +78,11 @@ gulp.task('css', function () {
 
 gulp.task('scripts', function() {
   return gulp.src(paths.scripts)
-    // .pipe(uglify())
-    .pipe(concat('all.min.js'))
+    .pipe(sourcemaps.init())
+      .pipe(concat('all.min.js'))
+      .pipe(ngAnnotate())
+      .pipe(uglify({mangle:false}))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('build/js'));
 });
 

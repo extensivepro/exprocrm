@@ -1,0 +1,82 @@
+<div class="form-group">
+    <label class="col-lg-2 control-label">编码</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="code" type="text" ng-model="entity.code">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">姓名</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="name" type="text" ng-model="entity.name">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">手机</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="phone" type="text" ng-model="entity.phone" ng-pattern="patternForPhone">
+            <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+        </div>
+    </div>
+    <div class="col-lg-4" ng-if="editForm.phone.$error.pattern">
+        <span class="label label-warning">手机号码格式不正确！</span>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">邮箱</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="email" type="email" ng-model="entity.email" ng-pattern="patternForEmail">
+            <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+        </div>
+    </div>
+    <div class="col-lg-4" ng-if="editForm.email.$error.pattern">
+        <span class="label label-warning">邮箱格式不正确！</span>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">收货地址</label>
+    <div class="col-lg-8" style="margin-top: 6.5px;">
+        <div class="row" ng-if="entity.deliveryAddress.length">
+            <div class="col-lg-2">地址
+            <input style="margin-top: 10px" class="form-control"  type="text" ng-model="obj.address" ng-repeat="obj in entity.deliveryAddress">
+            </div>
+            <div class="col-lg-2">收货人
+            <input style="margin-top: 10px" class="form-control"  type="text" ng-model="obj.recipient" ng-repeat="obj in entity.deliveryAddress">
+            </div>
+            <div class="col-lg-2">电话
+            <input style="margin-top: 10px" class="form-control"  type="text" ng-model="obj.phone" ng-repeat="obj in entity.deliveryAddress">
+            </div>
+        </div>
+        <div class="row" ng-if="!entity.deliveryAddress.length">
+            <div class="col-lg-2">地址
+            <input style="margin-top: 10px" class="form-control"  type="text" ng-model="obj.address" ng-repeat="obj in entity.deliveryAddress">
+            </div>
+            <div class="col-lg-2">收货人
+            <input style="margin-top: 10px" class="form-control"  type="text" ng-model="obj.recipient" ng-repeat="obj in entity.deliveryAddress">
+            </div>
+            <div class="col-lg-2">电话
+            <input style="margin-top: 10px" class="form-control"  type="text" ng-model="obj.phone" ng-repeat="obj in entity.deliveryAddress">
+            </div>
+        </div>
+        <div style="margin-top: 10px">
+            <div class="col-lg-2" style="padding-left: 0px;"><button ng-disabled="entity.deliveryAddress.length == 3" class="btn btn-primary" ng-click="editAddress()">添加地址</button></div>
+            <div class="col-lg-2" style="padding-left: 0px;"><button class="btn btn-danger" ng-disabled="entity.deliveryAddress.length == 0 || $scope.entity.deliveryAddress" ng-click="removeAddress()">减少地址</button></div>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">状态</label>
+    <div class="col-lg-10">
+        <div class="btn-group">
+            <button type="button" class="btn btn-success" ng-model="entity.status" btn-radio="'active'">正常</button>
+            <button type="button" class="btn btn-warning" ng-model="entity.status" btn-radio="'expired'">到期</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="form-group">
+    <label class="col-lg-2 control-label">工号</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="jobNumber" type="text" ng-model="entity.jobNumber">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">姓名</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="name" type="text" ng-model="entity.name">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">身份证</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="idcard" type="text" ng-model="entity.idcard" ng-pattern="patternForIdcard">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
+    </div>
+    <div class="col-lg-4" ng-if="editForm.idcard.$error.pattern">
+        <span class="label label-warning">身份证号码格式不正确！</span>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">手机</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="phone" type="text" ng-model="entity.phone" ng-pattern="patternForTelephone">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
+    </div>
+    <div class="col-lg-4" ng-if="editForm.phone.$error.pattern">
+        <span class="label label-warning">手机号码格式不正确！</span>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">邮箱</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="email" type="email" ng-model="entity.email">
+            <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+        </div>
+    </div>
+    <div class="col-lg-4" ng-if="editForm.email.$error.email">
+        <span class="label label-warning">邮箱格式不正确！</span>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">状态</label>
+    <div class="col-lg-10">
+        <div class="btn-group">
+            <button type="button" class="btn btn-success" ng-model="entity.status" btn-radio="'active'">在职</button>
+            <button type="button" class="btn btn-warning" ng-model="entity.status" btn-radio="'leave'">离职</button>
+        </div>
+    </div>
+</div>

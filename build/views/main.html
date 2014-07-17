@@ -1,0 +1,33 @@
+<div ng-controller="MainController">
+  <!-- start: Header -->
+  <header ng-include="'views/header.html'">
+  </header>
+  <!-- end: Header -->
+
+  <div class="container">
+    <div class="row">
+        <div ng-include="'views/menu.html'"></div>
+        <div ng-include="'views/content.html'"></div>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+
+  <footer class="row">
+      <div class="col-sm-12 text-right">
+          <a href="" ng-click="showTwoDimensionalCode()" alt="关注微信">关注微信</a>
+          | <a  target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=2339672843&amp;site=qq&amp;menu=yes" alt="联系我们">联系我们</a>
+          | <a href="http://fankahui.com" alt="常见问题"  target="_blank">常见问题</a>
+          | <a href="http://extensivepro.com" alt="技术支持"  target="_blank">技术支持</a>
+      </div>
+      <!--/.col-->
+    </footer>
+
+</div>
+
+<!-- Start: Weixin Two-dimensional code -->
+<script type="text/ng-template" id="TwoDimensionalCode.html">
+          	<img data-original="http://fankahui.oss-cn-hangzhou.aliyuncs.com/qr-wechat-kefu.jpg" src="http://fankahui.oss-cn-hangzhou.aliyuncs.com/qr-wechat-kefu.jpg" style="display: block;clear: both;margin:auto">
+</script>
+<!-- End: Weixin Two-dimensional code -->
+

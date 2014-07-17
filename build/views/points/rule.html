@@ -1,0 +1,56 @@
+<div ng-controller="PointRulesController" ng-init="init()">
+    <div class="box">
+        <div class="box-header" data-original-title>
+            <div class="row">
+                <div class="col-xs-4">
+                    <ol class="breadcrumb"
+                        style="background-color: #36a9e1; margin: 0px; padding: 0px; padding-left: 0px; margin-bottom: 0px; margin-top: 8px; margin-left: 15px;">
+                        <li><a style="color: #fff"><span ng-bind="currentViewParentName"></span></a></li>
+
+                        <li><a style="color: #fff"> <span ng-bind="currentView.name"></span></a></li>
+                    </ol>
+                </div>
+                <div class="col-xs-6"></div>
+                <div class="col-xs-2">
+                    <div class="box-icon">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-content">
+            <form class="form-horizontal" role="form" novalidate>
+                <div class="form-group" style="height: 50px;">
+                    <label class="col-lg-2 control-label"></label>
+                    <div class="col-lg-6" ng-if="errContent.msg" >
+                        <div ng-class="errContent.alertClass" style="text-align: center; padding-top: 5px; padding-bottom: 5px;">
+                            <span ng-bind="errContent.msg"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" ng-repeat="(key, value) in pointRule">
+                    <label class="col-lg-2 control-label">{{key | changeName}}</label>
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <input ng-if="key=='newMember' || key=='referrer'" class="form-control" type="text" ng-model="value.amount">
+                            <input ng-if="key=='consumption'" class="form-control" type="text" ng-model="value.ratio">
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-6">
+                        <button ng-click="updateRule()" class="btn btn-primary btn-lg"><i
+                                class="fa fa-save fa-lg"></i> 保存
+                        </button>
+                        <button ng-click="reset()" class="btn btn-warning btn-lg"><i class="fa fa-arrows-alt fa-lg"></i> 重置
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,59 @@
+<div class="box">
+<div class="box-header">
+    <h2>
+        <span>创建商户</span>
+    </h2>
+    <div class="box-icon">
+        <a ng-click="cancelEdit()" class="btn-close"><i class="fa fa-times"></i></a>
+    </div>
+</div>
+<div class="box-content" style="height: 550px;">
+    <form class="form-horizontal" role="form" name="editForm">
+        <div class="form-group" style="height: 60px;" ng-init="initErrContent()">
+            <label class="col-lg-2 control-label"></label>
+            <div class="col-lg-6" ng-if="errContent.msg" >
+                <div class="alert alert-danger" style="text-align: center;">
+                    <span ng-bind="errContent.msg"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="">
+            <label class="col-lg-2 control-label">商户简称</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="name" type="text" ng-model="entity.name">
+                    <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">商户全称</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="fullName" type="text" ng-model="entity.fullName">
+                    <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">商户电话</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input class="form-control" name="telephone" type="text" ng-model="entity.telephone">
+                    <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-6">
+                <button ng-click="create(entity)" class="btn btn-primary btn-lg">
+                  <i class="fa fa-plus fa-lg"></i> 创建
+                </button>
+                <button ng-click="cancel()" class="btn btn-warning btn-lg"><i class="fa fa-arrows-alt fa-lg"></i> 取消
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+</div>

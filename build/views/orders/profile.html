@@ -1,0 +1,112 @@
+<div class="box">
+<div class="box-header">
+    <h2><i ng-class="currentView.icon"></i><span class="break"></span>{{currentView.name}} - 详情</h2>
+
+    <div class="box-icon">
+        <a ng-click="showList()" class="btn-close"><i class="fa fa-times"></i></a>
+    </div>
+</div>
+<div class="box-content">
+    <div class="col-lg-12" ng-init="checkPaidStatus(entity)">
+       
+       <a ng-repeat="shortcut in profileShortcuts"  ng-class="shortcut.class"
+           ng-click="operateFunc(entity, shortcut.op)">
+            <i ng-class="shortcut.icon"/>
+            <p>{{shortcut.text}}</p>
+        </a>
+       <span ng-if="unchecked">
+       <a style="margin-left: 5px"  class="box quick-button-small col-lg-1 col-md-2 col-xs-6" ng-click="paid()">
+           <i class="fa fa-check"></i>
+           <p>完成订单</p>
+       </a>
+       <a style="margin-left: 5px"  class="box quick-button-small col-lg-1 col-md-2 col-xs-6" ng-click="cancel()">
+           <i class="fa fa-trash-o"></i>
+           <p>取消订单</p>
+       </a>
+       </span>
+
+    </div>
+
+    <div class="col-lg-12">
+        <div class="col-lg-1 col-md-2 col-xs-6"/>
+        <div class="col-lg-1 col-md-2 col-xs-6" ng-show="profileAvatar">
+        </div>
+        <div class="col-lg-8 col-md-10 col-xs-12">
+            <table class="table table-striped table-hover">
+                <tbody>
+                <tr ng-repeat="field in profileFields" ng-hide="field.isProfileHide">
+                    <td class="center"><h4>{{field.title}}</h4></td>
+                    <td class="center" ng-if="!field.isArray && !field.isObject">
+                        <h4 ng-if="field.value" ng-class="entity.fieldClass[field.name]">{{field.value(entity)}}</h4>
+                        <h4 ng-if="!field.value"  ng-class="!entity.fieldClass[field.name]">{{valueOfKeyString(entity, field.name)}}</h4>
+                    </td>
+<!--                    <td class="center" ng-if="field.name == 'memo'">
+                        <div class="row">
+                            <div class="col-lg-3"><h4>顾客姓名</h4></div>
+                            <div class="col-lg-3"><h4>创建时间</h4></div>
+                            <div class="col-lg-3"><h4>说明</h4></div>
+                        </div>
+                        <div class="row" ng-repeat="obj in entity.memo">
+                            <div class="col-lg-3"><h4>{{obj.name}}</h4></div>
+                            <div class="col-lg-3"><h4>{{obj.createdAt*1000|date:'yyyy-MM-dd HH:mm:ss' }}</h4></div>
+                            <div class="col-lg-3"><h4>{{obj.message}}</h4></div>
+                        </div>
+                    </td>-->
+                    <td class="center" ng-if="field.name == 'items'">
+                        <div class="row">
+                            <div class="col-lg-3"><h4>商品名称</h4></div>
+                            <div class="col-lg-3"><h4>商品原价</h4></div>
+                            <div class="col-lg-3"><h4>商品成交价</h4></div>
+                            <div class="col-lg-3"><h4>商品数量</h4></div>
+                        </div>
+                        <div class="row" ng-repeat="obj in entity.items">
+                            <div class="col-lg-3"><h4>{{obj.item.name}}</h4></div>
+                            <div class="col-lg-3"><h4>{{(obj.item.price/100).toFixed(2)}}元</h4></div>
+                            <div class="col-lg-3"><h4>{{(obj.dealPrice/100).toFixed(2)}}元</h4></div>
+                            <div class="col-lg-3"><h4>{{obj.quantity}}</h4></div>
+                        </div>
+                    </td>
+
+                    <td class="center" ng-if="field.name == 'customer'">
+                        <div class="row">
+                            <div class="col-lg-6"><h4>{{entity.customer.name}}</h4></div>
+                        </div>
+                    </td>
+                    <td class="center" ng-if="field.name == 'agent'">
+                        <div class="row">
+                            <div class="col-lg-3"><h4>{{entity.agent.name}}</h4></div>
+                        </div>
+                    </td>
+                    <td class="center" ng-if="field.name == 'receipt'">
+                        <div class="row">
+                            <div class="col-lg-3"><h4>收获地址</h4></div>
+                            <div class="col-lg-3"><h4>联系人</h4></div>
+                            <div class="col-lg-3"><h4>联系人电话</h4></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3"><h4>{{entity.receipt.address}}</h4></div>
+                            <div class="col-lg-3"><h4>{{entity.receipt.name}}</h4></div>
+                            <div class="col-lg-3"><h4>{{entity.receipt.phone}}</h4></div>
+                        </div>
+                    </td>
+                    <td class="center" ng-if="field.name == 'shop'">
+                        <div class="row">
+                            <div class="col-lg-3"><h4>商店名称</h4></div>
+                            <div class="col-lg-3"><h4>商店地址</h4></div>
+                            <div class="col-lg-3"><h4>商店电话</h4></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3"><h4>{{entity.shop.name}}</h4></div>
+                            <div class="col-lg-3"><h4>{{entity.shop.address}}</h4></div>
+                            <div class="col-lg-3"><h4>{{entity.shop.telephone}}</h4></div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+</div>
+</div>

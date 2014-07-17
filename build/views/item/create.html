@@ -1,0 +1,145 @@
+<div class="box">
+<div class="box-header">
+    <h2><i ng-class="currentView.icon"></i><span class="break"></span>
+        <span ng-show='!entity.id'>新增{{currentView.name}}</span>
+        <span ng-show='!!entity.id'>编辑{{currentView.name}}</span>
+    </h2>
+
+    <div class="box-icon">
+        <a ng-click="cancelEdit()" class="btn-close"><i class="fa fa-times"></i></a>
+    </div>
+</div>
+<div class="box-content">
+    <form class="form-horizontal" role="form" name="addForm">
+        <div class="form-group" ng-hide="field.createHide">
+
+            <label class="col-lg-2 control-label">品名：</label>
+
+            <div class="col-lg-6">
+                <input class="form-control" type="text" ng-model="entity.name" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">类别：</label>
+
+            <div class="col-lg-6">
+                <select class="form-control" ng-model="entity.tags"
+                        ng-options="tag for tag in merchantItemTags"></select>
+            </div>
+            <div class="col-lg-2">
+                <button class="btn btn-info" ng-click="open()" title="新建标签"><i class="fa fa-plus"></i>新建</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">价格：</label>
+
+            <div class="col-lg-6">
+                <input class="form-control" type="text" ng-model="entity.price" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">型号：</label>
+
+            <div class="col-lg-6">
+                <input class="form-control" type="text" ng-model="entity.model" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">编号：</label>
+
+            <div class="col-lg-6">
+                <input class="form-control" type="text" ng-model="entity.code" required>
+            </div>
+        </div>
+        <div class="form-group">
+
+            <label class="col-lg-2 control-label">描述：</label>
+
+            <div class="col-lg-6">
+                <input class="form-control" type="text" ng-model="entity.desc" required>
+            </div>
+        </div>
+        <div class="form-group"  ng-hide="isHideButton">
+            <div class="col-lg-offset-2 col-lg-6">
+                <button ng-disabled="addForm.$error.required" ng-click="create(entity)" class="btn btn-primary btn-lg"
+                        ng-if="!entity.id"><i class="fa fa-plus fa-lg"></i> 创建
+                </button>
+                <button ng-click="cancelEdit()" class="btn btn-warning btn-lg"><i class="fa fa-arrows-alt fa-lg"></i> 取消
+                </button>
+            </div>
+        </div>
+  <!--      <div ng-if="isShowUpload">
+            <div class="form-group">
+
+                <label class="col-lg-2 control-label">上传：</label>
+
+                <div class="col-lg-2">
+                    <input ng-file-select="" type="file" multiple ng-model="none">
+                </div>
+                <div class="col-lg-8">
+                        <table class="table">
+                            <tbody>
+                            <tr ng-repeat="item in uploader.queue" class="ng-scope">
+                                <td>
+                                    <strong>{{ item.file.name }}</strong>
+                                    <div ng-show="uploader.isHTML5" ng-thumb="{ file: item.file, height: 100 }"></div>
+                                </td>
+                                <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                <td ng-show="uploader.isHTML5">
+                                    <div class="progress" style="margin-bottom: 0;">
+                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                                    <span ng-show="item.isError"><i class="fa fa-times"></i></span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-6">
+                    <button type="button" class="btn btn-success btn-s" ng-click="uploadInCreate()" ng-disabled="!uploader.getNotUploadedItems().length">
+                        <i class="fa fa-cloud-upload"></i>上传
+                    </button>
+                    <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                        <span class="fa fa-trash-o"></span>重选
+                    </button>
+                </div>
+
+            </div>
+        </div>-->
+    </form>
+
+    <div ng-if="info">
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-6">
+                <div ng-class="alert" style="text-align: center">
+                    <span ng-bind="msg"></span>
+                </div>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="row">
+    <script type="text/ng-template" id="modalAddTagInItem.html">
+        <div class="modal-header">
+            <h3 style="text-align: center; color: #3c763d;">新增商品标签</h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-group has-success has-feedback">
+                <label class="control-label" for="inputSuccess2">请输入标签名</label>
+                <input type="text" class="form-control" id="inputSuccess2" ng-model="tag.name">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">保存</button>
+            <button class="btn btn-warning" ng-click="cancel()">取消</button>
+        </div>
+    </script>
+</div>

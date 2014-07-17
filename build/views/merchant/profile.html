@@ -1,0 +1,59 @@
+<div class="box">
+<div class="box-header">
+  <div class="row">
+    <div class="col-xs-4">
+      <ol class="breadcrumb" style="background-color: #36a9e1; margin: 0px; padding: 0px; padding-left: 0px; margin-bottom: 0px; margin-top: 8px; margin-left: 15px;">
+        <li><a style="color: #fff">商户管理</a></li>
+        <li><a style="color: #fff">{{currentView.name}}</a></li>
+      </ol>
+    </div>
+    <div class="col-xs-6"></div>
+    <div class="col-xs-2">
+      <div class="box-icon">
+        <a ng-click="showCreate()" class="btn-puls" title="新增商户"><i class="fa fa-plus"/></a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="box-content">
+	<div class="col-lg-12">
+    <div class="row">
+  		<a ng-repeat="shortcut in profileShortcuts" ng-class="shortcut.class" ng-click="showEdit(currentMerchant.merchant)">
+  			<i ng-class="shortcut.icon" />
+  			<p>{{shortcut.text}}</p>
+  		</a>        
+    </div>
+	</div>
+  <div class="row">
+    <div class="col-lg-1 col-lg-offset-1 col-md-2 col-md-offset-1">
+      <div ng-if="!currentMerchant.merchant.logo">
+        <img ng-src={{profileAvatar}} alt="Avatar" class="img-circle">
+      </div>
+      <div ng-if="currentMerchant.merchant.logo">
+        <img ng-src={{logoImg}} alt="Avatar" title="商户logo" style="height: 80px; width: 80px;" class="img-circle">
+      </div>
+    </div>
+    <div class="col-md-8">
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <td class="center"><h4>当前商户</h4></td>
+            <td class="center">
+              <select class="form-control" ng-model="currentMerchant.merchant" ng-options="option as option.name for option in allMerchant">
+                <option value="">-- 选择商户 --</option>
+              </select>
+            </td>
+          </tr>
+          <tr ng-repeat="field in profileFields" ng-hide="field.isProfileHide">
+            <td class="center"><h4>{{field.title}}</h4></td>
+            <td class="center">
+              <h4 ng-if="field.value" ng-class="currentMerchant.merchant.fieldClass[field.name]">{{field.value(currentMerchant.merchant)}}</h4>
+              <h4 ng-if="!field.value" ng-class="currentMerchant.merchant.fieldClass[field.name]">{{valueOfKeyString(currentMerchant.merchant, field.name)}}</h4>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>    
+  </div>  
+</div>
+</div>

@@ -1,0 +1,151 @@
+<div class="box">
+<div class="box-header">
+    <h2><i ng-class="currentView.icon"></i><span class="break"></span>
+        <span ng-show='!!entity.id'>编辑{{currentView.name}}</span>
+    </h2>
+    <div class="box-icon">
+        <a ng-click="cancelEdit()" class="btn-close"><i class="fa fa-times"></i></a>
+    </div>
+</div>
+<div class="box-content">
+    <form class="form-horizontal" role="form" name="editForm">
+<div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">店面编码</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="code" type="text" ng-model="entity.code">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">店名</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="name" type="text" ng-model="entity.name">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">地址</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="address" type="text" ng-model="entity.address">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">电话号码</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="telephone" type="text" ng-model="entity.telephone">
+            <span class="input-group-addon"><i class="fa fa-circle"></i></span>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-lg-2 control-label">打印机</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input class="form-control" name="printers" type="text" ng-model="entity.printers" tooltip="多个打印机号，填写时请以英文逗号分隔">
+            <span class="input-group-addon" style="cursor: pointer;" ng-click="addPrinter()"><i class="fa fa-circle-o"></i></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label">开业资源</label>
+    <div class="col-lg-2" style="margin-top: 7px;">
+        <a class="" style="cursor: pointer; color: #36a9e1" ng-click="editAddRes()"><i class="fa fa-plus"></i>新增</a>
+        <a class="" style="cursor: pointer; color: #36a9e1; margin-left: 5px;" ng-click="minusAddRes()"><i class="fa fa-minus"></i>减少</a>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 control-label"></label>
+    <div class="col-lg-8">
+        <div class="row">
+            <div class="col-lg-2">名称</div>
+            <div class="col-lg-2">类型</div>
+            <div class="col-lg-2">服务能力</div>
+            <div class="col-lg-2">代号</div>
+            <div class="col-lg-2">代号名</div>
+            <div class="col-lg-2">微信编号</div>
+        </div>
+        <div class="row" ng-repeat="obj in entity.openRes">
+            <div class="col-lg-2">
+                <input class="form-control"  type="text" ng-model="obj.name">
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control"  type="text" ng-model="obj.type">
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control"  type="text" ng-model="obj.serviceability">
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control" type="text" ng-model="obj.code">
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control"  type="text" ng-model="obj.codename">
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control"  type="text" ng-model="obj.sceneID">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+	<label class="col-lg-2 control-label">状态</label>
+	<div class="col-lg-10">
+		<div class="btn-group">
+      <button type="button" class="btn btn-success" ng-model="entity.status" btn-radio="'open'">营业</button>
+      <button type="button" class="btn btn-warning" ng-model="entity.status" btn-radio="'closed'">停业</button>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-lg-2 control-label">地理位置</label>
+    <div class="col-lg-6">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                经度：<input type="text" class="form-control" id="jindu" ng-model="entity.location.longitude">
+            </div>
+            <div class="form-group">
+                纬度：<input type="text" class="form-control" id="weidu" ng-model="entity.location.latitude">
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-4"></div>
+</div>
+<div class="form-group">
+    <div class="col-lg-2 control-label"></div>
+    <div class="col-lg-3">
+         <div class="alert alert-info" style="text-align: center;">拖动小红点，来确定商店位置</div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-10">
+        <div id="map" style="height: 500px; width: 800px;"></div>
+    </div>
+</div>
+<div ng-init="initMap()"></div>
+</div>
+<hr>
+<div class="form-group">
+    <div class="col-lg-offset-2 col-lg-6">
+        <button ng-disabled="editForm.$error.required" ng-click="create(entity)" class="btn btn-primary btn-lg"
+                ng-if="!entity.id"><i class="fa fa-plus fa-lg"></i> 创建
+        </button>
+        <button ng-disabled="editForm.$error.required" ng-click="update(entity)" class="btn btn-primary btn-lg"
+                ng-if="!!entity.id"><i class="fa fa-save fa-lg"></i> 保存
+        </button>
+        <button ng-click="cancelEdit()" class="btn btn-warning btn-lg"><i class="fa fa-arrows-alt fa-lg"></i> 取消
+        </button>
+    </div>
+</div>
+</form>
+</div>
+</div>

@@ -1,0 +1,135 @@
+<div class="container">
+    <div class="row">
+        <div class="row">
+            <div class="page-header" >
+                <h1 class="text-center text-primary"><img src="img/logo.png" alt="泛商汇RMS">  零售管理系统</h1>
+            </div>
+            <div class="row">
+                <div class="login-box">
+                    <h2 style="font-size: 24px; color: #008000">登录</h2>
+                    <hr/>
+                    <form novalidate method="post" name="login_form" class="form-horizontal wt-form" id="form" ng-submit="Login()"  ui-keypress="{13:'Login($event)'}" form-autofill-fix>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user fa-lg"></i></span>
+                                <input class="form-control" ng-model="loginUser.username" name="username" type="text"
+                                       placeholder="用户名" style="" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock fa-lg"></i></span>
+                                <input class="form-control" ng-model="loginUser.password" name="password"
+                                       type="password" placeholder="密码" required/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fa fa-lg fa-sign-in"></i>  登录</button>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-success btn-lg btn-block" ng-click="goRegister()"><i class="fa fa-lg fa-pencil-square-o"></i>  注册</button>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row" ng-show="alert">
+                            <div class="col-lg-12" style="text-align: center;">
+                                <div ng-class="alert.class"><span ng-bind="alert.msg"></span></div>
+                            </div>
+                        </div>
+                        <p class="text-center"> 泛盈科技 @2013</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--/row-->
+    </div>
+    <!--/fluid-row-->
+</div><!--/.fluid-container-->
+<style>
+    .modal-content {
+        margin-top: 185px;
+    }
+</style>
+
+<!--START: Modal for createMerchant-->
+<script type="text/ng-template" id="createMerchantModal.html">
+    <div style="" ng-init="initErrContent()">
+        <div class="modal-header" style="">
+            <h2 style="font-size: 24px; color: #008000">第一步：新建商户<span ng-show="errContent.msg" style="margin-left: 30px;"><span  style="text-align: right; color: red;" ng-bind="errContent.msg"></span></span></h2>
+        </div>
+        <div class="modal-body" style="margin: 0px;padding: 0px;">
+            <div class="login-box" style="width: 550px;margin: 0 auto;padding: 0px;margin-top: 50px;">
+                <form ng-model="regMerchant" novalidate method="post" name="register_form" class="form-horizontal wt-form" ng-submit="ok()"  ui-keypress="{13:'ok($event)'}" id="form">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" style="font-size: 16px;">商户简称：</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" ng-model="regMerchant.name" style="color: #555!important;" type="text"
+                                   required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" style="font-size: 16px;">商户全称：</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" ng-model="regMerchant.fullName" style="color: #555!important;" type="text"
+                                   required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" style="font-size: 16px;">商户电话：</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" style="color: #555!important;" type="text"
+                                   name="password"  id="p1" ng-model="regMerchant.telephone"
+                                   required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="" style="margin: 0 auto; text-align: center;">
+                            <button type="submit" class="btn btn-primary btn-lg" style="border-radius:10px;">确定</button>
+                            <button type="button" class="btn btn-warning btn-lg" style="border-radius:10px;" ng-click="cancel()">取消</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+<!--End: Modal for createMerchant-->
+
+<!--START: Modal for createShop-->
+<script type="text/ng-template" id="createShopModal.html">
+    <div style="" ng-init="initErrContent()">
+        <div class="modal-header" style="">
+            <h2 style="font-size: 24px; color: #008000">第二步：新建商店<span ng-show="errContent.msg" style="margin-left: 30px;"><span style="text-align: right; color: red;" ng-bind="errContent.msg"></span></span></h2>
+        </div>
+        <div class="modal-body" style="margin: 0px;padding: 0px;">
+            <div class="login-box" style="width: 550px;margin: 0 auto;padding: 0px;margin-top: 50px;">
+                <form ng-model="regShop" novalidate method="post" name="register_form" class="form-horizontal wt-form" ng-submit="ok()"  ui-keypress="{13:'ok($event)'}" id="form">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" style="font-size: 16px;">商店编码：</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" ng-model="regShop.code" style="color: #555!important;" type="text"
+                                   required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" style="font-size: 16px;">商店名称：</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" ng-model="regShop.name" style="color: #555!important;" type="text"
+                                   required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="" style="margin: 0 auto; text-align: center;">
+                            <button type="submit" class="btn btn-primary btn-lg" style="border-radius:10px;">确定</button>
+                            <button type="button" class="btn btn-warning btn-lg" style="border-radius:10px;" ng-click="cancel()">取消</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+<!--End: Modal for createMerchant-->

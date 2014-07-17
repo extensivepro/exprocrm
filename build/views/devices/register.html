@@ -1,0 +1,45 @@
+<div ng-controller="DeviceRegisterController" ng-init="init()">
+  <form class="form-horizontal wt-form" ng-model="entity" name="registerForm" ng-submit="register()" ui-keypress="{13:'ok($event)'}">
+		<div class="form-group">
+      <span class="col-md-offset-3"><i class="fa fa-circle"> 标记的项目必须填写</i></span>
+		</div>
+    <div class="form-group" ng-repeat="field in registerFields">
+      <label class="col-md-3 control-label">{{field.title}}</label>
+      <div class="col-md-9">
+        <div class="input-group">
+          <input class="form-control focused" type="text" ng-model="entity[field.key]" ui-event="{ blur: 'validate($index)' }" required>
+          <span class="input-group-addon"><i class="fa {{field.iStatus}}"></i></span>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="form-group">
+      <label class="col-md-3 control-label">新编号</label>
+      <div class="col-md-9">
+        <div class="input-group">
+          <input class="form-control" type="text" ng-model="entity.code">
+          <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-3 control-label">新名字</label>
+      <div class="col-md-9">
+        <div class="input-group">
+          <input class="form-control" type="text" ng-model="entity.name">
+          <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <alert ng-repeat="alert in registerOptions.alerts" type="alert.type">{{alert.msg}}</alert>
+    <div class="form-group">
+      <div class="col-md-4 col-md-offset-6">
+        <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fa {{registerOptions.icon}}"></i> 登记</button>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-warning btn-lg btn-block" ng-click="cancelEdit()"><i class="fa fa-arrow-circle-o-left"></i> 取消</button>
+      </div>
+    </div>
+  </form>
+</div>

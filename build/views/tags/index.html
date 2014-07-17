@@ -1,0 +1,74 @@
+<div class="row" ng-controller="TagsController" ng-init="init()">
+    <div class="box col-lg-12">
+        <div class="box-header">
+            <div class="row">
+                <div class="col-xs-4">
+                    <ol class="breadcrumb"
+                        style="background-color: #36a9e1; margin: 0px; padding: 0px; padding-left: 0px; margin-bottom: 0px; margin-top: 8px; margin-left: 15px;">
+                        <li><a style="color: #fff"><span>品类管理</span></a></li>
+
+                        <li><a style="color: #fff"> <span>标签管理</span></a></li>
+                    </ol>
+                </div>
+                <div class="col-xs-6"></div>
+                <div class="col-xs-2">
+                    <div class="box-icon">
+                        <a ng-click="createTag()" title="新增标签" href=""><i class="fa fa-plus"/></a>
+                        <a ng-click="showList()" class="btn-close" href=""><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-content">
+            <div class="container" style="height: 500px; overflow: auto">
+                <div class=" col-xs-6 col-sm-4 col-md-4 col-lg-2" style="margin-bottom: 5px" ng-repeat="tag in itemTags">
+                    <div>
+                        <div class="btn-group">
+                            <button class="btn btn-primary btn-lg">{{tag}}</button>
+                            <button class="btn btn-primary btn-lg" data-toggle="dropdown"><span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <!--<li><a href=""  ng-click="editTag(tag)"><i class="fa fa-pencil fa-fw"></i> 编辑</a></li>-->
+                                <li><a href=""  ng-click="deleteTag(tag)"><i class="fa fa-trash-o fa-fw"></i> 删除</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <script type="text/ng-template" id="modalAddTag.html">
+        <div class="modal-header">
+            <h3 style="text-align: center; color: #3c763d;">新增商品标签</h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-group has-success has-feedback">
+                <label class="control-label" for="inputSuccess2">请输入标签名</label>
+                <input type="text" class="form-control" id="inputSuccess2" ng-model="tag.name">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">保存</button>
+            <button class="btn btn-warning" ng-click="cancel()">取消</button>
+        </div>
+    </script>
+</div>
+<div class="row">
+    <script type="text/ng-template" id="modalEditTag.html">
+        <div class="modal-header">
+            <h3 style="text-align: center; color: #3c763d;">编辑商品标签</h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-group has-success has-feedback">
+                <label class="control-label" for="inputSuccess2">请输入新的标签名</label>
+                <input type="text" class="form-control" id="inputSuccess2" ng-model="tag.name">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">保存</button>
+            <button class="btn btn-warning" ng-click="cancel()">取消</button>
+        </div>
+    </script>
+</div>
