@@ -104,7 +104,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
             x: $scope.itemHashMap.Get(item.value.itemID),
             y: [
               Number((item.value.sumPrice / 100).toFixed(1)),
-              parseInt(item.profit/100, 10)
+              parseInt(item.value.profit/100, 10)
             ]
           }
           $scope.itemChartData.data.push(itemDatium);
@@ -181,8 +181,10 @@ function DashboardController($scope, Statistics, Shops, Items) {
     Statistics.query(saleParam, function (result) {
       if(result.length > 0) {
         $scope.saleNum = numberWithCommas(Number(result[0].value.sale.total / 100).toFixed(0))
+        $scope.totalCash = numberWithCommas(((result[0].value.cashAmount+result[0].value.onlineAmount)/100).toFixed(2))
       } else {
         $scope.saleNum = 0
+        $scope.totalCash = 0
       }
     })
   }
@@ -201,27 +203,16 @@ function DashboardController($scope, Statistics, Shops, Items) {
     })
   }
 
-  function statMerchantCash() {
-    var paramForCash = angular.copy(statParam);
-    paramForCash.target = 'cashes';
-    $scope.totalCash = 0;
-    Statistics.query(paramForCash, function(result){
-      if (result.length) {
-        $scope.totalCash = ((result[0].value.cash/100) + (result[0].value.weixin/100)).toFixed(0);
-      }
-    });
-  }
-  
   function statMerchantProfit() {
     var profitParam = angular.copy(statParam)
     profitParam.target = 'deals'
-    delete profitParam.limit
+    profitParam.itemID = 'count'
     Statistics.query(profitParam, function(result) {
-      var total = 0;
-      result.forEach(function (item) {
-        total += item.profit;
-      })
-      $scope.profit = numberWithCommas((total / 100).toFixed(0));
+      if (result.length) {
+        $scope.profit = numberWithCommas((result[0].value.profit/100).toFixed(2))
+      } else {
+        $scope.profit = 0
+      }
     })
   }
 
@@ -229,7 +220,6 @@ function DashboardController($scope, Statistics, Shops, Items) {
     if($scope.currentMerchant.merchant.id) {
       statParam.keyID = $scope.currentMerchant.merchant.id
       statMerchantSale()
-      statMerchantCash()
       statMerchantSku()
       statMerchantProfit()
       shopSaleFetch()

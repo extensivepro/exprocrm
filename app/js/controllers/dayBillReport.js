@@ -37,7 +37,7 @@ function DayBillReportController($scope, Bills, Deals, $modal, $log,  Items, Sta
       };
       $scope.cash = {
         cash:0,
-        weixin:0
+        online:0
       }
       $scope.profit = 0;
       var d = $scope.dt;
@@ -65,38 +65,25 @@ function DayBillReportController($scope, Bills, Deals, $modal, $log,  Items, Sta
       };
       var paramForBill = angular.copy(param);
       paramForBill.target = 'bills';
-      var paramForCash = angular.copy(param);
-      paramForCash.target = 'cashes';
-      var paramForProfit = angular.copy(param);
-      paramForProfit.target = 'deals';
-      // 获得营业额数据
       Statistics.query(paramForBill, function(result){
         if (result.length) {
           $scope.sales = result[0].value.sale;
           $scope.sales.total = ($scope.sales.total/100).toFixed(2);
           $scope.returns = result[0].value['return'];
           $scope.returns.total = ($scope.returns.total/100).toFixed(2);
-        }
-      });
-      // 获得现金流数据
-      Statistics.query(paramForCash, function(result){
-        if (result.length) {
           $scope.cash  = {
-            cash: (result[0].value.cash/100).toFixed(2),
-            weixin: (result[0].value.weixin/100).toFixed(2)
+            cash: (result[0].value.cashAmount/100).toFixed(2),
+            online: (result[0].value.onlineAmount/100).toFixed(2)
           };
         }
       });
-      // 获得利润数据
+
+      var paramForProfit = angular.copy(param)
+      paramForProfit.target = 'deals'
+      paramForProfit.itemID = 'count'
       Statistics.query(paramForProfit, function(result){
         if (result.length) {
-          var totalProfit = 0;
-          result.forEach(function (i) {
-            if (i.profit) {
-              totalProfit += i.profit;
-            }
-          });
-          $scope.profit = (totalProfit/100).toFixed(2)
+          $scope.profit = (result[0].value.profit/100).toFixed(2)
         }
       });
     }
