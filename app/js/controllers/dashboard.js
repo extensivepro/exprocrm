@@ -71,7 +71,6 @@ function DashboardController($scope, Statistics, Shops, Items) {
   $scope.$watch('currentMerchant.merchant', function () {
     if ($scope.currentMerchant.merchant['address']) {
       $scope.init();
-      $scope.getCash();
     }
   })
 
@@ -180,7 +179,11 @@ function DashboardController($scope, Statistics, Shops, Items) {
     var saleParam = angular.copy(statParam)
     saleParam.target = 'bills'
     Statistics.query(saleParam, function (result) {
-      $scope.saleNum = numberWithCommas(Number(result[0].value.sale.total / 100).toFixed(0))
+      if(result.length > 0) {
+        $scope.saleNum = numberWithCommas(Number(result[0].value.sale.total / 100).toFixed(0))
+      } else {
+        $scope.saleNum = 0
+      }
     })
   }
 
