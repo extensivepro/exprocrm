@@ -180,11 +180,11 @@ function DashboardController($scope, Statistics, Shops, Items) {
     saleParam.target = 'bills'
     Statistics.query(saleParam, function (result) {
       if(result.length > 0) {
-        $scope.saleNum = numberWithCommas(Number(result[0].value.sale.total / 100).toFixed(0))
+        $scope.saleNum = numberWithCommas(Number(result[0].value.sale.total / 100).toFixed(2))
         $scope.totalCash = numberWithCommas(((result[0].value.cashAmount+result[0].value.onlineAmount)/100).toFixed(2))
       } else {
-        $scope.saleNum = 0
-        $scope.totalCash = 0
+        $scope.saleNum = 0.00
+        $scope.totalCash = 0.00
       }
     })
   }
@@ -199,7 +199,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
       result.forEach(function (item) {
         skusTotal += item.value.sumPrice;
       })
-      $scope.skusNum = numberWithCommas((skusTotal / 100).toFixed(0));
+      $scope.skusNum = numberWithCommas((skusTotal / 100).toFixed(2));
     })
   }
 
@@ -211,7 +211,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
       if (result.length) {
         $scope.profit = numberWithCommas((result[0].value.profit/100).toFixed(2))
       } else {
-        $scope.profit = 0
+        $scope.profit = 0.00
       }
     })
   }
