@@ -23,7 +23,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
   }
 
   $scope.shopChartConfig2 = {
-    title: '当日门店销量售排行',
+    title: '当日门店销售单数排行',
     tooltips: true,
     labels: true,
     legend: {
@@ -33,7 +33,7 @@ function DashboardController($scope, Statistics, Shops, Items) {
   }
 
   $scope.shopChartData2 = {
-    series: ['销量', '退单量', '储值次数'],
+    series: ['销单量', '退单量', '储值次数'],
     data: []
   }
 

@@ -1,4 +1,4 @@
-function DevicesController($scope, Devices, Pagination, $injector){
+function DevicesController($scope, Devices, Pagination, $modal, $log, $injector){
 	$injector.invoke(BasicController, this, {$scope: $scope})
 	$scope.resource = Devices
   $scope.defaultParams = {"shop.merchant.id": $scope.currentMerchant.id}
@@ -28,9 +28,30 @@ function DevicesController($scope, Devices, Pagination, $injector){
   $scope.params['merchantID'] = $scope.currentMerchant.id;
   $scope.countQs['merchantID'] = $scope.currentMerchant.id;
   $scope.defaultString = "name";
+
+  $scope.chooseShop = function () {
+    var modalInstance = $modal.open({
+      templateUrl: 'chooseShopModalContent.html',
+      controller: ChooseShopModalInstanceCtrl,
+      resolve: {
+        shop: function () {
+          return $scope.entity.shop;
+        },
+        merchant: function () {
+          return $scope.currentMerchant;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (selectedShop) {
+      $scope.entity.shop = selectedShop;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  }
 }
 
-function DeviceRegisterController($scope, Devices, $modal, $timeout, $log, DeviceRegister, $location) {
+function DeviceRegisterController($scope, Devices, $timeout, DeviceRegister, $location) {
   var d = new Date()
   $scope.entity = {createdAt: Math.round(d.getTime()/1000)}
   $scope.registerOptions = {
@@ -114,27 +135,6 @@ function DeviceRegisterController($scope, Devices, $modal, $timeout, $log, Devic
     var querystring = $location.search()
     $scope.entity.udid = querystring.serialnumber || ''
     if($scope.entity.udid) $scope.validate(0)
-  }
-
-  $scope.chooseShop = function () {
-    var modalInstance = $modal.open({
-      templateUrl: 'chooseShopModalContent.html',
-      controller: ChooseShopModalInstanceCtrl,
-      resolve: {
-        shop: function () {
-          return $scope.entity.shop;
-        },
-        merchant: function () {
-          return $scope.currentMerchant;
-        }
-      }
-    });
-
-    modalInstance.result.then(function (selectedShop) {
-      $scope.entity.shop = selectedShop;
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
   }
 }
 
