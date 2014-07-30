@@ -179,13 +179,14 @@ function DashboardController($scope, Statistics, Shops, Items) {
     var saleParam = angular.copy(statParam)
     saleParam.target = 'bills'
     Statistics.query(saleParam, function (result) {
+      var saleNum = 0
+      var totalCash = 0
       if(result.length > 0) {
-        $scope.saleNum = numberWithCommas(Number(result[0].value.sale.total / 100).toFixed(2))
-        $scope.totalCash = numberWithCommas(((result[0].value.cashAmount+result[0].value.onlineAmount)/100).toFixed(2))
-      } else {
-        $scope.saleNum = 0.00
-        $scope.totalCash = 0.00
+        saleNum = result[0].value.sale.total / 100
+        totalCash = (result[0].value.cashAmount+result[0].value.onlineAmount)/100
       }
+      $scope.saleNum = numberWithCommas(Number(saleNum).toFixed(2))
+      $scope.totalCash = numberWithCommas(totalCash.toFixed(2))
     })
   }
 
@@ -208,11 +209,11 @@ function DashboardController($scope, Statistics, Shops, Items) {
     profitParam.target = 'deals'
     profitParam.itemID = 'count'
     Statistics.query(profitParam, function(result) {
+      var profit = 0
       if (result.length) {
-        $scope.profit = numberWithCommas((result[0].value.profit/100).toFixed(2))
-      } else {
-        $scope.profit = 0.00
+        profit = result[0].value.profit/100
       }
+      $scope.profit = numberWithCommas(profit.toFixed(2))
     })
   }
 
